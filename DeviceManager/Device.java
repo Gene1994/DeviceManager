@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Vector;
 
+import javax.swing.JOptionPane;
+
 import JDBC.JdbcUtil;
 
 /**
@@ -104,6 +106,11 @@ public class Device {
 			}
 		}
 		System.out.println("执行更新的结果：" + bool);
+		if (bool) {
+			JOptionPane.showMessageDialog(null, "添加成功");
+		} else {
+			JOptionPane.showMessageDialog(null, "添加失败", "错误", JOptionPane.ERROR_MESSAGE);
+		}
 	}
 
 	// 删除设备
