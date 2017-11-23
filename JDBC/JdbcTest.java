@@ -14,7 +14,7 @@ import JDBC.JdbcUtil;
  * <p>
  * Description: <£¯p>
  * 
- * @author Gene1994
+ * @author quzhe
  *
  *         2017Äê11ÔÂ15ÈÕ
  */

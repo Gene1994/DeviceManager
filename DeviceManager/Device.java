@@ -113,15 +113,15 @@ public class Device {
 		}
 	}
 
-	// 删除设备
-	public void delete() {
-
-	}
-
-	// 修改设备
-	public void update() {
-
-	}
+//	// 删除设备
+//	public void delete() {
+//
+//	}
+//
+//	// 修改设备
+//	public void update() {
+//
+//	}
 
 	// //查找设备
 	// public Vector selectByIp(){

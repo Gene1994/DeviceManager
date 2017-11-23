@@ -30,6 +30,7 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 
 import javax.swing.table.DefaultTableModel;
+import java.awt.Toolkit;
 
 /**
  * <p>

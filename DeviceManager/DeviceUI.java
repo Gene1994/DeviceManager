@@ -12,13 +12,10 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.JLabel;
 import java.awt.Color;
+import java.awt.Toolkit;
 
 /**
- * 
- */
-
-/**
- * @author Gene1994
+ * @author quzhe
  *
  */
 public class DeviceUI {

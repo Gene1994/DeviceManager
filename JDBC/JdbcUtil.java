@@ -15,7 +15,7 @@ import java.util.Properties;
 /**
  * <p>Title: JdbcUtil<／p>
  * <p>Description: JDBC工具类<／p>
- * @author Gene1994
+ * @author quzhe
  *
  * 2017年11月15日
  */
