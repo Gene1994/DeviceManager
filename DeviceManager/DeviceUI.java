@@ -53,7 +53,7 @@ public class DeviceUI {
 	private void initialize() throws Exception {
 		frmDevicemanager = new JFrame();
 		frmDevicemanager.setTitle("\u8BBE\u5907\u7BA1\u7406");
-		frmDevicemanager.setBounds(100, 100, 281, 267);
+		frmDevicemanager.setBounds(100, 100, 281, 286);
 		frmDevicemanager.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frmDevicemanager.getContentPane().setLayout(null);
 
@@ -98,5 +98,10 @@ public class DeviceUI {
 		lbHint.setForeground(Color.GRAY);
 		lbHint.setBounds(10, 204, 280, 15);
 		frmDevicemanager.getContentPane().add(lbHint);
+		
+		JLabel label = new JLabel("*\u67E5\u627E\u5168\u90E8\u8BBE\u5907\u53EF\u80FD\u9700\u8981\u8F83\u957F\u65F6\u95F4");
+		label.setForeground(Color.GRAY);
+		label.setBounds(10, 229, 280, 15);
+		frmDevicemanager.getContentPane().add(label);
 	}
 }

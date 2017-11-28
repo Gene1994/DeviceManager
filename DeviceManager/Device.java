@@ -28,13 +28,11 @@ public class Device {
 	public String userName = "admin";
 	public String password;
 	public String language;
-	public boolean isOnline;
-	public int errorCode = 0;
-	// public int indexCode;
 	public String comment;
 	public String position;
 	public String deviceId;
-
+	public boolean status;//true在线，false不在线
+	
 	/**
 	 * 
 	 */
@@ -57,7 +55,7 @@ public class Device {
 	 * @param comment
 	 */
 	public Device(String deviceId, String type, String model, String ip, int port, String userName, String password,
-			String language, boolean isOnline, int errorCode, String position, String comment) {
+			String language, String position, String comment, boolean status) {
 		super();
 		this.deviceId = deviceId;
 		this.type = type;
@@ -67,16 +65,15 @@ public class Device {
 		this.userName = userName;
 		this.password = password;
 		this.language = language;
-		this.isOnline = isOnline;
-		this.errorCode = errorCode;
 		this.position = position;
 		this.comment = comment;
+		this.status= status;
 	}
 
 	// 添加设备
 	public void insert() {
 		// INSERT INTO 表名称 VALUES (值1, 值2,....)
-		String sql = "INSERT INTO DEVICE VALUES (?,?,?,?,?,?,?,?,?,?,?,?)";
+		String sql = "INSERT INTO DEVICE VALUES (?,?,?,?,?,?,?,?,?,?)";
 		List<Object> paramList = new ArrayList<Object>();
 		paramList.add(deviceId);
 		paramList.add(type);
@@ -86,9 +83,6 @@ public class Device {
 		paramList.add(userName);
 		paramList.add(password);
 		paramList.add(language);
-		String text_isOnline = isOnline == true ? "Y" : "N";
-		paramList.add(text_isOnline);
-		paramList.add(errorCode);
 		paramList.add(position);
 		paramList.add(comment);
 		JdbcUtil jdbcUtil = null;

@@ -5,6 +5,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.IOException;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -43,12 +46,18 @@ import java.awt.Toolkit;
  *         2017年11月20日
  */
 public class DeviceList extends JFrame {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -311019214878889971L;
 	// rowData用来存放行数据
 	// columnNames存放列名
 	Vector columnNames;
 	Vector rowData = new Vector();
 	JTable jt = null;
 	JScrollPane jsp = null;
+
+	int timeOut = 1000;// 超时
 
 	// 设备属性
 	public String deviceId;
@@ -59,15 +68,17 @@ public class DeviceList extends JFrame {
 	public String userName;
 	public String password;
 	public String language;
-	public String isOnline;
-	public int errorCode;
 	public String comment;
 	public String position;
+	public boolean status;
+	public static List online;
+	public static List offline;
 
 	public DeviceList() {
 		setTitle("\u8BBE\u5907\u5217\u8868");
 		columnNames = new Vector();
 		// 设置列名
+		columnNames.add("状态");
 		columnNames.add("设备ID");
 		columnNames.add("设备类型");
 		columnNames.add("设备型号");
@@ -76,8 +87,6 @@ public class DeviceList extends JFrame {
 		columnNames.add("用户名");
 		columnNames.add("密码");
 		columnNames.add("语言");
-		columnNames.add("isOnline");// 后期修改成“状态”
-		columnNames.add("errorCode");
 		columnNames.add("位置");
 		columnNames.add("备注");
 		columnNames.add("");// 修改设备信息按钮(update)
@@ -86,6 +95,8 @@ public class DeviceList extends JFrame {
 	}
 
 	public void select(String s) {
+		online = new ArrayList();
+		offline = new ArrayList();
 		switch (DeviceSelect.index) {
 		// byType
 		case 1:
@@ -114,17 +125,20 @@ public class DeviceList extends JFrame {
 						userName = (String) map.get("username");
 						password = (String) map.get("password");
 						language = (String) map.get("language");
-						// boolean isOnline1 = ((String) map.get("isOnline")) ==
-						// "true" ? true : false;
-						isOnline = (String) map.get("isonline");
-						errorCode = (int) map.get("errorcode");
 						position = (String) map.get("position");
 						comment = (String) map.get("comment");
-					} catch (Exception e) {
+						status = InetAddress.getByName(ip).isReachable(timeOut);
+						if (status) {
+							online.add(i);
+						} else {
+							offline.add(i);
+						}
 
+					} catch (Exception e) {
 					}
 
 					Vector hang = new Vector();
+					hang.add(i);
 					hang.add(deviceId);
 					hang.add(type);
 					hang.add(model);
@@ -133,8 +147,6 @@ public class DeviceList extends JFrame {
 					hang.add(userName);
 					hang.add(password);
 					hang.add(language);
-					hang.add(isOnline);
-					hang.add(errorCode);
 					hang.add(position);
 					hang.add(comment);
 
@@ -151,6 +163,8 @@ public class DeviceList extends JFrame {
 			}
 			// 初始化JTable
 			jt = new JTable(rowData, columnNames);
+			// 设置表格渲染器
+			jt.getColumnModel().getColumn(0).setCellRenderer(new MyRenderStatus());
 
 			// 修改
 			MyEvent e = new MyEvent() {
@@ -158,22 +172,18 @@ public class DeviceList extends JFrame {
 				public void invoke(ActionEvent e) {
 					MyButton button = (MyButton) e.getSource();
 					int row = button.getRow();
-					deviceId = (String) jt.getValueAt(row, 0);
-					type = (String) jt.getValueAt(row, 1);
-					model = (String) jt.getValueAt(row, 2);
-					ip = (String) jt.getValueAt(row, 3);
-					port = (int) jt.getValueAt(row, 4);
-					userName = (String) jt.getValueAt(row, 5);
-					password = (String) jt.getValueAt(row, 6);
-					language = (String) jt.getValueAt(row, 7);
-					// boolean isOnline1 = ((String) map.get("isOnline")) ==
-					// "true" ? true : false;
-					isOnline = (String) jt.getValueAt(row, 8);
-					errorCode = (int) jt.getValueAt(row, 9);
-					position = (String) jt.getValueAt(row, 10);
-					comment = (String) jt.getValueAt(row, 11);
+					deviceId = (String) jt.getValueAt(row, 1);
+					type = (String) jt.getValueAt(row, 2);
+					model = (String) jt.getValueAt(row, 3);
+					ip = (String) jt.getValueAt(row, 4);
+					port = (int) jt.getValueAt(row, 5);
+					userName = (String) jt.getValueAt(row, 6);
+					password = (String) jt.getValueAt(row, 7);
+					language = (String) jt.getValueAt(row, 8);
+					position = (String) jt.getValueAt(row, 9);
+					comment = (String) jt.getValueAt(row, 10);
 
-					String sql = "update device set deviceid=?,type=?,model=?,ip=?,port=?,username=?,password=?,language=?,isonline=?,errorcode=?,position=?,comment=? where deviceid=?";
+					String sql = "update device set deviceid=?,type=?,model=?,ip=?,port=?,username=?,password=?,language=?,position=?,comment=? where deviceid=?";
 					// 创建填充参数的list
 					List<Object> paramList = new ArrayList<Object>();
 					// 填充参数
@@ -185,8 +195,6 @@ public class DeviceList extends JFrame {
 					paramList.add(userName);
 					paramList.add(password);
 					paramList.add(language);
-					paramList.add(isOnline);
-					paramList.add(errorCode);
 					paramList.add(position);
 					paramList.add(comment);
 					paramList.add(deviceId);
@@ -221,7 +229,7 @@ public class DeviceList extends JFrame {
 				public void invoke(ActionEvent e) {
 					MyButton button = (MyButton) e.getSource();
 					int row = button.getRow();
-					deviceId = (String) jt.getValueAt(row, 0);
+					deviceId = (String) jt.getValueAt(row, 1);
 
 					String sql = "delete from device where deviceid=?";
 					// 创建填充参数的list
@@ -253,14 +261,14 @@ public class DeviceList extends JFrame {
 
 			};
 			// 设置表格渲染器
-			jt.getColumnModel().getColumn(12).setCellRenderer(new MyRender());
+			jt.getColumnModel().getColumn(11).setCellRenderer(new MyRender());
 			// 设置表格的编辑器
-			jt.getColumnModel().getColumn(12).setCellEditor(new MyRender(e));
+			jt.getColumnModel().getColumn(11).setCellEditor(new MyRender(e));
 
 			// 设置表格渲染器
-			jt.getColumnModel().getColumn(13).setCellRenderer(new MyRenderDelete());
+			jt.getColumnModel().getColumn(12).setCellRenderer(new MyRenderDelete());
 			// 设置表格的编辑器
-			jt.getColumnModel().getColumn(13).setCellEditor(new MyRenderDelete(e1));
+			jt.getColumnModel().getColumn(12).setCellEditor(new MyRenderDelete(e1));
 
 			// 初始化 jsp
 			jsp = new JScrollPane(jt);
@@ -290,28 +298,30 @@ public class DeviceList extends JFrame {
 				for (int i = 0; i < mapList.size(); i++) {
 
 					Map<String, Object> map = mapList.get(i);
-
 					try {
 						// 设备属性
 						deviceId = (String) map.get("deviceid");
 						type = (String) map.get("type");
 						model = (String) map.get("model");
 						ip = (String) map.get("ip");
-						port = Integer.parseInt(map.get("port").toString());
+						port = (int) map.get("port");
 						userName = (String) map.get("username");
 						password = (String) map.get("password");
 						language = (String) map.get("language");
-						// boolean isOnline1 = ((String) map.get("isOnline")) ==
-						// "true" ? true : false;
-						isOnline = (String) map.get("isonline");
-						errorCode = (int) map.get("errorcode");
 						position = (String) map.get("position");
 						comment = (String) map.get("comment");
-					} catch (Exception e4) {
+						status = InetAddress.getByName(ip).isReachable(timeOut);
+						if (status) {
+							online.add(i);
+						} else {
+							offline.add(i);
+						}
 
+					} catch (Exception e2) {
 					}
 
 					Vector hang = new Vector();
+					hang.add(i);
 					hang.add(deviceId);
 					hang.add(type);
 					hang.add(model);
@@ -320,17 +330,15 @@ public class DeviceList extends JFrame {
 					hang.add(userName);
 					hang.add(password);
 					hang.add(language);
-					hang.add(isOnline);
-					hang.add(errorCode);
 					hang.add(position);
 					hang.add(comment);
 
 					rowData.add(hang);
 
 				}
-			} catch (SQLException e2) {
+			} catch (SQLException e3) {
 				System.out.println(this.getClass() + "执行查询操作抛出异常！");
-				e2.printStackTrace();
+				e3.printStackTrace();
 			} finally {
 				if (jdbcUtil1 != null) {
 					jdbcUtil1.releaseConn();
@@ -338,29 +346,27 @@ public class DeviceList extends JFrame {
 			}
 			// 初始化JTable
 			jt = new JTable(rowData, columnNames);
+			// 设置表格渲染器
+			jt.getColumnModel().getColumn(0).setCellRenderer(new MyRenderStatus());
 
 			// 修改
-			MyEvent e3 = new MyEvent() {
+			MyEvent e2 = new MyEvent() {
 				@Override
 				public void invoke(ActionEvent e) {
 					MyButton button = (MyButton) e.getSource();
 					int row = button.getRow();
-					deviceId = (String) jt.getValueAt(row, 0);
-					type = (String) jt.getValueAt(row, 1);
-					model = (String) jt.getValueAt(row, 2);
-					ip = (String) jt.getValueAt(row, 3);
-					port = (int) jt.getValueAt(row, 4);
-					userName = (String) jt.getValueAt(row, 5);
-					password = (String) jt.getValueAt(row, 6);
-					language = (String) jt.getValueAt(row, 7);
-					// boolean isOnline1 = ((String) map.get("isOnline")) ==
-					// "true" ? true : false;
-					isOnline = (String) jt.getValueAt(row, 8);
-					errorCode = (int) jt.getValueAt(row, 9);
-					position = (String) jt.getValueAt(row, 10);
-					comment = (String) jt.getValueAt(row, 11);
+					deviceId = (String) jt.getValueAt(row, 1);
+					type = (String) jt.getValueAt(row, 2);
+					model = (String) jt.getValueAt(row, 3);
+					ip = (String) jt.getValueAt(row, 4);
+					port = (int) jt.getValueAt(row, 5);
+					userName = (String) jt.getValueAt(row, 6);
+					password = (String) jt.getValueAt(row, 7);
+					language = (String) jt.getValueAt(row, 8);
+					position = (String) jt.getValueAt(row, 9);
+					comment = (String) jt.getValueAt(row, 10);
 
-					String sql = "update device set deviceid=?,type=?,model=?,ip=?,port=?,username=?,password=?,language=?,isonline=?,errorcode=?,position=?,comment=? where deviceid=?";
+					String sql = "update device set deviceid=?,type=?,model=?,ip=?,port=?,username=?,password=?,language=?,position=?,comment=? where deviceid=?";
 					// 创建填充参数的list
 					List<Object> paramList = new ArrayList<Object>();
 					// 填充参数
@@ -372,8 +378,6 @@ public class DeviceList extends JFrame {
 					paramList.add(userName);
 					paramList.add(password);
 					paramList.add(language);
-					paramList.add(isOnline);
-					paramList.add(errorCode);
 					paramList.add(position);
 					paramList.add(comment);
 					paramList.add(deviceId);
@@ -403,12 +407,12 @@ public class DeviceList extends JFrame {
 			};
 
 			// 删除
-			MyEvent e4 = new MyEvent() {
+			MyEvent e3 = new MyEvent() {
 				@Override
 				public void invoke(ActionEvent e) {
 					MyButton button = (MyButton) e.getSource();
 					int row = button.getRow();
-					deviceId = (String) jt.getValueAt(row, 0);
+					deviceId = (String) jt.getValueAt(row, 1);
 
 					String sql = "delete from device where deviceid=?";
 					// 创建填充参数的list
@@ -440,14 +444,14 @@ public class DeviceList extends JFrame {
 
 			};
 			// 设置表格渲染器
-			jt.getColumnModel().getColumn(12).setCellRenderer(new MyRender());
+			jt.getColumnModel().getColumn(11).setCellRenderer(new MyRender());
 			// 设置表格的编辑器
-			jt.getColumnModel().getColumn(12).setCellEditor(new MyRender(e3));
+			jt.getColumnModel().getColumn(11).setCellEditor(new MyRender(e2));
 
 			// 设置表格渲染器
-			jt.getColumnModel().getColumn(13).setCellRenderer(new MyRenderDelete());
+			jt.getColumnModel().getColumn(12).setCellRenderer(new MyRenderDelete());
 			// 设置表格的编辑器
-			jt.getColumnModel().getColumn(13).setCellEditor(new MyRenderDelete(e4));
+			jt.getColumnModel().getColumn(12).setCellEditor(new MyRenderDelete(e3));
 
 			// 初始化 jsp
 			jsp = new JScrollPane(jt);
@@ -460,8 +464,7 @@ public class DeviceList extends JFrame {
 			this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 			this.setVisible(true);
 			break;
-
-		// // byIp
+		// byIp
 		case 3:
 			String index2 = s;
 			String sql2 = "select * from device where ip = ?";
@@ -488,17 +491,20 @@ public class DeviceList extends JFrame {
 						userName = (String) map.get("username");
 						password = (String) map.get("password");
 						language = (String) map.get("language");
-						// boolean isOnline1 = ((String) map.get("isOnline")) ==
-						// "true" ? true : false;
-						isOnline = (String) map.get("isonline");
-						errorCode = (int) map.get("errorcode");
 						position = (String) map.get("position");
 						comment = (String) map.get("comment");
-					} catch (Exception e2) {
+						status = InetAddress.getByName(ip).isReachable(timeOut);
+						if (status) {
+							online.add(i);
+						} else {
+							offline.add(i);
+						}
 
+					} catch (Exception e4) {
 					}
 
 					Vector hang = new Vector();
+					hang.add(i);
 					hang.add(deviceId);
 					hang.add(type);
 					hang.add(model);
@@ -507,17 +513,15 @@ public class DeviceList extends JFrame {
 					hang.add(userName);
 					hang.add(password);
 					hang.add(language);
-					hang.add(isOnline);
-					hang.add(errorCode);
 					hang.add(position);
 					hang.add(comment);
 
 					rowData.add(hang);
 
 				}
-			} catch (SQLException e2) {
+			} catch (SQLException e5) {
 				System.out.println(this.getClass() + "执行查询操作抛出异常！");
-				e2.printStackTrace();
+				e5.printStackTrace();
 			} finally {
 				if (jdbcUtil2 != null) {
 					jdbcUtil2.releaseConn();
@@ -525,29 +529,27 @@ public class DeviceList extends JFrame {
 			}
 			// 初始化JTable
 			jt = new JTable(rowData, columnNames);
+			// 设置表格渲染器
+			jt.getColumnModel().getColumn(0).setCellRenderer(new MyRenderStatus());
 
 			// 修改
-			MyEvent e5 = new MyEvent() {
+			MyEvent e4 = new MyEvent() {
 				@Override
 				public void invoke(ActionEvent e) {
 					MyButton button = (MyButton) e.getSource();
 					int row = button.getRow();
-					deviceId = (String) jt.getValueAt(row, 0);
-					type = (String) jt.getValueAt(row, 1);
-					model = (String) jt.getValueAt(row, 2);
-					ip = (String) jt.getValueAt(row, 3);
-					port = (int) jt.getValueAt(row, 4);
-					userName = (String) jt.getValueAt(row, 5);
-					password = (String) jt.getValueAt(row, 6);
-					language = (String) jt.getValueAt(row, 7);
-					// boolean isOnline1 = ((String) map.get("isOnline")) ==
-					// "true" ? true : false;
-					isOnline = (String) jt.getValueAt(row, 8);
-					errorCode = (int) jt.getValueAt(row, 9);
-					position = (String) jt.getValueAt(row, 10);
-					comment = (String) jt.getValueAt(row, 11);
+					deviceId = (String) jt.getValueAt(row, 1);
+					type = (String) jt.getValueAt(row, 2);
+					model = (String) jt.getValueAt(row, 3);
+					ip = (String) jt.getValueAt(row, 4);
+					port = (int) jt.getValueAt(row, 5);
+					userName = (String) jt.getValueAt(row, 6);
+					password = (String) jt.getValueAt(row, 7);
+					language = (String) jt.getValueAt(row, 8);
+					position = (String) jt.getValueAt(row, 9);
+					comment = (String) jt.getValueAt(row, 10);
 
-					String sql = "update device set deviceid=?,type=?,model=?,ip=?,port=?,username=?,password=?,language=?,isonline=?,errorcode=?,position=?,comment=? where deviceid=?";
+					String sql = "update device set deviceid=?,type=?,model=?,ip=?,port=?,username=?,password=?,language=?,position=?,comment=? where deviceid=?";
 					// 创建填充参数的list
 					List<Object> paramList = new ArrayList<Object>();
 					// 填充参数
@@ -559,8 +561,6 @@ public class DeviceList extends JFrame {
 					paramList.add(userName);
 					paramList.add(password);
 					paramList.add(language);
-					paramList.add(isOnline);
-					paramList.add(errorCode);
 					paramList.add(position);
 					paramList.add(comment);
 					paramList.add(deviceId);
@@ -590,12 +590,12 @@ public class DeviceList extends JFrame {
 			};
 
 			// 删除
-			MyEvent e6 = new MyEvent() {
+			MyEvent e5 = new MyEvent() {
 				@Override
 				public void invoke(ActionEvent e) {
 					MyButton button = (MyButton) e.getSource();
 					int row = button.getRow();
-					deviceId = (String) jt.getValueAt(row, 0);
+					deviceId = (String) jt.getValueAt(row, 1);
 
 					String sql = "delete from device where deviceid=?";
 					// 创建填充参数的list
@@ -627,14 +627,199 @@ public class DeviceList extends JFrame {
 
 			};
 			// 设置表格渲染器
-			jt.getColumnModel().getColumn(12).setCellRenderer(new MyRender());
+			jt.getColumnModel().getColumn(11).setCellRenderer(new MyRender());
 			// 设置表格的编辑器
-			jt.getColumnModel().getColumn(12).setCellEditor(new MyRender(e5));
+			jt.getColumnModel().getColumn(11).setCellEditor(new MyRender(e4));
 
 			// 设置表格渲染器
-			jt.getColumnModel().getColumn(13).setCellRenderer(new MyRenderDelete());
+			jt.getColumnModel().getColumn(12).setCellRenderer(new MyRenderDelete());
 			// 设置表格的编辑器
-			jt.getColumnModel().getColumn(13).setCellEditor(new MyRenderDelete(e6));
+			jt.getColumnModel().getColumn(12).setCellEditor(new MyRenderDelete(e5));
+
+			// 初始化 jsp
+			jsp = new JScrollPane(jt);
+
+			// 把jsp放入到jframe
+			getContentPane().add(jsp);
+
+			this.setSize(1500, 300);
+
+			this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+			this.setVisible(true);
+			break;
+
+		// byComment
+		case 4:
+			String index3 = "%" + s + "%";
+			String sql3 = "select * from device where comment like ?";
+			// 创建填充参数的list
+			List<Object> paramList3 = new ArrayList<Object>();
+			// 填充参数
+			paramList3.add(index3);
+			System.out.println(paramList3);
+			JdbcUtil jdbcUtil3 = null;
+			try {
+				jdbcUtil3 = new JdbcUtil();
+				jdbcUtil3.getConnection(); // 获取数据库链接
+				List<Map<String, Object>> mapList = jdbcUtil3.findResult(sql3.toString(), paramList3);
+				System.out.println(mapList);
+				for (int i = 0; i < mapList.size(); i++) {
+
+					Map<String, Object> map = mapList.get(i);
+					try {
+						// 设备属性
+						deviceId = (String) map.get("deviceid");
+						type = (String) map.get("type");
+						model = (String) map.get("model");
+						ip = (String) map.get("ip");
+						port = (int) map.get("port");
+						userName = (String) map.get("username");
+						password = (String) map.get("password");
+						language = (String) map.get("language");
+						position = (String) map.get("position");
+						comment = (String) map.get("comment");
+						status = InetAddress.getByName(ip).isReachable(timeOut);
+						if (status) {
+							online.add(i);
+						} else {
+							offline.add(i);
+						}
+
+					} catch (Exception e6) {
+					}
+
+					Vector hang = new Vector();
+					hang.add(i);
+					hang.add(deviceId);
+					hang.add(type);
+					hang.add(model);
+					hang.add(ip);
+					hang.add(port);
+					hang.add(userName);
+					hang.add(password);
+					hang.add(language);
+					hang.add(position);
+					hang.add(comment);
+
+					rowData.add(hang);
+
+				}
+			} catch (SQLException e7) {
+				System.out.println(this.getClass() + "执行查询操作抛出异常！");
+				e7.printStackTrace();
+			} finally {
+				if (jdbcUtil3 != null) {
+					jdbcUtil3.releaseConn();
+				}
+			}
+			// 初始化JTable
+			jt = new JTable(rowData, columnNames);
+			// 设置表格渲染器
+			jt.getColumnModel().getColumn(0).setCellRenderer(new MyRenderStatus());
+
+			// 修改
+			MyEvent e6 = new MyEvent() {
+				@Override
+				public void invoke(ActionEvent e) {
+					MyButton button = (MyButton) e.getSource();
+					int row = button.getRow();
+					deviceId = (String) jt.getValueAt(row, 1);
+					type = (String) jt.getValueAt(row, 2);
+					model = (String) jt.getValueAt(row, 3);
+					ip = (String) jt.getValueAt(row, 4);
+					port = (int) jt.getValueAt(row, 5);
+					userName = (String) jt.getValueAt(row, 6);
+					password = (String) jt.getValueAt(row, 7);
+					language = (String) jt.getValueAt(row, 8);
+					position = (String) jt.getValueAt(row, 9);
+					comment = (String) jt.getValueAt(row, 10);
+
+					String sql = "update device set deviceid=?,type=?,model=?,ip=?,port=?,username=?,password=?,language=?,position=?,comment=? where deviceid=?";
+					// 创建填充参数的list
+					List<Object> paramList = new ArrayList<Object>();
+					// 填充参数
+					paramList.add(deviceId);
+					paramList.add(type);
+					paramList.add(model);
+					paramList.add(ip);
+					paramList.add(port);
+					paramList.add(userName);
+					paramList.add(password);
+					paramList.add(language);
+					paramList.add(position);
+					paramList.add(comment);
+					paramList.add(deviceId);
+
+					JdbcUtil jdbcUtil = null;
+					boolean bool = false;
+					try {
+						jdbcUtil = new JdbcUtil();
+						jdbcUtil.getConnection(); // 获取数据库链接
+						bool = jdbcUtil.updateByPreparedStatement(sql, paramList);
+					} catch (SQLException e1) {
+						System.out.println(this.getClass() + "执行修改操作抛出异常！");
+						e1.printStackTrace();
+					} finally {
+						if (jdbcUtil != null) {
+							jdbcUtil.releaseConn();
+						}
+					}
+					System.out.println("执行修改的结果：" + bool);
+					if (bool) {
+						JOptionPane.showMessageDialog(null, "修改成功");
+					} else {
+						JOptionPane.showMessageDialog(null, "修改失败", "错误", JOptionPane.ERROR_MESSAGE);
+					}
+				}
+
+			};
+
+			// 删除
+			MyEvent e7 = new MyEvent() {
+				@Override
+				public void invoke(ActionEvent e) {
+					MyButton button = (MyButton) e.getSource();
+					int row = button.getRow();
+					deviceId = (String) jt.getValueAt(row, 1);
+
+					String sql = "delete from device where deviceid=?";
+					// 创建填充参数的list
+					List<Object> paramList = new ArrayList<Object>();
+					// 填充参数
+					paramList.add(deviceId);
+
+					JdbcUtil jdbcUtil = null;
+					boolean bool = false;
+					try {
+						jdbcUtil = new JdbcUtil();
+						jdbcUtil.getConnection(); // 获取数据库链接
+						bool = jdbcUtil.updateByPreparedStatement(sql, paramList);
+					} catch (SQLException exception) {
+						System.out.println(this.getClass() + "执行删除操作抛出异常！");
+						exception.printStackTrace();
+					} finally {
+						if (jdbcUtil != null) {
+							jdbcUtil.releaseConn();
+						}
+					}
+					System.out.println("执行删除的结果：" + bool);
+					if (bool) {
+						JOptionPane.showMessageDialog(null, "删除成功");
+					} else {
+						JOptionPane.showMessageDialog(null, "删除失败", "错误", JOptionPane.ERROR_MESSAGE);
+					}
+				}
+
+			};
+			// 设置表格渲染器
+			jt.getColumnModel().getColumn(11).setCellRenderer(new MyRender());
+			// 设置表格的编辑器
+			jt.getColumnModel().getColumn(11).setCellEditor(new MyRender(e6));
+
+			// 设置表格渲染器
+			jt.getColumnModel().getColumn(12).setCellRenderer(new MyRenderDelete());
+			// 设置表格的编辑器
+			jt.getColumnModel().getColumn(12).setCellEditor(new MyRenderDelete(e7));
 
 			// 初始化 jsp
 			jsp = new JScrollPane(jt);
@@ -651,16 +836,18 @@ public class DeviceList extends JFrame {
 	}
 
 	public void selectAll() {
-		String sql = "select * from device";
+		online = new ArrayList();
+		offline = new ArrayList();
+
+		String sql2 = "select * from device";
 
 		// 创建填充参数的list
-		List<Object> paramList = new ArrayList<Object>();
-
-		JdbcUtil jdbcUtil = null;
+		List<Object> paramList2 = new ArrayList<Object>();
+		JdbcUtil jdbcUtil2 = null;
 		try {
-			jdbcUtil = new JdbcUtil();
-			jdbcUtil.getConnection(); // 获取数据库链接
-			List<Map<String, Object>> mapList = jdbcUtil.findResult(sql.toString(), paramList);
+			jdbcUtil2 = new JdbcUtil();
+			jdbcUtil2.getConnection(); // 获取数据库链接
+			List<Map<String, Object>> mapList = jdbcUtil2.findResult(sql2.toString(), paramList2);
 			for (int i = 0; i < mapList.size(); i++) {
 
 				Map<String, Object> map = mapList.get(i);
@@ -674,17 +861,20 @@ public class DeviceList extends JFrame {
 					userName = (String) map.get("username");
 					password = (String) map.get("password");
 					language = (String) map.get("language");
-					// boolean isOnline1 = ((String) map.get("isOnline")) ==
-					// "true" ? true : false;
-					isOnline = (String) map.get("isonline");
-					errorCode = (int) map.get("errorcode");
 					position = (String) map.get("position");
 					comment = (String) map.get("comment");
-				} catch (Exception e) {
+					status = InetAddress.getByName(ip).isReachable(timeOut);
+					if (status) {
+						online.add(i);
+					} else {
+						offline.add(i);
+					}
 
+				} catch (Exception e4) {
 				}
 
 				Vector hang = new Vector();
+				hang.add(i);
 				hang.add(deviceId);
 				hang.add(type);
 				hang.add(model);
@@ -693,47 +883,43 @@ public class DeviceList extends JFrame {
 				hang.add(userName);
 				hang.add(password);
 				hang.add(language);
-				hang.add(isOnline);
-				hang.add(errorCode);
 				hang.add(position);
 				hang.add(comment);
 
 				rowData.add(hang);
 
 			}
-		} catch (SQLException e) {
+		} catch (SQLException e5) {
 			System.out.println(this.getClass() + "执行查询操作抛出异常！");
-			e.printStackTrace();
+			e5.printStackTrace();
 		} finally {
-			if (jdbcUtil != null) {
-				jdbcUtil.releaseConn();
+			if (jdbcUtil2 != null) {
+				jdbcUtil2.releaseConn();
 			}
 		}
 		// 初始化JTable
 		jt = new JTable(rowData, columnNames);
+		// 设置表格渲染器
+		jt.getColumnModel().getColumn(0).setCellRenderer(new MyRenderStatus());
 
 		// 修改
-		MyEvent e = new MyEvent() {
+		MyEvent e4 = new MyEvent() {
 			@Override
 			public void invoke(ActionEvent e) {
 				MyButton button = (MyButton) e.getSource();
 				int row = button.getRow();
-				deviceId = (String) jt.getValueAt(row, 0);
-				type = (String) jt.getValueAt(row, 1);
-				model = (String) jt.getValueAt(row, 2);
-				ip = (String) jt.getValueAt(row, 3);
-				port = (int) jt.getValueAt(row, 4);
-				userName = (String) jt.getValueAt(row, 5);
-				password = (String) jt.getValueAt(row, 6);
-				language = (String) jt.getValueAt(row, 7);
-				// boolean isOnline1 = ((String) map.get("isOnline")) ==
-				// "true" ? true : false;
-				isOnline = (String) jt.getValueAt(row, 8);
-				errorCode = (int) jt.getValueAt(row, 9);
-				position = (String) jt.getValueAt(row, 10);
-				comment = (String) jt.getValueAt(row, 11);
+				deviceId = (String) jt.getValueAt(row, 1);
+				type = (String) jt.getValueAt(row, 2);
+				model = (String) jt.getValueAt(row, 3);
+				ip = (String) jt.getValueAt(row, 4);
+				port = (int) jt.getValueAt(row, 5);
+				userName = (String) jt.getValueAt(row, 6);
+				password = (String) jt.getValueAt(row, 7);
+				language = (String) jt.getValueAt(row, 8);
+				position = (String) jt.getValueAt(row, 9);
+				comment = (String) jt.getValueAt(row, 10);
 
-				String sql = "update device set deviceid=?,type=?,model=?,ip=?,port=?,username=?,password=?,language=?,isonline=?,errorcode=?,position=?,comment=? where deviceid=?";
+				String sql = "update device set deviceid=?,type=?,model=?,ip=?,port=?,username=?,password=?,language=?,position=?,comment=? where deviceid=?";
 				// 创建填充参数的list
 				List<Object> paramList = new ArrayList<Object>();
 				// 填充参数
@@ -745,8 +931,6 @@ public class DeviceList extends JFrame {
 				paramList.add(userName);
 				paramList.add(password);
 				paramList.add(language);
-				paramList.add(isOnline);
-				paramList.add(errorCode);
 				paramList.add(position);
 				paramList.add(comment);
 				paramList.add(deviceId);
@@ -766,17 +950,22 @@ public class DeviceList extends JFrame {
 					}
 				}
 				System.out.println("执行修改的结果：" + bool);
+				if (bool) {
+					JOptionPane.showMessageDialog(null, "修改成功");
+				} else {
+					JOptionPane.showMessageDialog(null, "修改失败", "错误", JOptionPane.ERROR_MESSAGE);
+				}
 			}
 
 		};
 
 		// 删除
-		MyEvent e1 = new MyEvent() {
+		MyEvent e5 = new MyEvent() {
 			@Override
 			public void invoke(ActionEvent e) {
 				MyButton button = (MyButton) e.getSource();
 				int row = button.getRow();
-				deviceId = (String) jt.getValueAt(row, 0);
+				deviceId = (String) jt.getValueAt(row, 1);
 
 				String sql = "delete from device where deviceid=?";
 				// 创建填充参数的list
@@ -799,18 +988,23 @@ public class DeviceList extends JFrame {
 					}
 				}
 				System.out.println("执行删除的结果：" + bool);
+				if (bool) {
+					JOptionPane.showMessageDialog(null, "删除成功");
+				} else {
+					JOptionPane.showMessageDialog(null, "删除失败", "错误", JOptionPane.ERROR_MESSAGE);
+				}
 			}
 
 		};
 		// 设置表格渲染器
-		jt.getColumnModel().getColumn(12).setCellRenderer(new MyRender());
+		jt.getColumnModel().getColumn(11).setCellRenderer(new MyRender());
 		// 设置表格的编辑器
-		jt.getColumnModel().getColumn(12).setCellEditor(new MyRender(e));
+		jt.getColumnModel().getColumn(11).setCellEditor(new MyRender(e4));
 
 		// 设置表格渲染器
-		jt.getColumnModel().getColumn(13).setCellRenderer(new MyRenderDelete());
+		jt.getColumnModel().getColumn(12).setCellRenderer(new MyRenderDelete());
 		// 设置表格的编辑器
-		jt.getColumnModel().getColumn(13).setCellEditor(new MyRenderDelete(e1));
+		jt.getColumnModel().getColumn(12).setCellEditor(new MyRenderDelete(e5));
 
 		// 初始化 jsp
 		jsp = new JScrollPane(jt);
@@ -823,26 +1017,6 @@ public class DeviceList extends JFrame {
 		this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		this.setVisible(true);
 	}
-
-	// class MyButtonRender extends JButton implements TableCellRenderer{
-	//
-	// public JComponent getTableCellRendererComponent(JTable table, Object
-	// value,
-	// boolean isSelected, boolean hasFocus, int row, int column) {
-	// //value 源于editor
-	//// String text = (value == null) ? "" : value.toString();
-	// //按钮文字
-	// setText("修改");
-	// //单元格提示
-	//// setToolTipText("");
-	// //背景色
-	// setBackground(Color.BLACK);
-	// //前景色
-	// setForeground(Color.green);
-	// return this;
-	// }
-	//
-	// }
 
 	class MyRender extends AbstractCellEditor implements TableCellRenderer, TableCellEditor {
 
@@ -889,6 +1063,7 @@ public class DeviceList extends JFrame {
 				int column) {
 			// setClickCountToStart(1);
 			// 将这个被点击的按钮所在的行和列放进button里面
+
 			button.setRow(row);
 			button.setColumn(column);
 			// 背景色
@@ -979,6 +1154,22 @@ public class DeviceList extends JFrame {
 
 	}
 
+	class MyRenderStatus implements TableCellRenderer {
+		private JLabel jl;
+
+		@Override
+		public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus,
+				int row, int column) {
+			// TODO Auto-generated method stub
+			if (DeviceList.online.contains(row)) {
+				jl = new JLabel(new ImageIcon("..\\DeviceManager\\res\\online.jpg"));
+			} else {
+				jl = new JLabel(new ImageIcon("..\\DeviceManager\\res\\offline.jpg"));
+			}
+			return jl;
+		}
+	}
+
 	class MyButton extends JButton {
 
 		private int row;
@@ -1006,6 +1197,38 @@ public class DeviceList extends JFrame {
 		}
 
 		public MyButton(String name) {
+			super(name);
+		}
+
+	}
+
+	class MyLabel extends JLabel {
+
+		private int row;
+
+		private int column;
+
+		public int getRow() {
+			return row;
+		}
+
+		public void setRow(int row) {
+			this.row = row;
+		}
+
+		public int getColumn() {
+			return column;
+		}
+
+		public void setColumn(int column) {
+			this.column = column;
+		}
+
+		public MyLabel() {
+
+		}
+
+		public MyLabel(String name) {
 			super(name);
 		}
 

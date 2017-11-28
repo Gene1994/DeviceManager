@@ -42,8 +42,10 @@ public class DeviceSelect {
 	public String type;
 	public String model;
 	public String ip;
+	public String comment;
 
 	public static int index;// 使用switch-case创建devicelist构造函数，case1:type,
+	private JTextField textField_comment;
 							// case2:model, case3:ip。
 	/**
 	 * Launch the application.
@@ -76,7 +78,7 @@ public class DeviceSelect {
 
 		frame = new JFrame();
 		frame.setTitle("\u8BBE\u5907\u67E5\u627E");
-		frame.setBounds(100, 100, 458, 197);
+		frame.setBounds(100, 100, 463, 246);
 		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 		frame.setVisible(true);
@@ -166,5 +168,35 @@ public class DeviceSelect {
 				dl.select(ip);
 			}
 		});
+		
+		//comment
+		JLabel lbComment = new JLabel("\u5907\u6CE8\uFF1A");
+		lbComment.setBounds(28, 156, 71, 15);
+		frame.getContentPane().add(lbComment);
+		
+		textField_comment = new JTextField();
+		textField_comment.setColumns(10);
+		textField_comment.setBounds(109, 153, 157, 21);
+		frame.getContentPane().add(textField_comment);
+		textField_comment.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyReleased(KeyEvent e) {
+				comment = textField_comment.getText();
+			}
+		});
+		
+		JButton btncomment = new JButton("\u6839\u636E\u5907\u6CE8\u67E5\u627E");
+		btncomment.setBounds(293, 152, 123, 23);
+		frame.getContentPane().add(btncomment);
+		btncomment.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				index = 4;
+				DeviceList dl = new DeviceList();
+				dl.select(comment);
+			}
+		});
+		
+		
 	}
 }

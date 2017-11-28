@@ -44,7 +44,7 @@ public class DeviceInsert {
 	public String userName = "admin";
 	public String password;
 	public String language;
-	public boolean isOnline;
+	public boolean status = true;//添加时默认true，查询时修改
 	public int errorCode = 0;
 	public String comment;
 	public String position;
@@ -54,7 +54,6 @@ public class DeviceInsert {
 	private JTextField textField_model;
 	private JTextField textField_ip;
 	private JTextField textField_port;
-	private JTextField textField_errorCode;
 	private JTextField textField_comment;
 	private JTextField textField_userName;
 	private JTextField textField_password;
@@ -108,8 +107,7 @@ public class DeviceInsert {
 					deviceId = String.format("%05d", (int) (Math.random() * 100000));
 					// if(port >= -99999 && port <= 99999 && errorCode >= -99999
 					// && errorCode <=99999){
-					Device d = new Device(deviceId, type, model, ip, port, userName, password, language, isOnline,
-							errorCode, position, comment);
+					Device d = new Device(deviceId, type, model, ip, port, userName, password, language, position, comment, status);
 					d.insert();
 					// }else{
 					// JOptionPane.showMessageDialog(null, "Error",
@@ -214,40 +212,7 @@ public class DeviceInsert {
 			}
 		});
 
-		// isOnline
-		JLabel lblIsonline = new JLabel("isOnline\uFF1A");
-		lblIsonline.setBounds(232, 160, 88, 15);
-		frame.getContentPane().add(lblIsonline);
-
-		JComboBox comboBox_isOnline = new JComboBox();
-		comboBox_isOnline.setModel(new DefaultComboBoxModel(new String[] { "Y", "N" }));
-		comboBox_isOnline.setBounds(300, 154, 97, 21);
-		frame.getContentPane().add(comboBox_isOnline);
-		isOnline = (comboBox_isOnline.getSelectedIndex() == 0) ? true : false;
-		comboBox_isOnline.addItemListener(new ItemListener() {
-			public void itemStateChanged(ItemEvent e) {
-				isOnline = (comboBox_isOnline.getSelectedIndex() == 0) ? true : false;
-
-			}
-		});
-
-		// errorCode
-		JLabel lblErrorCode = new JLabel("errorCode\uFF1A");
-		lblErrorCode.setBounds(38, 204, 66, 15);
-		frame.getContentPane().add(lblErrorCode);
-
-		textField_errorCode = new JTextField();
-		textField_errorCode.setColumns(10);
-		textField_errorCode.setBounds(100, 200, 97, 23);
-		frame.getContentPane().add(textField_errorCode);
-
 		try {
-			textField_errorCode.addKeyListener(new KeyAdapter() {
-				@Override
-				public void keyReleased(KeyEvent e) {
-					errorCode = Integer.parseInt(textField_errorCode.getText());
-				}
-			});
 		} catch (NumberFormatException e) {
 			// JOptionPane.showMessageDialog(null, "Error", "请输入正确的错误码",
 			// JOptionPane.ERROR_MESSAGE);
@@ -255,12 +220,12 @@ public class DeviceInsert {
 
 		// comment
 		JLabel lbComment = new JLabel("\u5907\u6CE8\uFF1A");
-		lbComment.setBounds(38, 248, 66, 15);
+		lbComment.setBounds(38, 199, 66, 15);
 		frame.getContentPane().add(lbComment);
 
 		textField_comment = new JTextField();
 		textField_comment.setColumns(10);
-		textField_comment.setBounds(100, 243, 297, 23);
+		textField_comment.setBounds(100, 194, 297, 90);
 		frame.getContentPane().add(textField_comment);
 		comment = textField_comment.getText();
 		textField_comment.addKeyListener(new KeyAdapter() {
@@ -304,13 +269,13 @@ public class DeviceInsert {
 
 		// position
 		JLabel lbPosition = new JLabel("\u4F4D\u7F6E\uFF1A");
-		lbPosition.setBounds(232, 204, 88, 15);
+		lbPosition.setBounds(232, 160, 88, 15);
 		frame.getContentPane().add(lbPosition);
 
 		JComboBox comboBox_position = new JComboBox();
 		comboBox_position.setModel(new DefaultComboBoxModel(new String[] { "\u7B2C\u4E00\u6392", "\u7B2C\u4E8C\u6392",
 				"\u7B2C\u4E09\u6392", "\u7B2C\u56DB\u6392", "\u7B2C\u4E94\u6392" }));
-		comboBox_position.setBounds(300, 198, 97, 21);
+		comboBox_position.setBounds(300, 154, 97, 21);
 		frame.getContentPane().add(comboBox_position);
 		position = comboBox_position.getSelectedItem().toString();
 		comboBox_position.addItemListener(new ItemListener() {
