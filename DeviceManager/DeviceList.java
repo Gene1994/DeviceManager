@@ -1160,9 +1160,9 @@ public class DeviceList extends JFrame {
 				int row, int column) {
 			// TODO Auto-generated method stub
 			if (DeviceList.online.contains(row)) {
-				jl = new JLabel(new ImageIcon("..\\DeviceManager\\res\\online.jpg"));
+				jl = new JLabel(new ImageIcon(Toolkit.getDefaultToolkit().getImage(DeviceUI.class.getResource("/res/online.jpg"))));
 			} else {
-				jl = new JLabel(new ImageIcon("..\\DeviceManager\\res\\offline.jpg"));
+				jl = new JLabel(new ImageIcon(Toolkit.getDefaultToolkit().getImage(DeviceUI.class.getResource("/res/offline.jpg"))));
 			}
 			return jl;
 		}
