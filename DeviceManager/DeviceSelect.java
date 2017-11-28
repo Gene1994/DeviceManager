@@ -75,8 +75,9 @@ public class DeviceSelect {
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
-
+		
 		frame = new JFrame();
+		frame.setIconImage(Toolkit.getDefaultToolkit().getImage(DeviceSelect.class.getResource("/res/device_1.png")));
 		frame.setTitle("\u8BBE\u5907\u67E5\u627E");
 		frame.setBounds(100, 100, 463, 246);
 		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);

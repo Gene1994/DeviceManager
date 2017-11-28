@@ -52,6 +52,7 @@ public class DeviceUI {
 	 */
 	private void initialize() throws Exception {
 		frmDevicemanager = new JFrame();
+		frmDevicemanager.setIconImage(Toolkit.getDefaultToolkit().getImage(DeviceUI.class.getResource("/res/device_1.png")));
 		frmDevicemanager.setTitle("\u8BBE\u5907\u7BA1\u7406");
 		frmDevicemanager.setBounds(100, 100, 281, 286);
 		frmDevicemanager.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

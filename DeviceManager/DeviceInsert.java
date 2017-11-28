@@ -87,6 +87,7 @@ public class DeviceInsert {
 	 */
 	private void initialize() throws Exception {
 		frame = new JFrame();
+		frame.setIconImage(Toolkit.getDefaultToolkit().getImage(DeviceInsert.class.getResource("/res/device_1.png")));
 		frame.setVisible(true);
 		frame.setTitle("\u6DFB\u52A0\u8BBE\u5907");
 		frame.setBounds(100, 100, 500, 403);

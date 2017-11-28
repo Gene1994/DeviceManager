@@ -75,6 +75,7 @@ public class DeviceList extends JFrame {
 	public static List offline;
 
 	public DeviceList() {
+		setIconImage(Toolkit.getDefaultToolkit().getImage(DeviceList.class.getResource("/res/device_1.png")));
 		setTitle("\u8BBE\u5907\u5217\u8868");
 		columnNames = new Vector();
 		// 设置列名
@@ -656,15 +657,12 @@ public class DeviceList extends JFrame {
 			List<Object> paramList3 = new ArrayList<Object>();
 			// 填充参数
 			paramList3.add(index3);
-			System.out.println(paramList3);
 			JdbcUtil jdbcUtil3 = null;
 			try {
 				jdbcUtil3 = new JdbcUtil();
 				jdbcUtil3.getConnection(); // 获取数据库链接
 				List<Map<String, Object>> mapList = jdbcUtil3.findResult(sql3.toString(), paramList3);
-				System.out.println(mapList);
 				for (int i = 0; i < mapList.size(); i++) {
-
 					Map<String, Object> map = mapList.get(i);
 					try {
 						// 设备属性
