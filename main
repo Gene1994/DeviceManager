@@ -1,3 +1,3 @@
 Manifest-Version: 1.0
+Class-Path: lib/mysql-connector-java-5.1.44-bin.jar lib/jxl.jar lib/miglayout15-swing.jar
 Main-Class: DeviceManager.DeviceUI
-Class-Path: mysql-connector-java-5.1.44-bin.jar
