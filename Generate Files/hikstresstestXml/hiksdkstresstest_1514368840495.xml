@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<hiksdkstresstest>
+  <playback api="0" streamonly="0" savedata="0" threadcount="1" loopinterval="15" enable="1">
+    <device ip="10.66.79.182" port="8000" user="123" password="123"/>
+    <device ip="10.66.79.183" port="8000" user="123" password="123"/>
+    <device ip="1.1.1.1" port="8000" user="123" password="123"/>
+  </playback>
+  <login api="0" taskcount="1" threadcount="1" loopinterval="15" enable="1">
+    <device ip="2.2.2.2" port="8000" user="1" password="2"/>
+  </login>
+</hiksdkstresstest>

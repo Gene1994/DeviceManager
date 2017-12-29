@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<hiksdkstresstest>
+  <login api="0" taskcount="1" threadcount="1" loopinterval="15" enable="1">
+    <device ip="10.66.79.182" port="8000" user="321" password="123"/>
+    <device ip="10.66.79.182" port="8000" user="321" password="123"/>
+  </login>
+</hiksdkstresstest>

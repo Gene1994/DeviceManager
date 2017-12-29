@@ -1,9 +1,14 @@
 package DeviceManager;
 
+import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.File;
@@ -11,52 +16,38 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
-import java.net.InetAddress;
-import java.net.UnknownHostException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Vector;
+
 import javax.swing.AbstractCellEditor;
-import javax.swing.DefaultCellEditor;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JComponent;
+import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
-import javax.swing.JTextField;
 import javax.swing.RowFilter;
+import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellEditor;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
-import JDBC.JdbcUtil;
+
+import com.sun.jna.NativeLong;
+
+import Utils.JdbcUtil;
 import jxl.Workbook;
 import jxl.write.WritableSheet;
 import jxl.write.WritableWorkbook;
 import jxl.write.WriteException;
 import jxl.write.biff.RowsExceededException;
-
-import java.awt.BorderLayout;
-import java.awt.Color;
-import javax.swing.table.DefaultTableModel;
-import java.awt.Toolkit;
-import java.awt.GridBagLayout;
-import java.awt.GridBagConstraints;
-import javax.swing.JComboBox;
-import java.awt.Insets;
-import javax.swing.JPanel;
-import javax.swing.SwingConstants;
-import javax.swing.DefaultComboBoxModel;
-import java.awt.event.ItemListener;
-import java.awt.event.ItemEvent;
-import java.awt.FlowLayout;
-import java.awt.GridLayout;
-import javax.swing.SpringLayout;
 import net.miginfocom.swing.MigLayout;
 
 /**
@@ -69,11 +60,13 @@ import net.miginfocom.swing.MigLayout;
  * 
  *         2017年11月20日
  */
-public class DeviceList extends JFrame {
+public class DeviceList {
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = -311019214878889971L;
+
+	private static JFrame frame;// 单例模式
 	// rowData用来存放行数据
 	// columnNames存放列名
 	Vector columnNames;
@@ -99,7 +92,7 @@ public class DeviceList extends JFrame {
 	public static List online;
 	public static List offline;
 	private JPanel panel_north;
-	private JPanel panel_center;
+	private static JPanel panel_center = new JPanel();
 	private JButton btn_check;
 	private JButton btnExcel;
 	private JLabel label;
@@ -108,12 +101,29 @@ public class DeviceList extends JFrame {
 	private DefaultTableModel tableModel;
 	private DefaultTableModel tableModel1;
 	private TableRowSorter sorter;
+	private JdbcUtil jdbcUtil = new JdbcUtil();
+	NativeLong lUserID;// 用户句柄
+
+	static HCNetSDK hCNetSDK = HCNetSDK.INSTANCE;
+
+	HCNetSDK.NET_DVR_DEVICEINFO m_strDeviceInfo;// 设备信息
 
 	public DeviceList() {
-		this.setSize(1500, 300);
-		setIconImage(Toolkit.getDefaultToolkit().getImage(DeviceList.class.getResource("/res/device_1.png")));
-		setTitle("\u8BBE\u5907\u5217\u8868");
-		getContentPane().setLayout(new BorderLayout(0, 0));
+		boolean initSuc = hCNetSDK.NET_DVR_Init();
+
+		if (initSuc != true) {
+			JOptionPane.showMessageDialog(null, "初始化失败");
+		}
+
+		lUserID = new NativeLong(-1);
+		if (frame == null) {
+			frame = new JFrame();
+		}
+		frame.setBounds(100, 347, 1500, 300);
+		// frame.setSize(1500, 300);
+		frame.setIconImage(Toolkit.getDefaultToolkit().getImage(DeviceList.class.getResource("/res/device_1.png")));
+		frame.setTitle("\u8BBE\u5907\u5217\u8868");
+		frame.setLayout(new BorderLayout(0, 0));
 
 		ONLINE_FLAG = true;
 		columnNames = new Vector();
@@ -133,7 +143,7 @@ public class DeviceList extends JFrame {
 		columnNames.add("");// 删除设备信息按钮(delete)
 
 		panel_north = new JPanel();
-		getContentPane().add(panel_north, BorderLayout.NORTH);
+		frame.add(panel_north, BorderLayout.NORTH);
 		panel_north.setLayout(new MigLayout("", "[62px][62px][57px][136px][136px][][]", "[23px]"));
 
 		label = new JLabel("\u5728\u7EBF\u72B6\u6001\uFF1A");
@@ -187,7 +197,7 @@ public class DeviceList extends JFrame {
 				jsp.setSize(1500, 300);
 
 				// 把jsp放入到jframe
-				panel_center.add(jsp, BorderLayout.CENTER);
+				// panel_center.add(jsp, BorderLayout.CENTER);
 			}
 		});
 
@@ -196,7 +206,8 @@ public class DeviceList extends JFrame {
 		btnExcel.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				String excel_Url = "..\\DeviceManager\\Generate Files\\Excel\\Device_" + System.currentTimeMillis() + ".xls";
+				String excel_Url = "..\\DeviceManager\\Generate Files\\Excel\\Device_" + System.currentTimeMillis()
+						+ ".xls";
 				File file = new File(excel_Url);
 				try {
 					if (jt_checked != null) {
@@ -210,9 +221,9 @@ public class DeviceList extends JFrame {
 			}
 		});
 
-		panel_center = new JPanel();
-		getContentPane().add(panel_center, BorderLayout.CENTER);
-		panel_center.setLayout(new BorderLayout(0, 0));
+		// panel_center = new JPanel();
+		// frame.add(panel_center, BorderLayout.CENTER);
+		// panel_center.setLayout(new BorderLayout(0, 0));
 
 	}
 
@@ -230,9 +241,9 @@ public class DeviceList extends JFrame {
 			List<Object> paramList = new ArrayList<Object>();
 			// 填充参数
 			paramList.add(index);
-			JdbcUtil jdbcUtil = null;
+			// JdbcUtil jdbcUtil = null;
 			try {
-				jdbcUtil = new JdbcUtil();
+				// jdbcUtil = new JdbcUtil();
 				jdbcUtil.getConnection(); // 获取数据库链接
 				List<Map<String, Object>> mapList = jdbcUtil.findResult(sql.toString(), paramList);
 				for (int i = 0; i < mapList.size(); i++) {
@@ -250,7 +261,9 @@ public class DeviceList extends JFrame {
 						language = (String) map.get("language");
 						position = (String) map.get("position");
 						comment = (String) map.get("comment");
-						status = InetAddress.getByName(ip).isReachable(timeOut);
+						m_strDeviceInfo = new HCNetSDK.NET_DVR_DEVICEINFO();
+						lUserID = hCNetSDK.NET_DVR_Login(ip, (short) port, userName, password, m_strDeviceInfo);
+						status = (lUserID.intValue() == -1) ? false : true;
 						if (status) {
 							online.add(i);
 						} else {
@@ -278,7 +291,6 @@ public class DeviceList extends JFrame {
 					hang.add(comment);
 
 					rowData.add(hang);
-
 				}
 			} catch (SQLException e) {
 				System.out.println(this.getClass() + "执行查询操作抛出异常！");
@@ -402,14 +414,17 @@ public class DeviceList extends JFrame {
 			// 初始化 jsp
 			jsp = new JScrollPane(jt);
 			jsp.setSize(1400, 300);
+			jsp.setViewportView(jt);
+			// 把jsp放入到jpanel
 
-			// 把jsp放入到jframe
+			panel_center.removeAll();
 			panel_center.add(jsp, BorderLayout.CENTER);
-
+			panel_center.repaint();
 			// this.setSize(1500, 300);
+			frame.add(panel_center);
 
-			this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-			this.setVisible(true);
+			frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+			frame.setVisible(true);
 			break;
 
 		// byModel
@@ -441,7 +456,9 @@ public class DeviceList extends JFrame {
 						language = (String) map.get("language");
 						position = (String) map.get("position");
 						comment = (String) map.get("comment");
-						status = InetAddress.getByName(ip).isReachable(timeOut);
+						m_strDeviceInfo = new HCNetSDK.NET_DVR_DEVICEINFO();
+						lUserID = hCNetSDK.NET_DVR_Login(ip, (short) port, userName, password, m_strDeviceInfo);
+						status = (lUserID.intValue() == -1) ? false : true;
 						if (status) {
 							online.add(i);
 						} else {
@@ -597,14 +614,17 @@ public class DeviceList extends JFrame {
 			// 初始化 jsp
 			jsp = new JScrollPane(jt);
 			jsp.setSize(1400, 300);
+			jsp.setViewportView(jt);
+			// 把jsp放入到jpanel
 
-			// 把jsp放入到jframe
+			panel_center.removeAll();
 			panel_center.add(jsp, BorderLayout.CENTER);
-
+			panel_center.repaint();
 			// this.setSize(1500, 300);
+			frame.add(panel_center);
 
-			this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-			this.setVisible(true);
+			frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+			frame.setVisible(true);
 			break;
 		// byIp
 		case 3:
@@ -635,7 +655,9 @@ public class DeviceList extends JFrame {
 						language = (String) map.get("language");
 						position = (String) map.get("position");
 						comment = (String) map.get("comment");
-						status = InetAddress.getByName(ip).isReachable(timeOut);
+						m_strDeviceInfo = new HCNetSDK.NET_DVR_DEVICEINFO();
+						lUserID = hCNetSDK.NET_DVR_Login(ip, (short) port, userName, password, m_strDeviceInfo);
+						status = (lUserID.intValue() == -1) ? false : true;
 						if (status) {
 							online.add(i);
 						} else {
@@ -791,14 +813,17 @@ public class DeviceList extends JFrame {
 			// 初始化 jsp
 			jsp = new JScrollPane(jt);
 			jsp.setSize(1400, 300);
+			jsp.setViewportView(jt);
+			// 把jsp放入到jpanel
 
-			// 把jsp放入到jframe
+			panel_center.removeAll();
 			panel_center.add(jsp, BorderLayout.CENTER);
-
+			panel_center.repaint();
 			// this.setSize(1500, 300);
+			frame.add(panel_center);
 
-			this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-			this.setVisible(true);
+			frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+			frame.setVisible(true);
 			break;
 
 		// byComment
@@ -828,7 +853,9 @@ public class DeviceList extends JFrame {
 						language = (String) map.get("language");
 						position = (String) map.get("position");
 						comment = (String) map.get("comment");
-						status = InetAddress.getByName(ip).isReachable(timeOut);
+						m_strDeviceInfo = new HCNetSDK.NET_DVR_DEVICEINFO();
+						lUserID = hCNetSDK.NET_DVR_Login(ip, (short) port, userName, password, m_strDeviceInfo);
+						status = (lUserID.intValue() == -1) ? false : true;
 						if (status) {
 							online.add(i);
 						} else {
@@ -984,14 +1011,17 @@ public class DeviceList extends JFrame {
 			// 初始化 jsp
 			jsp = new JScrollPane(jt);
 			jsp.setSize(1400, 300);
+			jsp.setViewportView(jt);
+			// 把jsp放入到jpanel
 
-			// 把jsp放入到jframe
+			panel_center.removeAll();
 			panel_center.add(jsp, BorderLayout.CENTER);
-
+			panel_center.repaint();
 			// this.setSize(1500, 300);
+			frame.add(panel_center);
 
-			this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-			this.setVisible(true);
+			frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+			frame.setVisible(true);
 			break;
 		}
 	}
@@ -1024,7 +1054,9 @@ public class DeviceList extends JFrame {
 					language = (String) map.get("language");
 					position = (String) map.get("position");
 					comment = (String) map.get("comment");
-					status = InetAddress.getByName(ip).isReachable(timeOut);
+					m_strDeviceInfo = new HCNetSDK.NET_DVR_DEVICEINFO();
+					lUserID = hCNetSDK.NET_DVR_Login(ip, (short) port, userName, password, m_strDeviceInfo);
+					status = (lUserID.intValue() == -1) ? false : true;
 					if (status) {
 						online.add(i);
 					} else {
@@ -1176,14 +1208,17 @@ public class DeviceList extends JFrame {
 		// 初始化 jsp
 		jsp = new JScrollPane(jt);
 		jsp.setSize(1400, 300);
+		jsp.setViewportView(jt);
+		// 把jsp放入到jpanel
 
-		// 把jsp放入到jframe
+		panel_center.removeAll();
 		panel_center.add(jsp, BorderLayout.CENTER);
-
+		panel_center.repaint();
 		// this.setSize(1500, 300);
+		frame.add(panel_center);
 
-		this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		this.setVisible(true);
+		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		frame.setVisible(true);
 	}
 
 	class MyRenderModify extends AbstractCellEditor implements TableCellRenderer, TableCellEditor {
@@ -1197,8 +1232,13 @@ public class DeviceList extends JFrame {
 			button.addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent e) {
-					// 这里调用自定义的事件处理方法
-					event.invoke(e);
+					int res = JOptionPane.showConfirmDialog(null, "确认修改该设备？", "是否继续", JOptionPane.YES_NO_OPTION);
+					if (res == JOptionPane.YES_OPTION) {
+						event.invoke(e);
+					} else {
+						return;
+					}
+
 				}
 
 			});

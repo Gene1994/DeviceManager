@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<hiksdkstresstest>
+  <preview api="0" linktype="0" linkmode="0" streamonly="0" savedata="0" threadcount="1" loopinterval="15" enable="1">
+    <device ip="1" port="8000"/>
+    <device ip="22" port="8000"/>
+    <device ip="22" port="8000"/>
+    <device ip="22" port="8000"/>
+    <device ip="22" port="8000"/>
+    <device ip="22" port="8000"/>
+    <device ip="22" port="8000"/>
+    <device ip="22" port="8000"/>
+    <device ip="22" port="8000"/>
+  </preview>
+</hiksdkstresstest>

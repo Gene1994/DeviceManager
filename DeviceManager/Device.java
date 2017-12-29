@@ -4,10 +4,12 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Vector;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.swing.JOptionPane;
 
-import JDBC.JdbcUtil;
+import Utils.JdbcUtil;
 
 /**
  * <p>
@@ -31,8 +33,8 @@ public class Device {
 	public String comment;
 	public String position;
 	public String deviceId;
-	public boolean status;//true在线，false不在线
-	
+	public boolean status;// true在线，false不在线
+
 	/**
 	 * 
 	 */
@@ -67,7 +69,7 @@ public class Device {
 		this.language = language;
 		this.position = position;
 		this.comment = comment;
-		this.status= status;
+		this.status = status;
 	}
 
 	// 添加设备
@@ -107,15 +109,15 @@ public class Device {
 		}
 	}
 
-//	// 删除设备
-//	public void delete() {
-//
-//	}
-//
-//	// 修改设备
-//	public void update() {
-//
-//	}
+	// // 删除设备
+	// public void delete() {
+	//
+	// }
+	//
+	// // 修改设备
+	// public void update() {
+	//
+	// }
 
 	// //查找设备
 	// public Vector selectByIp(){
@@ -124,4 +126,20 @@ public class Device {
 	// return null;
 	//
 	// }
+
+	public boolean isMatches(String ip) {
+		boolean flag = false;
+		try {
+			String regex = "^((\\d|[1-9]\\d|1\\d\\d|2[0-4]\\d|25[0-5])\\.){3}(\\d|[1-9]\\d|1\\d\\d|2[0-4]\\d|25[0-5]|[*])$";
+			Pattern p = Pattern.compile(regex);
+			Matcher m = p.matcher(ip);
+			if (m.find()) {
+				return true;
+			} else {
+			}
+		} catch (Exception e) {
+
+		}
+		return flag;
+	}
 }

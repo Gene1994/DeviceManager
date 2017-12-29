@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<hiksdkstresstest>
+  <preview api="0" linktype="0" linkmode="0" streamonly="0" savedata="0" threadcount="0" loopinterval="15" enable="1">
+    <device ip="1" user="2" password="3"/>
+    <device ip="2" user="3" password="4"/>
+  </preview>
+</hiksdkstresstest>
