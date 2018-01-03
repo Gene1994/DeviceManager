@@ -17,7 +17,7 @@ import com.sun.jna.ptr.ShortByReference;
 //SDK接口说明,HCNetSDK.dll
 public interface HCNetSDK extends StdCallLibrary {
 
-    HCNetSDK INSTANCE = (HCNetSDK) Native.loadLibrary("D:\\Java workspace\\DeviceManager\\lib\\HCNetSDK", HCNetSDK.class);
+    HCNetSDK INSTANCE = (HCNetSDK) Native.loadLibrary("D:/DeviceManager/lib/HCNetSDK", HCNetSDK.class);
     /***宏定义***/
     //常量
 

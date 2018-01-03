@@ -94,14 +94,11 @@ public class Device {
 			jdbcUtil.getConnection(); // 获取数据库链接
 			bool = jdbcUtil.updateByPreparedStatement(sql, paramList);
 		} catch (SQLException e) {
-			System.out.println(this.getClass() + "执行更新操作抛出异常！");
-			e.printStackTrace();
 		} finally {
 			if (jdbcUtil != null) {
 				jdbcUtil.releaseConn(); // 一定要释放资源
 			}
 		}
-		System.out.println("执行更新的结果：" + bool);
 		if (bool) {
 			JOptionPane.showMessageDialog(null, "添加成功");
 		} else {

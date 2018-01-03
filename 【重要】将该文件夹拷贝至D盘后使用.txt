@@ -1,0 +1,2 @@
+【重要】将该文件夹拷贝至D盘后使用
+由于读取HCNetSDK.dll使用绝对路径D:\DeviceManager\lib，故需将该文件夹拷贝至D盘

@@ -56,12 +56,12 @@ public class DeviceUI {
 		frmDevicemanager
 				.setIconImage(Toolkit.getDefaultToolkit().getImage(DeviceUI.class.getResource("/res/device_1.png")));
 		frmDevicemanager.setTitle("\u8BBE\u5907\u7BA1\u7406");
-		frmDevicemanager.setBounds(100, 100, 236, 286);
+		frmDevicemanager.setBounds(100, 100, 213, 210);
 		frmDevicemanager.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frmDevicemanager.getContentPane().setLayout(null);
 
 		JButton button_insert = new JButton("\u6DFB\u52A0\u8BBE\u5907");
-		button_insert.setBounds(45, 59, 132, 23);
+		button_insert.setBounds(32, 49, 132, 23);
 		frmDevicemanager.getContentPane().add(button_insert);
 		button_insert.addMouseListener(new MouseAdapter() {
 			@Override
@@ -75,7 +75,7 @@ public class DeviceUI {
 		});
 
 		JButton button_select = new JButton("\u67E5\u627E\u8BBE\u5907");
-		button_select.setBounds(45, 92, 132, 23);
+		button_select.setBounds(32, 82, 132, 23);
 		frmDevicemanager.getContentPane().add(button_select);
 		button_select.addMouseListener(new MouseAdapter() {
 			@Override
@@ -84,22 +84,26 @@ public class DeviceUI {
 			}
 		});
 
-		JButton btn_showAll = new JButton("显示全部设备");
-		btn_showAll.setBounds(45, 125, 132, 23);
-		frmDevicemanager.getContentPane().add(btn_showAll);
-		btn_showAll.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				DeviceList dl = new DeviceList();
-				dl.selectAll();
-			}
-		});
+//		JButton btn_showAll = new JButton("显示全部设备");
+//		btn_showAll.addActionListener(new ActionListener() {
+//			public void actionPerformed(ActionEvent arg0) {
+//			}
+//		});
+//		btn_showAll.setBounds(45, 125, 132, 23);
+//		frmDevicemanager.getContentPane().add(btn_showAll);
+//		btn_showAll.addMouseListener(new MouseAdapter() {
+//			@Override
+//			public void mouseClicked(MouseEvent e) {
+//				DeviceList dl = new DeviceList();
+//				dl.selectAll();
+//			}
+//		});
 
-		JLabel label = new JLabel(
-				"*\u67E5\u627E\u8F83\u591A\u8BBE\u5907\u53EF\u80FD\u9700\u8981\u8F83\u957F\u65F6\u95F4");
-		label.setForeground(Color.GRAY);
-		label.setBounds(10, 216, 280, 15);
-		frmDevicemanager.getContentPane().add(label);
+//		JLabel label = new JLabel(
+//				"*\u67E5\u627E\u8F83\u591A\u8BBE\u5907\u53EF\u80FD\u9700\u8981\u8F83\u957F\u65F6\u95F4");
+//		label.setForeground(Color.GRAY);
+//		label.setBounds(10, 216, 280, 15);
+//		frmDevicemanager.getContentPane().add(label);
 		
 		JButton btnNewButton = new JButton("\u751F\u6210\u7A33\u5B9A\u6027XML");
 		btnNewButton.addMouseListener(new MouseAdapter() {
@@ -112,7 +116,7 @@ public class DeviceUI {
 			public void actionPerformed(ActionEvent arg0) {
 			}
 		});
-		btnNewButton.setBounds(45, 158, 132, 23);
+		btnNewButton.setBounds(32, 115, 132, 23);
 		frmDevicemanager.getContentPane().add(btnNewButton);
 	}
 }

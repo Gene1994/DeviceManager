@@ -119,7 +119,7 @@ public class DeviceList {
 		if (frame == null) {
 			frame = new JFrame();
 		}
-		frame.setBounds(100, 347, 1500, 300);
+		frame.setBounds(100, 347, 1550, 410);
 		// frame.setSize(1500, 300);
 		frame.setIconImage(Toolkit.getDefaultToolkit().getImage(DeviceList.class.getResource("/res/device_1.png")));
 		frame.setTitle("\u8BBE\u5907\u5217\u8868");
@@ -194,7 +194,7 @@ public class DeviceList {
 				// 初始化 jsp
 				jt_checked.setVisible(true);
 				jsp.setViewportView(jt_checked);
-				jsp.setSize(1500, 300);
+//				jsp.setSize(1500, 300);
 
 				// 把jsp放入到jframe
 				// panel_center.add(jsp, BorderLayout.CENTER);
@@ -620,7 +620,6 @@ public class DeviceList {
 			panel_center.removeAll();
 			panel_center.add(jsp, BorderLayout.CENTER);
 			panel_center.repaint();
-			// this.setSize(1500, 300);
 			frame.add(panel_center);
 
 			frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -819,7 +818,6 @@ public class DeviceList {
 			panel_center.removeAll();
 			panel_center.add(jsp, BorderLayout.CENTER);
 			panel_center.repaint();
-			// this.setSize(1500, 300);
 			frame.add(panel_center);
 
 			frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -1191,7 +1189,7 @@ public class DeviceList {
 		};
 		tableModel = new DefaultTableModel(rowData, columnNames);
 		jt = new JTable(tableModel);
-		jt.setPreferredScrollableViewportSize(new Dimension(1500, 300));
+		jt.setPreferredScrollableViewportSize(new Dimension(1400, 300));
 
 		// 设置表格渲染器
 		jt.getColumnModel().getColumn(0).setCellRenderer(new MyRenderStatus());

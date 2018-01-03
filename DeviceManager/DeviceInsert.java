@@ -291,7 +291,7 @@ public class DeviceInsert {
 	public boolean isMatches(String ip) {
 		boolean flag = false;
 		try {
-			String regex = "^((\\d|[1-9]\\d|1\\d\\d|2[0-4]\\d|25[0-5])\\.){3}(\\d|[1-9]\\d|1\\d\\d|2[0-4]\\d|25[0-5]|[*])$";
+			String regex = "^((2[0-4]\\d|25[0-5]|[01]?\\d\\d?)\\.){3}(2[0-4]\\d|25[0-5]|[01]?\\d\\d?)";
 			Pattern p = Pattern.compile(regex);
 			Matcher m = p.matcher(ip);
 			if (m.find()) {
