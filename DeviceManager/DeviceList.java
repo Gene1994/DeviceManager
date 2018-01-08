@@ -89,8 +89,8 @@ public class DeviceList {
 	public String comment;
 	public String position;
 	public boolean status;
-	public static List online;
-	public static List offline;
+	public List online;
+	public List offline;
 	private JPanel panel_north;
 	private static JPanel panel_center = new JPanel();
 	private JButton btn_check;
@@ -194,7 +194,7 @@ public class DeviceList {
 				// 初始化 jsp
 				jt_checked.setVisible(true);
 				jsp.setViewportView(jt_checked);
-//				jsp.setSize(1500, 300);
+				// jsp.setSize(1500, 300);
 
 				// 把jsp放入到jframe
 				// panel_center.add(jsp, BorderLayout.CENTER);
@@ -1389,7 +1389,7 @@ public class DeviceList {
 		public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus,
 				int row, int column) {
 			// TODO Auto-generated method stub
-			if (DeviceList.online.contains(row)) {
+			if (online.contains(row)) {
 				jl = new JLabel(new ImageIcon(
 						Toolkit.getDefaultToolkit().getImage(DeviceUI.class.getResource("/res/online.jpg"))));
 			} else {

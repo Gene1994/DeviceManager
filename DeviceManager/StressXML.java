@@ -26,17 +26,13 @@ import javax.swing.JTree;
 import javax.swing.event.TreeSelectionEvent;
 import javax.swing.event.TreeSelectionListener;
 
-import java.awt.BorderLayout;
 import java.awt.CardLayout;
-import java.awt.Color;
-
 import javax.swing.tree.DefaultTreeModel;
 
 import org.dom4j.Document;
 import org.dom4j.DocumentHelper;
 import org.dom4j.Element;
 import org.dom4j.io.OutputFormat;
-import org.dom4j.io.SAXReader;
 import org.dom4j.io.XMLWriter;
 
 import Beans.DeviceBean;
@@ -58,6 +54,10 @@ import javax.swing.JPanel;
  *         2017年12月22日
  */
 public class StressXML extends JFrame {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private JScrollPane scrollPane;
 	private JTree tree;
 	private JPanel panel_tree;
@@ -550,7 +550,7 @@ public class StressXML extends JFrame {
 			public void mouseClicked(MouseEvent e) {
 				try {
 					XMLWriter writer = null;// 声明写XML的对象
-					SAXReader reader = new SAXReader();
+//					SAXReader reader = new SAXReader();
 
 					String xml_Url = "..\\DeviceManager\\Generate Files\\hikstresstestXml\\hiksdkstresstest_"
 							+ System.currentTimeMillis() + ".xml";
