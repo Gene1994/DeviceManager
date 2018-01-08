@@ -1371,7 +1371,7 @@ public class DeviceList {
 		public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus,
 				int row, int column) {
 			// TODO Auto-generated method stub
-			if (value.toString() == "#ONLINE#") {
+			if (value.toString().equals("#ONLINE#")) {
 				jl = new JLabel(new ImageIcon(
 						Toolkit.getDefaultToolkit().getImage(DeviceUI.class.getResource("/res/online.jpg"))));
 			} else {
