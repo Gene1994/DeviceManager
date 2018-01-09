@@ -60,7 +60,7 @@ public class DeviceUI {
 		frmDevicemanager.setResizable(false);
 		frmDevicemanager
 				.setIconImage(Toolkit.getDefaultToolkit().getImage(DeviceUI.class.getResource("/pers/quzhe/res/device_1.png")));
-		frmDevicemanager.setTitle("\u8BBE\u5907\u7BA1\u7406");
+		frmDevicemanager.setTitle("SDKAuto");
 		frmDevicemanager.setBounds(100, 100, 937, 371);
 		frmDevicemanager.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frmDevicemanager.getContentPane().setLayout(null);

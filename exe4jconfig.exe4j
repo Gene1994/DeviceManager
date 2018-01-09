@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <exe4j version="6.0" transformSequenceNumber="2">
-  <directoryPresets config="E:/SDK测试组/01.测试环境/DeviceManager" />
-  <application name="DeviceManager" distributionSourceDir="E:/SDK测试组/01.测试环境/DeviceManager">
+  <directoryPresets config="E:/SDK测试组/01.测试环境/SDKAuto/res" />
+  <application name="SDKAuto" distributionSourceDir="E:/SDK测试组/01.测试环境/SDKAuto">
     <languages>
       <principalLanguage id="en" customLocalizationFile="" />
     </languages>
   </application>
-  <executable name="DeviceManager" type="2" iconSet="true" iconFile="E:/SDK测试组/01.测试环境/DeviceManager/res/device.ico" executableDir="." redirectStderr="true" stderrFile="error.log" stderrMode="overwrite" redirectStdout="false" stdoutFile="output.log" stdoutMode="overwrite" failOnStderrOutput="true" executableMode="1" changeWorkingDirectory="true" workingDirectory="." singleInstance="false" serviceStartType="2" serviceDependencies="" serviceDescription="" jreLocation="" executionLevel="asInvoker" checkConsoleParameter="false" globalSingleInstance="false" singleInstanceActivate="true" dpiAware="java9+" amd64="false">
+  <executable name="SDKAuto" type="2" iconSet="true" iconFile="E:/SDK测试组/01.测试环境/SDKAuto/res/device.ico" executableDir="." redirectStderr="true" stderrFile="error.log" stderrMode="overwrite" redirectStdout="false" stdoutFile="output.log" stdoutMode="overwrite" failOnStderrOutput="true" executableMode="1" changeWorkingDirectory="true" workingDirectory="." singleInstance="false" serviceStartType="2" serviceDependencies="" serviceDescription="" jreLocation="" executionLevel="asInvoker" checkConsoleParameter="false" globalSingleInstance="false" singleInstanceActivate="true" dpiAware="java9+" amd64="false">
     <messageSet />
     <versionInfo include="false" fileVersion="" fileDescription="" legalCopyright="" internalName="" productName="" companyName="" productVersion="" />
   </executable>
@@ -16,18 +16,18 @@
       <versionLine x="20" y="40" text="version %VERSION%" fontSize="8" fontColor="0,0,0" bold="false" />
     </text>
   </splashScreen>
-  <java mainClass="DeviceManager.DeviceUI" mainMode="1" vmParameters="" arguments="" allowVMPassthroughParameters="true" preferredVM="" bundleRuntime="true" minVersion="1.5" maxVersion="1.8" allowBetaVM="false" jdkOnly="false">
+  <java mainClass="pers.quzhe.UI.DeviceUI" mainMode="1" vmParameters="" arguments="" allowVMPassthroughParameters="true" preferredVM="" bundleRuntime="true" minVersion="1.5" maxVersion="1.8" allowBetaVM="false" jdkOnly="false">
     <searchSequence>
       <directory location="./jre" />
     </searchSequence>
     <classPath>
-      <archive location="E:/SDK测试组/01.测试环境/DeviceManager/DeviceManager.jar" failOnError="true" />
-      <archive location="E:/SDK测试组/01.测试环境/DeviceManager/lib/dom4j-2.1.0.jar" failOnError="false" />
-      <archive location="E:/SDK测试组/01.测试环境/DeviceManager/lib/examples.jar" failOnError="false" />
-      <archive location="E:/SDK测试组/01.测试环境/DeviceManager/lib/jna.jar" failOnError="false" />
-      <archive location="E:/SDK测试组/01.测试环境/DeviceManager/lib/jxl.jar" failOnError="false" />
-      <archive location="E:/SDK测试组/01.测试环境/DeviceManager/lib/miglayout15-swing.jar" failOnError="false" />
-      <archive location="E:/SDK测试组/01.测试环境/DeviceManager/lib/mysql-connector-java-5.1.44-bin.jar" failOnError="false" />
+      <archive location="E:/SDK测试组/01.测试环境/SDKAuto/lib/dom4j-2.1.0.jar" failOnError="false" />
+      <archive location="E:/SDK测试组/01.测试环境/SDKAuto/lib/examples.jar" failOnError="false" />
+      <archive location="E:/SDK测试组/01.测试环境/SDKAuto/lib/jna.jar" failOnError="false" />
+      <archive location="E:/SDK测试组/01.测试环境/SDKAuto/lib/jxl.jar" failOnError="false" />
+      <archive location="E:/SDK测试组/01.测试环境/SDKAuto/lib/miglayout15-swing.jar" failOnError="false" />
+      <archive location="E:/SDK测试组/01.测试环境/SDKAuto/lib/mysql-connector-java-5.1.44-bin.jar" failOnError="false" />
+      <archive location="E:/SDK测试组/01.测试环境/SDKAuto/SDKAuto.jar" failOnError="false" />
     </classPath>
     <modulePath />
     <nativeLibraryDirectories />
