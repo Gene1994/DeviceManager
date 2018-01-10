@@ -91,20 +91,16 @@ public class DeviceUI {
 
 		JButton btn_showAll = new JButton("显示全部设备");
 		btn_showAll.setEnabled(false);
-		btn_showAll.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-			}
-		});
 		btn_showAll.setBounds(437, 10, 132, 23);
 		frmDevicemanager.getContentPane().add(btn_showAll);
-		btn_showAll.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				DeviceSelect.index = 5;
-				DeviceList dl = new DeviceList();
-				dl.select("");
-			}
-		});
+//		btn_showAll.addMouseListener(new MouseAdapter() {
+//			@Override
+//			public void mouseClicked(MouseEvent e) {
+//				DeviceSelect.index = 5;
+//				DeviceList dl = new DeviceList();
+//				dl.select("");
+//			}
+//		});
 
 		JLabel label = new JLabel(
 				"*\u6682\u4E0D\u652F\u6301\u663E\u793A\u5168\u90E8\u8BBE\u5907");
