@@ -7,7 +7,7 @@ package pers.quzhe.bean;
  * 
  * 2017Äê12ÔÂ25ÈÕ
  */
-public class DeviceBean {
+public class DeviceBean implements java.io.Serializable{
 	String ip;
 	String port;
 	String user;

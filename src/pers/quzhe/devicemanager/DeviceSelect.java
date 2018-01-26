@@ -11,6 +11,7 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.Map;
 import java.awt.event.ItemListener;
 import java.awt.event.ItemEvent;
 import java.awt.Toolkit;
@@ -101,8 +102,27 @@ public class DeviceSelect {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				index = 1;
-				DeviceList dl = new DeviceList();
-				dl.select(type);
+				DeviceList dl = new DeviceList(type);
+				for(int i = 0; i < dl.mapList.size()-1; i++){
+					Map<String, Object> map = dl.mapList.get(i);
+					try {
+						// …Ë±∏ Ù–‘
+						dl.deviceId = (String) map.get("deviceid");
+						dl.type = (String) map.get("type");
+						dl.model = (String) map.get("model");
+						dl.ip = (String) map.get("ip");
+						dl.port = (int) map.get("port");
+						dl.userName = (String) map.get("username");
+						dl.password = (String) map.get("password");
+						dl.language = (String) map.get("language");
+						dl.position = (String) map.get("position");
+						dl.comment = (String) map.get("comment");
+					} catch (Exception exception) {
+					}
+					new Thread(dl).start();
+				}
+				dl.select();
+				System.out.println(dl.online);
 			}
 		});
 
@@ -122,74 +142,83 @@ public class DeviceSelect {
 				model = textField_model.getText();
 			}
 		});
-
-		JButton btnmodel = new JButton("\u6839\u636E\u578B\u53F7\u67E5\u627E");
-		btnmodel.setBounds(293, 63, 123, 23);
-		frame.getContentPane().add(btnmodel);
-		btnmodel.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				index = 2;
-				DeviceList dl = new DeviceList();
-				dl.select(model);
-			}
-		});
-
-		// ip
-		JLabel lblIp = new JLabel("ip\uFF1A");
-		lblIp.setBounds(28, 111, 71, 15);
-		frame.getContentPane().add(lblIp);
-
-		textField_ip = new JTextField();
-
-		textField_ip.setColumns(10);
-		textField_ip.setBounds(109, 108, 157, 21);
-		frame.getContentPane().add(textField_ip);
-		textField_ip.addKeyListener(new KeyAdapter() {
-			@Override
-			public void keyReleased(KeyEvent e) {
-				ip = textField_ip.getText();
-			}
-		});
-
-		JButton btnip = new JButton("\u6839\u636EIP\u67E5\u627E");
-		btnip.setBounds(293, 107, 123, 23);
-		frame.getContentPane().add(btnip);
-		btnip.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				index = 3;
-				DeviceList dl = new DeviceList();
-				dl.select(ip);
-			}
-		});
-
-		// comment
-		JLabel lbComment = new JLabel("\u5907\u6CE8\uFF1A");
-		lbComment.setBounds(28, 156, 71, 15);
-		frame.getContentPane().add(lbComment);
-
-		textField_comment = new JTextField();
-		textField_comment.setColumns(10);
-		textField_comment.setBounds(109, 153, 157, 21);
-		frame.getContentPane().add(textField_comment);
-		textField_comment.addKeyListener(new KeyAdapter() {
-			@Override
-			public void keyReleased(KeyEvent e) {
-				comment = textField_comment.getText();
-			}
-		});
-
-		JButton btncomment = new JButton("\u6839\u636E\u5907\u6CE8\u67E5\u627E");
-		btncomment.setBounds(293, 152, 123, 23);
-		frame.getContentPane().add(btncomment);
-		btncomment.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				index = 4;
-				DeviceList dl = new DeviceList();
-				dl.select(comment);
-			}
-		});
+//
+//		JButton btnmodel = new JButton("\u6839\u636E\u578B\u53F7\u67E5\u627E");
+//		btnmodel.setBounds(293, 63, 123, 23);
+//		frame.getContentPane().add(btnmodel);
+//		btnmodel.addMouseListener(new MouseAdapter() {
+//			@Override
+//			public void mouseClicked(MouseEvent e) {
+//				index = 2;
+//				DeviceList dl = new DeviceList(model);
+//				for(dl.index_1 = 0; dl.index_1 < dl.mapList.size(); dl.index_1++){
+//					new Thread(dl);
+//				}
+//				dl.select();
+//			}
+//		});
+//
+//		// ip
+//		JLabel lblIp = new JLabel("ip\uFF1A");
+//		lblIp.setBounds(28, 111, 71, 15);
+//		frame.getContentPane().add(lblIp);
+//
+//		textField_ip = new JTextField();
+//
+//		textField_ip.setColumns(10);
+//		textField_ip.setBounds(109, 108, 157, 21);
+//		frame.getContentPane().add(textField_ip);
+//		textField_ip.addKeyListener(new KeyAdapter() {
+//			@Override
+//			public void keyReleased(KeyEvent e) {
+//				ip = textField_ip.getText();
+//			}
+//		});
+//
+//		JButton btnip = new JButton("\u6839\u636EIP\u67E5\u627E");
+//		btnip.setBounds(293, 107, 123, 23);
+//		frame.getContentPane().add(btnip);
+//		btnip.addMouseListener(new MouseAdapter() {
+//			@Override
+//			public void mouseClicked(MouseEvent e) {
+//				index = 3;
+//				DeviceList dl = new DeviceList(ip);
+//				for(dl.index_1 = 0; dl.index_1 < dl.mapList.size(); dl.index_1++){
+//					new Thread(dl);
+//				}
+//				dl.select();
+//			}
+//		});
+//
+//		// comment
+//		JLabel lbComment = new JLabel("\u5907\u6CE8\uFF1A");
+//		lbComment.setBounds(28, 156, 71, 15);
+//		frame.getContentPane().add(lbComment);
+//
+//		textField_comment = new JTextField();
+//		textField_comment.setColumns(10);
+//		textField_comment.setBounds(109, 153, 157, 21);
+//		frame.getContentPane().add(textField_comment);
+//		textField_comment.addKeyListener(new KeyAdapter() {
+//			@Override
+//			public void keyReleased(KeyEvent e) {
+//				comment = textField_comment.getText();
+//			}
+//		});
+//
+//		JButton btncomment = new JButton("\u6839\u636E\u5907\u6CE8\u67E5\u627E");
+//		btncomment.setBounds(293, 152, 123, 23);
+//		frame.getContentPane().add(btncomment);
+//		btncomment.addMouseListener(new MouseAdapter() {
+//			@Override
+//			public void mouseClicked(MouseEvent e) {
+//				index = 4;
+//				DeviceList dl = new DeviceList(comment);
+//				for(dl.index_1 = 0; dl.index_1 < dl.mapList.size(); dl.index_1++){
+//					new Thread(dl);
+//				}
+//				dl.select();
+//			}
+//		});
 	}
 }
