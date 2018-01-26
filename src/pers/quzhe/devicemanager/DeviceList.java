@@ -49,6 +49,7 @@ import jxl.write.WriteException;
 import jxl.write.biff.RowsExceededException;
 import net.miginfocom.swing.MigLayout;
 import pers.quzhe.UI.DeviceUI;
+import pers.quzhe.bean.DeviceInfo;
 import pers.quzhe.hcnetsdk.HCNetSDK;
 import pers.quzhe.util.JdbcUtil;
 
@@ -85,8 +86,6 @@ public class DeviceList implements Runnable {
 	public String comment;
 	public String position;
 	public boolean status;
-	public List<Integer> online = new ArrayList<Integer>();
-	public List<Integer> offline = new ArrayList<Integer>();
 
 	private static JFrame frame;// µ¥ÀýÄ£Ê½
 	private static JPanel panel_center = new JPanel();
@@ -111,6 +110,8 @@ public class DeviceList implements Runnable {
 	String index = null;
 	String sql = null;
 	List<Map<String, Object>> mapList = null;
+	
+	int index_1;
 
 	public DeviceList(String s) {
 
@@ -465,6 +466,26 @@ public class DeviceList implements Runnable {
 //
 //			rowData.add(hang);
 //		}
+		for(DeviceInfo d : DeviceSelect.vectors_device){
+//			Vector hang = new Vector();
+//			if (d.getStatus()) {
+//				hang.add("#ONLINE#");
+//			} else {
+//				hang.add("#OFFLINE#");
+//			}
+//			hang.add(d.getDeviceId());
+//			hang.add(d.getType());
+//			hang.add(d.getModel());
+//			hang.add(d.getIp());
+//			hang.add(d.getPort());
+//			hang.add(d.getUserName());
+//			hang.add(d.getPassword());
+//			hang.add(d.getLanguage());
+//			hang.add(d.getPosition());
+//			hang.add(d.getComment());
+
+			rowData.add(d.getHang());
+		}
 		tableModel = new DefaultTableModel(rowData, columnNames);
 		jt = new JTable(tableModel);
 		jt.setPreferredScrollableViewportSize(new Dimension(1500, 300));
