@@ -54,7 +54,9 @@ public class JdbcUtil {
      */  
     public static void loadConfig() {
         try {
-            InputStream inStream = JdbcUtil.class.getResourceAsStream("/pers/quzhe/property/jdbc.properties");
+        	//数据库配置文件
+        	InputStream inStream = JdbcUtil.class.getResourceAsStream("/pers/quzhe/res/jdbc.properties");
+        	
             Properties prop = new Properties();  
             prop.load(inStream);  
             USERNAME = prop.getProperty("jdbc.username");  
@@ -62,7 +64,8 @@ public class JdbcUtil {
             DRIVER= prop.getProperty("jdbc.driver");  
             URL = prop.getProperty("jdbc.url");
             
-        } catch (Exception e) {  
+        }
+        catch (Exception e) {  
             throw new RuntimeException("读取数据库配置文件异常！", e);  
         }  
     }  

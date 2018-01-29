@@ -3,6 +3,9 @@ package pers.quzhe.devicemanager;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
+
+import pers.quzhe.bean.DeviceInfo;
+
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.DefaultComboBoxModel;
@@ -11,6 +14,8 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.Map;
+import java.util.Vector;
 import java.awt.event.ItemListener;
 import java.awt.event.ItemEvent;
 import java.awt.Toolkit;
@@ -39,7 +44,9 @@ public class DeviceSelect {
 
 	public static int index;// 使用switch-case创建devicelist构造函数，case1:type,
 	private JTextField textField_comment;
-	// case2:model, case3:ip
+	public static Vector<Thread> vectors;
+	public static Vector<DeviceInfo> vectors_device;
+
 	/**
 	 * Launch the application.
 	 */
@@ -58,6 +65,8 @@ public class DeviceSelect {
 
 	/**
 	 * Create the application.
+	 * 
+	 * @throws InterruptedException
 	 */
 	public DeviceSelect() {
 
@@ -71,7 +80,8 @@ public class DeviceSelect {
 
 		frame = new JFrame();
 		frame.setResizable(false);
-		frame.setIconImage(Toolkit.getDefaultToolkit().getImage(DeviceSelect.class.getResource("/pers/quzhe/res/device_1.png")));
+		frame.setIconImage(
+				Toolkit.getDefaultToolkit().getImage(DeviceSelect.class.getResource("/pers/quzhe/res/device_1.png")));
 		frame.setTitle("\u8BBE\u5907\u67E5\u627E");
 		frame.setBounds(100, 100, 463, 246);
 		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -84,7 +94,15 @@ public class DeviceSelect {
 		frame.getContentPane().add(lbType);
 
 		JComboBox comboBox_type = new JComboBox();
-		comboBox_type.setModel(new DefaultComboBoxModel(new String[] {"PC", "\u670D\u52A1\u5668", "DVR/NVR", "DVS", "IPC", "IP\u7403", "NVR", "UTC", "\u534A\u7403PTZ", "\u62A5\u8B66\u4E3B\u673A", "\u8F66\u7AD9-DVR", "\u52A8\u73AF\u76D1\u63A7\u62A5\u8B66\u4E3B\u673A", "\u591A\u5C4F\u63A7\u5236\u5668", "\u5408\u7801\u5668", "\u4F1A\u8BAE\u89C6\u9891\u7EC8\u7AEF", "\u4EA4\u901AIPC", "\u89E3\u7801\u5668", "\u77E9\u9635", "\u95E8\u7981\u4E00\u4F53\u673A", "\u95E8\u7981\u4E3B\u673A", "\u67AA\u673AIPC", "\u70ED\u6210\u50CF", "\u53CC\u76EEIPC", "\u7F51\u7EDC\u89C6\u97F3\u9891\u89E3\u7801\u5668", "\u65E0\u7EBF\u95E8\u7981\u4E3B\u673A", "\u4FE1\u606F\u53D1\u5E03\u4E3B\u673A", "\u9E70\u773C", "\u8424\u77F3IPC", "\u9C7C\u773C", "\u81EA\u52A9\u94F6\u884C\u62A5\u8B66\u4E3B\u673A", "\u7EFC\u5408\u5E73\u53F0", "\u5750\u5F0FIP\u7403"}));
+		comboBox_type.setModel(new DefaultComboBoxModel(new String[] { "PC", "\u670D\u52A1\u5668", "DVR/NVR", "DVS",
+				"IPC", "IP\u7403", "NVR", "UTC", "\u534A\u7403PTZ", "\u62A5\u8B66\u4E3B\u673A", "\u8F66\u7AD9-DVR",
+				"\u52A8\u73AF\u76D1\u63A7\u62A5\u8B66\u4E3B\u673A", "\u591A\u5C4F\u63A7\u5236\u5668",
+				"\u5408\u7801\u5668", "\u4F1A\u8BAE\u89C6\u9891\u7EC8\u7AEF", "\u4EA4\u901AIPC", "\u89E3\u7801\u5668",
+				"\u77E9\u9635", "\u95E8\u7981\u4E00\u4F53\u673A", "\u95E8\u7981\u4E3B\u673A", "\u67AA\u673AIPC",
+				"\u70ED\u6210\u50CF", "\u53CC\u76EEIPC", "\u7F51\u7EDC\u89C6\u97F3\u9891\u89E3\u7801\u5668",
+				"\u65E0\u7EBF\u95E8\u7981\u4E3B\u673A", "\u4FE1\u606F\u53D1\u5E03\u4E3B\u673A", "\u9E70\u773C",
+				"\u8424\u77F3IPC", "\u9C7C\u773C", "\u81EA\u52A9\u94F6\u884C\u62A5\u8B66\u4E3B\u673A",
+				"\u7EFC\u5408\u5E73\u53F0", "\u5750\u5F0FIP\u7403" }));
 		comboBox_type.setBounds(109, 23, 157, 21);
 		frame.getContentPane().add(comboBox_type);
 		type = comboBox_type.getSelectedItem().toString();
@@ -100,9 +118,45 @@ public class DeviceSelect {
 		btntype.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
+				vectors = new Vector<Thread>();
+				vectors_device = new Vector<DeviceInfo>();
 				index = 1;
-				DeviceList dl = new DeviceList();
-				dl.select(type);
+				DeviceList dl = new DeviceList(type);
+				for (int i = 0; i < dl.mapList.size(); i++) {
+					Map<String, Object> map = dl.mapList.get(i);
+					try {
+						// 设备属性
+						boolean status = false;
+						String deviceId = (String) map.get("deviceid");
+						String type = (String) map.get("type");
+						String model = (String) map.get("model");
+						String ip = (String) map.get("ip");
+						int port = (int) map.get("port");
+						String userName = (String) map.get("username");
+						String password = (String) map.get("password");
+						String language = (String) map.get("language");
+						String position = (String) map.get("position");
+						String comment = (String) map.get("comment");
+						DeviceInfo deviceInfo = new DeviceInfo(status, deviceId, type, model, ip, port, userName,
+								password, language, position, comment);
+						vectors_device.add(deviceInfo);
+						Thread t = new Thread(deviceInfo);
+						vectors.add(t);
+						t.start();
+					} catch (Exception exception) {
+					}
+				}
+
+				// 确保所有数据都读取后再回到主线程
+				for (Thread thread : vectors) {
+					try {
+						thread.join();
+					} catch (InterruptedException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+				}
+				dl.show();
 			}
 		});
 
@@ -129,9 +183,46 @@ public class DeviceSelect {
 		btnmodel.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
+				vectors = new Vector<Thread>();
+				vectors_device = new Vector<DeviceInfo>();
 				index = 2;
-				DeviceList dl = new DeviceList();
-				dl.select(model);
+				DeviceList dl = new DeviceList(model);
+				for (int i = 0; i < dl.mapList.size(); i++) {
+					Map<String, Object> map = dl.mapList.get(i);
+					System.out.println(map);
+					try {
+						// 设备属性
+						boolean status = false;
+						String deviceId = (String) map.get("deviceid");
+						String type = (String) map.get("type");
+						String model = (String) map.get("model");
+						String ip = (String) map.get("ip");
+						int port = (int) map.get("port");
+						String userName = (String) map.get("username");
+						String password = (String) map.get("password");
+						String language = (String) map.get("language");
+						String position = (String) map.get("position");
+						String comment = (String) map.get("comment");
+						DeviceInfo deviceInfo = new DeviceInfo(status, deviceId, type, model, ip, port, userName,
+								password, language, position, comment);
+						vectors_device.add(deviceInfo);
+						Thread t = new Thread(deviceInfo);
+						vectors.add(t);
+						t.start();
+					} catch (Exception exception) {
+					}
+					
+				}
+				// 确保所有数据都读取后再回到主线程
+				for (Thread thread : vectors) {
+					try {
+						thread.join();
+					} catch (InterruptedException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+				}
+				dl.show();
 			}
 		});
 
@@ -158,9 +249,44 @@ public class DeviceSelect {
 		btnip.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
+				vectors = new Vector<Thread>();
+				vectors_device = new Vector<DeviceInfo>();
 				index = 3;
-				DeviceList dl = new DeviceList();
-				dl.select(ip);
+				DeviceList dl = new DeviceList(ip);
+				for (int i = 0; i < dl.mapList.size(); i++) {
+					Map<String, Object> map = dl.mapList.get(i);
+					try {
+						// 设备属性
+						boolean status = false;
+						String deviceId = (String) map.get("deviceid");
+						String type = (String) map.get("type");
+						String model = (String) map.get("model");
+						String ip = (String) map.get("ip");
+						int port = (int) map.get("port");
+						String userName = (String) map.get("username");
+						String password = (String) map.get("password");
+						String language = (String) map.get("language");
+						String position = (String) map.get("position");
+						String comment = (String) map.get("comment");
+						DeviceInfo deviceInfo = new DeviceInfo(status, deviceId, type, model, ip, port, userName,
+								password, language, position, comment);
+						vectors_device.add(deviceInfo);
+						Thread t = new Thread(deviceInfo);
+						vectors.add(t);
+						t.start();
+					} catch (Exception exception) {
+					}
+				}
+				// 确保所有数据都读取后再回到主线程
+				for (Thread thread : vectors) {
+					try {
+						thread.join();
+					} catch (InterruptedException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+				}
+				dl.show();
 			}
 		});
 
@@ -186,9 +312,44 @@ public class DeviceSelect {
 		btncomment.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
+				vectors = new Vector<Thread>();
+				vectors_device = new Vector<DeviceInfo>();
 				index = 4;
-				DeviceList dl = new DeviceList();
-				dl.select(comment);
+				DeviceList dl = new DeviceList(comment);
+				for (int i = 0; i < dl.mapList.size(); i++) {
+					Map<String, Object> map = dl.mapList.get(i);
+					try {
+						// 设备属性
+						boolean status = false;
+						String deviceId = (String) map.get("deviceid");
+						String type = (String) map.get("type");
+						String model = (String) map.get("model");
+						String ip = (String) map.get("ip");
+						int port = (int) map.get("port");
+						String userName = (String) map.get("username");
+						String password = (String) map.get("password");
+						String language = (String) map.get("language");
+						String position = (String) map.get("position");
+						String comment = (String) map.get("comment");
+						DeviceInfo deviceInfo = new DeviceInfo(status, deviceId, type, model, ip, port, userName,
+								password, language, position, comment);
+						vectors_device.add(deviceInfo);
+						Thread t = new Thread(deviceInfo);
+						vectors.add(t);
+						t.start();
+					} catch (Exception exception) {
+					}
+				}
+				// 确保所有数据都读取后再回到主线程
+				for (Thread thread : vectors) {
+					try {
+						thread.join();
+					} catch (InterruptedException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+				}
+				dl.show();
 			}
 		});
 	}

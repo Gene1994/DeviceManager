@@ -8,7 +8,7 @@ import javax.swing.JComboBox;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JTextField;
 
-import pers.quzhe.devicemanager.Device;
+//import pers.quzhe.devicemanager.Device;
 
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;

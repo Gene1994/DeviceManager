@@ -49,6 +49,7 @@ import jxl.write.WriteException;
 import jxl.write.biff.RowsExceededException;
 import net.miginfocom.swing.MigLayout;
 import pers.quzhe.UI.DeviceUI;
+import pers.quzhe.bean.DeviceInfo;
 import pers.quzhe.hcnetsdk.HCNetSDK;
 import pers.quzhe.util.JdbcUtil;
 
@@ -62,7 +63,7 @@ import pers.quzhe.util.JdbcUtil;
  * 
  *         2017年11月20日
  */
-public class DeviceList {
+public class DeviceList{
 	/**
 	 * 
 	 */
@@ -85,8 +86,6 @@ public class DeviceList {
 	public String comment;
 	public String position;
 	public boolean status;
-	public List online;
-	public List offline;
 
 	private static JFrame frame;// 单例模式
 	private static JPanel panel_center = new JPanel();
@@ -110,8 +109,12 @@ public class DeviceList {
 
 	String index = null;
 	String sql = null;
+	public List<Map<String, Object>> mapList = null;
+	
+	int index_1;
 
-	public DeviceList() {
+	public DeviceList(String s) {
+
 		boolean initSuc = hCNetSDK.NET_DVR_Init();
 		if (initSuc != true) {
 			JOptionPane.showMessageDialog(null, "初始化失败");
@@ -123,7 +126,8 @@ public class DeviceList {
 		}
 		frame.setBounds(100, 347, 1550, 410);
 		// frame.setSize(1500, 300);
-		frame.setIconImage(Toolkit.getDefaultToolkit().getImage(DeviceList.class.getResource("/pers/quzhe/res/device_1.png")));
+		frame.setIconImage(
+				Toolkit.getDefaultToolkit().getImage(DeviceList.class.getResource("/pers/quzhe/res/device_1.png")));
 		frame.setTitle("\u8BBE\u5907\u5217\u8868");
 		frame.setLayout(new BorderLayout(0, 0));
 
@@ -204,8 +208,7 @@ public class DeviceList {
 		btnExcel.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				String excel_Url = "..\\SDKAuto\\Generate Files\\Excel\\Device_" + System.currentTimeMillis()
-						+ ".xls";
+				String excel_Url = "..\\SDKAuto\\Generate Files\\Excel\\Device_" + System.currentTimeMillis() + ".xls";
 				File file = new File(excel_Url);
 				try {
 					if (jt_checked != null) {
@@ -218,11 +221,65 @@ public class DeviceList {
 				}
 			}
 		});
+		// 创建填充参数的list
+				List<Object> paramList = new ArrayList<Object>();
+				switch (DeviceSelect.index) {
+				// byType
+				case 1:
+					index = s;
+					sql = "select * from device where type = ?";
+					// 填充参数
+					paramList.add(index);
+					break;
+				// byModel
+				case 2:
+					index = "%" + s + "%";
+					sql = "select * from device where model like ?";
+					// 填充参数
+					paramList.add(index);
+					break;
+				// byIp
+				case 3:
+					index = s;
+					sql = "select * from device where ip = ?";
+					// 填充参数
+					paramList.add(index);
+					break;
+				// byComment
+				case 4:
+					index = "%" + s + "%";
+					sql = "select * from device where comment like ?";
+					// 填充参数
+					paramList.add(index);
+					break;
+				// selectAll
+				case 5:
+					sql = "select * from device";
+					break;
+				}
+
+				try {
+					jdbcUtil.getConnection(); // 获取数据库链接
+					mapList = jdbcUtil.findResult(sql.toString(), paramList);
+				} catch (SQLException exception) {
+					System.out.println(this.getClass() + "执行查询操作抛出异常！");
+					exception.printStackTrace();
+				} finally {
+					if (jdbcUtil != null) {
+						jdbcUtil.releaseConn();
+					}
+				}
 	}
 
-	public void select(String s) {
-		online = new ArrayList();
-		offline = new ArrayList();
+//	public DeviceList(String ip, int port, String userName, String password, int index_1) {
+//		this.ip = ip;
+//		this.port = port;
+//		this.userName = userName;
+//		this.password = password;
+//		this.index_1 = index_1;
+//	}
+
+	public void show() {
 
 		// 修改
 		MyEvent eventModify = new MyEvent() {
@@ -314,102 +371,121 @@ public class DeviceList {
 			}
 
 		};
-		// 创建填充参数的list
-				List<Object> paramList = new ArrayList<Object>();
-		switch (DeviceSelect.index) {
-		// byType
-		case 1:
-			index = s;
-			sql = "select * from device where type = ?";
-			// 填充参数
-			paramList.add(index);
-			break;
-		// byModel
-		case 2:
-			index = "%" + s + "%";
-			sql = "select * from device where model like ?";
-			// 填充参数
-			paramList.add(index);
-			break;
-		// byIp
-		case 3:
-			index = s;
-			sql = "select * from device where ip = ?";
-			// 填充参数
-			paramList.add(index);
-			break;
-		// byComment
-		case 4:
-			index = "%" + s + "%";
-			sql = "select * from device where comment like ?";
-			// 填充参数
-			paramList.add(index);
-			break;
-		//selectAll
-		case 5:
-			sql = "select * from device";
-			break;
+
+//		// 创建填充参数的list
+//		List<Object> paramList = new ArrayList<Object>();
+//		switch (DeviceSelect.index) {
+//		// byType
+//		case 1:
+//			index = s;
+//			sql = "select * from device where type = ?";
+//			// 填充参数
+//			paramList.add(index);
+//			break;
+//		// byModel
+//		case 2:
+//			index = "%" + s + "%";
+//			sql = "select * from device where model like ?";
+//			// 填充参数
+//			paramList.add(index);
+//			break;
+//		// byIp
+//		case 3:
+//			index = s;
+//			sql = "select * from device where ip = ?";
+//			// 填充参数
+//			paramList.add(index);
+//			break;
+//		// byComment
+//		case 4:
+//			index = "%" + s + "%";
+//			sql = "select * from device where comment like ?";
+//			// 填充参数
+//			paramList.add(index);
+//			break;
+//		// selectAll
+//		case 5:
+//			sql = "select * from device";
+//			break;
+//		}
+//
+//		try {
+//			jdbcUtil.getConnection(); // 获取数据库链接
+//			mapList = jdbcUtil.findResult(sql.toString(), paramList);
+//		} catch (SQLException exception) {
+//			System.out.println(this.getClass() + "执行查询操作抛出异常！");
+//			exception.printStackTrace();
+//		} finally {
+//			if (jdbcUtil != null) {
+//				jdbcUtil.releaseConn();
+//			}
+//		}
+//		for (index_1 = 0; index_1 < mapList.size(); index_1++) {
+//			Map<String, Object> map = mapList.get(index_1);
+//			try {
+//				// 设备属性
+//				deviceId = (String) map.get("deviceid");
+//				type = (String) map.get("type");
+//				model = (String) map.get("model");
+//				ip = (String) map.get("ip");
+//				port = (int) map.get("port");
+//				userName = (String) map.get("username");
+//				password = (String) map.get("password");
+//				language = (String) map.get("language");
+//				position = (String) map.get("position");
+//				comment = (String) map.get("comment");
+//			} catch (Exception exception) {
+//			}
+			// m_strDeviceInfo = new HCNetSDK.NET_DVR_DEVICEINFO();
+			// lUserID = hCNetSDK.NET_DVR_Login(ip, (short) port, userName,
+			// password, m_strDeviceInfo);
+			// status = (lUserID.intValue() == -1) ? false : true;
+//			new Thread(new DeviceList(ip, port, userName, password, index_1)).start();
+			// if (status) {
+			// online.add(index_1);
+			// } else {
+			// offline.add(index_1);
+			// }
+			//
+//			Vector hang = new Vector();
+//			if (status) {
+//				hang.add("#ONLINE#");
+//			} else {
+//				hang.add("#OFFLINE#");
+//			}
+//			hang.add(deviceId);
+//			hang.add(type);
+//			hang.add(model);
+//			hang.add(ip);
+//			hang.add(port);
+//			hang.add(userName);
+//			hang.add(password);
+//			hang.add(language);
+//			hang.add(position);
+//			hang.add(comment);
+//
+//			rowData.add(hang);
+//		}
+		for(DeviceInfo d : DeviceSelect.vectors_device){
+//			Vector hang = new Vector();
+//			if (d.getStatus()) {
+//				hang.add("#ONLINE#");
+//			} else {
+//				hang.add("#OFFLINE#");
+//			}
+//			hang.add(d.getDeviceId());
+//			hang.add(d.getType());
+//			hang.add(d.getModel());
+//			hang.add(d.getIp());
+//			hang.add(d.getPort());
+//			hang.add(d.getUserName());
+//			hang.add(d.getPassword());
+//			hang.add(d.getLanguage());
+//			hang.add(d.getPosition());
+//			hang.add(d.getComment());
+
+			rowData.add(d.getHang());
 		}
-		
-		
-		try {
-			jdbcUtil.getConnection(); // 获取数据库链接
-			List<Map<String, Object>> mapList = jdbcUtil.findResult(sql.toString(), paramList);
-			for (int i = 0; i < mapList.size(); i++) {
-
-				Map<String, Object> map = mapList.get(i);
-				try {
-					// 设备属性
-					deviceId = (String) map.get("deviceid");
-					type = (String) map.get("type");
-					model = (String) map.get("model");
-					ip = (String) map.get("ip");
-					port = (int) map.get("port");
-					userName = (String) map.get("username");
-					password = (String) map.get("password");
-					language = (String) map.get("language");
-					position = (String) map.get("position");
-					comment = (String) map.get("comment");
-					m_strDeviceInfo = new HCNetSDK.NET_DVR_DEVICEINFO();
-					lUserID = hCNetSDK.NET_DVR_Login(ip, (short) port, userName, password, m_strDeviceInfo);
-					status = (lUserID.intValue() == -1) ? false : true;
-					if (status) {
-						online.add(i);
-					} else {
-						offline.add(i);
-					}
-
-				} catch (Exception exception) {
-				}
-
-				Vector hang = new Vector();
-				if (status) {
-					hang.add("#ONLINE#");
-				} else {
-					hang.add("#OFFLINE#");
-				}
-				hang.add(deviceId);
-				hang.add(type);
-				hang.add(model);
-				hang.add(ip);
-				hang.add(port);
-				hang.add(userName);
-				hang.add(password);
-				hang.add(language);
-				hang.add(position);
-				hang.add(comment);
-
-				rowData.add(hang);
-			}
-		} catch (SQLException exception) {
-			System.out.println(this.getClass() + "执行查询操作抛出异常！");
-			exception.printStackTrace();
-		} finally {
-			if (jdbcUtil != null) {
-				jdbcUtil.releaseConn();
-			}
-		}
-
 		tableModel = new DefaultTableModel(rowData, columnNames);
 		jt = new JTable(tableModel);
 		jt.setPreferredScrollableViewportSize(new Dimension(1500, 300));
@@ -595,33 +671,33 @@ public class DeviceList {
 				int row, int column) {
 			// TODO Auto-generated method stub
 			if (value.toString().equals("#ONLINE#")) {
-				jl = new JLabel(new ImageIcon(
-						Toolkit.getDefaultToolkit().getImage(DeviceUI.class.getResource("/pers/quzhe/res/online.jpg"))));
+				jl = new JLabel(new ImageIcon(Toolkit.getDefaultToolkit()
+						.getImage(DeviceUI.class.getResource("/pers/quzhe/res/online.jpg"))));
 			} else {
-				jl = new JLabel(new ImageIcon(
-						Toolkit.getDefaultToolkit().getImage(DeviceUI.class.getResource("/pers/quzhe/res/offline.jpg"))));
+				jl = new JLabel(new ImageIcon(Toolkit.getDefaultToolkit()
+						.getImage(DeviceUI.class.getResource("/pers/quzhe/res/offline.jpg"))));
 			}
 			return jl;
 		}
 	}
 
-	class MyRenderStatus1 implements TableCellRenderer {
-		private JLabel jl;
-
-		@Override
-		public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus,
-				int row, int column) {
-			// TODO Auto-generated method stub
-			if (online.contains(row)) {
-				jl = new JLabel(new ImageIcon(
-						Toolkit.getDefaultToolkit().getImage(DeviceUI.class.getResource("/pers/quzhe/res/online.jpg"))));
-			} else {
-				jl = new JLabel(new ImageIcon(
-						Toolkit.getDefaultToolkit().getImage(DeviceUI.class.getResource("/pers/quzhe/res/offline.jpg"))));
-			}
-			return jl;
-		}
-	}
+//	class MyRenderStatus1 implements TableCellRenderer {
+//		private JLabel jl;
+//
+//		@Override
+//		public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus,
+//				int row, int column) {
+//			// TODO Auto-generated method stub
+//			if (online.contains(row)) {
+//				jl = new JLabel(new ImageIcon(Toolkit.getDefaultToolkit()
+//						.getImage(DeviceUI.class.getResource("/pers/quzhe/res/online.jpg"))));
+//			} else {
+//				jl = new JLabel(new ImageIcon(Toolkit.getDefaultToolkit()
+//						.getImage(DeviceUI.class.getResource("/pers/quzhe/res/offline.jpg"))));
+//			}
+//			return jl;
+//		}
+//	}
 
 	class MyButton extends JButton {
 

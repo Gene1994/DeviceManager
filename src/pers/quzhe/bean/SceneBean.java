@@ -7,7 +7,7 @@ package pers.quzhe.bean;
  * 
  * 2017Äê12ÔÂ22ÈÕ
  */
-public class SceneBean {
+public class SceneBean implements java.io.Serializable{
 	int api;
 	int threadcount;
 	int linktype;
