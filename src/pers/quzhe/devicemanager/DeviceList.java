@@ -63,7 +63,7 @@ import pers.quzhe.util.JdbcUtil;
  * 
  *         2017年11月20日
  */
-public class DeviceList implements Runnable {
+public class DeviceList{
 	/**
 	 * 
 	 */
@@ -109,7 +109,7 @@ public class DeviceList implements Runnable {
 
 	String index = null;
 	String sql = null;
-	List<Map<String, Object>> mapList = null;
+	public List<Map<String, Object>> mapList = null;
 	
 	int index_1;
 
@@ -279,7 +279,7 @@ public class DeviceList implements Runnable {
 //		this.index_1 = index_1;
 //	}
 
-	public void select() {
+	public void show() {
 
 		// 修改
 		MyEvent eventModify = new MyEvent() {
@@ -820,57 +820,5 @@ public class DeviceList implements Runnable {
 		} catch (FileNotFoundException e) {
 			JOptionPane.showMessageDialog(null, "导入数据前请关闭工作表");
 		}
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see java.lang.Runnable#run()
-	 */
-	@Override
-	public synchronized void run() {
-//		Map<String, Object> map = mapList.get(index_1);
-//		try {
-//			// 设备属性
-//			deviceId = (String) map.get("deviceid");
-//			type = (String) map.get("type");
-//			model = (String) map.get("model");
-//			ip = (String) map.get("ip");
-//			port = (int) map.get("port");
-//			userName = (String) map.get("username");
-//			password = (String) map.get("password");
-//			language = (String) map.get("language");
-//			position = (String) map.get("position");
-//			comment = (String) map.get("comment");
-//		} catch (Exception exception) {
-//		}
-
-		m_strDeviceInfo = new HCNetSDK.NET_DVR_DEVICEINFO();
-		lUserID = hCNetSDK.NET_DVR_Login(ip, (short) port, userName, password, m_strDeviceInfo);
-		status = (lUserID.intValue() == -1) ? false : true;
-//		if (status) {
-//			online.add(index_1);
-//		} else {
-//			offline.add(index_1);
-//		}
-
-		 Vector hang = new Vector();
-		 if (status) {
-		 hang.add("#ONLINE#");
-		 } else {
-		 hang.add("#OFFLINE#");
-		 }
-		 hang.add(deviceId);
-		 hang.add(type);
-		 hang.add(model);
-		 hang.add(ip);
-		 hang.add(port);
-		 hang.add(userName);
-		 hang.add(password);
-		 hang.add(language);
-		 hang.add(position);
-		 hang.add(comment);
-		
-		 rowData.add(hang);
 	}
 }

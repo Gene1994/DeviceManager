@@ -122,10 +122,8 @@ public class DeviceSelect {
 				vectors_device = new Vector<DeviceInfo>();
 				index = 1;
 				DeviceList dl = new DeviceList(type);
-				System.out.println(dl.mapList);
-				System.out.println(dl.mapList.size());
-				for (int a = 0; a < dl.mapList.size(); a++) {
-					Map<String, Object> map = dl.mapList.get(a);
+				for (int i = 0; i < dl.mapList.size(); i++) {
+					Map<String, Object> map = dl.mapList.get(i);
 					try {
 						// 设备属性
 						boolean status = false;
@@ -141,22 +139,15 @@ public class DeviceSelect {
 						String comment = (String) map.get("comment");
 						DeviceInfo deviceInfo = new DeviceInfo(status, deviceId, type, model, ip, port, userName,
 								password, language, position, comment);
-						Thread t = new Thread(deviceInfo); 
+						vectors_device.add(deviceInfo);
+						Thread t = new Thread(deviceInfo);
 						vectors.add(t);
 						t.start();
-						t.join();
-						vectors_device.add(deviceInfo);
-						System.out.println(map);
 					} catch (Exception exception) {
 					}
 				}
-				
-				// try {
-				// Thread.sleep(3000);
-				// } catch (InterruptedException e1) {
-				// // TODO Auto-generated catch block
-				// e1.printStackTrace();
-				// }
+
+				// 确保所有数据都读取后再回到主线程
 				for (Thread thread : vectors) {
 					try {
 						thread.join();
@@ -165,7 +156,7 @@ public class DeviceSelect {
 						e1.printStackTrace();
 					}
 				}
-				dl.select();
+				dl.show();
 			}
 		});
 
@@ -185,85 +176,181 @@ public class DeviceSelect {
 				model = textField_model.getText();
 			}
 		});
-		//
-		// JButton btnmodel = new
-		// JButton("\u6839\u636E\u578B\u53F7\u67E5\u627E");
-		// btnmodel.setBounds(293, 63, 123, 23);
-		// frame.getContentPane().add(btnmodel);
-		// btnmodel.addMouseListener(new MouseAdapter() {
-		// @Override
-		// public void mouseClicked(MouseEvent e) {
-		// index = 2;
-		// DeviceList dl = new DeviceList(model);
-		// for(dl.index_1 = 0; dl.index_1 < dl.mapList.size(); dl.index_1++){
-		// new Thread(dl);
-		// }
-		// dl.select();
-		// }
-		// });
-		//
-		// // ip
-		// JLabel lblIp = new JLabel("ip\uFF1A");
-		// lblIp.setBounds(28, 111, 71, 15);
-		// frame.getContentPane().add(lblIp);
-		//
-		// textField_ip = new JTextField();
-		//
-		// textField_ip.setColumns(10);
-		// textField_ip.setBounds(109, 108, 157, 21);
-		// frame.getContentPane().add(textField_ip);
-		// textField_ip.addKeyListener(new KeyAdapter() {
-		// @Override
-		// public void keyReleased(KeyEvent e) {
-		// ip = textField_ip.getText();
-		// }
-		// });
-		//
-		// JButton btnip = new JButton("\u6839\u636EIP\u67E5\u627E");
-		// btnip.setBounds(293, 107, 123, 23);
-		// frame.getContentPane().add(btnip);
-		// btnip.addMouseListener(new MouseAdapter() {
-		// @Override
-		// public void mouseClicked(MouseEvent e) {
-		// index = 3;
-		// DeviceList dl = new DeviceList(ip);
-		// for(dl.index_1 = 0; dl.index_1 < dl.mapList.size(); dl.index_1++){
-		// new Thread(dl);
-		// }
-		// dl.select();
-		// }
-		// });
-		//
-		// // comment
-		// JLabel lbComment = new JLabel("\u5907\u6CE8\uFF1A");
-		// lbComment.setBounds(28, 156, 71, 15);
-		// frame.getContentPane().add(lbComment);
-		//
-		// textField_comment = new JTextField();
-		// textField_comment.setColumns(10);
-		// textField_comment.setBounds(109, 153, 157, 21);
-		// frame.getContentPane().add(textField_comment);
-		// textField_comment.addKeyListener(new KeyAdapter() {
-		// @Override
-		// public void keyReleased(KeyEvent e) {
-		// comment = textField_comment.getText();
-		// }
-		// });
-		//
-		// JButton btncomment = new
-		// JButton("\u6839\u636E\u5907\u6CE8\u67E5\u627E");
-		// btncomment.setBounds(293, 152, 123, 23);
-		// frame.getContentPane().add(btncomment);
-		// btncomment.addMouseListener(new MouseAdapter() {
-		// @Override
-		// public void mouseClicked(MouseEvent e) {
-		// index = 4;
-		// DeviceList dl = new DeviceList(comment);
-		// for(dl.index_1 = 0; dl.index_1 < dl.mapList.size(); dl.index_1++){
-		// new Thread(dl);
-		// }
-		// dl.select();
-		// }
-		// });
+
+		JButton btnmodel = new JButton("\u6839\u636E\u578B\u53F7\u67E5\u627E");
+		btnmodel.setBounds(293, 63, 123, 23);
+		frame.getContentPane().add(btnmodel);
+		btnmodel.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				vectors = new Vector<Thread>();
+				vectors_device = new Vector<DeviceInfo>();
+				index = 2;
+				DeviceList dl = new DeviceList(model);
+				for (int i = 0; i < dl.mapList.size(); i++) {
+					Map<String, Object> map = dl.mapList.get(i);
+					System.out.println(map);
+					try {
+						// 设备属性
+						boolean status = false;
+						String deviceId = (String) map.get("deviceid");
+						String type = (String) map.get("type");
+						String model = (String) map.get("model");
+						String ip = (String) map.get("ip");
+						int port = (int) map.get("port");
+						String userName = (String) map.get("username");
+						String password = (String) map.get("password");
+						String language = (String) map.get("language");
+						String position = (String) map.get("position");
+						String comment = (String) map.get("comment");
+						DeviceInfo deviceInfo = new DeviceInfo(status, deviceId, type, model, ip, port, userName,
+								password, language, position, comment);
+						vectors_device.add(deviceInfo);
+						Thread t = new Thread(deviceInfo);
+						vectors.add(t);
+						t.start();
+					} catch (Exception exception) {
+					}
+					
+				}
+				// 确保所有数据都读取后再回到主线程
+				for (Thread thread : vectors) {
+					try {
+						thread.join();
+					} catch (InterruptedException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+				}
+				dl.show();
+			}
+		});
+
+		// ip
+		JLabel lblIp = new JLabel("ip\uFF1A");
+		lblIp.setBounds(28, 111, 71, 15);
+		frame.getContentPane().add(lblIp);
+
+		textField_ip = new JTextField();
+
+		textField_ip.setColumns(10);
+		textField_ip.setBounds(109, 108, 157, 21);
+		frame.getContentPane().add(textField_ip);
+		textField_ip.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyReleased(KeyEvent e) {
+				ip = textField_ip.getText();
+			}
+		});
+
+		JButton btnip = new JButton("\u6839\u636EIP\u67E5\u627E");
+		btnip.setBounds(293, 107, 123, 23);
+		frame.getContentPane().add(btnip);
+		btnip.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				vectors = new Vector<Thread>();
+				vectors_device = new Vector<DeviceInfo>();
+				index = 3;
+				DeviceList dl = new DeviceList(ip);
+				for (int i = 0; i < dl.mapList.size(); i++) {
+					Map<String, Object> map = dl.mapList.get(i);
+					try {
+						// 设备属性
+						boolean status = false;
+						String deviceId = (String) map.get("deviceid");
+						String type = (String) map.get("type");
+						String model = (String) map.get("model");
+						String ip = (String) map.get("ip");
+						int port = (int) map.get("port");
+						String userName = (String) map.get("username");
+						String password = (String) map.get("password");
+						String language = (String) map.get("language");
+						String position = (String) map.get("position");
+						String comment = (String) map.get("comment");
+						DeviceInfo deviceInfo = new DeviceInfo(status, deviceId, type, model, ip, port, userName,
+								password, language, position, comment);
+						vectors_device.add(deviceInfo);
+						Thread t = new Thread(deviceInfo);
+						vectors.add(t);
+						t.start();
+					} catch (Exception exception) {
+					}
+				}
+				// 确保所有数据都读取后再回到主线程
+				for (Thread thread : vectors) {
+					try {
+						thread.join();
+					} catch (InterruptedException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+				}
+				dl.show();
+			}
+		});
+
+		// comment
+		JLabel lbComment = new JLabel("\u5907\u6CE8\uFF1A");
+		lbComment.setBounds(28, 156, 71, 15);
+		frame.getContentPane().add(lbComment);
+
+		textField_comment = new JTextField();
+		textField_comment.setColumns(10);
+		textField_comment.setBounds(109, 153, 157, 21);
+		frame.getContentPane().add(textField_comment);
+		textField_comment.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyReleased(KeyEvent e) {
+				comment = textField_comment.getText();
+			}
+		});
+
+		JButton btncomment = new JButton("\u6839\u636E\u5907\u6CE8\u67E5\u627E");
+		btncomment.setBounds(293, 152, 123, 23);
+		frame.getContentPane().add(btncomment);
+		btncomment.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				vectors = new Vector<Thread>();
+				vectors_device = new Vector<DeviceInfo>();
+				index = 4;
+				DeviceList dl = new DeviceList(comment);
+				for (int i = 0; i < dl.mapList.size(); i++) {
+					Map<String, Object> map = dl.mapList.get(i);
+					try {
+						// 设备属性
+						boolean status = false;
+						String deviceId = (String) map.get("deviceid");
+						String type = (String) map.get("type");
+						String model = (String) map.get("model");
+						String ip = (String) map.get("ip");
+						int port = (int) map.get("port");
+						String userName = (String) map.get("username");
+						String password = (String) map.get("password");
+						String language = (String) map.get("language");
+						String position = (String) map.get("position");
+						String comment = (String) map.get("comment");
+						DeviceInfo deviceInfo = new DeviceInfo(status, deviceId, type, model, ip, port, userName,
+								password, language, position, comment);
+						vectors_device.add(deviceInfo);
+						Thread t = new Thread(deviceInfo);
+						vectors.add(t);
+						t.start();
+					} catch (Exception exception) {
+					}
+				}
+				// 确保所有数据都读取后再回到主线程
+				for (Thread thread : vectors) {
+					try {
+						thread.join();
+					} catch (InterruptedException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+				}
+				dl.show();
+			}
+		});
 	}
 }

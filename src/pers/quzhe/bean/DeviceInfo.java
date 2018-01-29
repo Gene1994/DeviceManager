@@ -22,7 +22,7 @@ public class DeviceInfo implements Runnable{
 	String type;
 	String model;
 	String ip;
-	int port;
+	int port = 8000;
 	String userName;
 	String password;
 	String language;

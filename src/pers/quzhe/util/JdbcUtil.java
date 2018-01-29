@@ -54,7 +54,7 @@ public class JdbcUtil {
      */  
     public static void loadConfig() {
         try {
-        	
+        	//数据库配置文件
         	InputStream inStream = JdbcUtil.class.getResourceAsStream("/pers/quzhe/res/jdbc.properties");
         	
             Properties prop = new Properties();  

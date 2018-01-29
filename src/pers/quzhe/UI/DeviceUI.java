@@ -6,10 +6,13 @@ import java.awt.Toolkit;
 
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.Map;
+import java.util.Vector;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.JLabel;
 
+import pers.quzhe.bean.DeviceInfo;
 import pers.quzhe.devicemanager.DeviceInsert;
 import pers.quzhe.devicemanager.DeviceList;
 import pers.quzhe.devicemanager.DeviceSelect;
@@ -90,17 +93,51 @@ public class DeviceUI {
 		});
 
 		JButton btn_showAll = new JButton("显示全部设备");
-		btn_showAll.setEnabled(false);
 		btn_showAll.setBounds(437, 10, 132, 23);
 		frmDevicemanager.getContentPane().add(btn_showAll);
-//		btn_showAll.addMouseListener(new MouseAdapter() {
-//			@Override
-//			public void mouseClicked(MouseEvent e) {
-//				DeviceSelect.index = 5;
-//				DeviceList dl = new DeviceList();
-//				dl.select("");
-//			}
-//		});
+		btn_showAll.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				DeviceSelect.vectors = new Vector<Thread>();
+				DeviceSelect.vectors_device = new Vector<DeviceInfo>();
+				DeviceSelect.index = 5;
+				DeviceList dl = new DeviceList("");
+				for (int i = 0; i < dl.mapList.size(); i++) {
+					Map<String, Object> map = dl.mapList.get(i);
+					try {
+						// 设备属性
+						boolean status = false;
+						String deviceId = (String) map.get("deviceid");
+						String type = (String) map.get("type");
+						String model = (String) map.get("model");
+						String ip = (String) map.get("ip");
+						int port = (int) map.get("port");
+						String userName = (String) map.get("username");
+						String password = (String) map.get("password");
+						String language = (String) map.get("language");
+						String position = (String) map.get("position");
+						String comment = (String) map.get("comment");
+						DeviceInfo deviceInfo = new DeviceInfo(status, deviceId, type, model, ip, port, userName,
+								password, language, position, comment);
+						DeviceSelect.vectors_device.add(deviceInfo);
+						Thread t = new Thread(deviceInfo);
+						DeviceSelect.vectors.add(t);
+						t.start();
+					} catch (Exception exception) {
+					}
+				}
+				// 确保所有数据都读取后再回到主线程
+				for (Thread thread : DeviceSelect.vectors) {
+					try {
+						thread.join();
+					} catch (InterruptedException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+				}
+				dl.show();
+			}
+		});
 
 		JLabel label = new JLabel(
 				"*\u6682\u4E0D\u652F\u6301\u663E\u793A\u5168\u90E8\u8BBE\u5907");
