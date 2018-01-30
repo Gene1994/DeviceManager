@@ -16,7 +16,11 @@ import pers.quzhe.hcnetsdk.HCNetSDK;
  * 
  *         2018Äê1ÔÂ26ÈÕ
  */
-public class DeviceInfo implements Runnable{
+public class DeviceInfo implements java.lang.Runnable, java.io.Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	boolean status;
 	String deviceId;
 	String type;

@@ -42,26 +42,10 @@ public class DeviceSelect {
 	public static String ip;
 	public static String comment;
 
-	public static int index;// 使用switch-case创建devicelist构造函数，case1:type,
+	public static int index;// 使用switch-case创建devicelist构造函数，case1:type, case2:model, case3:ip, case4:comment, case5:all
 	private JTextField textField_comment;
 	public static Vector<Thread> vectors;
 	public static Vector<DeviceInfo> vectors_device;
-
-	/**
-	 * Launch the application.
-	 */
-	// public static void main(String[] args) {
-	// EventQueue.invokeLater(new Runnable() {
-	// public void run() {
-	// try {
-	// DeviceSelect window = new DeviceSelect();
-	// window.frame.setVisible(true);
-	// } catch (Exception e) {
-	// e.printStackTrace();
-	// }
-	// }
-	// });
-	// }
 
 	/**
 	 * Create the application.
@@ -69,7 +53,6 @@ public class DeviceSelect {
 	 * @throws InterruptedException
 	 */
 	public DeviceSelect() {
-
 		initialize();
 	}
 
@@ -77,7 +60,6 @@ public class DeviceSelect {
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
-
 		frame = new JFrame();
 		frame.setResizable(false);
 		frame.setIconImage(
@@ -118,46 +100,9 @@ public class DeviceSelect {
 		btntype.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				vectors = new Vector<Thread>();
-				vectors_device = new Vector<DeviceInfo>();
-				index = 1;
-				DeviceList dl = new DeviceList(type);
-				for (int i = 0; i < dl.mapList.size(); i++) {
-					Map<String, Object> map = dl.mapList.get(i);
-					try {
-						// 设备属性
-						boolean status = false;
-						String deviceId = (String) map.get("deviceid");
-						String type = (String) map.get("type");
-						String model = (String) map.get("model");
-						String ip = (String) map.get("ip");
-						int port = (int) map.get("port");
-						String userName = (String) map.get("username");
-						String password = (String) map.get("password");
-						String language = (String) map.get("language");
-						String position = (String) map.get("position");
-						String comment = (String) map.get("comment");
-						DeviceInfo deviceInfo = new DeviceInfo(status, deviceId, type, model, ip, port, userName,
-								password, language, position, comment);
-						vectors_device.add(deviceInfo);
-						Thread t = new Thread(deviceInfo);
-						vectors.add(t);
-						t.start();
-					} catch (Exception exception) {
-					}
-				}
-
-				// 确保所有数据都读取后再回到主线程
-				for (Thread thread : vectors) {
-					try {
-						thread.join();
-					} catch (InterruptedException e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
-					}
-				}
-				dl.show();
+				select(1, type);
 			}
+				
 		});
 
 		// model
@@ -183,46 +128,7 @@ public class DeviceSelect {
 		btnmodel.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				vectors = new Vector<Thread>();
-				vectors_device = new Vector<DeviceInfo>();
-				index = 2;
-				DeviceList dl = new DeviceList(model);
-				for (int i = 0; i < dl.mapList.size(); i++) {
-					Map<String, Object> map = dl.mapList.get(i);
-					System.out.println(map);
-					try {
-						// 设备属性
-						boolean status = false;
-						String deviceId = (String) map.get("deviceid");
-						String type = (String) map.get("type");
-						String model = (String) map.get("model");
-						String ip = (String) map.get("ip");
-						int port = (int) map.get("port");
-						String userName = (String) map.get("username");
-						String password = (String) map.get("password");
-						String language = (String) map.get("language");
-						String position = (String) map.get("position");
-						String comment = (String) map.get("comment");
-						DeviceInfo deviceInfo = new DeviceInfo(status, deviceId, type, model, ip, port, userName,
-								password, language, position, comment);
-						vectors_device.add(deviceInfo);
-						Thread t = new Thread(deviceInfo);
-						vectors.add(t);
-						t.start();
-					} catch (Exception exception) {
-					}
-					
-				}
-				// 确保所有数据都读取后再回到主线程
-				for (Thread thread : vectors) {
-					try {
-						thread.join();
-					} catch (InterruptedException e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
-					}
-				}
-				dl.show();
+				select(2, model);
 			}
 		});
 
@@ -249,44 +155,7 @@ public class DeviceSelect {
 		btnip.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				vectors = new Vector<Thread>();
-				vectors_device = new Vector<DeviceInfo>();
-				index = 3;
-				DeviceList dl = new DeviceList(ip);
-				for (int i = 0; i < dl.mapList.size(); i++) {
-					Map<String, Object> map = dl.mapList.get(i);
-					try {
-						// 设备属性
-						boolean status = false;
-						String deviceId = (String) map.get("deviceid");
-						String type = (String) map.get("type");
-						String model = (String) map.get("model");
-						String ip = (String) map.get("ip");
-						int port = (int) map.get("port");
-						String userName = (String) map.get("username");
-						String password = (String) map.get("password");
-						String language = (String) map.get("language");
-						String position = (String) map.get("position");
-						String comment = (String) map.get("comment");
-						DeviceInfo deviceInfo = new DeviceInfo(status, deviceId, type, model, ip, port, userName,
-								password, language, position, comment);
-						vectors_device.add(deviceInfo);
-						Thread t = new Thread(deviceInfo);
-						vectors.add(t);
-						t.start();
-					} catch (Exception exception) {
-					}
-				}
-				// 确保所有数据都读取后再回到主线程
-				for (Thread thread : vectors) {
-					try {
-						thread.join();
-					} catch (InterruptedException e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
-					}
-				}
-				dl.show();
+				select(3, ip);
 			}
 		});
 
@@ -312,45 +181,50 @@ public class DeviceSelect {
 		btncomment.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				vectors = new Vector<Thread>();
-				vectors_device = new Vector<DeviceInfo>();
-				index = 4;
-				DeviceList dl = new DeviceList(comment);
-				for (int i = 0; i < dl.mapList.size(); i++) {
-					Map<String, Object> map = dl.mapList.get(i);
-					try {
-						// 设备属性
-						boolean status = false;
-						String deviceId = (String) map.get("deviceid");
-						String type = (String) map.get("type");
-						String model = (String) map.get("model");
-						String ip = (String) map.get("ip");
-						int port = (int) map.get("port");
-						String userName = (String) map.get("username");
-						String password = (String) map.get("password");
-						String language = (String) map.get("language");
-						String position = (String) map.get("position");
-						String comment = (String) map.get("comment");
-						DeviceInfo deviceInfo = new DeviceInfo(status, deviceId, type, model, ip, port, userName,
-								password, language, position, comment);
-						vectors_device.add(deviceInfo);
-						Thread t = new Thread(deviceInfo);
-						vectors.add(t);
-						t.start();
-					} catch (Exception exception) {
-					}
-				}
-				// 确保所有数据都读取后再回到主线程
-				for (Thread thread : vectors) {
-					try {
-						thread.join();
-					} catch (InterruptedException e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
-					}
-				}
-				dl.show();
+				select(4, comment);
 			}
 		});
+	}
+	
+	public void select(int index, String s){
+		vectors = new Vector<Thread>();
+		vectors_device = new Vector<DeviceInfo>();
+		DeviceSelect.index = index;
+		DeviceList dl = new DeviceList(s);
+		for (int i = 0; i < dl.mapList.size(); i++) {
+			Map<String, Object> map = dl.mapList.get(i);
+			try {
+				// 设备属性
+				boolean status = false;
+				String deviceId = (String) map.get("deviceid");
+				String type = (String) map.get("type");
+				String model = (String) map.get("model");
+				String ip = (String) map.get("ip");
+				int port = (int) map.get("port");
+				String userName = (String) map.get("username");
+				String password = (String) map.get("password");
+				String language = (String) map.get("language");
+				String position = (String) map.get("position");
+				String comment = (String) map.get("comment");
+				DeviceInfo deviceInfo = new DeviceInfo(status, deviceId, type, model, ip, port, userName,
+						password, language, position, comment);
+				vectors_device.add(deviceInfo);
+				Thread t = new Thread(deviceInfo);
+				vectors.add(t);
+				t.start();
+			} catch (Exception exception) {
+			}
+		}
+
+		// 确保所有数据都读取后再回到主线程
+		for (Thread thread : vectors) {
+			try {
+				thread.join();
+			} catch (InterruptedException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+		}
+		dl.show();
 	}
 }

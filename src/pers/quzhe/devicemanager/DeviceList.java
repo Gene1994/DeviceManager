@@ -63,7 +63,7 @@ import pers.quzhe.util.JdbcUtil;
  * 
  *         2017年11月20日
  */
-public class DeviceList{
+public class DeviceList {
 	/**
 	 * 
 	 */
@@ -87,7 +87,7 @@ public class DeviceList{
 	public String position;
 	public boolean status;
 
-	private static JFrame frame;// 单例模式
+	private static JFrame frame = null;// 单例模式
 	private static JPanel panel_center = new JPanel();
 	private JPanel panel_north;
 	private JTable jt = null;
@@ -110,7 +110,7 @@ public class DeviceList{
 	String index = null;
 	String sql = null;
 	public List<Map<String, Object>> mapList = null;
-	
+
 	int index_1;
 
 	public DeviceList(String s) {
@@ -222,53 +222,53 @@ public class DeviceList{
 			}
 		});
 		// 创建填充参数的list
-				List<Object> paramList = new ArrayList<Object>();
-				switch (DeviceSelect.index) {
-				// byType
-				case 1:
-					index = s;
-					sql = "select * from device where type = ?";
-					// 填充参数
-					paramList.add(index);
-					break;
-				// byModel
-				case 2:
-					index = "%" + s + "%";
-					sql = "select * from device where model like ?";
-					// 填充参数
-					paramList.add(index);
-					break;
-				// byIp
-				case 3:
-					index = s;
-					sql = "select * from device where ip = ?";
-					// 填充参数
-					paramList.add(index);
-					break;
-				// byComment
-				case 4:
-					index = "%" + s + "%";
-					sql = "select * from device where comment like ?";
-					// 填充参数
-					paramList.add(index);
-					break;
-				// selectAll
-				case 5:
-					sql = "select * from device";
-					break;
-				}
+		List<Object> paramList = new ArrayList<Object>();
+		switch (DeviceSelect.index) {
+		// byType
+		case 1:
+			index = s;
+			sql = "select * from device where type = ?";
+			// 填充参数
+			paramList.add(index);
+			break;
+		// byModel
+		case 2:
+			index = "%" + s + "%";
+			sql = "select * from device where model like ?";
+			// 填充参数
+			paramList.add(index);
+			break;
+		// byIp
+		case 3:
+			index = s;
+			sql = "select * from device where ip = ?";
+			// 填充参数
+			paramList.add(index);
+			break;
+		// byComment
+		case 4:
+			index = "%" + s + "%";
+			sql = "select * from device where comment like ?";
+			// 填充参数
+			paramList.add(index);
+			break;
+		// selectAll
+		case 5:
+			sql = "select * from device";
+			break;
+		}
 
-				try {
-					jdbcUtil.getConnection(); // 获取数据库链接
-					mapList = jdbcUtil.findResult(sql.toString(), paramList);
-				} catch (SQLException exception) {
-					System.out.println(this.getClass() + "执行查询操作抛出异常！");
-					exception.printStackTrace();
-				} finally {
-					if (jdbcUtil != null) {
-						jdbcUtil.releaseConn();
-					}
-				}
+		try {
+			jdbcUtil.getConnection(); // 获取数据库链接
+			mapList = jdbcUtil.findResult(sql.toString(), paramList);
+		} catch (SQLException exception) {
+			System.out.println(this.getClass() + "执行查询操作抛出异常！");
+			exception.printStackTrace();
+		} finally {
+			if (jdbcUtil != null) {
+				jdbcUtil.releaseConn();
+			}
+		}
 	}
 
 	public void show() {
@@ -364,118 +364,7 @@ public class DeviceList{
 
 		};
 
-//		// 创建填充参数的list
-//		List<Object> paramList = new ArrayList<Object>();
-//		switch (DeviceSelect.index) {
-//		// byType
-//		case 1:
-//			index = s;
-//			sql = "select * from device where type = ?";
-//			// 填充参数
-//			paramList.add(index);
-//			break;
-//		// byModel
-//		case 2:
-//			index = "%" + s + "%";
-//			sql = "select * from device where model like ?";
-//			// 填充参数
-//			paramList.add(index);
-//			break;
-//		// byIp
-//		case 3:
-//			index = s;
-//			sql = "select * from device where ip = ?";
-//			// 填充参数
-//			paramList.add(index);
-//			break;
-//		// byComment
-//		case 4:
-//			index = "%" + s + "%";
-//			sql = "select * from device where comment like ?";
-//			// 填充参数
-//			paramList.add(index);
-//			break;
-//		// selectAll
-//		case 5:
-//			sql = "select * from device";
-//			break;
-//		}
-//
-//		try {
-//			jdbcUtil.getConnection(); // 获取数据库链接
-//			mapList = jdbcUtil.findResult(sql.toString(), paramList);
-//		} catch (SQLException exception) {
-//			System.out.println(this.getClass() + "执行查询操作抛出异常！");
-//			exception.printStackTrace();
-//		} finally {
-//			if (jdbcUtil != null) {
-//				jdbcUtil.releaseConn();
-//			}
-//		}
-//		for (index_1 = 0; index_1 < mapList.size(); index_1++) {
-//			Map<String, Object> map = mapList.get(index_1);
-//			try {
-//				// 设备属性
-//				deviceId = (String) map.get("deviceid");
-//				type = (String) map.get("type");
-//				model = (String) map.get("model");
-//				ip = (String) map.get("ip");
-//				port = (int) map.get("port");
-//				userName = (String) map.get("username");
-//				password = (String) map.get("password");
-//				language = (String) map.get("language");
-//				position = (String) map.get("position");
-//				comment = (String) map.get("comment");
-//			} catch (Exception exception) {
-//			}
-			// m_strDeviceInfo = new HCNetSDK.NET_DVR_DEVICEINFO();
-			// lUserID = hCNetSDK.NET_DVR_Login(ip, (short) port, userName,
-			// password, m_strDeviceInfo);
-			// status = (lUserID.intValue() == -1) ? false : true;
-//			new Thread(new DeviceList(ip, port, userName, password, index_1)).start();
-			// if (status) {
-			// online.add(index_1);
-			// } else {
-			// offline.add(index_1);
-			// }
-			//
-//			Vector hang = new Vector();
-//			if (status) {
-//				hang.add("#ONLINE#");
-//			} else {
-//				hang.add("#OFFLINE#");
-//			}
-//			hang.add(deviceId);
-//			hang.add(type);
-//			hang.add(model);
-//			hang.add(ip);
-//			hang.add(port);
-//			hang.add(userName);
-//			hang.add(password);
-//			hang.add(language);
-//			hang.add(position);
-//			hang.add(comment);
-//
-//			rowData.add(hang);
-//		}
-		for(DeviceInfo d : DeviceSelect.vectors_device){
-//			Vector hang = new Vector();
-//			if (d.getStatus()) {
-//				hang.add("#ONLINE#");
-//			} else {
-//				hang.add("#OFFLINE#");
-//			}
-//			hang.add(d.getDeviceId());
-//			hang.add(d.getType());
-//			hang.add(d.getModel());
-//			hang.add(d.getIp());
-//			hang.add(d.getPort());
-//			hang.add(d.getUserName());
-//			hang.add(d.getPassword());
-//			hang.add(d.getLanguage());
-//			hang.add(d.getPosition());
-//			hang.add(d.getComment());
-
+		for (DeviceInfo d : DeviceSelect.vectors_device) {
 			rowData.add(d.getHang());
 		}
 		tableModel = new DefaultTableModel(rowData, columnNames);
@@ -584,9 +473,7 @@ public class DeviceList{
 	}
 
 	class MyRenderDelete extends AbstractCellEditor implements TableCellRenderer, TableCellEditor {
-
 		private MyButton button;
-
 		private MyEvent event;
 
 		public MyRenderDelete() {
@@ -673,28 +560,8 @@ public class DeviceList{
 		}
 	}
 
-//	class MyRenderStatus1 implements TableCellRenderer {
-//		private JLabel jl;
-//
-//		@Override
-//		public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus,
-//				int row, int column) {
-//			// TODO Auto-generated method stub
-//			if (online.contains(row)) {
-//				jl = new JLabel(new ImageIcon(Toolkit.getDefaultToolkit()
-//						.getImage(DeviceUI.class.getResource("/pers/quzhe/res/online.jpg"))));
-//			} else {
-//				jl = new JLabel(new ImageIcon(Toolkit.getDefaultToolkit()
-//						.getImage(DeviceUI.class.getResource("/pers/quzhe/res/offline.jpg"))));
-//			}
-//			return jl;
-//		}
-//	}
-
 	class MyButton extends JButton {
-
 		private int row;
-
 		private int column;
 
 		public int getRow() {
@@ -714,19 +581,15 @@ public class DeviceList{
 		}
 
 		public MyButton() {
-
 		}
 
 		public MyButton(String name) {
 			super(name);
 		}
-
 	}
 
 	class MyLabel extends JLabel {
-
 		private int row;
-
 		private int column;
 
 		public int getRow() {
@@ -746,13 +609,11 @@ public class DeviceList{
 		}
 
 		public MyLabel() {
-
 		}
 
 		public MyLabel(String name) {
 			super(name);
 		}
-
 	}
 
 	abstract class MyEvent {
