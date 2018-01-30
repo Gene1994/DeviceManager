@@ -271,14 +271,6 @@ public class DeviceList{
 				}
 	}
 
-//	public DeviceList(String ip, int port, String userName, String password, int index_1) {
-//		this.ip = ip;
-//		this.port = port;
-//		this.userName = userName;
-//		this.password = password;
-//		this.index_1 = index_1;
-//	}
-
 	public void show() {
 
 		// ÐÞ¸Ä
