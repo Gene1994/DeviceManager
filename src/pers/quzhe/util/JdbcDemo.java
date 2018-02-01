@@ -18,7 +18,7 @@ import pers.quzhe.util.JdbcUtil;
  *
  *         2017年11月15日
  */
-public class JdbcTest {
+public class JdbcDemo {
 
 	/**
 	 * 更新用户信息

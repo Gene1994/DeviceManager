@@ -8,8 +8,6 @@ import javax.swing.JComboBox;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JTextField;
 
-//import pers.quzhe.devicemanager.Device;
-
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.ItemListener;
@@ -46,7 +44,7 @@ public class DeviceInsert {
 	public String position;
 	public String deviceId;
 
-	private JFrame frame;
+	private static JFrame frame = new JFrame();
 	private JTextField textField_model;
 	private JTextField textField_ip;
 	private JTextField textField_port;
@@ -66,7 +64,6 @@ public class DeviceInsert {
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() throws Exception {
-		frame = new JFrame();
 		frame.setResizable(false);
 		frame.setIconImage(
 				Toolkit.getDefaultToolkit().getImage(DeviceInsert.class.getResource("/pers/quzhe/res/device_1.png")));
@@ -88,6 +85,7 @@ public class DeviceInsert {
 				@Override
 				public void mouseClicked(MouseEvent arg0) {
 					if (isMatches(ip)) {
+						//生成随机五位deviceId
 						deviceId = String.format("%05d", (int) (Math.random() * 100000));
 						Device d = new Device(deviceId, type, model, ip, port, userName, password, language, position,
 								comment, status);
@@ -275,6 +273,11 @@ public class DeviceInsert {
 		});
 	}
 
+	/**
+	 * 验证IP格式是否正确
+	 * @param ip
+	 * @return
+	 */
 	public boolean isMatches(String ip) {
 		boolean flag = false;
 		try {

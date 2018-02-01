@@ -104,24 +104,12 @@ public class Device {
 		}
 	}
 
-	// // 删除设备
-	// public void delete() {
-	//
-	// }
-	//
-	// // 修改设备
-	// public void update() {
-	//
-	// }
-
-	// //查找设备
-	// public Vector selectByIp(){
-	// DeviceSelect ds = new DeviceSelect();
-	//
-	// return null;
-	//
-	// }
-
+	/**
+	 * 检查IP格式
+	 * 
+	 * @param ip
+	 * @return
+	 */
 	public boolean isMatches(String ip) {
 		boolean flag = false;
 		try {
@@ -133,7 +121,6 @@ public class Device {
 			} else {
 			}
 		} catch (Exception e) {
-
 		}
 		return flag;
 	}

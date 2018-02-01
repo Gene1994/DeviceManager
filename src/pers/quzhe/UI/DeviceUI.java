@@ -67,7 +67,8 @@ public class DeviceUI {
 		frmDevicemanager.setBounds(100, 100, 937, 371);
 		frmDevicemanager.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frmDevicemanager.getContentPane().setLayout(null);
-
+		
+		//添加设备
 		JButton button_insert = new JButton("\u6DFB\u52A0\u8BBE\u5907");
 		button_insert.setBounds(10, 10, 132, 23);
 		frmDevicemanager.getContentPane().add(button_insert);
@@ -81,7 +82,8 @@ public class DeviceUI {
 				}
 			}
 		});
-
+		
+		//查找设备
 		JButton button_select = new JButton("\u67E5\u627E\u8BBE\u5907");
 		button_select.setBounds(152, 10, 132, 23);
 		frmDevicemanager.getContentPane().add(button_select);
@@ -91,7 +93,8 @@ public class DeviceUI {
 				new DeviceSelect();
 			}
 		});
-
+		
+		//显示全部设备
 		JButton btn_showAll = new JButton("显示全部设备");
 		btn_showAll.setBounds(437, 10, 132, 23);
 		frmDevicemanager.getContentPane().add(btn_showAll);
@@ -138,35 +141,32 @@ public class DeviceUI {
 				dl.show();
 			}
 		});
-
-		JLabel label = new JLabel(
-				"*\u6682\u4E0D\u652F\u6301\u663E\u793A\u5168\u90E8\u8BBE\u5907");
-		label.setForeground(Color.GRAY);
-		label.setBounds(25, 307, 132, 15);
-		frmDevicemanager.getContentPane().add(label);
 		
-		JButton btnNewButton = new JButton("\u751F\u6210\u7A33\u5B9A\u6027XML");
-		btnNewButton.addMouseListener(new MouseAdapter() {
+		//生成稳定性XML
+		JButton btn_xml = new JButton("\u751F\u6210\u7A33\u5B9A\u6027XML");
+		btn_xml.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
 				new StressXML();
 			}
 		});
-		btnNewButton.addActionListener(new ActionListener() {
+		btn_xml.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 			}
 		});
-		btnNewButton.setBounds(295, 10, 132, 23);
-		frmDevicemanager.getContentPane().add(btnNewButton);
+		btn_xml.setBounds(295, 10, 132, 23);
+		frmDevicemanager.getContentPane().add(btn_xml);
 		
-		JLabel label_1 = new JLabel(new ImageIcon(
+		//HIK logo
+		JLabel label_pic = new JLabel(new ImageIcon(
 				Toolkit.getDefaultToolkit().getImage(DeviceUI.class.getResource("/pers/quzhe/res/HIKlogo.jpg"))));
-		label_1.setBounds(10, 33, 912, 313);
-		frmDevicemanager.getContentPane().add(label_1);
+		label_pic.setBounds(10, 33, 912, 313);
+		frmDevicemanager.getContentPane().add(label_pic);
 		
-		JButton button = new JButton("\u2026\u2026");
-		button.setEnabled(false);
-		button.setBounds(581, 10, 132, 23);
-		frmDevicemanager.getContentPane().add(button);
+		//待开发
+		JButton button_more = new JButton("\u2026\u2026");
+		button_more.setEnabled(false);
+		button_more.setBounds(581, 10, 132, 23);
+		frmDevicemanager.getContentPane().add(button_more);
 	}
 }

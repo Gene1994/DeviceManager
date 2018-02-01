@@ -32,7 +32,7 @@ import java.awt.Toolkit;
  */
 public class DeviceSelect {
 
-	private JFrame frame;
+	private static JFrame frame = new JFrame();
 	private JTextField textField_model;
 	private JTextField textField_ip;
 
@@ -60,7 +60,6 @@ public class DeviceSelect {
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
-		frame = new JFrame();
 		frame.setResizable(false);
 		frame.setIconImage(
 				Toolkit.getDefaultToolkit().getImage(DeviceSelect.class.getResource("/pers/quzhe/res/device_1.png")));

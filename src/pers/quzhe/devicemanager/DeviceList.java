@@ -87,8 +87,8 @@ public class DeviceList {
 	public String position;
 	public boolean status;
 
-	private static JFrame frame = null;// 单例模式
-	private static JPanel panel_center = new JPanel();
+	private static JFrame frame = new JFrame();// 单例模式：饿汉模式
+	private static JPanel panel_center;// 单例模式：懒汉模式
 	private JPanel panel_north;
 	private JTable jt = null;
 	private JTable jt_checked = null; // 用来存放筛选后的表格
@@ -96,11 +96,11 @@ public class DeviceList {
 	private JButton btn_check;
 	private JButton btnExcel;
 	private JLabel label;
-	private JComboBox comboBox;
+	private JComboBox<Object> comboBox;
 	private static boolean ONLINE_FLAG;
 	private DefaultTableModel tableModel;
 	private DefaultTableModel tableModel_checked;
-	private TableRowSorter sorter;
+	private TableRowSorter<DefaultTableModel> sorter;
 	private JdbcUtil jdbcUtil = new JdbcUtil();
 
 	NativeLong lUserID;// 用户句柄
@@ -121,9 +121,6 @@ public class DeviceList {
 		}
 
 		lUserID = new NativeLong(-1);
-		if (frame == null) {
-			frame = new JFrame();
-		}
 		frame.setBounds(100, 347, 1550, 410);
 		// frame.setSize(1500, 300);
 		frame.setIconImage(
@@ -132,7 +129,7 @@ public class DeviceList {
 		frame.setLayout(new BorderLayout(0, 0));
 
 		ONLINE_FLAG = true;
-		columnNames = new Vector();
+		columnNames = new Vector<String>();
 		// 设置列名
 		columnNames.add("状态");
 		columnNames.add("设备ID");
@@ -155,8 +152,8 @@ public class DeviceList {
 		label = new JLabel("\u5728\u7EBF\u72B6\u6001\uFF1A");
 		panel_north.add(label, "cell 0 0,grow");
 
-		comboBox = new JComboBox();
-		comboBox.setModel(new DefaultComboBoxModel(new String[] { "\u5728\u7EBF", "\u4E0D\u5728\u7EBF" }));
+		comboBox = new JComboBox<Object>();
+		comboBox.setModel(new DefaultComboBoxModel<Object>(new String[] { "\u5728\u7EBF", "\u4E0D\u5728\u7EBF" }));
 		panel_north.add(comboBox, "cell 1 0,alignx left,growy");
 		comboBox.addItemListener(new ItemListener() {
 			public void itemStateChanged(ItemEvent e) {
@@ -174,7 +171,7 @@ public class DeviceList {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				jt.setVisible(false);
-				sorter = new TableRowSorter(tableModel);
+				sorter = new TableRowSorter<DefaultTableModel>(tableModel);
 				if (ONLINE_FLAG) {
 					sorter.setRowFilter(RowFilter.regexFilter("#ONLINE#"));
 				} else {
@@ -233,6 +230,7 @@ public class DeviceList {
 			break;
 		// byModel
 		case 2:
+			// 模糊查找
 			index = "%" + s + "%";
 			sql = "select * from device where model like ?";
 			// 填充参数
@@ -247,6 +245,7 @@ public class DeviceList {
 			break;
 		// byComment
 		case 4:
+			// 模糊查找
 			index = "%" + s + "%";
 			sql = "select * from device where comment like ?";
 			// 填充参数
@@ -385,11 +384,14 @@ public class DeviceList {
 
 		// 初始化 jsp
 		jsp = new JScrollPane(jt);
-		jsp.setSize(1400, 300);
+		// jsp.setSize(1400, 300);
 		jsp.setViewportView(jt);
-		// 把jsp放入到jpanel
-
+		// 懒汉模式 延迟加载
+		if (panel_center == null) {
+			panel_center = new JPanel();
+		}
 		panel_center.removeAll();
+		// 把jsp放入到jpanel
 		panel_center.add(jsp, BorderLayout.CENTER);
 		panel_center.repaint();
 		// this.setSize(1500, 300);
@@ -416,11 +418,8 @@ public class DeviceList {
 					} else {
 						return;
 					}
-
 				}
-
 			});
-
 		}
 
 		public MyRenderModify(MyEvent e) {
@@ -488,13 +487,10 @@ public class DeviceList {
 						return;
 					}
 				}
-
 			});
-
 		}
 
 		public MyRenderDelete(MyEvent e) {
-
 			this();
 			this.event = e;
 		}
@@ -539,7 +535,6 @@ public class DeviceList {
 			// TODO Auto-generated method stub
 			return null;
 		}
-
 	}
 
 	class MyRenderStatus implements TableCellRenderer {
@@ -621,7 +616,7 @@ public class DeviceList {
 	}
 
 	/**
-	 * 导出jtable的model到excel
+	 * 导出jtable到excel
 	 * 
 	 * @param table
 	 *            要导出的jtable

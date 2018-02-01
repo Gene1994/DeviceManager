@@ -167,32 +167,16 @@ public class JdbcUtil {
         if (pstmt != null) {  
             try {  
                 pstmt.close();  
-            } catch (SQLException e) {  
-                e.printStackTrace();  
-            }  
-        }  
-        if (connection != null) {  
-            try {  
-                connection.close();  
-            } catch (SQLException e) {  
-                e.printStackTrace();  
-            }  
-        }  
-    }  
-  
-//    public static void main(String[] args) {  
-//        JdbcUtil jdbcUtil = new JdbcUtil();  
-//        jdbcUtil.getConnection();  
-//        try {  
-//            List<Map<String, Object>> result = jdbcUtil.findResult(  
-//                    "select * from t_student", null);  
-//            for (Map<String, Object> m : result) {  
-//                System.out.println(m);  
-//            }  
-//        } catch (SQLException e) {  
-//            e.printStackTrace();  
-//        } finally {  
-//            jdbcUtil.releaseConn();  
-//        }  
-//    }  
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        if (connection != null) {
+            try {
+                connection.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+    }
 }  
