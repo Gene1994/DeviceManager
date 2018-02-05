@@ -1,4 +1,4 @@
-package pers.quzhe.util;
+package team.sdk.sdkauto.util;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Map;
 import org.junit.Test;
 
-import pers.quzhe.util.JdbcUtil;
+import team.sdk.sdkauto.util.JdbcUtil;
 
 /**
  * <p>

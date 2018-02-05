@@ -1,4 +1,4 @@
-package pers.quzhe.util;
+package team.sdk.sdkauto.util;
 import java.io.InputStream;  
 import java.sql.Connection;  
 import java.sql.DriverManager;  
@@ -55,7 +55,7 @@ public class JdbcUtil {
     public static void loadConfig() {
         try {
         	//数据库配置文件
-        	InputStream inStream = JdbcUtil.class.getResourceAsStream("/pers/quzhe/res/jdbc.properties");
+        	InputStream inStream = JdbcUtil.class.getResourceAsStream("/team/sdk/sdkauto/res/jdbc.properties");
         	
             Properties prop = new Properties();  
             prop.load(inStream);  

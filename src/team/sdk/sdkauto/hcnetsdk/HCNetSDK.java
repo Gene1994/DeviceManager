@@ -1,10 +1,11 @@
-package pers.quzhe.hcnetsdk;
+package team.sdk.sdkauto.hcnetsdk;
 
 import com.sun.jna.Native;
 import com.sun.jna.NativeLong;
 import com.sun.jna.Pointer;
 import com.sun.jna.Structure;
 import com.sun.jna.Union;
+import com.sun.jna.examples.CLibrary;
 import com.sun.jna.examples.win32.GDI32.RECT;
 import com.sun.jna.examples.win32.W32API;
 import com.sun.jna.examples.win32.W32API.HWND;
@@ -16,8 +17,8 @@ import com.sun.jna.ptr.ShortByReference;
 
 //SDK接口说明,HCNetSDK.dll
 public interface HCNetSDK extends StdCallLibrary {
-
-    HCNetSDK INSTANCE = (HCNetSDK) Native.loadLibrary("HCNetSDK", HCNetSDK.class);
+//	String filePath = CLibrary.class.getResource("").getPath().replaceFirst("/","").replaceAll("%20"," ")+"HCNetSDK.dll";
+    HCNetSDK INSTANCE = (HCNetSDK) Native.loadLibrary("testobject/HCNetSDK", HCNetSDK.class);
     /***宏定义***/
     //常量
 
@@ -3043,7 +3044,7 @@ public static class RECV_ALARM extends Structure{
 //播放库函数声明,PlayCtrl.dll
 interface PlayCtrl extends StdCallLibrary
 {
-    PlayCtrl INSTANCE = (PlayCtrl) Native.loadLibrary("../lib/PlayCtrl",
+    PlayCtrl INSTANCE = (PlayCtrl) Native.loadLibrary("testobject/PlayCtrl",
             PlayCtrl.class);
 
     public static final int STREAME_REALTIME = 0;

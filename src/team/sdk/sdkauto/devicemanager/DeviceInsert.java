@@ -1,4 +1,4 @@
-package pers.quzhe.devicemanager;
+package team.sdk.sdkauto.devicemanager;
 
 import javax.swing.JFrame;
 import javax.swing.JButton;
@@ -66,7 +66,7 @@ public class DeviceInsert {
 	private void initialize() throws Exception {
 		frame.setResizable(false);
 		frame.setIconImage(
-				Toolkit.getDefaultToolkit().getImage(DeviceInsert.class.getResource("/pers/quzhe/res/device_1.png")));
+				Toolkit.getDefaultToolkit().getImage(DeviceInsert.class.getResource("/team/sdk/sdkauto/device_1.png")));
 		frame.setVisible(true);
 		frame.setTitle("\u6DFB\u52A0\u8BBE\u5907");
 		frame.setBounds(100, 100, 500, 403);

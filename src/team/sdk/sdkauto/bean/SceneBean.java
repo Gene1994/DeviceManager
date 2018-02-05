@@ -1,4 +1,4 @@
-package pers.quzhe.bean;
+package team.sdk.sdkauto.bean;
 
 /**
  * <p>

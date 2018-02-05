@@ -1,10 +1,12 @@
-package pers.quzhe.bean;
+package team.sdk.sdkauto.bean;
 
 import java.util.Vector;
 
+import javax.swing.JOptionPane;
+
 import com.sun.jna.NativeLong;
 
-import pers.quzhe.hcnetsdk.HCNetSDK;
+import team.sdk.sdkauto.hcnetsdk.HCNetSDK;
 
 /**
  * <p>

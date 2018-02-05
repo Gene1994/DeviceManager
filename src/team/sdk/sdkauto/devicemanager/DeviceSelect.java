@@ -1,10 +1,10 @@
-package pers.quzhe.devicemanager;
+package team.sdk.sdkauto.devicemanager;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 
-import pers.quzhe.bean.DeviceInfo;
+import team.sdk.sdkauto.bean.DeviceInfo;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;

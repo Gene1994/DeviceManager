@@ -1,4 +1,4 @@
-package pers.quzhe.stresstest;
+package team.sdk.sdkauto.stresstest;
 
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
@@ -38,9 +38,9 @@ import org.dom4j.Element;
 import org.dom4j.io.OutputFormat;
 import org.dom4j.io.XMLWriter;
 
-import pers.quzhe.bean.DeviceBean;
-import pers.quzhe.bean.SceneBean;
-import pers.quzhe.devicemanager.DeviceSelect;
+import team.sdk.sdkauto.bean.DeviceBean;
+import team.sdk.sdkauto.bean.SceneBean;
+import team.sdk.sdkauto.devicemanager.DeviceSelect;
 
 /**
  * <p>
@@ -127,7 +127,7 @@ public class StressXML extends JFrame {
 
 		this.setBounds(100, 100, 600, 330);
 		this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		this.setIconImage(Toolkit.getDefaultToolkit().getImage(DeviceSelect.class.getResource("/pers/quzhe/res/device_1.png")));
+		this.setIconImage(Toolkit.getDefaultToolkit().getImage(DeviceSelect.class.getResource("/team/sdk/sdkauto/res/device_1.png")));
 		this.setTitle("生成稳定性XML");
 		getContentPane().setLayout(null);
 		this.setVisible(true);

@@ -1,4 +1,4 @@
-package pers.quzhe.UI;
+package team.sdk.sdkauto.UI;
 
 import java.awt.EventQueue;
 import java.awt.Color;
@@ -11,12 +11,16 @@ import java.util.Vector;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 
-import pers.quzhe.bean.DeviceInfo;
-import pers.quzhe.devicemanager.DeviceInsert;
-import pers.quzhe.devicemanager.DeviceList;
-import pers.quzhe.devicemanager.DeviceSelect;
-import pers.quzhe.stresstest.StressXML;
+import com.sun.jna.examples.CLibrary;
+
+import team.sdk.sdkauto.bean.DeviceInfo;
+import team.sdk.sdkauto.devicemanager.DeviceInsert;
+import team.sdk.sdkauto.devicemanager.DeviceList;
+import team.sdk.sdkauto.devicemanager.DeviceSelect;
+import team.sdk.sdkauto.hcnetsdk.HCNetSDK;
+import team.sdk.sdkauto.stresstest.StressXML;
 
 import javax.swing.JFrame;
 import javax.swing.JButton;
@@ -29,6 +33,8 @@ import javax.swing.ImageIcon;
 public class DeviceUI {
 
 	private JFrame frmDevicemanager;
+	
+	static HCNetSDK hCNetSDK = HCNetSDK.INSTANCE;
 
 	/**
 	 * Launch the application.
@@ -60,17 +66,43 @@ public class DeviceUI {
 	 */
 	private void initialize() throws Exception {
 		frmDevicemanager = new JFrame();
+		frmDevicemanager.getContentPane().setBackground(Color.LIGHT_GRAY);
+		frmDevicemanager.getContentPane().setForeground(Color.WHITE);
 		frmDevicemanager.setResizable(false);
 		frmDevicemanager
-				.setIconImage(Toolkit.getDefaultToolkit().getImage(DeviceUI.class.getResource("/pers/quzhe/res/device_1.png")));
+				.setIconImage(Toolkit.getDefaultToolkit().getImage(DeviceUI.class.getResource("/team/sdk/sdkauto/res/device_1.png")));
 		frmDevicemanager.setTitle("SDKAuto");
-		frmDevicemanager.setBounds(100, 100, 937, 371);
+		frmDevicemanager.setBounds(100, 100, 916, 328);
 		frmDevicemanager.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frmDevicemanager.getContentPane().setLayout(null);
+		//SDK版本信息
+		JLabel label_SdkVersion = new JLabel("");
+		label_SdkVersion.setForeground(Color.WHITE);
+		label_SdkVersion.setBounds(779, 279, 121, 15);
+		frmDevicemanager.getContentPane().add(label_SdkVersion);
+		
+		boolean initSuc = hCNetSDK.NET_DVR_Init();
+		if (initSuc != true) {
+			JOptionPane.showMessageDialog(null, "初始化失败");
+		}
+		int buildVersion = hCNetSDK.NET_DVR_GetSDKBuildVersion();
+		int v1 = (buildVersion >> 24) & 0xff;
+		int v2 = (buildVersion >> 16) & 0xff;
+		int v3 = (buildVersion >> 8) & 0xff;
+		int v4 = buildVersion & 0xff;
+		String text_version = "HCNetSDK  V" + v1 + "." + v2 + "." + v3 + "." + v4;
+		label_SdkVersion.setText(text_version);
 		
 		//添加设备
-		JButton button_insert = new JButton("\u6DFB\u52A0\u8BBE\u5907");
-		button_insert.setBounds(10, 10, 132, 23);
+		JButton button_insert = new JButton("");
+		button_insert.setBackground(Color.WHITE);
+		button_insert.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
+		button_insert.setForeground(Color.BLACK);
+		button_insert.setIcon(new ImageIcon(DeviceUI.class.getResource("/team/sdk/sdkauto/res/a.png")));
+		button_insert.setBounds(10, 21, 120, 30);
 		frmDevicemanager.getContentPane().add(button_insert);
 		button_insert.addMouseListener(new MouseAdapter() {
 			@Override
@@ -84,8 +116,9 @@ public class DeviceUI {
 		});
 		
 		//查找设备
-		JButton button_select = new JButton("\u67E5\u627E\u8BBE\u5907");
-		button_select.setBounds(152, 10, 132, 23);
+		JButton button_select = new JButton("");
+		button_select.setIcon(new ImageIcon(DeviceUI.class.getResource("/team/sdk/sdkauto/res/btn_select.png")));
+		button_select.setBounds(10, 61, 120, 30);
 		frmDevicemanager.getContentPane().add(button_select);
 		button_select.addMouseListener(new MouseAdapter() {
 			@Override
@@ -95,8 +128,9 @@ public class DeviceUI {
 		});
 		
 		//显示全部设备
-		JButton btn_showAll = new JButton("显示全部设备");
-		btn_showAll.setBounds(437, 10, 132, 23);
+		JButton btn_showAll = new JButton("");
+		btn_showAll.setIcon(new ImageIcon(DeviceUI.class.getResource("/team/sdk/sdkauto/res/btn_all.png")));
+		btn_showAll.setBounds(10, 141, 120, 30);
 		frmDevicemanager.getContentPane().add(btn_showAll);
 		btn_showAll.addMouseListener(new MouseAdapter() {
 			@Override
@@ -143,7 +177,8 @@ public class DeviceUI {
 		});
 		
 		//生成稳定性XML
-		JButton btn_xml = new JButton("\u751F\u6210\u7A33\u5B9A\u6027XML");
+		JButton btn_xml = new JButton("");
+		btn_xml.setIcon(new ImageIcon(DeviceUI.class.getResource("/team/sdk/sdkauto/res/btn_stress.png")));
 		btn_xml.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
@@ -154,19 +189,14 @@ public class DeviceUI {
 			public void actionPerformed(ActionEvent arg0) {
 			}
 		});
-		btn_xml.setBounds(295, 10, 132, 23);
+		btn_xml.setBounds(10, 101, 120, 30);
 		frmDevicemanager.getContentPane().add(btn_xml);
 		
 		//HIK logo
 		JLabel label_pic = new JLabel(new ImageIcon(
-				Toolkit.getDefaultToolkit().getImage(DeviceUI.class.getResource("/pers/quzhe/res/HIKlogo.jpg"))));
-		label_pic.setBounds(10, 33, 912, 313);
+				Toolkit.getDefaultToolkit().getImage(DeviceUI.class.getResource("/team/sdk/sdkauto/res/HIKlogo.jpg"))));
+		label_pic.setForeground(Color.WHITE);
+		label_pic.setBounds(0, 0, 912, 300);
 		frmDevicemanager.getContentPane().add(label_pic);
-		
-		//待开发
-		JButton button_more = new JButton("\u2026\u2026");
-		button_more.setEnabled(false);
-		button_more.setBounds(581, 10, 132, 23);
-		frmDevicemanager.getContentPane().add(button_more);
 	}
 }

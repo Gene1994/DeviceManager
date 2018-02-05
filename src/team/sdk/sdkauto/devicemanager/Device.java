@@ -1,4 +1,4 @@
-package pers.quzhe.devicemanager;
+package team.sdk.sdkauto.devicemanager;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -7,7 +7,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.swing.JOptionPane;
 
-import pers.quzhe.util.JdbcUtil;
+import team.sdk.sdkauto.util.JdbcUtil;
 
 /**
  * <p>

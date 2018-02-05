@@ -1,4 +1,4 @@
-package pers.quzhe.devicemanager;
+package team.sdk.sdkauto.devicemanager;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -48,10 +48,9 @@ import jxl.write.WritableWorkbook;
 import jxl.write.WriteException;
 import jxl.write.biff.RowsExceededException;
 import net.miginfocom.swing.MigLayout;
-import pers.quzhe.UI.DeviceUI;
-import pers.quzhe.bean.DeviceInfo;
-import pers.quzhe.hcnetsdk.HCNetSDK;
-import pers.quzhe.util.JdbcUtil;
+import team.sdk.sdkauto.UI.DeviceUI;
+import team.sdk.sdkauto.bean.DeviceInfo;
+import team.sdk.sdkauto.util.JdbcUtil;
 
 /**
  * <p>
@@ -103,10 +102,6 @@ public class DeviceList {
 	private TableRowSorter<DefaultTableModel> sorter;
 	private JdbcUtil jdbcUtil = new JdbcUtil();
 
-	NativeLong lUserID;// 用户句柄
-	static HCNetSDK hCNetSDK = HCNetSDK.INSTANCE;
-	HCNetSDK.NET_DVR_DEVICEINFO m_strDeviceInfo;// 设备信息
-
 	String index = null;
 	String sql = null;
 	public List<Map<String, Object>> mapList = null;
@@ -114,17 +109,10 @@ public class DeviceList {
 	int index_1;
 
 	public DeviceList(String s) {
-
-		boolean initSuc = hCNetSDK.NET_DVR_Init();
-		if (initSuc != true) {
-			JOptionPane.showMessageDialog(null, "初始化失败");
-		}
-
-		lUserID = new NativeLong(-1);
 		frame.setBounds(100, 347, 1550, 410);
 		// frame.setSize(1500, 300);
 		frame.setIconImage(
-				Toolkit.getDefaultToolkit().getImage(DeviceList.class.getResource("/pers/quzhe/res/device_1.png")));
+				Toolkit.getDefaultToolkit().getImage(DeviceList.class.getResource("/team/sdk/sdkauto/res/device_1.png")));
 		frame.setTitle("\u8BBE\u5907\u5217\u8868");
 		frame.setLayout(new BorderLayout(0, 0));
 
@@ -546,10 +534,10 @@ public class DeviceList {
 			// TODO Auto-generated method stub
 			if (value.toString().equals("#ONLINE#")) {
 				jl = new JLabel(new ImageIcon(Toolkit.getDefaultToolkit()
-						.getImage(DeviceUI.class.getResource("/pers/quzhe/res/online.jpg"))));
+						.getImage(DeviceUI.class.getResource("/team/sdk/sdkauto/res/online.jpg"))));
 			} else {
 				jl = new JLabel(new ImageIcon(Toolkit.getDefaultToolkit()
-						.getImage(DeviceUI.class.getResource("/pers/quzhe/res/offline.jpg"))));
+						.getImage(DeviceUI.class.getResource("/team/sdk/sdkauto/res/offline.jpg"))));
 			}
 			return jl;
 		}
