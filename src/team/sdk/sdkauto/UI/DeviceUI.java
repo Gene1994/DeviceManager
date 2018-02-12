@@ -95,13 +95,7 @@ public class DeviceUI {
 		
 		//ÃÌº”…Ë±∏
 		JButton button_insert = new JButton("");
-		button_insert.setBackground(Color.WHITE);
-		button_insert.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			}
-		});
-		button_insert.setForeground(Color.BLACK);
-		button_insert.setIcon(new ImageIcon(DeviceUI.class.getResource("/team/sdk/sdkauto/res/a.png")));
+		button_insert.setIcon(new ImageIcon(DeviceUI.class.getResource("/team/sdk/sdkauto/res/btn_insert.png")));
 		button_insert.setBounds(10, 21, 120, 30);
 		frmDevicemanager.getContentPane().add(button_insert);
 		button_insert.addMouseListener(new MouseAdapter() {
@@ -111,6 +105,7 @@ public class DeviceUI {
 					new DeviceInsert();
 				} catch (Exception e) {
 					// TODO Auto-generated catch block
+					e.printStackTrace();
 				}
 			}
 		});

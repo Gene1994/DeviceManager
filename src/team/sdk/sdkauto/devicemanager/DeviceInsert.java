@@ -8,6 +8,8 @@ import javax.swing.JComboBox;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JTextField;
 
+import team.sdk.sdkauto.dao.DeviceDao;
+
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.ItemListener;
@@ -65,8 +67,8 @@ public class DeviceInsert {
 	 */
 	private void initialize() throws Exception {
 		frame.setResizable(false);
-		frame.setIconImage(
-				Toolkit.getDefaultToolkit().getImage(DeviceInsert.class.getResource("/team/sdk/sdkauto/device_1.png")));
+		frame.setIconImage(Toolkit.getDefaultToolkit()
+				.getImage(DeviceInsert.class.getResource("/team/sdk/sdkauto/res/device_1.png")));
 		frame.setVisible(true);
 		frame.setTitle("\u6DFB\u52A0\u8BBE\u5907");
 		frame.setBounds(100, 100, 500, 403);
@@ -76,38 +78,6 @@ public class DeviceInsert {
 		JLabel lblType = new JLabel("\u8BBE\u5907\u7C7B\u578B\uFF1A");
 		lblType.setBounds(38, 28, 88, 15);
 		frame.getContentPane().add(lblType);
-
-		JButton btn_confirm = new JButton("\u786E\u8BA4");
-		btn_confirm.setBounds(100, 308, 88, 23);
-		frame.getContentPane().add(btn_confirm);
-		try {
-			btn_confirm.addMouseListener(new MouseAdapter() {
-				@Override
-				public void mouseClicked(MouseEvent arg0) {
-					if (isMatches(ip)) {
-						//生成随机五位deviceId
-						deviceId = String.format("%05d", (int) (Math.random() * 100000));
-						Device d = new Device(deviceId, type, model, ip, port, userName, password, language, position,
-								comment, status);
-						d.insert();
-					} else {
-						JOptionPane.showMessageDialog(null, "请输入正确的IP地址", "Error!", JOptionPane.ERROR_MESSAGE);
-					}
-				}
-			});
-		} catch (NumberFormatException e) {
-			JOptionPane.showMessageDialog(null, "Error", "请输入正确的端口号或错误码", JOptionPane.ERROR_MESSAGE);
-		}
-
-		JButton btn_cancel = new JButton("\u53D6\u6D88");
-		btn_cancel.setBounds(274, 308, 88, 23);
-		frame.getContentPane().add(btn_cancel);
-		btn_cancel.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent arg0) {
-				frame.dispose();
-			}
-		});
 
 		// type
 		JComboBox comboBox_type = new JComboBox();
@@ -271,10 +241,43 @@ public class DeviceInsert {
 				position = comboBox_position.getSelectedItem().toString();
 			}
 		});
+
+		JButton btn_confirm = new JButton("\u786E\u8BA4");
+		btn_confirm.setBounds(100, 308, 88, 23);
+		frame.getContentPane().add(btn_confirm);
+		try {
+			btn_confirm.addMouseListener(new MouseAdapter() {
+				@Override
+				public void mouseClicked(MouseEvent arg0) {
+					if (isMatches(ip)) {
+						// 生成随机五位deviceId
+						deviceId = String.format("%05d", (int) (Math.random() * 100000));
+						DeviceDao d = new DeviceDao(deviceId, type, model, ip, port, userName, password, language,
+								position, comment, status);
+						d.insert();
+					} else {
+						JOptionPane.showMessageDialog(null, "请输入正确的IP地址", "Error!", JOptionPane.ERROR_MESSAGE);
+					}
+				}
+			});
+		} catch (NumberFormatException e) {
+			JOptionPane.showMessageDialog(null, "Error", "请输入正确的端口号或错误码", JOptionPane.ERROR_MESSAGE);
+		}
+
+		JButton btn_cancel = new JButton("\u53D6\u6D88");
+		btn_cancel.setBounds(274, 308, 88, 23);
+		frame.getContentPane().add(btn_cancel);
+		btn_cancel.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+				frame.dispose();
+			}
+		});
 	}
 
 	/**
 	 * 验证IP格式是否正确
+	 * 
 	 * @param ip
 	 * @return
 	 */

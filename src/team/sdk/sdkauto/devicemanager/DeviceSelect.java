@@ -62,7 +62,7 @@ public class DeviceSelect {
 	private void initialize() {
 		frame.setResizable(false);
 		frame.setIconImage(
-				Toolkit.getDefaultToolkit().getImage(DeviceSelect.class.getResource("/pers/quzhe/res/device_1.png")));
+				Toolkit.getDefaultToolkit().getImage(DeviceSelect.class.getResource("/team/sdk/sdkauto/res/device_1.png")));
 		frame.setTitle("\u8BBE\u5907\u67E5\u627E");
 		frame.setBounds(100, 100, 463, 246);
 		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
