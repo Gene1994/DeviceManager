@@ -22,17 +22,17 @@ import java.util.regex.Pattern;
 
 /**
  * <p>
- * Title: DeviceInsert<£¯p>
+ * Title: DeviceInsert<ï¿½ï¿½p>
  * <p>
- * Description: <£¯p>
+ * Description: <ï¿½ï¿½p>
  * 
  * @author quzhe
  * 
- *         2017Äê11ÔÂ16ÈÕ
+ *         2017ï¿½ï¿½11ï¿½ï¿½16ï¿½ï¿½
  */
 public class DeviceInsert {
 
-	// Éè±¸ÊôÐÔ
+	// ï¿½è±¸ï¿½ï¿½ï¿½ï¿½
 	public String type;
 	public String model;
 	public String ip;
@@ -40,7 +40,7 @@ public class DeviceInsert {
 	public String userName = "admin";
 	public String password;
 	public String language;
-	public boolean status = true;// Ìí¼ÓÊ±Ä¬ÈÏtrue£¬²éÑ¯Ê±ÐÞ¸Ä
+	public boolean status = true;// ï¿½ï¿½ï¿½Ê±Ä¬ï¿½ï¿½trueï¿½ï¿½ï¿½ï¿½Ñ¯Ê±ï¿½Þ¸ï¿½
 	public int errorCode = 0;
 	public String comment;
 	public String position;
@@ -68,7 +68,7 @@ public class DeviceInsert {
 	private void initialize() throws Exception {
 		frame.setResizable(false);
 		frame.setIconImage(Toolkit.getDefaultToolkit()
-				.getImage(DeviceInsert.class.getResource("/team/sdk/sdkauto/res/device_1.png")));
+				.getImage(DeviceInsert.class.getResource("/resources/device_icon.png")));
 		frame.setVisible(true);
 		frame.setTitle("\u6DFB\u52A0\u8BBE\u5907");
 		frame.setBounds(100, 100, 500, 403);
@@ -172,7 +172,7 @@ public class DeviceInsert {
 
 		try {
 		} catch (NumberFormatException e) {
-			// JOptionPane.showMessageDialog(null, "Error", "ÇëÊäÈëÕýÈ·µÄ´íÎóÂë",
+			// JOptionPane.showMessageDialog(null, "Error", "ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È·ï¿½Ä´ï¿½ï¿½ï¿½ï¿½ï¿½",
 			// JOptionPane.ERROR_MESSAGE);
 		}
 
@@ -250,18 +250,18 @@ public class DeviceInsert {
 				@Override
 				public void mouseClicked(MouseEvent arg0) {
 					if (isMatches(ip)) {
-						// Éú³ÉËæ»úÎåÎ»deviceId
+						// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Î»deviceId
 						deviceId = String.format("%05d", (int) (Math.random() * 100000));
 						DeviceDao d = new DeviceDao(deviceId, type, model, ip, port, userName, password, language,
 								position, comment, status);
 						d.insert();
 					} else {
-						JOptionPane.showMessageDialog(null, "ÇëÊäÈëÕýÈ·µÄIPµØÖ·", "Error!", JOptionPane.ERROR_MESSAGE);
+						JOptionPane.showMessageDialog(null, "ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È·ï¿½ï¿½IPï¿½ï¿½Ö·", "Error!", JOptionPane.ERROR_MESSAGE);
 					}
 				}
 			});
 		} catch (NumberFormatException e) {
-			JOptionPane.showMessageDialog(null, "Error", "ÇëÊäÈëÕýÈ·µÄ¶Ë¿ÚºÅ»ò´íÎóÂë", JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(null, "Error", "ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È·ï¿½Ä¶Ë¿ÚºÅ»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½", JOptionPane.ERROR_MESSAGE);
 		}
 
 		JButton btn_cancel = new JButton("\u53D6\u6D88");
@@ -276,7 +276,7 @@ public class DeviceInsert {
 	}
 
 	/**
-	 * ÑéÖ¤IP¸ñÊ½ÊÇ·ñÕýÈ·
+	 * ï¿½ï¿½Ö¤IPï¿½ï¿½Ê½ï¿½Ç·ï¿½ï¿½ï¿½È·
 	 * 
 	 * @param ip
 	 * @return

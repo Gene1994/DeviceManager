@@ -38,19 +38,19 @@ import org.dom4j.Element;
 import org.dom4j.io.OutputFormat;
 import org.dom4j.io.XMLWriter;
 
-import team.sdk.sdkauto.bean.DeviceBean;
+import team.sdk.sdkauto.bean.Device;
 import team.sdk.sdkauto.bean.SceneBean;
 import team.sdk.sdkauto.devicemanager.DeviceSelect;
 
 /**
  * <p>
- * Title: StressXML<£¯p>
+ * Title: StressXML<ï¿½ï¿½p>
  * <p>
- * Description: <£¯p>
+ * Description: <ï¿½ï¿½p>
  * 
  * @author quzhe
  * 
- *         2017Äê12ÔÂ22ÈÕ
+ *         2017ï¿½ï¿½12ï¿½ï¿½22ï¿½ï¿½
  */
 public class StressXML extends JFrame {
 	/**
@@ -96,7 +96,7 @@ public class StressXML extends JFrame {
 	private SceneBean b14;
 
 	private String ip;
-	private String port;
+	private int port;
 	private String user;
 	private String password;
 
@@ -108,7 +108,7 @@ public class StressXML extends JFrame {
 	private DefaultMutableTreeNode select;
 	private DefaultMutableTreeNode node_device;
 	
-	private DeviceBean db;
+	private Device device;
 
 	private JButton btn_next;
 	private JButton btn_add;
@@ -127,8 +127,8 @@ public class StressXML extends JFrame {
 
 		this.setBounds(100, 100, 600, 330);
 		this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		this.setIconImage(Toolkit.getDefaultToolkit().getImage(DeviceSelect.class.getResource("/team/sdk/sdkauto/res/device_1.png")));
-		this.setTitle("Éú³ÉÎÈ¶¨ÐÔXML");
+		this.setIconImage(Toolkit.getDefaultToolkit().getImage(DeviceSelect.class.getResource("/resources/device_icon.png")));
+		this.setTitle("ï¿½ï¿½ï¿½ï¿½ï¿½È¶ï¿½ï¿½ï¿½XML");
 		getContentPane().setLayout(null);
 		this.setVisible(true);
 		this.setResizable(false);
@@ -159,21 +159,21 @@ public class StressXML extends JFrame {
 		DefaultMutableTreeNode clientaudiostart = new DefaultMutableTreeNode();
 		DefaultMutableTreeNode startvoicecommr = new DefaultMutableTreeNode();
 
-		root.setUserObject("³¡¾°");
-		preview.setUserObject("Ô¤ÀÀpreview");
-		playback.setUserObject("»Ø·Åplayback");
-		download.setUserObject("ÏÂÔØdownload");
-		login.setUserObject("×¢²álogin");
-		findlog.setUserObject("ÈÕÖ¾ËÑË÷findlog");
-		findfile.setUserObject("ÎÄ¼þËÑË÷findfile");
-		alarm.setUserObject("²¼·Àalarm");
-		listen.setUserObject("¼àÌýlisten");
-		paramconfig.setUserObject("²ÎÊýÅäÖÃparamconfig");
-		serial.setUserObject("Í¸Ã÷Í¨µÀserial");
-		passivedecode.setUserObject("±»¶¯½âÂëpassivedecode");
-		startvoicecom.setUserObject("ÓïÒô¶Ô½²startvoicecom");
-		clientaudiostart.setUserObject("ÓïÒô¹ã²¥clientaudiostart");
-		startvoicecommr.setUserObject("ÓïÒô×ª·¢startvoicecommr");
+		root.setUserObject("ï¿½ï¿½ï¿½ï¿½");
+		preview.setUserObject("Ô¤ï¿½ï¿½preview");
+		playback.setUserObject("ï¿½Ø·ï¿½playback");
+		download.setUserObject("ï¿½ï¿½ï¿½ï¿½download");
+		login.setUserObject("×¢ï¿½ï¿½login");
+		findlog.setUserObject("ï¿½ï¿½Ö¾ï¿½ï¿½ï¿½ï¿½findlog");
+		findfile.setUserObject("ï¿½Ä¼ï¿½ï¿½ï¿½ï¿½ï¿½findfile");
+		alarm.setUserObject("ï¿½ï¿½ï¿½ï¿½alarm");
+		listen.setUserObject("ï¿½ï¿½ï¿½ï¿½listen");
+		paramconfig.setUserObject("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½paramconfig");
+		serial.setUserObject("Í¸ï¿½ï¿½Í¨ï¿½ï¿½serial");
+		passivedecode.setUserObject("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½passivedecode");
+		startvoicecom.setUserObject("ï¿½ï¿½ï¿½ï¿½ï¿½Ô½ï¿½startvoicecom");
+		clientaudiostart.setUserObject("ï¿½ï¿½ï¿½ï¿½ï¿½ã²¥clientaudiostart");
+		startvoicecommr.setUserObject("ï¿½ï¿½ï¿½ï¿½×ªï¿½ï¿½startvoicecommr");
 
 		root.add(preview);
 		root.add(playback);
@@ -210,34 +210,34 @@ public class StressXML extends JFrame {
 		p_13 = new JPanel();
 		p_14 = new JPanel();
 		panel_addDevice = new JPanel();
-		JPanel p_15 = new JPanel();
-		p_15.setLayout(null);
+		JPanel p_blank = new JPanel();
+		p_blank.setLayout(null);
 		JLabel lb = new JLabel();
-		lb.setText("ÇëÑ¡Ôñ³¡¾°");
+		lb.setText("ï¿½ï¿½Ñ¡ï¿½ñ³¡¾ï¿½");
 		lb.setBounds(150, 130, 70, 20);
-		p_15.add(lb);
+		p_blank.add(lb);
 
 		panel_button = new JPanel();
 		panel_button.setBounds(200, 250, 400, 50);
 		this.add(panel_button);
 
 		btn_next = new JButton();
-		btn_next.setText("ÏÂÒ»²½");
+		btn_next.setText("ï¿½ï¿½Ò»ï¿½ï¿½");
 		panel_button.add(btn_next);
 		btn_next.setVisible(false);
 
 		btn_add = new JButton();
-		btn_add.setText("Ìí¼Ó");
+		btn_add.setText("ï¿½ï¿½ï¿½");
 		panel_button.add(btn_add);
 		btn_add.setVisible(false);
 
 		btn_delete = new JButton();
-		btn_delete.setText("É¾³ý");
+		btn_delete.setText("É¾ï¿½ï¿½");
 		panel_button.add(btn_delete);
 		btn_delete.setVisible(false);
 		
 		btn_init = new JButton();
-		btn_init.setText("Éú³ÉXML");
+		btn_init.setText("ï¿½ï¿½ï¿½ï¿½XML");
 		panel_button.add(btn_init);
 		btn_init.setVisible(true);
 
@@ -260,8 +260,8 @@ public class StressXML extends JFrame {
 		panel_scene.add(p_13, "clientaudiostart");
 		panel_scene.add(p_14, "startvoicecommr");
 		panel_scene.add(panel_addDevice, "addDevice");
-		panel_scene.add(p_15, "p_15");
-		card.show(panel_scene, "p_15");
+		panel_scene.add(p_blank, "p_blank");
+		card.show(panel_scene, "p_blank");
 
 		p_1.setLayout(null);
 		p_2.setLayout(null);
@@ -294,35 +294,35 @@ public class StressXML extends JFrame {
 		b13 = new SceneBean();
 		b14 = new SceneBean();
 
-		List<DeviceBean> deviceList1 = new ArrayList<DeviceBean>();
-		List<DeviceBean> deviceList2 = new ArrayList<DeviceBean>();
-		List<DeviceBean> deviceList3 = new ArrayList<DeviceBean>();
-		List<DeviceBean> deviceList4 = new ArrayList<DeviceBean>();
-		List<DeviceBean> deviceList5 = new ArrayList<DeviceBean>();
-		List<DeviceBean> deviceList6 = new ArrayList<DeviceBean>();
-		List<DeviceBean> deviceList7 = new ArrayList<DeviceBean>();
-		List<DeviceBean> deviceList8 = new ArrayList<DeviceBean>();
-		List<DeviceBean> deviceList9 = new ArrayList<DeviceBean>();
-		List<DeviceBean> deviceList10 = new ArrayList<DeviceBean>();
-		List<DeviceBean> deviceList11 = new ArrayList<DeviceBean>();
-		List<DeviceBean> deviceList12 = new ArrayList<DeviceBean>();
-		List<DeviceBean> deviceList13 = new ArrayList<DeviceBean>();
-		List<DeviceBean> deviceList14 = new ArrayList<DeviceBean>();
-		Map<SceneBean, List<DeviceBean>> deviceListList = new HashMap<SceneBean, List<DeviceBean>>();
+		List<Device> deviceList1 = new ArrayList<Device>();
+		List<Device> deviceList2 = new ArrayList<Device>();
+		List<Device> deviceList3 = new ArrayList<Device>();
+		List<Device> deviceList4 = new ArrayList<Device>();
+		List<Device> deviceList5 = new ArrayList<Device>();
+		List<Device> deviceList6 = new ArrayList<Device>();
+		List<Device> deviceList7 = new ArrayList<Device>();
+		List<Device> deviceList8 = new ArrayList<Device>();
+		List<Device> deviceList9 = new ArrayList<Device>();
+		List<Device> deviceList10 = new ArrayList<Device>();
+		List<Device> deviceList11 = new ArrayList<Device>();
+		List<Device> deviceList12 = new ArrayList<Device>();
+		List<Device> deviceList13 = new ArrayList<Device>();
+		List<Device> deviceList14 = new ArrayList<Device>();
+		Map<SceneBean, List<Device>> deviceListList = new HashMap<SceneBean, List<Device>>();
 
 		List<SceneBean> sceneList = new ArrayList<SceneBean>();
 
-		// ÉèÖÃcardPanel
-		setScene1();// Ô¤ÀÀ
-		setScene2();// »Ø·Å
+		// ï¿½ï¿½ï¿½ï¿½cardPanel
+		setScene1();// Ô¤ï¿½ï¿½
+		setScene2();// ï¿½Ø·ï¿½
 		setScene3(p_3, b3,
-				new String[] { "0-NET_DVR_GetFileByName", "1-NET_DVR_GetFileByTime", "2-NET_DVR_GetFileByTime_V40" });// ÏÂÔØ
-		setScene4(p_4, b4, new String[] { "0-NET_DVR_Login", "1-NET_DVR_Login_V30", "2-NET_DVR_Login_V40 " });// ×¢²á
+				new String[] { "0-NET_DVR_GetFileByName", "1-NET_DVR_GetFileByTime", "2-NET_DVR_GetFileByTime_V40" });// ï¿½ï¿½ï¿½ï¿½
+		setScene4(p_4, b4, new String[] { "0-NET_DVR_Login", "1-NET_DVR_Login_V30", "2-NET_DVR_Login_V40 " });// ×¢ï¿½ï¿½
 		setScene3(p_5, b5, new String[] { "0-NET_DVR_FindDVRLog", "1-NET_DVR_FindDVRLog_V30" });// findlog
 		setScene3(p_6, b6, new String[] { "0-NET_DVR_FindFile", "1-NET_DVR_FindFileByCard", "2-NET_DVR_FindFile_V30",
 				"3-NET_DVR_FindFile_V40" });// findfile
 		setScene4(p_7, b7, new String[] { "0-NET_DVR_SetupAlarmChan", "1-NET_DVR_SetupAlarmChan_V30" });// alarm
-		setScene5();// ¼àÌý
+		setScene5();// ï¿½ï¿½ï¿½ï¿½
 		setScene3(p_9, b9, new String[] { "0-NET_DVR_GET/SET_TIMECFG", "1-NET_DVR_GET/SET_NETCFG_V30",
 				"2-NET_DVR_GET/SET_DEVICECFG", "3-NET_DVR_GET/SET_DEVICECFG_V40" });// paramconfig
 		setScene3(p_10, b10, new String[] { "0-NET_DVR_SerialStart_V40" });// serial
@@ -331,63 +331,63 @@ public class StressXML extends JFrame {
 		setScene7(p_13, b13, new String[] { "0-NET_DVR_ClientAudioStart_V30" });// clientaudiostart
 		b13.setSleeptime(0);
 		setScene7(p_14, b14, new String[] { "0-NET_DVR_StartVoiceCom_MR_V30" });// startvoicecommr
-		// ÉèÖÃÌí¼ÓÉè±¸Ò³Ãæ
+		// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½è±¸Ò³ï¿½ï¿½
 		setSceneAddDevice();
 
 		// JPanel panel_show = panel_scene;
-		// Ê÷
+		// ï¿½ï¿½
 		tree.addTreeSelectionListener(new TreeSelectionListener() {
 			public void valueChanged(TreeSelectionEvent e) {
 				select = (DefaultMutableTreeNode) tree.getLastSelectedPathComponent();
 				btn_next.setVisible(true);
 				btn_add.setVisible(false);
-				if (select.toString().equals("Ô¤ÀÀpreview")) {
+				if (select.toString().equals("Ô¤ï¿½ï¿½preview")) {
 					card.show(panel_scene, "preview");
 					btn_delete.setVisible(false);
-				} else if (select.toString().equals("»Ø·Åplayback")) {
+				} else if (select.toString().equals("ï¿½Ø·ï¿½playback")) {
 					card.show(panel_scene, "playback");
 					btn_delete.setVisible(false);
-				} else if (select.toString().equals("ÏÂÔØdownload")) {
+				} else if (select.toString().equals("ï¿½ï¿½ï¿½ï¿½download")) {
 					card.show(panel_scene, "download");
 					btn_delete.setVisible(false);
-				} else if (select.toString().equals("×¢²álogin")) {
+				} else if (select.toString().equals("×¢ï¿½ï¿½login")) {
 					card.show(panel_scene, "login");
 					btn_delete.setVisible(false);
-				} else if (select.toString().equals("ÈÕÖ¾ËÑË÷findlog")) {
+				} else if (select.toString().equals("ï¿½ï¿½Ö¾ï¿½ï¿½ï¿½ï¿½findlog")) {
 					card.show(panel_scene, "findlog");
 					btn_delete.setVisible(false);
-				} else if (select.toString().equals("ÎÄ¼þËÑË÷findfile")) {
+				} else if (select.toString().equals("ï¿½Ä¼ï¿½ï¿½ï¿½ï¿½ï¿½findfile")) {
 					card.show(panel_scene, "findfile");
 					btn_delete.setVisible(false);
-				} else if (select.toString().equals("²¼·Àalarm")) {
+				} else if (select.toString().equals("ï¿½ï¿½ï¿½ï¿½alarm")) {
 					card.show(panel_scene, "alarm");
 					btn_delete.setVisible(false);
-				} else if (select.toString().equals("¼àÌýlisten")) {
+				} else if (select.toString().equals("ï¿½ï¿½ï¿½ï¿½listen")) {
 					card.show(panel_scene, "listen");
 					btn_delete.setVisible(false);
-				} else if (select.toString().equals("¼àÌýlisten")) {
+				} else if (select.toString().equals("ï¿½ï¿½ï¿½ï¿½listen")) {
 					card.show(panel_scene, "listen");
 					btn_delete.setVisible(false);
-				} else if (select.toString().equals("²ÎÊýÅäÖÃparamconfig")) {
+				} else if (select.toString().equals("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½paramconfig")) {
 					card.show(panel_scene, "paramconfig");
 					btn_delete.setVisible(false);
-				} else if (select.toString().equals("Í¸Ã÷Í¨µÀserial")) {
+				} else if (select.toString().equals("Í¸ï¿½ï¿½Í¨ï¿½ï¿½serial")) {
 					card.show(panel_scene, "serial");
 					btn_delete.setVisible(false);
-				} else if (select.toString().equals("±»¶¯½âÂëpassivedecode")) {
+				} else if (select.toString().equals("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½passivedecode")) {
 					card.show(panel_scene, "passivedecode");
 					btn_delete.setVisible(false);
-				} else if (select.toString().equals("ÓïÒô¶Ô½²startvoicecom")) {
+				} else if (select.toString().equals("ï¿½ï¿½ï¿½ï¿½ï¿½Ô½ï¿½startvoicecom")) {
 					card.show(panel_scene, "startvoicecom");
 					btn_delete.setVisible(false);
-				} else if (select.toString().equals("ÓïÒô¹ã²¥clientaudiostart")) {
+				} else if (select.toString().equals("ï¿½ï¿½ï¿½ï¿½ï¿½ã²¥clientaudiostart")) {
 					card.show(panel_scene, "clientaudiostart");
 					btn_delete.setVisible(false);
-				} else if (select.toString().equals("ÓïÒô×ª·¢startvoicecommr")) {
+				} else if (select.toString().equals("ï¿½ï¿½ï¿½ï¿½×ªï¿½ï¿½startvoicecommr")) {
 					card.show(panel_scene, "startvoicecommr");
 					btn_delete.setVisible(false);
 				} else {
-					card.show(panel_scene, "p_15");
+					card.show(panel_scene, "p_blank");
 					btn_next.setVisible(false);
 					btn_delete.setVisible(true);
 				}
@@ -409,105 +409,105 @@ public class StressXML extends JFrame {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				if (isMatches(ip)) {
-					db = new DeviceBean();
-					db.setIp(ip);
-					db.setPort(port);
-					db.setUser(user);
-					db.setPassword(password);
-					node_device = new DefaultMutableTreeNode(db.getIp());
-					if (select.toString().equals("Ô¤ÀÀpreview")) {
-						deviceList1.add(db);
+					device = new Device();
+					device.setIp(ip);
+					device.setPort(port);
+					device.setUserName(user);
+					device.setPassword(password);
+					node_device = new DefaultMutableTreeNode(device.getIp());
+					if (select.toString().equals("Ô¤ï¿½ï¿½preview")) {
+						deviceList1.add(device);
 						deviceListList.put(b1, deviceList1);
 						if (!sceneList.contains(b1)) {
 							sceneList.add(b1);
 						}
 						preview.add(node_device);
-					} else if (select.toString().equals("»Ø·Åplayback")) {
-						deviceList2.add(db);
+					} else if (select.toString().equals("ï¿½Ø·ï¿½playback")) {
+						deviceList2.add(device);
 						deviceListList.put(b2, deviceList2);
 						if (!sceneList.contains(b2)) {
 							sceneList.add(b2);
 						}
 						playback.add(node_device);
-					} else if (select.toString().equals("ÏÂÔØdownload")) {
-						deviceList3.add(db);
+					} else if (select.toString().equals("ï¿½ï¿½ï¿½ï¿½download")) {
+						deviceList3.add(device);
 						deviceListList.put(b3, deviceList3);
 						if (!sceneList.contains(b3)) {
 							sceneList.add(b3);
 						}
 						download.add(node_device);
-					} else if (select.toString().equals("×¢²álogin")) {
-						deviceList4.add(db);
+					} else if (select.toString().equals("×¢ï¿½ï¿½login")) {
+						deviceList4.add(device);
 						deviceListList.put(b4, deviceList4);
 						if (!sceneList.contains(b4)) {
 							sceneList.add(b4);
 						}
 						login.add(node_device);
-					} else if (select.toString().equals("ÈÕÖ¾ËÑË÷findlog")) {
-						deviceList5.add(db);
+					} else if (select.toString().equals("ï¿½ï¿½Ö¾ï¿½ï¿½ï¿½ï¿½findlog")) {
+						deviceList5.add(device);
 						deviceListList.put(b5, deviceList5);
 						if (!sceneList.contains(b5)) {
 							sceneList.add(b5);
 						}
 						findlog.add(node_device);
-					} else if (select.toString().equals("ÎÄ¼þËÑË÷findfile")) {
-						deviceList6.add(db);
+					} else if (select.toString().equals("ï¿½Ä¼ï¿½ï¿½ï¿½ï¿½ï¿½findfile")) {
+						deviceList6.add(device);
 						deviceListList.put(b6, deviceList6);
 						if (!sceneList.contains(b6)) {
 							sceneList.add(b6);
 						}
 						findfile.add(node_device);
-					} else if (select.toString().equals("²¼·Àalarm")) {
-						deviceList7.add(db);
+					} else if (select.toString().equals("ï¿½ï¿½ï¿½ï¿½alarm")) {
+						deviceList7.add(device);
 						deviceListList.put(b7, deviceList7);
 						if (!sceneList.contains(b7)) {
 							sceneList.add(b7);
 						}
 						alarm.add(node_device);
-					} else if (select.toString().equals("¼àÌýlisten")) {
-						deviceList8.add(db);
+					} else if (select.toString().equals("ï¿½ï¿½ï¿½ï¿½listen")) {
+						deviceList8.add(device);
 						deviceListList.put(b8, deviceList8);
 						if (!sceneList.contains(b8)) {
 							sceneList.add(b8);
 						}
 						listen.add(node_device);
-					} else if (select.toString().equals("²ÎÊýÅäÖÃparamconfig")) {
-						deviceList9.add(db);
+					} else if (select.toString().equals("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½paramconfig")) {
+						deviceList9.add(device);
 						deviceListList.put(b9, deviceList9);
 						if (!sceneList.contains(b9)) {
 							sceneList.add(b9);
 						}
 						paramconfig.add(node_device);
-					} else if (select.toString().equals("Í¸Ã÷Í¨µÀserial")) {
-						deviceList10.add(db);
+					} else if (select.toString().equals("Í¸ï¿½ï¿½Í¨ï¿½ï¿½serial")) {
+						deviceList10.add(device);
 						deviceListList.put(b10, deviceList10);
 						if (!sceneList.contains(b10)) {
 							sceneList.add(b10);
 						}
 						serial.add(node_device);
-					} else if (select.toString().equals("±»¶¯½âÂëpassivedecode")) {
-						deviceList11.add(db);
+					} else if (select.toString().equals("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½passivedecode")) {
+						deviceList11.add(device);
 						deviceListList.put(b11, deviceList11);
 						if (!sceneList.contains(b11)) {
 							sceneList.add(b11);
 						}
 						passivedecode.add(node_device);
-					} else if (select.toString().equals("ÓïÒô¶Ô½²startvoicecom")) {
-						deviceList12.add(db);
+					} else if (select.toString().equals("ï¿½ï¿½ï¿½ï¿½ï¿½Ô½ï¿½startvoicecom")) {
+						deviceList12.add(device);
 						deviceListList.put(b12, deviceList12);
 						if (!sceneList.contains(b12)) {
 							sceneList.add(b12);
 						}
 						startvoicecom.add(node_device);
-					} else if (select.toString().equals("ÓïÒô¹ã²¥clientaudiostart")) {
-						deviceList13.add(db);
+					} else if (select.toString().equals("ï¿½ï¿½ï¿½ï¿½ï¿½ã²¥clientaudiostart")) {
+						deviceList13.add(device);
 						deviceListList.put(b13, deviceList13);
 						if (!sceneList.contains(b13)) {
 							sceneList.add(b13);
 						}
 						clientaudiostart.add(node_device);
-					} else if (select.toString().equals("ÓïÒô×ª·¢startvoicecommr")) {
-						deviceList14.add(db);
+					} else if (select.toString().equals("ï¿½ï¿½ï¿½ï¿½×ªï¿½ï¿½startvoicecommr")) {
+						deviceList14.add(device);
 						deviceListList.put(b14, deviceList14);
 						if (!sceneList.contains(b14)) {
 							sceneList.add(b14);
@@ -519,11 +519,11 @@ public class StressXML extends JFrame {
 					tfUser.setText("");
 					tfPassword.setText("");
 					ip = null;
-					port = "8000";
+					port = 8000;
 					user = null;
 					password = null;
 				}else{
-					JOptionPane.showMessageDialog(null, "ÇëÊäÈëÕýÈ·µÄIPµØÖ·", "Error!",JOptionPane.ERROR_MESSAGE); 
+					JOptionPane.showMessageDialog(null, "ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È·ï¿½ï¿½IPï¿½ï¿½Ö·", "Error!",JOptionPane.ERROR_MESSAGE); 
 				}
 				
 			}
@@ -533,7 +533,7 @@ public class StressXML extends JFrame {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				try {
-					XMLWriter writer = null;// ÉùÃ÷Ð´XMLµÄ¶ÔÏó
+					XMLWriter writer = null;// ï¿½ï¿½ï¿½ï¿½Ð´XMLï¿½Ä¶ï¿½ï¿½ï¿½
 //					SAXReader reader = new SAXReader();
 
 					String xml_Url = "..\\SDKAuto\\Generate Files\\hikstresstestXml\\hiksdkstresstest_"
@@ -541,7 +541,7 @@ public class StressXML extends JFrame {
 					File xmlFile = new File(xml_Url);
 
 					OutputFormat format = OutputFormat.createPrettyPrint();
-					format.setEncoding("UTF-8");// ÉèÖÃXMLÎÄ¼þµÄ±àÂë¸ñÊ½
+					format.setEncoding("UTF-8");// ï¿½ï¿½ï¿½ï¿½XMLï¿½Ä¼ï¿½ï¿½Ä±ï¿½ï¿½ï¿½ï¿½Ê½
 
 					Document _document = DocumentHelper.createDocument();
 					Element _root = _document.addElement("hiksdkstresstest");
@@ -556,12 +556,12 @@ public class StressXML extends JFrame {
 							_preview.addAttribute("threadcount", b1.getThreadcount() + "");
 							_preview.addAttribute("loopinterval", b1.getLoopinterval() + "");
 							_preview.addAttribute("enable", "1");
-							for (DeviceBean deviceBean : deviceListList.get(b1)) {
+							for (Device device : deviceListList.get(b1)) {
 								Element _device = _preview.addElement("device");
-								_device.addAttribute("ip", deviceBean.getIp());
-								_device.addAttribute("port", deviceBean.getPort());
-								_device.addAttribute("user", deviceBean.getUser());
-								_device.addAttribute("password", deviceBean.getPassword());
+								_device.addAttribute("ip", device.getIp());
+								_device.addAttribute("port", device.getPort()+"");
+								_device.addAttribute("user", device.getUserName());
+								_device.addAttribute("password", device.getPassword());
 							}
 						} else if (scene == b2) {
 							Element _playback = _root.addElement("playback");
@@ -571,12 +571,12 @@ public class StressXML extends JFrame {
 							_playback.addAttribute("threadcount", b2.getThreadcount() + "");
 							_playback.addAttribute("loopinterval", b2.getLoopinterval() + "");
 							_playback.addAttribute("enable", "1");
-							for (DeviceBean deviceBean : deviceListList.get(b2)) {
+							for (Device device : deviceListList.get(b2)) {
 								Element _device = _playback.addElement("device");
-								_device.addAttribute("ip", deviceBean.getIp());
-								_device.addAttribute("port", deviceBean.getPort());
-								_device.addAttribute("user", deviceBean.getUser());
-								_device.addAttribute("password", deviceBean.getPassword());
+								_device.addAttribute("ip", device.getIp());
+								_device.addAttribute("port", device.getPort()+"");
+								_device.addAttribute("user", device.getUserName());
+								_device.addAttribute("password", device.getPassword());
 							}
 						} else if (scene == b3) {
 							Element _download = _root.addElement("download");
@@ -584,12 +584,12 @@ public class StressXML extends JFrame {
 							_download.addAttribute("threadcount", b3.getThreadcount() + "");
 							_download.addAttribute("loopinterval", b3.getLoopinterval() + "");
 							_download.addAttribute("enable", "1");
-							for (DeviceBean deviceBean : deviceListList.get(b3)) {
+							for (Device device : deviceListList.get(b3)) {
 								Element _device = _download.addElement("device");
-								_device.addAttribute("ip", deviceBean.getIp());
-								_device.addAttribute("port", deviceBean.getPort());
-								_device.addAttribute("user", deviceBean.getUser());
-								_device.addAttribute("password", deviceBean.getPassword());
+								_device.addAttribute("ip", device.getIp());
+								_device.addAttribute("port", device.getPort()+"");
+								_device.addAttribute("user", device.getUserName());
+								_device.addAttribute("password", device.getPassword());
 							}
 						} else if (scene == b4) {
 							Element _login = _root.addElement("login");
@@ -598,12 +598,12 @@ public class StressXML extends JFrame {
 							_login.addAttribute("threadcount", b4.getThreadcount() + "");
 							_login.addAttribute("loopinterval", b4.getLoopinterval() + "");
 							_login.addAttribute("enable", "1");
-							for (DeviceBean deviceBean : deviceListList.get(b4)) {
+							for (Device device : deviceListList.get(b4)) {
 								Element _device = _login.addElement("device");
-								_device.addAttribute("ip", deviceBean.getIp());
-								_device.addAttribute("port", deviceBean.getPort());
-								_device.addAttribute("user", deviceBean.getUser());
-								_device.addAttribute("password", deviceBean.getPassword());
+								_device.addAttribute("ip", device.getIp());
+								_device.addAttribute("port", device.getPort()+"");
+								_device.addAttribute("user", device.getUserName());
+								_device.addAttribute("password", device.getPassword());
 							}
 						} else if (scene == b5) {
 							Element _findlog = _root.addElement("findlog");
@@ -611,12 +611,12 @@ public class StressXML extends JFrame {
 							_findlog.addAttribute("threadcount", b5.getThreadcount() + "");
 							_findlog.addAttribute("loopinterval", b5.getLoopinterval() + "");
 							_findlog.addAttribute("enable", "1");
-							for (DeviceBean deviceBean : deviceListList.get(b5)) {
+							for (Device device : deviceListList.get(b5)) {
 								Element _device = _findlog.addElement("device");
-								_device.addAttribute("ip", deviceBean.getIp());
-								_device.addAttribute("port", deviceBean.getPort());
-								_device.addAttribute("user", deviceBean.getUser());
-								_device.addAttribute("password", deviceBean.getPassword());
+								_device.addAttribute("ip", device.getIp());
+								_device.addAttribute("port", device.getPort()+"");
+								_device.addAttribute("user", device.getUserName());
+								_device.addAttribute("password", device.getPassword());
 							}
 						} else if (scene == b6) {
 							Element _findfile = _root.addElement("findfile");
@@ -624,12 +624,12 @@ public class StressXML extends JFrame {
 							_findfile.addAttribute("threadcount", b6.getThreadcount() + "");
 							_findfile.addAttribute("loopinterval", b6.getLoopinterval() + "");
 							_findfile.addAttribute("enable", "1");
-							for (DeviceBean deviceBean : deviceListList.get(b6)) {
+							for (Device device : deviceListList.get(b6)) {
 								Element _device = _findfile.addElement("device");
-								_device.addAttribute("ip", deviceBean.getIp());
-								_device.addAttribute("port", deviceBean.getPort());
-								_device.addAttribute("user", deviceBean.getUser());
-								_device.addAttribute("password", deviceBean.getPassword());
+								_device.addAttribute("ip", device.getIp());
+								_device.addAttribute("port", device.getPort()+"");
+								_device.addAttribute("user", device.getUserName());
+								_device.addAttribute("password", device.getPassword());
 							}
 						} else if (scene == b7) {
 							Element _alarm = _root.addElement("alarm");
@@ -638,12 +638,12 @@ public class StressXML extends JFrame {
 							_alarm.addAttribute("threadcount", b7.getThreadcount() + "");
 							_alarm.addAttribute("loopinterval", b7.getLoopinterval() + "");
 							_alarm.addAttribute("enable", "1");
-							for (DeviceBean deviceBean : deviceListList.get(b7)) {
+							for (Device device : deviceListList.get(b7)) {
 								Element _device = _alarm.addElement("device");
-								_device.addAttribute("ip", deviceBean.getIp());
-								_device.addAttribute("port", deviceBean.getPort());
-								_device.addAttribute("user", deviceBean.getUser());
-								_device.addAttribute("password", deviceBean.getPassword());
+								_device.addAttribute("ip", device.getIp());
+								_device.addAttribute("port", device.getPort()+"");
+								_device.addAttribute("user", device.getUserName());
+								_device.addAttribute("password", device.getPassword());
 							}
 						} else if (scene == b8) {
 							Element _listen = _root.addElement("listen");
@@ -653,12 +653,12 @@ public class StressXML extends JFrame {
 							_listen.addAttribute("threadcount", b8.getThreadcount() + "");
 							_listen.addAttribute("loopinterval", b8.getLoopinterval() + "");
 							_listen.addAttribute("enable", "1");
-							for (DeviceBean deviceBean : deviceListList.get(b8)) {
+							for (Device device : deviceListList.get(b8)) {
 								Element _device = _listen.addElement("device");
-								_device.addAttribute("ip", deviceBean.getIp());
-								_device.addAttribute("port", deviceBean.getPort());
-								_device.addAttribute("user", deviceBean.getUser());
-								_device.addAttribute("password", deviceBean.getPassword());
+								_device.addAttribute("ip", device.getIp());
+								_device.addAttribute("port", device.getPort()+"");
+								_device.addAttribute("user", device.getUserName());
+								_device.addAttribute("password", device.getPassword());
 							}
 						} else if (scene == b9) {
 							Element _paramconfig = _root.addElement("paramconfig");
@@ -666,12 +666,12 @@ public class StressXML extends JFrame {
 							_paramconfig.addAttribute("threadcount", b9.getThreadcount() + "");
 							_paramconfig.addAttribute("loopinterval", b9.getLoopinterval() + "");
 							_paramconfig.addAttribute("enable", "1");
-							for (DeviceBean deviceBean : deviceListList.get(b9)) {
+							for (Device device : deviceListList.get(b9)) {
 								Element _device = _paramconfig.addElement("device");
-								_device.addAttribute("ip", deviceBean.getIp());
-								_device.addAttribute("port", deviceBean.getPort());
-								_device.addAttribute("user", deviceBean.getUser());
-								_device.addAttribute("password", deviceBean.getPassword());
+								_device.addAttribute("ip", device.getIp());
+								_device.addAttribute("port", device.getPort()+"");
+								_device.addAttribute("user", device.getUserName());
+								_device.addAttribute("password", device.getPassword());
 							}
 						} else if (scene == b10) {
 							Element _serial = _root.addElement("serial");
@@ -679,12 +679,12 @@ public class StressXML extends JFrame {
 							_serial.addAttribute("threadcount", b10.getThreadcount() + "");
 							_serial.addAttribute("loopinterval", b10.getLoopinterval() + "");
 							_serial.addAttribute("enable", "1");
-							for (DeviceBean deviceBean : deviceListList.get(b10)) {
+							for (Device Device : deviceListList.get(b10)) {
 								Element _device = _serial.addElement("device");
-								_device.addAttribute("ip", deviceBean.getIp());
-								_device.addAttribute("port", deviceBean.getPort());
-								_device.addAttribute("user", deviceBean.getUser());
-								_device.addAttribute("password", deviceBean.getPassword());
+								_device.addAttribute("ip", device.getIp());
+								_device.addAttribute("port", device.getPort()+"");
+								_device.addAttribute("user", device.getUserName());
+								_device.addAttribute("password", device.getPassword());
 							}
 						} else if (scene == b11) {
 							Element _passivedecode = _root.addElement("passivedecode");
@@ -692,12 +692,12 @@ public class StressXML extends JFrame {
 							_passivedecode.addAttribute("threadcount", b11.getThreadcount() + "");
 							_passivedecode.addAttribute("loopinterval", b11.getLoopinterval() + "");
 							_passivedecode.addAttribute("enable", "1");
-							for (DeviceBean deviceBean : deviceListList.get(b11)) {
+							for (Device device : deviceListList.get(b11)) {
 								Element _device = _passivedecode.addElement("device");
-								_device.addAttribute("ip", deviceBean.getIp());
-								_device.addAttribute("port", deviceBean.getPort());
-								_device.addAttribute("user", deviceBean.getUser());
-								_device.addAttribute("password", deviceBean.getPassword());
+								_device.addAttribute("ip", device.getIp());
+								_device.addAttribute("port", device.getPort()+"");
+								_device.addAttribute("user", device.getUserName());
+								_device.addAttribute("password", device.getPassword());
 							}
 						} else if (scene == b12) {
 							Element _startvoicecom = _root.addElement("startvoicecom");
@@ -708,12 +708,12 @@ public class StressXML extends JFrame {
 							_startvoicecom.addAttribute("cbVoiceDataCallBack", b12.getCbVoiceDataCallBack() + "");
 							_startvoicecom.addAttribute("loopinterval", b12.getLoopinterval() + "");
 							_startvoicecom.addAttribute("enable", "1");
-							for (DeviceBean deviceBean : deviceListList.get(b12)) {
+							for (Device device : deviceListList.get(b12)) {
 								Element _device = _startvoicecom.addElement("device");
-								_device.addAttribute("ip", deviceBean.getIp());
-								_device.addAttribute("port", deviceBean.getPort());
-								_device.addAttribute("user", deviceBean.getUser());
-								_device.addAttribute("password", deviceBean.getPassword());
+								_device.addAttribute("ip", device.getIp());
+								_device.addAttribute("port", device.getPort()+"");
+								_device.addAttribute("user", device.getUserName());
+								_device.addAttribute("password", device.getPassword());
 							}
 						} else if (scene == b13) {
 							Element _clientaudiostart = _root.addElement("clientaudiostart");
@@ -724,12 +724,12 @@ public class StressXML extends JFrame {
 							_clientaudiostart.addAttribute("sleeptime", "0");
 							_clientaudiostart.addAttribute("loopinterval", b13.getLoopinterval() + "");
 							_clientaudiostart.addAttribute("enable", "1");
-							for (DeviceBean deviceBean : deviceListList.get(b13)) {
+							for (Device device : deviceListList.get(b13)) {
 								Element _device = _clientaudiostart.addElement("device");
-								_device.addAttribute("ip", deviceBean.getIp());
-								_device.addAttribute("port", deviceBean.getPort());
-								_device.addAttribute("user", deviceBean.getUser());
-								_device.addAttribute("password", deviceBean.getPassword());
+								_device.addAttribute("ip", device.getIp());
+								_device.addAttribute("port", device.getPort()+"");
+								_device.addAttribute("user", device.getUserName());
+								_device.addAttribute("password", device.getPassword());
 							}
 						} else if (scene == b14) {
 							Element _startvoicecommr = _root.addElement("startvoicecommr");
@@ -739,12 +739,12 @@ public class StressXML extends JFrame {
 							_startvoicecommr.addAttribute("cbVoiceDataCallBack", b14.getCbVoiceDataCallBack() + "");
 							_startvoicecommr.addAttribute("loopinterval", b14.getLoopinterval() + "");
 							_startvoicecommr.addAttribute("enable", "1");
-							for (DeviceBean deviceBean : deviceListList.get(b14)) {
+							for (Device device : deviceListList.get(b14)) {
 								Element _device = _startvoicecommr.addElement("device");
-								_device.addAttribute("ip", deviceBean.getIp());
-								_device.addAttribute("port", deviceBean.getPort());
-								_device.addAttribute("user", deviceBean.getUser());
-								_device.addAttribute("password", deviceBean.getPassword());
+								_device.addAttribute("ip", device.getIp());
+								_device.addAttribute("port", device.getPort()+"");
+								_device.addAttribute("user", device.getUserName());
+								_device.addAttribute("password", device.getPassword());
 							}
 						}
 					}
@@ -752,7 +752,7 @@ public class StressXML extends JFrame {
 					writer = new XMLWriter(new FileWriter(xmlFile), format);
 					writer.write(_document);
 					writer.close();
-					JOptionPane.showMessageDialog(null, "Éú³É³É¹¦£¡");  
+					JOptionPane.showMessageDialog(null, "ï¿½ï¿½ï¿½É³É¹ï¿½ï¿½ï¿½");  
 				} catch (Exception e1) {
 				}
 			}
@@ -780,13 +780,15 @@ public class StressXML extends JFrame {
 		panel_addDevice.add(lbPort);
 
 		tfPort.setText("8000");
-		port = 8000 + "";
+		port = 8000;
 		tfPort.setColumns(10);
 		tfPort.setBounds(90, 67, 130, 21);
 		tfPort.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyReleased(KeyEvent e) {
-				port = tfPort.getText();
+				try {
+					port = Integer.parseInt(tfPort.getText());
+				}catch(NumberFormatException exception) {}
 			}
 		});
 		panel_addDevice.add(tfPort);
@@ -934,7 +936,7 @@ public class StressXML extends JFrame {
 				try {
 					int i = Integer.parseInt(tfThreadcount.getText());
 					if (i < 1 || i > 2048) {
-						JOptionPane.showMessageDialog(null, "ÇëÊäÈë[1,2048]µÄÕûÊý£¡", "Error!", JOptionPane.ERROR_MESSAGE);
+						JOptionPane.showMessageDialog(null, "ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½[1,2048]ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½", "Error!", JOptionPane.ERROR_MESSAGE);
 						tfThreadcount.setText("1");
 					}
 					b1.setThreadcount(i);
@@ -956,7 +958,7 @@ public class StressXML extends JFrame {
 		p_1.add(lbLoopinterval);
 
 		b1.setLoopinterval(15);
-		JTextField tfLoopinterval = new JTextField("ÇëÊäÈë>=15ÕûÊý", 10);
+		JTextField tfLoopinterval = new JTextField("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½>=15ï¿½ï¿½ï¿½ï¿½", 10);
 		tfLoopinterval.setBounds(90, 147, 100, 21);
 		p_1.add(tfLoopinterval);
 		// tfLoopinterval.setColumns(10);
@@ -973,17 +975,17 @@ public class StressXML extends JFrame {
 		tfLoopinterval.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mousePressed(MouseEvent e) {
-				if (tfLoopinterval.getText().equals("ÇëÊäÈë>=15ÕûÊý")) {
+				if (tfLoopinterval.getText().equals("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½>=15ï¿½ï¿½ï¿½ï¿½")) {
 					tfLoopinterval.setText("");
 				}
 			}
 		});
 
-		JLabel lbMention = new JLabel("protoType:Éè±¸Í¬Ê±Ö§³ÖË½ÓÐÐ­ÒéºÍRTSPÐ­ÒéÊ±£¬");
+		JLabel lbMention = new JLabel("protoType:ï¿½è±¸Í¬Ê±Ö§ï¿½ï¿½Ë½ï¿½ï¿½Ð­ï¿½ï¿½ï¿½RTSPÐ­ï¿½ï¿½Ê±ï¿½ï¿½");
 		lbMention.setBounds(10, 180, 300, 15);
 		p_1.add(lbMention);
 
-		JLabel lbMention1 = new JLabel("¸Ã²ÎÊý²ÅÓÐÐ§£¬Ä¬ÈÏÊ¹ÓÃË½ÓÐÐ­Òé£¬¿ÉÑ¡RTSPÐ­Òé");
+		JLabel lbMention1 = new JLabel("ï¿½Ã²ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ð§ï¿½ï¿½Ä¬ï¿½ï¿½Ê¹ï¿½ï¿½Ë½ï¿½ï¿½Ð­ï¿½é£¬ï¿½ï¿½Ñ¡RTSPÐ­ï¿½ï¿½");
 		lbMention1.setBounds(10, 195, 300, 15);
 		p_1.add(lbMention1);
 	}
@@ -1054,7 +1056,7 @@ public class StressXML extends JFrame {
 				try {
 					int i = Integer.parseInt(tfThreadcount.getText());
 					if (i < 1 || i > 2048) {
-						JOptionPane.showMessageDialog(null, "ÇëÊäÈë[1,2048]µÄÕûÊý£¡", "Error!", JOptionPane.ERROR_MESSAGE);
+						JOptionPane.showMessageDialog(null, "ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½[1,2048]ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½", "Error!", JOptionPane.ERROR_MESSAGE);
 						tfThreadcount.setText("1");
 					}
 					b2.setThreadcount(i);
@@ -1076,7 +1078,7 @@ public class StressXML extends JFrame {
 		p_2.add(lbLoopinterval);
 
 		b2.setLoopinterval(15);
-		JTextField tfLoopinterval = new JTextField("ÇëÊäÈë>=15ÕûÊý", 10);
+		JTextField tfLoopinterval = new JTextField("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½>=15ï¿½ï¿½ï¿½ï¿½", 10);
 		tfLoopinterval.setBounds(90, 87, 100, 21);
 		p_2.add(tfLoopinterval);
 		// tfLoopinterval.setColumns(10);
@@ -1093,7 +1095,7 @@ public class StressXML extends JFrame {
 		tfLoopinterval.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mousePressed(MouseEvent e) {
-				if (tfLoopinterval.getText().equals("ÇëÊäÈë>=15ÕûÊý")) {
+				if (tfLoopinterval.getText().equals("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½>=15ï¿½ï¿½ï¿½ï¿½")) {
 					tfLoopinterval.setText("");
 				}
 			}
@@ -1132,7 +1134,7 @@ public class StressXML extends JFrame {
 				try {
 					int i = Integer.parseInt(tfThreadcount.getText());
 					if (i < 1 || i > 2048) {
-						JOptionPane.showMessageDialog(null, "ÇëÊäÈë[1,2048]µÄÕûÊý£¡", "Error!", JOptionPane.ERROR_MESSAGE);
+						JOptionPane.showMessageDialog(null, "ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½[1,2048]ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½", "Error!", JOptionPane.ERROR_MESSAGE);
 						tfThreadcount.setText("1");
 					}
 					b.setThreadcount(i);
@@ -1154,7 +1156,7 @@ public class StressXML extends JFrame {
 		p.add(lbLoopinterval);
 
 		b.setLoopinterval(15);
-		JTextField tfLoopinterval = new JTextField("ÇëÊäÈë>=15ÕûÊý", 10);
+		JTextField tfLoopinterval = new JTextField("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½>=15ï¿½ï¿½ï¿½ï¿½", 10);
 		tfLoopinterval.setBounds(90, 47, 100, 21);
 		p.add(tfLoopinterval);
 		// tfLoopinterval.setColumns(10);
@@ -1171,7 +1173,7 @@ public class StressXML extends JFrame {
 		tfLoopinterval.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mousePressed(MouseEvent e) {
-				if (tfLoopinterval.getText().equals("ÇëÊäÈë>=15ÕûÊý")) {
+				if (tfLoopinterval.getText().equals("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½>=15ï¿½ï¿½ï¿½ï¿½")) {
 					tfLoopinterval.setText("");
 				}
 			}
@@ -1210,7 +1212,7 @@ public class StressXML extends JFrame {
 				try {
 					int i = Integer.parseInt(tfTaskcount.getText());
 					if (i < 1 || i > 2048) {
-						JOptionPane.showMessageDialog(null, "ÇëÊäÈë[1,2048]µÄÕûÊý£¡", "Error!", JOptionPane.ERROR_MESSAGE);
+						JOptionPane.showMessageDialog(null, "ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½[1,2048]ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½", "Error!", JOptionPane.ERROR_MESSAGE);
 						tfTaskcount.setText("1");
 					}
 					b.setTaskcount(i);
@@ -1242,7 +1244,7 @@ public class StressXML extends JFrame {
 				try {
 					int i = Integer.parseInt(tfThreadcount.getText());
 					if (i < 1 || i > 2048) {
-						JOptionPane.showMessageDialog(null, "ÇëÊäÈë[1,2048]µÄÕûÊý£¡", "Error!", JOptionPane.ERROR_MESSAGE);
+						JOptionPane.showMessageDialog(null, "ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½[1,2048]ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½", "Error!", JOptionPane.ERROR_MESSAGE);
 						tfThreadcount.setText("1");
 					}
 					b.setThreadcount(i);
@@ -1264,7 +1266,7 @@ public class StressXML extends JFrame {
 		p.add(lbLoopinterval);
 
 		b.setLoopinterval(15);
-		JTextField tfLoopinterval = new JTextField("ÇëÊäÈë>=15ÕûÊý", 10);
+		JTextField tfLoopinterval = new JTextField("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½>=15ï¿½ï¿½ï¿½ï¿½", 10);
 		tfLoopinterval.setBounds(90, 67, 100, 21);
 		p.add(tfLoopinterval);
 		// tfLoopinterval.setColumns(10);
@@ -1281,7 +1283,7 @@ public class StressXML extends JFrame {
 		tfLoopinterval.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mousePressed(MouseEvent e) {
-				if (tfLoopinterval.getText().equals("ÇëÊäÈë>=15ÕûÊý")) {
+				if (tfLoopinterval.getText().equals("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½>=15ï¿½ï¿½ï¿½ï¿½")) {
 					tfLoopinterval.setText("");
 				}
 			}
@@ -1360,7 +1362,7 @@ public class StressXML extends JFrame {
 				try {
 					int i = Integer.parseInt(tfThreadcount.getText());
 					if (i != 1) {
-						JOptionPane.showMessageDialog(null, "Ð´ËÀ1£¬´úÂëÐèÒª", "Error!", JOptionPane.ERROR_MESSAGE);
+						JOptionPane.showMessageDialog(null, "Ð´ï¿½ï¿½1ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Òª", "Error!", JOptionPane.ERROR_MESSAGE);
 						tfThreadcount.setText("1");
 					}
 					b8.setThreadcount(i);
@@ -1384,7 +1386,7 @@ public class StressXML extends JFrame {
 				try {
 					int i = Integer.parseInt(tfLoopinterval.getText());
 					if (i != 0) {
-						JOptionPane.showMessageDialog(null, "¼àÌý²»ÐèÒªÂÖÑ²£¬Ð´ËÀ0", "Error!", JOptionPane.ERROR_MESSAGE);
+						JOptionPane.showMessageDialog(null, "ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Òªï¿½ï¿½Ñ²ï¿½ï¿½Ð´ï¿½ï¿½0", "Error!", JOptionPane.ERROR_MESSAGE);
 						tfLoopinterval.setText("0");
 					}
 					b8.setLoopinterval(i);
@@ -1427,7 +1429,7 @@ public class StressXML extends JFrame {
 				try {
 					int i = Integer.parseInt(tfThreadcount.getText());
 					if (i < 1 || i > 512) {
-						JOptionPane.showMessageDialog(null, "ÇëÊäÈë[1,512]µÄÕûÊý£¡", "Error!", JOptionPane.ERROR_MESSAGE);
+						JOptionPane.showMessageDialog(null, "ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½[1,512]ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½", "Error!", JOptionPane.ERROR_MESSAGE);
 						tfThreadcount.setText("1");
 					}
 					b12.setThreadcount(i);
@@ -1452,7 +1454,7 @@ public class StressXML extends JFrame {
 
 		b12.setbNeedCBNoEncData(0);
 		JComboBox cbBNeedCBNoEncData = new JComboBox();
-		cbBNeedCBNoEncData.setModel(new DefaultComboBoxModel(new String[] { "0-±àÂëºóµÄÓïÒôÊý¾Ý", "1-±àÂëÇ°µÄPCMÔ­Ê¼Êý¾Ý " }));
+		cbBNeedCBNoEncData.setModel(new DefaultComboBoxModel(new String[] { "0-ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½", "1-ï¿½ï¿½ï¿½ï¿½Ç°ï¿½ï¿½PCMÔ­Ê¼ï¿½ï¿½ï¿½ï¿½ " }));
 		cbBNeedCBNoEncData.setBounds(141, 47, 230, 21);
 		cbBNeedCBNoEncData.addItemListener(new ItemListener() {
 			public void itemStateChanged(ItemEvent e) {
@@ -1483,7 +1485,7 @@ public class StressXML extends JFrame {
 		p_12.add(lbLoopinterval);
 
 		b12.setLoopinterval(15);
-		JTextField tfLoopinterval = new JTextField("ÇëÊäÈë>=15ÕûÊý", 10);
+		JTextField tfLoopinterval = new JTextField("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½>=15ï¿½ï¿½ï¿½ï¿½", 10);
 		tfLoopinterval.setBounds(141, 87, 100, 21);
 		p_12.add(tfLoopinterval);
 		// tfLoopinterval.setColumns(10);
@@ -1500,7 +1502,7 @@ public class StressXML extends JFrame {
 		tfLoopinterval.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mousePressed(MouseEvent e) {
-				if (tfLoopinterval.getText().equals("ÇëÊäÈë>=15ÕûÊý")) {
+				if (tfLoopinterval.getText().equals("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½>=15ï¿½ï¿½ï¿½ï¿½")) {
 					tfLoopinterval.setText("");
 				}
 			}
@@ -1539,7 +1541,7 @@ public class StressXML extends JFrame {
 				try {
 					int i = Integer.parseInt(tfThreadcount.getText());
 					if (i < 1 || i > 512) {
-						JOptionPane.showMessageDialog(null, "ÇëÊäÈë[1,512]µÄÕûÊý£¡", "Error!", JOptionPane.ERROR_MESSAGE);
+						JOptionPane.showMessageDialog(null, "ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½[1,512]ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½", "Error!", JOptionPane.ERROR_MESSAGE);
 						tfThreadcount.setText("1");
 					}
 					b.setThreadcount(i);
@@ -1579,7 +1581,7 @@ public class StressXML extends JFrame {
 		p.add(lbLoopinterval);
 
 		b.setLoopinterval(15);
-		JTextField tfLoopinterval = new JTextField("ÇëÊäÈë>=15ÕûÊý", 10);
+		JTextField tfLoopinterval = new JTextField("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½>=15ï¿½ï¿½ï¿½ï¿½", 10);
 		tfLoopinterval.setBounds(141, 67, 100, 21);
 		p.add(tfLoopinterval);
 		// tfLoopinterval.setColumns(10);
@@ -1596,7 +1598,7 @@ public class StressXML extends JFrame {
 		tfLoopinterval.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mousePressed(MouseEvent e) {
-				if (tfLoopinterval.getText().equals("ÇëÊäÈë>=15ÕûÊý")) {
+				if (tfLoopinterval.getText().equals("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½>=15ï¿½ï¿½ï¿½ï¿½")) {
 					tfLoopinterval.setText("");
 				}
 			}

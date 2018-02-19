@@ -4,7 +4,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 
-import team.sdk.sdkauto.bean.DeviceInfo;
+import team.sdk.sdkauto.bean.Device;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -22,13 +22,13 @@ import java.awt.Toolkit;
 
 /**
  * <p>
- * Title: DeviceSelect<£¯p>
+ * Title: DeviceSelect<ï¿½ï¿½p>
  * <p>
- * Description: <£¯p>
+ * Description: <ï¿½ï¿½p>
  * 
  * @author quzhe
  * 
- *         2017Äê11ÔÂ17ÈÕ
+ *         2017ï¿½ï¿½11ï¿½ï¿½17ï¿½ï¿½
  */
 public class DeviceSelect {
 
@@ -36,16 +36,16 @@ public class DeviceSelect {
 	private JTextField textField_model;
 	private JTextField textField_ip;
 
-	// Éè±¸ÊôÐÔ
+	// ï¿½è±¸ï¿½ï¿½ï¿½ï¿½
 	public static String type;
 	public static String model;
 	public static String ip;
 	public static String comment;
 
-	public static int index;// Ê¹ÓÃswitch-case´´½¨devicelist¹¹Ôìº¯Êý£¬case1:type, case2:model, case3:ip, case4:comment, case5:all
+	public static int index;// Ê¹ï¿½ï¿½switch-caseï¿½ï¿½ï¿½ï¿½devicelistï¿½ï¿½ï¿½ìº¯ï¿½ï¿½ï¿½ï¿½case1:type, case2:model, case3:ip, case4:comment, case5:all
 	private JTextField textField_comment;
 	public static Vector<Thread> vectors;
-	public static Vector<DeviceInfo> vectors_device;
+	public static Vector<Device> vectors_device;
 
 	/**
 	 * Create the application.
@@ -62,7 +62,7 @@ public class DeviceSelect {
 	private void initialize() {
 		frame.setResizable(false);
 		frame.setIconImage(
-				Toolkit.getDefaultToolkit().getImage(DeviceSelect.class.getResource("/team/sdk/sdkauto/res/device_1.png")));
+				Toolkit.getDefaultToolkit().getImage(DeviceSelect.class.getResource("/resources/device_icon.png")));
 		frame.setTitle("\u8BBE\u5907\u67E5\u627E");
 		frame.setBounds(100, 100, 463, 246);
 		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -187,13 +187,13 @@ public class DeviceSelect {
 	
 	public void select(int index, String s){
 		vectors = new Vector<Thread>();
-		vectors_device = new Vector<DeviceInfo>();
+		vectors_device = new Vector<Device>();
 		DeviceSelect.index = index;
 		DeviceList dl = new DeviceList(s);
 		for (int i = 0; i < dl.mapList.size(); i++) {
 			Map<String, Object> map = dl.mapList.get(i);
 			try {
-				// Éè±¸ÊôÐÔ
+				// ï¿½è±¸ï¿½ï¿½ï¿½ï¿½
 				boolean status = false;
 				String deviceId = (String) map.get("deviceid");
 				String type = (String) map.get("type");
@@ -205,7 +205,7 @@ public class DeviceSelect {
 				String language = (String) map.get("language");
 				String position = (String) map.get("position");
 				String comment = (String) map.get("comment");
-				DeviceInfo deviceInfo = new DeviceInfo(status, deviceId, type, model, ip, port, userName,
+				Device deviceInfo = new Device(status, deviceId, type, model, ip, port, userName,
 						password, language, position, comment);
 				vectors_device.add(deviceInfo);
 				Thread t = new Thread(deviceInfo);
@@ -215,7 +215,7 @@ public class DeviceSelect {
 			}
 		}
 
-		// È·±£ËùÓÐÊý¾Ý¶¼¶ÁÈ¡ºóÔÙ»Øµ½Ö÷Ïß³Ì
+		// È·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ý¶ï¿½ï¿½ï¿½È¡ï¿½ï¿½ï¿½Ù»Øµï¿½ï¿½ï¿½ï¿½ß³ï¿½
 		for (Thread thread : vectors) {
 			try {
 				thread.join();

@@ -10,32 +10,32 @@ import org.dom4j.io.SAXReader;
 import org.dom4j.io.XMLWriter;
 
 /**
- * <p>Title: XmlUtils<£¯p>
- * <p>Description: <£¯p>
+ * <p>Title: XmlUtils<ï¿½ï¿½p>
+ * <p>Description: <ï¿½ï¿½p>
  * @author quzhe
  * 
- * 2017Äê12ÔÂ7ÈÕ
+ * 2017ï¿½ï¿½12ï¿½ï¿½7ï¿½ï¿½
  */
-public class XMLUtils {
-	
-	//»ñµÃDocument
-	public static Document getDocument() throws DocumentException{
-		//»ñµÃÁ÷
-		SAXReader saxReader = new SAXReader();
-		Document document = saxReader.read(new File("..\\LoginDemo\\src\\DB.xml"));
-		return document;
-	}
-	
-	//±£´æ
-	public static void write(Document document) throws IOException{
-		//Ä¿±êÎÄ¼þÎ»ÖÃÁ÷
-		OutputStream out = new FileOutputStream(new File("..\\LoginDemo\\src\\DB.xml"));
-		//»ñµÃÁ÷
-		XMLWriter writer = new XMLWriter(out);
-		writer.write(document);
-		writer.close();
-		out.close();
-	}
-	
-	
-}
+//public class XMLUtils {
+//	
+//	//ï¿½ï¿½ï¿½Document
+//	public static Document getDocument() throws DocumentException{
+//		//ï¿½ï¿½ï¿½ï¿½ï¿½
+//		SAXReader saxReader = new SAXReader();
+//		Document document = saxReader.read(new File("..\\LoginDemo\\src\\DB.xml"));
+//		return document;
+//	}
+//	
+//	//ï¿½ï¿½ï¿½ï¿½
+//	public static void write(Document document) throws IOException{
+//		//Ä¿ï¿½ï¿½ï¿½Ä¼ï¿½Î»ï¿½ï¿½ï¿½ï¿½
+//		OutputStream out = new FileOutputStream(new File("..\\LoginDemo\\src\\DB.xml"));
+//		//ï¿½ï¿½ï¿½ï¿½ï¿½
+//		XMLWriter writer = new XMLWriter(out);
+//		writer.write(document);
+//		writer.close();
+//		out.close();
+//	}
+//	
+//	
+//}

@@ -13,49 +13,49 @@ import java.util.Map;
 import java.util.Properties;  
 
 /**
- * <p>Title: JdbcUtil<£¯p>
- * <p>Description: JDBC¹¤¾ßÀà<£¯p>
+ * <p>Title: JdbcUtil<ï¿½ï¿½p>
+ * <p>Description: JDBCï¿½ï¿½ï¿½ï¿½ï¿½ï¿½<ï¿½ï¿½p>
  * @author quzhe
  *
- * 2017Äê11ÔÂ15ÈÕ
+ * 2017ï¿½ï¿½11ï¿½ï¿½15ï¿½ï¿½
  */
 
   
 public class JdbcUtil {  
   
-    // ±íÊ¾¶¨ÒåÊý¾Ý¿âµÄÓÃ»§Ãû  
+    // ï¿½ï¿½Ê¾ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ý¿ï¿½ï¿½ï¿½Ã»ï¿½ï¿½ï¿½  
     private static String USERNAME ;  
   
-    // ¶¨ÒåÊý¾Ý¿âµÄÃÜÂë  
+    // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ý¿ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½  
     private static String PASSWORD;  
   
-    // ¶¨ÒåÊý¾Ý¿âµÄÇý¶¯ÐÅÏ¢  
+    // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ý¿ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï¢  
     private static String DRIVER;  
   
-    // ¶¨Òå·ÃÎÊÊý¾Ý¿âµÄµØÖ·  
+    // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ý¿ï¿½Äµï¿½Ö·  
     private static String URL;  
   
-    // ¶¨ÒåÊý¾Ý¿âµÄÁ´½Ó  
+    // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ý¿ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½  
     private  Connection connection;  
   
-    // ¶¨ÒåsqlÓï¾äµÄÖ´ÐÐ¶ÔÏó  
+    // ï¿½ï¿½ï¿½ï¿½sqlï¿½ï¿½ï¿½ï¿½Ö´ï¿½Ð¶ï¿½ï¿½ï¿½  
     private  PreparedStatement pstmt;  
   
-    // ¶¨Òå²éÑ¯·µ»ØµÄ½á¹û¼¯ºÏ  
+    // ï¿½ï¿½ï¿½ï¿½ï¿½Ñ¯ï¿½ï¿½ï¿½ØµÄ½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½  
     private  ResultSet resultSet;  
       
     static{  
-        //¼ÓÔØÊý¾Ý¿âÅäÖÃÐÅÏ¢£¬²¢¸øÏà¹ØµÄÊôÐÔ¸³Öµ  
+        //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ý¿ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï¢ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Øµï¿½ï¿½ï¿½ï¿½Ô¸ï¿½Öµ  
         loadConfig();  
     }  
   
     /** 
-     * ¼ÓÔØÊý¾Ý¿âÅäÖÃÐÅÏ¢£¬²¢¸øÏà¹ØµÄÊôÐÔ¸³Öµ 
+     * ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ý¿ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï¢ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Øµï¿½ï¿½ï¿½ï¿½Ô¸ï¿½Öµ 
      */  
     public static void loadConfig() {
         try {
-        	//Êý¾Ý¿âÅäÖÃÎÄ¼þ
-        	InputStream inStream = JdbcUtil.class.getResourceAsStream("/team/sdk/sdkauto/res/jdbc.properties");
+        	//ï¿½ï¿½ï¿½Ý¿ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä¼ï¿½
+        	InputStream inStream = JdbcUtil.class.getResourceAsStream("/resources/jdbc.properties");
         	
             Properties prop = new Properties();  
             prop.load(inStream);  
@@ -66,7 +66,7 @@ public class JdbcUtil {
             
         }
         catch (Exception e) {  
-            throw new RuntimeException("¶ÁÈ¡Êý¾Ý¿âÅäÖÃÎÄ¼þÒì³££¡", e);  
+            throw new RuntimeException("ï¿½ï¿½È¡ï¿½ï¿½ï¿½Ý¿ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä¼ï¿½ï¿½ì³£ï¿½ï¿½", e);  
         }  
     }  
   
@@ -75,14 +75,14 @@ public class JdbcUtil {
     }  
   
     /** 
-     * »ñÈ¡Êý¾Ý¿âÁ¬½Ó 
+     * ï¿½ï¿½È¡ï¿½ï¿½ï¿½Ý¿ï¿½ï¿½ï¿½ï¿½ï¿½ 
      *  
-     * @return Êý¾Ý¿âÁ¬½Ó 
+     * @return ï¿½ï¿½ï¿½Ý¿ï¿½ï¿½ï¿½ï¿½ï¿½ 
      */  
     public Connection getConnection() {
         try {  
-            Class.forName(DRIVER).newInstance(); // ×¢²áÇý¶¯  
-            connection = DriverManager.getConnection(URL, USERNAME, PASSWORD); // »ñÈ¡Á¬½Ó  
+            Class.forName(DRIVER).newInstance(); // ×¢ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½  
+            connection = DriverManager.getConnection(URL, USERNAME, PASSWORD); // ï¿½ï¿½È¡ï¿½ï¿½ï¿½ï¿½  
         } catch (Exception e) {  
             throw new RuntimeException("get connection error!", e);  
         }
@@ -90,21 +90,21 @@ public class JdbcUtil {
     }
 
     /**
-     * Ö´ÐÐ¸üÐÂ²Ù×÷
+     * Ö´ï¿½Ð¸ï¿½ï¿½Â²ï¿½ï¿½ï¿½
      
      * @param sql
-     *            sqlÓï¾ä
+     *            sqlï¿½ï¿½ï¿½
      * @param params
-     *            Ö´ÐÐ²ÎÊý
-     * @return Ö´ÐÐ½á¹û
+     *            Ö´ï¿½Ð²ï¿½ï¿½ï¿½
+     * @return Ö´ï¿½Ð½ï¿½ï¿½
      * @throws SQLException
      */
     public boolean updateByPreparedStatement(String sql, List<?> params) throws SQLException {
         boolean flag = false;
-        int result = -1;// ±íÊ¾µ±ÓÃ»§Ö´ÐÐÌí¼ÓÉ¾³ýºÍÐÞ¸ÄµÄÊ±ºòËùÓ°ÏìÊý¾Ý¿âµÄÐÐÊý
+        int result = -1;// ï¿½ï¿½Ê¾ï¿½ï¿½ï¿½Ã»ï¿½Ö´ï¿½ï¿½ï¿½ï¿½ï¿½É¾ï¿½ï¿½ï¿½ï¿½ï¿½Þ¸Äµï¿½Ê±ï¿½ï¿½ï¿½ï¿½Ó°ï¿½ï¿½ï¿½ï¿½ï¿½Ý¿ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
         pstmt = connection.prepareStatement(sql);
         int index = 1;  
-        // Ìî³äsqlÓï¾äÖÐµÄÕ¼Î»·û  
+        // ï¿½ï¿½ï¿½sqlï¿½ï¿½ï¿½ï¿½Ðµï¿½Õ¼Î»ï¿½ï¿½  
         if (params != null && !params.isEmpty()) {  
             for (int i = 0; i < params.size(); i++) {  
                 pstmt.setObject(index++, params.get(i));  
@@ -116,12 +116,12 @@ public class JdbcUtil {
     }  
   
     /** 
-     * Ö´ÐÐ²éÑ¯²Ù×÷ 
+     * Ö´ï¿½Ð²ï¿½Ñ¯ï¿½ï¿½ï¿½ï¿½ 
      *  
      * @param sql 
-     *            sqlÓï¾ä 
+     *            sqlï¿½ï¿½ï¿½ 
      * @param params 
-     *            Ö´ÐÐ²ÎÊý 
+     *            Ö´ï¿½Ð²ï¿½ï¿½ï¿½ 
      * @return 
      * @throws SQLException 
      */  
@@ -137,7 +137,7 @@ public class JdbcUtil {
         }  
         resultSet = pstmt.executeQuery(); 
         ResultSetMetaData metaData = resultSet.getMetaData();  
-        int cols_len = metaData.getColumnCount();  //»ñÈ¡ÁÐÊý
+        int cols_len = metaData.getColumnCount();  //ï¿½ï¿½È¡ï¿½ï¿½ï¿½ï¿½
         while (resultSet.next()) {  
             Map<String, Object> map = new HashMap<String, Object>();  
             for (int i = 0; i < cols_len; i++) {  
@@ -154,7 +154,7 @@ public class JdbcUtil {
     }  
   
     /** 
-     * ÊÍ·Å×ÊÔ´ 
+     * ï¿½Í·ï¿½ï¿½ï¿½Ô´ 
      */  
     public void releaseConn() {  
         if (resultSet != null) {

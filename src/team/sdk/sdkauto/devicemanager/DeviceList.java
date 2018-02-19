@@ -48,19 +48,19 @@ import jxl.write.WritableWorkbook;
 import jxl.write.WriteException;
 import jxl.write.biff.RowsExceededException;
 import net.miginfocom.swing.MigLayout;
-import team.sdk.sdkauto.UI.DeviceUI;
-import team.sdk.sdkauto.bean.DeviceInfo;
+import team.sdk.sdkauto.UI.StartUI;
+import team.sdk.sdkauto.bean.Device;
 import team.sdk.sdkauto.util.JdbcUtil;
 
 /**
  * <p>
- * Title: DeviceList<£¯p>
+ * Title: DeviceList<ï¿½ï¿½p>
  * <p>
- * Description: <£¯p>
+ * Description: <ï¿½ï¿½p>
  * 
  * @author quzhe
  * 
- *         2017Äê11ÔÂ20ÈÕ
+ *         2017ï¿½ï¿½11ï¿½ï¿½20ï¿½ï¿½
  */
 public class DeviceList {
 	/**
@@ -68,12 +68,12 @@ public class DeviceList {
 	 */
 	private static final long serialVersionUID = -311019214878889971L;
 
-	// rowDataÓÃÀ´´æ·ÅÐÐÊý¾Ý
-	// columnNames´æ·ÅÁÐÃû
+	// rowDataï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	// columnNamesï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	Vector<String> columnNames;
 	Vector rowData = new Vector();
 
-	// Éè±¸ÊôÐÔ
+	// ï¿½è±¸ï¿½ï¿½ï¿½ï¿½
 	public String deviceId;
 	public String type;
 	public String model;
@@ -86,11 +86,11 @@ public class DeviceList {
 	public String position;
 	public boolean status;
 
-	private static JFrame frame = new JFrame();// µ¥ÀýÄ£Ê½£º¶öººÄ£Ê½
-	private static JPanel panel_center;// µ¥ÀýÄ£Ê½£ºÀÁººÄ£Ê½
+	private static JFrame frame = new JFrame();// ï¿½ï¿½ï¿½ï¿½Ä£Ê½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä£Ê½
+	private static JPanel panel_center;// ï¿½ï¿½ï¿½ï¿½Ä£Ê½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä£Ê½
 	private JPanel panel_north;
 	private JTable jt = null;
-	private JTable jt_checked = null; // ÓÃÀ´´æ·ÅÉ¸Ñ¡ºóµÄ±í¸ñ
+	private JTable jt_checked = null; // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½É¸Ñ¡ï¿½ï¿½Ä±ï¿½ï¿½
 	private JScrollPane jsp = null;
 	private JButton btn_check;
 	private JButton btnExcel;
@@ -112,26 +112,26 @@ public class DeviceList {
 		frame.setBounds(100, 347, 1550, 410);
 		// frame.setSize(1500, 300);
 		frame.setIconImage(
-				Toolkit.getDefaultToolkit().getImage(DeviceList.class.getResource("/team/sdk/sdkauto/res/device_1.png")));
+				Toolkit.getDefaultToolkit().getImage(DeviceList.class.getResource("/resources/device_icon.png")));
 		frame.setTitle("\u8BBE\u5907\u5217\u8868");
 		frame.setLayout(new BorderLayout(0, 0));
 
 		ONLINE_FLAG = true;
 		columnNames = new Vector<String>();
-		// ÉèÖÃÁÐÃû
+		// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		columnNames.add("×´Ì¬");
-		columnNames.add("Éè±¸ID");
-		columnNames.add("Éè±¸ÀàÐÍ");
-		columnNames.add("Éè±¸ÐÍºÅ");
+		columnNames.add("ï¿½è±¸ID");
+		columnNames.add("ï¿½è±¸ï¿½ï¿½ï¿½ï¿½");
+		columnNames.add("ï¿½è±¸ï¿½Íºï¿½");
 		columnNames.add("IP");
-		columnNames.add("¶Ë¿ÚºÅ");
-		columnNames.add("ÓÃ»§Ãû");
-		columnNames.add("ÃÜÂë");
-		columnNames.add("ÓïÑÔ");
-		columnNames.add("Î»ÖÃ");
-		columnNames.add("±¸×¢");
-		columnNames.add("");// ÐÞ¸ÄÉè±¸ÐÅÏ¢°´Å¥(update)
-		columnNames.add("");// É¾³ýÉè±¸ÐÅÏ¢°´Å¥(delete)
+		columnNames.add("ï¿½Ë¿Úºï¿½");
+		columnNames.add("ï¿½Ã»ï¿½ï¿½ï¿½");
+		columnNames.add("ï¿½ï¿½ï¿½ï¿½");
+		columnNames.add("ï¿½ï¿½ï¿½ï¿½");
+		columnNames.add("Î»ï¿½ï¿½");
+		columnNames.add("ï¿½ï¿½×¢");
+		columnNames.add("");// ï¿½Þ¸ï¿½ï¿½è±¸ï¿½ï¿½Ï¢ï¿½ï¿½Å¥(update)
+		columnNames.add("");// É¾ï¿½ï¿½ï¿½è±¸ï¿½ï¿½Ï¢ï¿½ï¿½Å¥(delete)
 
 		panel_north = new JPanel();
 		frame.add(panel_north, BorderLayout.NORTH);
@@ -165,7 +165,7 @@ public class DeviceList {
 				} else {
 					sorter.setRowFilter(RowFilter.regexFilter("#OFFLINE#"));
 				}
-				jt.setRowSorter(sorter); // ÎªJTableÉèÖÃÅÅÐòÆ÷
+				jt.setRowSorter(sorter); // ÎªJTableï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 
 				int jR = jt.getRowCount();
 				int jC = jt.getColumnCount();
@@ -175,14 +175,14 @@ public class DeviceList {
 						obj[ir][ic] = jt.getValueAt(ir, ic);
 					}
 				}
-				String[] name = { "×´Ì¬", "Éè±¸ID", "Éè±¸ÀàÐÍ", "Éè±¸ÐÍºÅ", "IP", "¶Ë¿ÚºÅ", "ÓÃ»§Ãû", "ÃÜÂë", "ÓïÑÔ", "Î»ÖÃ", "±¸×¢" };
+				String[] name = { "×´Ì¬", "ï¿½è±¸ID", "ï¿½è±¸ï¿½ï¿½ï¿½ï¿½", "ï¿½è±¸ï¿½Íºï¿½", "IP", "ï¿½Ë¿Úºï¿½", "ï¿½Ã»ï¿½ï¿½ï¿½", "ï¿½ï¿½ï¿½ï¿½", "ï¿½ï¿½ï¿½ï¿½", "Î»ï¿½ï¿½", "ï¿½ï¿½×¢" };
 				tableModel_checked = new DefaultTableModel(obj, name);
 				jt_checked = new JTable(tableModel_checked);
 
-				// ÉèÖÃ±í¸ñäÖÈ¾Æ÷
+				// ï¿½ï¿½ï¿½Ã±ï¿½ï¿½ï¿½ï¿½È¾ï¿½ï¿½
 				jt_checked.getColumnModel().getColumn(0).setCellRenderer(new MyRenderStatus());
 
-				// ³õÊ¼»¯ jsp
+				// ï¿½ï¿½Ê¼ï¿½ï¿½ jsp
 				jt_checked.setVisible(true);
 				jsp.setViewportView(jt_checked);
 			}
@@ -201,42 +201,42 @@ public class DeviceList {
 					} else {
 						exportTable(jt, file);
 					}
-					JOptionPane.showMessageDialog(null, "µ¼³ö³É¹¦");
+					JOptionPane.showMessageDialog(null, "ï¿½ï¿½ï¿½ï¿½ï¿½É¹ï¿½");
 				} catch (IOException e1) {
 				}
 			}
 		});
-		// ´´½¨Ìî³ä²ÎÊýµÄlist
+		// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½list
 		List<Object> paramList = new ArrayList<Object>();
 		switch (DeviceSelect.index) {
 		// byType
 		case 1:
 			index = s;
 			sql = "select * from device where type = ?";
-			// Ìî³ä²ÎÊý
+			// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 			paramList.add(index);
 			break;
 		// byModel
 		case 2:
-			// Ä£ºý²éÕÒ
+			// Ä£ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 			index = "%" + s + "%";
 			sql = "select * from device where model like ?";
-			// Ìî³ä²ÎÊý
+			// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 			paramList.add(index);
 			break;
 		// byIp
 		case 3:
 			index = s;
 			sql = "select * from device where ip = ?";
-			// Ìî³ä²ÎÊý
+			// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 			paramList.add(index);
 			break;
 		// byComment
 		case 4:
-			// Ä£ºý²éÕÒ
+			// Ä£ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 			index = "%" + s + "%";
 			sql = "select * from device where comment like ?";
-			// Ìî³ä²ÎÊý
+			// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 			paramList.add(index);
 			break;
 		// selectAll
@@ -246,10 +246,10 @@ public class DeviceList {
 		}
 
 		try {
-			jdbcUtil.getConnection(); // »ñÈ¡Êý¾Ý¿âÁ´½Ó
+			jdbcUtil.getConnection(); // ï¿½ï¿½È¡ï¿½ï¿½ï¿½Ý¿ï¿½ï¿½ï¿½ï¿½ï¿½
 			mapList = jdbcUtil.findResult(sql.toString(), paramList);
 		} catch (SQLException exception) {
-			System.out.println(this.getClass() + "Ö´ÐÐ²éÑ¯²Ù×÷Å×³öÒì³££¡");
+			System.out.println(this.getClass() + "Ö´ï¿½Ð²ï¿½Ñ¯ï¿½ï¿½ï¿½ï¿½ï¿½×³ï¿½ï¿½ì³£ï¿½ï¿½");
 			exception.printStackTrace();
 		} finally {
 			if (jdbcUtil != null) {
@@ -259,8 +259,14 @@ public class DeviceList {
 	}
 
 	public void show() {
-
-		// ÐÞ¸Ä
+		for (Device d : DeviceSelect.vectors_device) {
+			rowData.add(d.getHang());
+		}
+		tableModel = new DefaultTableModel(rowData, columnNames);
+		jt = new JTable(tableModel);
+		jt.setPreferredScrollableViewportSize(new Dimension(1500, 300));
+		
+		// ï¿½Þ¸ï¿½
 		MyEvent eventModify = new MyEvent() {
 			@Override
 			public void invoke(ActionEvent e) {
@@ -278,9 +284,9 @@ public class DeviceList {
 				comment = (String) jt.getValueAt(row, 10);
 
 				String sql = "update device set deviceid=?,type=?,model=?,ip=?,port=?,username=?,password=?,language=?,position=?,comment=? where deviceid=?";
-				// ´´½¨Ìî³ä²ÎÊýµÄlist
+				// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½list
 				List<Object> paramList = new ArrayList<Object>();
-				// Ìî³ä²ÎÊý
+				// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 				paramList.add(deviceId);
 				paramList.add(type);
 				paramList.add(model);
@@ -295,27 +301,27 @@ public class DeviceList {
 
 				boolean bool = false;
 				try {
-					jdbcUtil.getConnection(); // »ñÈ¡Êý¾Ý¿âÁ´½Ó
+					jdbcUtil.getConnection(); // ï¿½ï¿½È¡ï¿½ï¿½ï¿½Ý¿ï¿½ï¿½ï¿½ï¿½ï¿½
 					bool = jdbcUtil.updateByPreparedStatement(sql, paramList);
 				} catch (SQLException e1) {
-					System.out.println(this.getClass() + "Ö´ÐÐÐÞ¸Ä²Ù×÷Å×³öÒì³££¡");
+					System.out.println(this.getClass() + "Ö´ï¿½ï¿½ï¿½Þ¸Ä²ï¿½ï¿½ï¿½ï¿½×³ï¿½ï¿½ì³£ï¿½ï¿½");
 					e1.printStackTrace();
 				} finally {
 					if (jdbcUtil != null) {
 						jdbcUtil.releaseConn();
 					}
 				}
-				System.out.println("Ö´ÐÐÐÞ¸ÄµÄ½á¹û£º" + bool);
+				System.out.println("Ö´ï¿½ï¿½ï¿½Þ¸ÄµÄ½ï¿½ï¿½ï¿½ï¿½" + bool);
 				if (bool) {
-					JOptionPane.showMessageDialog(null, "ÐÞ¸Ä³É¹¦");
+					JOptionPane.showMessageDialog(null, "ï¿½Þ¸Ä³É¹ï¿½");
 				} else {
-					JOptionPane.showMessageDialog(null, "ÐÞ¸ÄÊ§°Ü", "´íÎó", JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(null, "ï¿½Þ¸ï¿½Ê§ï¿½ï¿½", "ï¿½ï¿½ï¿½ï¿½", JOptionPane.ERROR_MESSAGE);
 				}
 			}
 
 		};
 
-		// É¾³ý
+		// É¾ï¿½ï¿½
 		MyEvent eventDelete = new MyEvent() {
 			@Override
 			public void invoke(ActionEvent e) {
@@ -324,62 +330,57 @@ public class DeviceList {
 				deviceId = (String) jt.getValueAt(row, 1);
 
 				String sql = "delete from device where deviceid=?";
-				// ´´½¨Ìî³ä²ÎÊýµÄlist
+				// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½list
 				List<Object> paramList = new ArrayList<Object>();
-				// Ìî³ä²ÎÊý
+				// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 				paramList.add(deviceId);
 
 				boolean bool = false;
 				try {
-					jdbcUtil.getConnection(); // »ñÈ¡Êý¾Ý¿âÁ´½Ó
+					jdbcUtil.getConnection(); // ï¿½ï¿½È¡ï¿½ï¿½ï¿½Ý¿ï¿½ï¿½ï¿½ï¿½ï¿½
 					bool = jdbcUtil.updateByPreparedStatement(sql, paramList);
 				} catch (SQLException exception) {
-					System.out.println(this.getClass() + "Ö´ÐÐÉ¾³ý²Ù×÷Å×³öÒì³££¡");
+					System.out.println(this.getClass() + "Ö´ï¿½ï¿½É¾ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½×³ï¿½ï¿½ì³£ï¿½ï¿½");
 					exception.printStackTrace();
 				} finally {
 					if (jdbcUtil != null) {
 						jdbcUtil.releaseConn();
 					}
 				}
-				System.out.println("Ö´ÐÐÉ¾³ýµÄ½á¹û£º" + bool);
+				System.out.println("Ö´ï¿½ï¿½É¾ï¿½ï¿½ï¿½Ä½ï¿½ï¿½ï¿½ï¿½" + bool);
 				if (bool) {
-					JOptionPane.showMessageDialog(null, "É¾³ý³É¹¦");
+					JOptionPane.showMessageDialog(null, "É¾ï¿½ï¿½ï¿½É¹ï¿½");
 				} else {
-					JOptionPane.showMessageDialog(null, "É¾³ýÊ§°Ü", "´íÎó", JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(null, "É¾ï¿½ï¿½Ê§ï¿½ï¿½", "ï¿½ï¿½ï¿½ï¿½", JOptionPane.ERROR_MESSAGE);
 				}
 			}
 
 		};
 
-		for (DeviceInfo d : DeviceSelect.vectors_device) {
-			rowData.add(d.getHang());
-		}
-		tableModel = new DefaultTableModel(rowData, columnNames);
-		jt = new JTable(tableModel);
-		jt.setPreferredScrollableViewportSize(new Dimension(1500, 300));
 
-		// ÉèÖÃ±í¸ñäÖÈ¾Æ÷
+
+		// ï¿½ï¿½ï¿½Ã±ï¿½ï¿½ï¿½ï¿½È¾ï¿½ï¿½
 		jt.getColumnModel().getColumn(0).setCellRenderer(new MyRenderStatus());
-		// ÉèÖÃ±í¸ñäÖÈ¾Æ÷
+		// ï¿½ï¿½ï¿½Ã±ï¿½ï¿½ï¿½ï¿½È¾ï¿½ï¿½
 		jt.getColumnModel().getColumn(11).setCellRenderer(new MyRenderModify());
-		// ÉèÖÃ±í¸ñµÄ±à¼­Æ÷
+		// ï¿½ï¿½ï¿½Ã±ï¿½ï¿½Ä±à¼­ï¿½ï¿½
 		jt.getColumnModel().getColumn(11).setCellEditor(new MyRenderModify(eventModify));
 
-		// ÉèÖÃ±í¸ñäÖÈ¾Æ÷
+		// ï¿½ï¿½ï¿½Ã±ï¿½ï¿½ï¿½ï¿½È¾ï¿½ï¿½
 		jt.getColumnModel().getColumn(12).setCellRenderer(new MyRenderDelete());
-		// ÉèÖÃ±í¸ñµÄ±à¼­Æ÷
+		// ï¿½ï¿½ï¿½Ã±ï¿½ï¿½Ä±à¼­ï¿½ï¿½
 		jt.getColumnModel().getColumn(12).setCellEditor(new MyRenderDelete(eventDelete));
 
-		// ³õÊ¼»¯ jsp
+		// ï¿½ï¿½Ê¼ï¿½ï¿½ jsp
 		jsp = new JScrollPane(jt);
 		// jsp.setSize(1400, 300);
 		jsp.setViewportView(jt);
-		// ÀÁººÄ£Ê½ ÑÓ³Ù¼ÓÔØ
+		// ï¿½ï¿½ï¿½ï¿½Ä£Ê½ ï¿½Ó³Ù¼ï¿½ï¿½ï¿½
 		if (panel_center == null) {
 			panel_center = new JPanel();
 		}
 		panel_center.removeAll();
-		// °Ñjsp·ÅÈëµ½jpanel
+		// ï¿½ï¿½jspï¿½ï¿½ï¿½ëµ½jpanel
 		panel_center.add(jsp, BorderLayout.CENTER);
 		panel_center.repaint();
 		// this.setSize(1500, 300);
@@ -396,11 +397,11 @@ public class DeviceList {
 		private MyEvent event;
 
 		public MyRenderModify() {
-			button = new MyButton("ÐÞ¸Ä");
+			button = new MyButton("ï¿½Þ¸ï¿½");
 			button.addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent e) {
-					int res = JOptionPane.showConfirmDialog(null, "È·ÈÏÐÞ¸Ä¸ÃÉè±¸£¿", "ÊÇ·ñ¼ÌÐø", JOptionPane.YES_NO_OPTION);
+					int res = JOptionPane.showConfirmDialog(null, "È·ï¿½ï¿½ï¿½Þ¸Ä¸ï¿½ï¿½è±¸ï¿½ï¿½", "ï¿½Ç·ï¿½ï¿½ï¿½ï¿½", JOptionPane.YES_NO_OPTION);
 					if (res == JOptionPane.YES_OPTION) {
 						event.invoke(e);
 					} else {
@@ -419,29 +420,29 @@ public class DeviceList {
 		public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus,
 				int row, int column) {
 			// TODO Auto-generated method stub
-			// µ¥Ôª¸ñÌáÊ¾
+			// ï¿½ï¿½Ôªï¿½ï¿½ï¿½ï¿½Ê¾
 			// button.setToolTipText("");
-			// ±³¾°É«
+			// ï¿½ï¿½ï¿½ï¿½É«
 			button.setBackground(Color.BLACK);
-			// Ç°¾°É«
+			// Ç°ï¿½ï¿½É«
 			button.setForeground(Color.green);
 			return button;
 		}
 
 		/*
-		 * ÖØÐ´±à¼­Æ÷·½·¨£¬·µ»ØÒ»¸ö°´Å¥¸øJTable
+		 * ï¿½ï¿½Ð´ï¿½à¼­ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ï¿½ï¿½Å¥ï¿½ï¿½JTable
 		 */
 		@Override
 		public Component getTableCellEditorComponent(JTable table, Object value, boolean isSelected, int row,
 				int column) {
 			// setClickCountToStart(1);
-			// ½«Õâ¸ö±»µã»÷µÄ°´Å¥ËùÔÚµÄÐÐºÍÁÐ·Å½øbuttonÀïÃæ
+			// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä°ï¿½Å¥ï¿½ï¿½ï¿½Úµï¿½ï¿½Ðºï¿½ï¿½Ð·Å½ï¿½buttonï¿½ï¿½ï¿½ï¿½
 
 			button.setRow(row);
 			button.setColumn(column);
-			// ±³¾°É«
+			// ï¿½ï¿½ï¿½ï¿½É«
 			button.setBackground(Color.BLACK);
-			// Ç°¾°É«
+			// Ç°ï¿½ï¿½É«
 			button.setForeground(Color.green);
 			return button;
 		}
@@ -464,11 +465,11 @@ public class DeviceList {
 		private MyEvent event;
 
 		public MyRenderDelete() {
-			button = new MyButton("É¾³ý");
+			button = new MyButton("É¾ï¿½ï¿½");
 			button.addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent e) {
-					int res = JOptionPane.showConfirmDialog(null, "È·ÈÏÉ¾³ý¸ÃÉè±¸£¿", "ÊÇ·ñ¼ÌÐø", JOptionPane.YES_NO_OPTION);
+					int res = JOptionPane.showConfirmDialog(null, "È·ï¿½ï¿½É¾ï¿½ï¿½ï¿½ï¿½ï¿½è±¸ï¿½ï¿½", "ï¿½Ç·ï¿½ï¿½ï¿½ï¿½", JOptionPane.YES_NO_OPTION);
 					if (res == JOptionPane.YES_OPTION) {
 						event.invoke(e);
 					} else {
@@ -487,28 +488,28 @@ public class DeviceList {
 		public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus,
 				int row, int column) {
 			// TODO Auto-generated method stub
-			// µ¥Ôª¸ñÌáÊ¾
+			// ï¿½ï¿½Ôªï¿½ï¿½ï¿½ï¿½Ê¾
 			// button.setToolTipText("");
-			// ±³¾°É«
+			// ï¿½ï¿½ï¿½ï¿½É«
 			button.setBackground(Color.BLACK);
-			// Ç°¾°É«
+			// Ç°ï¿½ï¿½É«
 			button.setForeground(Color.red);
 			return button;
 		}
 
 		/*
-		 * ÖØÐ´±à¼­Æ÷·½·¨£¬·µ»ØÒ»¸ö°´Å¥¸øJTable
+		 * ï¿½ï¿½Ð´ï¿½à¼­ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ï¿½ï¿½Å¥ï¿½ï¿½JTable
 		 */
 		@Override
 		public Component getTableCellEditorComponent(JTable table, Object value, boolean isSelected, int row,
 				int column) {
 			// setClickCountToStart(1);
-			// ½«Õâ¸ö±»µã»÷µÄ°´Å¥ËùÔÚµÄÐÐºÍÁÐ·Å½øbuttonÀïÃæ
+			// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä°ï¿½Å¥ï¿½ï¿½ï¿½Úµï¿½ï¿½Ðºï¿½ï¿½Ð·Å½ï¿½buttonï¿½ï¿½ï¿½ï¿½
 			button.setRow(row);
 			button.setColumn(column);
-			// ±³¾°É«
+			// ï¿½ï¿½ï¿½ï¿½É«
 			button.setBackground(Color.BLACK);
-			// Ç°¾°É«
+			// Ç°ï¿½ï¿½É«
 			button.setForeground(Color.red);
 			return button;
 		}
@@ -534,10 +535,10 @@ public class DeviceList {
 			// TODO Auto-generated method stub
 			if (value.toString().equals("#ONLINE#")) {
 				jl = new JLabel(new ImageIcon(Toolkit.getDefaultToolkit()
-						.getImage(DeviceUI.class.getResource("/team/sdk/sdkauto/res/online.jpg"))));
+						.getImage(StartUI.class.getResource("/resources/online.jpg"))));
 			} else {
 				jl = new JLabel(new ImageIcon(Toolkit.getDefaultToolkit()
-						.getImage(DeviceUI.class.getResource("/team/sdk/sdkauto/res/offline.jpg"))));
+						.getImage(StartUI.class.getResource("/resources/offline.jpg"))));
 			}
 			return jl;
 		}
@@ -604,23 +605,23 @@ public class DeviceList {
 	}
 
 	/**
-	 * µ¼³öjtableµ½excel
+	 * ï¿½ï¿½ï¿½ï¿½jtableï¿½ï¿½excel
 	 * 
 	 * @param table
-	 *            Òªµ¼³öµÄjtable
+	 *            Òªï¿½ï¿½ï¿½ï¿½ï¿½ï¿½jtable
 	 * @param file
-	 *            Òªµ¼³öµ½µÄfile
+	 *            Òªï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½file
 	 * @throws IOException
-	 *             IOÒì³£
+	 *             IOï¿½ì³£
 	 */
 	public static void exportTable(JTable table, File file) throws IOException {
 		try {
 			OutputStream out = new FileOutputStream(file);
 			TableModel model = table.getModel();
 			WritableWorkbook wwb = Workbook.createWorkbook(out);
-			// ´´½¨×Ö±í£¬²¢Ð´ÈëÊý¾Ý
-			WritableSheet ws = wwb.createSheet("DeviceInfo", 0);
-			// Ìí¼Ó±êÌâ
+			// ï¿½ï¿½ï¿½ï¿½ï¿½Ö±ï¿½ï¿½ï¿½Ð´ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+			WritableSheet ws = wwb.createSheet("Device", 0);
+			// ï¿½ï¿½Ó±ï¿½ï¿½ï¿½
 			for (int i = 0; i < model.getColumnCount() - 1; i++) {
 				jxl.write.Label labelN = new jxl.write.Label(i, 0, model.getColumnName(i + 1));
 				try {
@@ -633,7 +634,7 @@ public class DeviceList {
 					e.printStackTrace();
 				}
 			}
-			// Ìí¼ÓÁÐ
+			// ï¿½ï¿½ï¿½ï¿½ï¿½
 			for (int i = 0; i < model.getColumnCount() - 1; i++) {
 				for (int j = 0; j < model.getRowCount(); j++) {
 					try {
@@ -654,7 +655,7 @@ public class DeviceList {
 				e.printStackTrace();
 			}
 		} catch (FileNotFoundException e) {
-			JOptionPane.showMessageDialog(null, "µ¼ÈëÊý¾ÝÇ°Çë¹Ø±Õ¹¤×÷±í");
+			JOptionPane.showMessageDialog(null, "ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ç°ï¿½ï¿½Ø±Õ¹ï¿½ï¿½ï¿½ï¿½ï¿½");
 		}
 	}
 }

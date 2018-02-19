@@ -18,7 +18,7 @@ import team.sdk.sdkauto.hcnetsdk.HCNetSDK;
  * 
  *         2018年1月26日
  */
-public class DeviceInfo implements java.lang.Runnable, java.io.Serializable{
+public class Device implements java.lang.Runnable, java.io.Serializable{
 	/**
 	 * 
 	 */
@@ -40,7 +40,9 @@ public class DeviceInfo implements java.lang.Runnable, java.io.Serializable{
 	static HCNetSDK hCNetSDK = HCNetSDK.INSTANCE;
 	HCNetSDK.NET_DVR_DEVICEINFO m_strDeviceInfo;// 设备信息
 	
-	public DeviceInfo(boolean status,
+	public Device() {}
+	
+	public Device(boolean status,
 	String deviceId,
 	String type,
 	String model,
@@ -234,8 +236,8 @@ public class DeviceInfo implements java.lang.Runnable, java.io.Serializable{
 		this.hang = hang;
 	}
 
-	/* (non-Javadoc)
-	 * @see java.lang.Runnable#run()
+	/* 多线程实现Device在线状态查询
+	 * 调用NET_DVR_Login接口，返回-1为不在线，其他为在线
 	 */
 	@Override
 	public void run() {

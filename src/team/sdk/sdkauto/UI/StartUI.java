@@ -15,7 +15,7 @@ import javax.swing.JOptionPane;
 
 import com.sun.jna.examples.CLibrary;
 
-import team.sdk.sdkauto.bean.DeviceInfo;
+import team.sdk.sdkauto.bean.Device;
 import team.sdk.sdkauto.devicemanager.DeviceInsert;
 import team.sdk.sdkauto.devicemanager.DeviceList;
 import team.sdk.sdkauto.devicemanager.DeviceSelect;
@@ -30,7 +30,7 @@ import javax.swing.ImageIcon;
  * @author quzhe
  *
  */
-public class DeviceUI {
+public class StartUI {
 
 	private JFrame frmDevicemanager;
 	
@@ -43,7 +43,7 @@ public class DeviceUI {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					DeviceUI window = new DeviceUI();
+					StartUI window = new StartUI();
 					window.frmDevicemanager.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -57,7 +57,7 @@ public class DeviceUI {
 	 * 
 	 * @throws Exception
 	 */
-	public DeviceUI() throws Exception {
+	public StartUI() throws Exception {
 		initialize();
 	}
 
@@ -70,12 +70,12 @@ public class DeviceUI {
 		frmDevicemanager.getContentPane().setForeground(Color.WHITE);
 		frmDevicemanager.setResizable(false);
 		frmDevicemanager
-				.setIconImage(Toolkit.getDefaultToolkit().getImage(DeviceUI.class.getResource("/team/sdk/sdkauto/res/device_1.png")));
+				.setIconImage(Toolkit.getDefaultToolkit().getImage(StartUI.class.getResource("/resources/device_icon.png")));
 		frmDevicemanager.setTitle("SDKAuto");
 		frmDevicemanager.setBounds(100, 100, 916, 328);
 		frmDevicemanager.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frmDevicemanager.getContentPane().setLayout(null);
-		//SDK°æ±¾ÐÅÏ¢
+		//SDKï¿½æ±¾ï¿½ï¿½Ï¢
 		JLabel label_SdkVersion = new JLabel("");
 		label_SdkVersion.setForeground(Color.WHITE);
 		label_SdkVersion.setBounds(779, 279, 121, 15);
@@ -83,7 +83,7 @@ public class DeviceUI {
 		
 		boolean initSuc = hCNetSDK.NET_DVR_Init();
 		if (initSuc != true) {
-			JOptionPane.showMessageDialog(null, "³õÊ¼»¯Ê§°Ü");
+			JOptionPane.showMessageDialog(null, "ï¿½ï¿½Ê¼ï¿½ï¿½Ê§ï¿½ï¿½");
 		}
 		int buildVersion = hCNetSDK.NET_DVR_GetSDKBuildVersion();
 		int v1 = (buildVersion >> 24) & 0xff;
@@ -93,9 +93,9 @@ public class DeviceUI {
 		String text_version = "HCNetSDK  V" + v1 + "." + v2 + "." + v3 + "." + v4;
 		label_SdkVersion.setText(text_version);
 		
-		//Ìí¼ÓÉè±¸
+		//ï¿½ï¿½ï¿½ï¿½è±¸
 		JButton button_insert = new JButton("");
-		button_insert.setIcon(new ImageIcon(DeviceUI.class.getResource("/team/sdk/sdkauto/res/btn_insert.png")));
+		button_insert.setIcon(new ImageIcon(StartUI.class.getResource("/resources/btn_insert.png")));
 		button_insert.setBounds(10, 21, 120, 30);
 		frmDevicemanager.getContentPane().add(button_insert);
 		button_insert.addMouseListener(new MouseAdapter() {
@@ -110,9 +110,9 @@ public class DeviceUI {
 			}
 		});
 		
-		//²éÕÒÉè±¸
+		//ï¿½ï¿½ï¿½ï¿½ï¿½è±¸
 		JButton button_select = new JButton("");
-		button_select.setIcon(new ImageIcon(DeviceUI.class.getResource("/team/sdk/sdkauto/res/btn_select.png")));
+		button_select.setIcon(new ImageIcon(StartUI.class.getResource("/resources/btn_select.png")));
 		button_select.setBounds(10, 61, 120, 30);
 		frmDevicemanager.getContentPane().add(button_select);
 		button_select.addMouseListener(new MouseAdapter() {
@@ -122,22 +122,22 @@ public class DeviceUI {
 			}
 		});
 		
-		//ÏÔÊ¾È«²¿Éè±¸
+		//ï¿½ï¿½Ê¾È«ï¿½ï¿½ï¿½è±¸
 		JButton btn_showAll = new JButton("");
-		btn_showAll.setIcon(new ImageIcon(DeviceUI.class.getResource("/team/sdk/sdkauto/res/btn_all.png")));
+		btn_showAll.setIcon(new ImageIcon(StartUI.class.getResource("/resources/btn_all.png")));
 		btn_showAll.setBounds(10, 141, 120, 30);
 		frmDevicemanager.getContentPane().add(btn_showAll);
 		btn_showAll.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				DeviceSelect.vectors = new Vector<Thread>();
-				DeviceSelect.vectors_device = new Vector<DeviceInfo>();
+				DeviceSelect.vectors_device = new Vector<Device>();
 				DeviceSelect.index = 5;
 				DeviceList dl = new DeviceList("");
 				for (int i = 0; i < dl.mapList.size(); i++) {
 					Map<String, Object> map = dl.mapList.get(i);
 					try {
-						// Éè±¸ÊôÐÔ
+						// ï¿½è±¸ï¿½ï¿½ï¿½ï¿½
 						boolean status = false;
 						String deviceId = (String) map.get("deviceid");
 						String type = (String) map.get("type");
@@ -149,7 +149,7 @@ public class DeviceUI {
 						String language = (String) map.get("language");
 						String position = (String) map.get("position");
 						String comment = (String) map.get("comment");
-						DeviceInfo deviceInfo = new DeviceInfo(status, deviceId, type, model, ip, port, userName,
+						Device deviceInfo = new Device(status, deviceId, type, model, ip, port, userName,
 								password, language, position, comment);
 						DeviceSelect.vectors_device.add(deviceInfo);
 						Thread t = new Thread(deviceInfo);
@@ -158,7 +158,7 @@ public class DeviceUI {
 					} catch (Exception exception) {
 					}
 				}
-				// È·±£ËùÓÐÊý¾Ý¶¼¶ÁÈ¡ºóÔÙ»Øµ½Ö÷Ïß³Ì
+				// È·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ý¶ï¿½ï¿½ï¿½È¡ï¿½ï¿½ï¿½Ù»Øµï¿½ï¿½ï¿½ï¿½ß³ï¿½
 				for (Thread thread : DeviceSelect.vectors) {
 					try {
 						thread.join();
@@ -171,9 +171,9 @@ public class DeviceUI {
 			}
 		});
 		
-		//Éú³ÉÎÈ¶¨ÐÔXML
+		//ï¿½ï¿½ï¿½ï¿½ï¿½È¶ï¿½ï¿½ï¿½XML
 		JButton btn_xml = new JButton("");
-		btn_xml.setIcon(new ImageIcon(DeviceUI.class.getResource("/team/sdk/sdkauto/res/btn_stress.png")));
+		btn_xml.setIcon(new ImageIcon(StartUI.class.getResource("/resources/btn_stress.png")));
 		btn_xml.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
@@ -189,7 +189,7 @@ public class DeviceUI {
 		
 		//HIK logo
 		JLabel label_pic = new JLabel(new ImageIcon(
-				Toolkit.getDefaultToolkit().getImage(DeviceUI.class.getResource("/team/sdk/sdkauto/res/HIKlogo.jpg"))));
+				Toolkit.getDefaultToolkit().getImage(StartUI.class.getResource("/resources/HIKlogo.jpg"))));
 		label_pic.setForeground(Color.WHITE);
 		label_pic.setBounds(0, 0, 912, 300);
 		frmDevicemanager.getContentPane().add(label_pic);
