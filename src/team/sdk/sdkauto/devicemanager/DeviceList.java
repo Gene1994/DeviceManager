@@ -50,17 +50,16 @@ import jxl.write.biff.RowsExceededException;
 import net.miginfocom.swing.MigLayout;
 import team.sdk.sdkauto.UI.StartUI;
 import team.sdk.sdkauto.bean.Device;
+import team.sdk.sdkauto.dao.DeviceDao;
 import team.sdk.sdkauto.util.JdbcUtil;
 
 /**
  * <p>
- * Title: DeviceList<��p>
+ * Title: DeviceList
  * <p>
- * Description: <��p>
+ * Description: 查询显示设备列表
  * 
- * @author quzhe
- * 
- *         2017��11��20��
+ * @author quzhe 
  */
 public class DeviceList {
 	/**
@@ -68,12 +67,13 @@ public class DeviceList {
 	 */
 	private static final long serialVersionUID = -311019214878889971L;
 
-	// rowData�������������
-	// columnNames�������
+	
+	// columnNames列名
 	Vector<String> columnNames;
+	// rowData查询显示数据
 	Vector rowData = new Vector();
 
-	// �豸����
+	// 设备属性
 	public String deviceId;
 	public String type;
 	public String model;
@@ -86,11 +86,11 @@ public class DeviceList {
 	public String position;
 	public boolean status;
 
-	private static JFrame frame = new JFrame();// ����ģʽ������ģʽ
-	private static JPanel panel_center;// ����ģʽ������ģʽ
+	private static JFrame frame = new JFrame();//单例模式 饿汉模式
+	private static JPanel panel_center;// 单例模式 懒汉模式
 	private JPanel panel_north;
 	private JTable jt = null;
-	private JTable jt_checked = null; // �������ɸѡ��ı��
+	private JTable jt_checked = null;
 	private JScrollPane jsp = null;
 	private JButton btn_check;
 	private JButton btnExcel;
@@ -106,8 +106,6 @@ public class DeviceList {
 	String sql = null;
 	public List<Map<String, Object>> mapList = null;
 
-	int index_1;
-
 	public DeviceList(String s) {
 		frame.setBounds(100, 347, 1550, 410);
 		// frame.setSize(1500, 300);
@@ -118,20 +116,20 @@ public class DeviceList {
 
 		ONLINE_FLAG = true;
 		columnNames = new Vector<String>();
-		// ��������
-		columnNames.add("״̬");
-		columnNames.add("�豸ID");
-		columnNames.add("�豸����");
-		columnNames.add("�豸�ͺ�");
+
+		columnNames.add("状态");
+		columnNames.add("设备ID");
+		columnNames.add("设备类型");
+		columnNames.add("设备型号");
 		columnNames.add("IP");
-		columnNames.add("�˿ں�");
-		columnNames.add("�û���");
-		columnNames.add("����");
-		columnNames.add("����");
-		columnNames.add("λ��");
-		columnNames.add("��ע");
-		columnNames.add("");// �޸��豸��Ϣ��ť(update)
-		columnNames.add("");// ɾ���豸��Ϣ��ť(delete)
+		columnNames.add("端口号");
+		columnNames.add("用户名");
+		columnNames.add("密码");
+		columnNames.add("语言");
+		columnNames.add("位置");
+		columnNames.add("备注");
+		columnNames.add("");//修改
+		columnNames.add("");//删除
 
 		panel_north = new JPanel();
 		frame.add(panel_north, BorderLayout.NORTH);
@@ -165,7 +163,7 @@ public class DeviceList {
 				} else {
 					sorter.setRowFilter(RowFilter.regexFilter("#OFFLINE#"));
 				}
-				jt.setRowSorter(sorter); // ΪJTable����������
+				jt.setRowSorter(sorter); // 为JTable添加筛选器
 
 				int jR = jt.getRowCount();
 				int jC = jt.getColumnCount();
@@ -175,14 +173,13 @@ public class DeviceList {
 						obj[ir][ic] = jt.getValueAt(ir, ic);
 					}
 				}
-				String[] name = { "״̬", "�豸ID", "�豸����", "�豸�ͺ�", "IP", "�˿ں�", "�û���", "����", "����", "λ��", "��ע" };
+				String[] name = { "状态", "设备ID", "设备类型", "设备型号", "IP", "端口号", "用户名", "密码", "语言", "位置", "备注" };
 				tableModel_checked = new DefaultTableModel(obj, name);
 				jt_checked = new JTable(tableModel_checked);
 
-				// ���ñ����Ⱦ��
+				//设备状态渲染
 				jt_checked.getColumnModel().getColumn(0).setCellRenderer(new MyRenderStatus());
 
-				// ��ʼ�� jsp
 				jt_checked.setVisible(true);
 				jsp.setViewportView(jt_checked);
 			}
@@ -201,42 +198,38 @@ public class DeviceList {
 					} else {
 						exportTable(jt, file);
 					}
-					JOptionPane.showMessageDialog(null, "�����ɹ�");
+					JOptionPane.showMessageDialog(null, "导出成功！");
 				} catch (IOException e1) {
 				}
 			}
 		});
-		// ������������list
+		
+		// 查询
 		List<Object> paramList = new ArrayList<Object>();
 		switch (DeviceSelect.index) {
 		// byType
 		case 1:
 			index = s;
 			sql = "select * from device where type = ?";
-			// ������
 			paramList.add(index);
 			break;
 		// byModel
 		case 2:
-			// ģ������
+			// 模糊查找
 			index = "%" + s + "%";
 			sql = "select * from device where model like ?";
-			// ������
 			paramList.add(index);
 			break;
 		// byIp
 		case 3:
 			index = s;
 			sql = "select * from device where ip = ?";
-			// ������
 			paramList.add(index);
 			break;
 		// byComment
 		case 4:
-			// ģ������
 			index = "%" + s + "%";
 			sql = "select * from device where comment like ?";
-			// ������
 			paramList.add(index);
 			break;
 		// selectAll
@@ -246,10 +239,10 @@ public class DeviceList {
 		}
 
 		try {
-			jdbcUtil.getConnection(); // ��ȡ���ݿ�����
+			jdbcUtil.getConnection(); // 连接到数据库
 			mapList = jdbcUtil.findResult(sql.toString(), paramList);
 		} catch (SQLException exception) {
-			System.out.println(this.getClass() + "ִ�в�ѯ�����׳��쳣��");
+			System.out.println(this.getClass() + "执行数据库操作异常");
 			exception.printStackTrace();
 		} finally {
 			if (jdbcUtil != null) {
@@ -266,7 +259,7 @@ public class DeviceList {
 		jt = new JTable(tableModel);
 		jt.setPreferredScrollableViewportSize(new Dimension(1500, 300));
 		
-		// �޸�
+		// 修改操作
 		MyEvent eventModify = new MyEvent() {
 			@Override
 			public void invoke(ActionEvent e) {
@@ -282,46 +275,15 @@ public class DeviceList {
 				language = (String) jt.getValueAt(row, 8);
 				position = (String) jt.getValueAt(row, 9);
 				comment = (String) jt.getValueAt(row, 10);
-
-				String sql = "update device set deviceid=?,type=?,model=?,ip=?,port=?,username=?,password=?,language=?,position=?,comment=? where deviceid=?";
-				// ������������list
-				List<Object> paramList = new ArrayList<Object>();
-				// ������
-				paramList.add(deviceId);
-				paramList.add(type);
-				paramList.add(model);
-				paramList.add(ip);
-				paramList.add(port);
-				paramList.add(userName);
-				paramList.add(password);
-				paramList.add(language);
-				paramList.add(position);
-				paramList.add(comment);
-				paramList.add(deviceId);
-
-				boolean bool = false;
-				try {
-					jdbcUtil.getConnection(); // ��ȡ���ݿ�����
-					bool = jdbcUtil.updateByPreparedStatement(sql, paramList);
-				} catch (SQLException e1) {
-					System.out.println(this.getClass() + "ִ���޸Ĳ����׳��쳣��");
-					e1.printStackTrace();
-				} finally {
-					if (jdbcUtil != null) {
-						jdbcUtil.releaseConn();
-					}
-				}
-				System.out.println("ִ���޸ĵĽ����" + bool);
-				if (bool) {
-					JOptionPane.showMessageDialog(null, "�޸ĳɹ�");
-				} else {
-					JOptionPane.showMessageDialog(null, "�޸�ʧ��", "����", JOptionPane.ERROR_MESSAGE);
-				}
+				
+				DeviceDao d = new DeviceDao(deviceId, type, model, ip, port, userName, password, language,
+						position, comment, status);
+				d.update();
 			}
 
 		};
 
-		// ɾ��
+		// 删除操作
 		MyEvent eventDelete = new MyEvent() {
 			@Override
 			public void invoke(ActionEvent e) {
@@ -329,58 +291,36 @@ public class DeviceList {
 				int row = button.getRow();
 				deviceId = (String) jt.getValueAt(row, 1);
 
-				String sql = "delete from device where deviceid=?";
-				// ������������list
-				List<Object> paramList = new ArrayList<Object>();
-				// ������
-				paramList.add(deviceId);
-
-				boolean bool = false;
-				try {
-					jdbcUtil.getConnection(); // ��ȡ���ݿ�����
-					bool = jdbcUtil.updateByPreparedStatement(sql, paramList);
-				} catch (SQLException exception) {
-					System.out.println(this.getClass() + "ִ��ɾ�������׳��쳣��");
-					exception.printStackTrace();
-				} finally {
-					if (jdbcUtil != null) {
-						jdbcUtil.releaseConn();
-					}
-				}
-				System.out.println("ִ��ɾ���Ľ����" + bool);
-				if (bool) {
-					JOptionPane.showMessageDialog(null, "ɾ���ɹ�");
-				} else {
-					JOptionPane.showMessageDialog(null, "ɾ��ʧ��", "����", JOptionPane.ERROR_MESSAGE);
-				}
+				DeviceDao d = new DeviceDao(deviceId);
+				d.delete();
 			}
 
 		};
 
 
 
-		// ���ñ����Ⱦ��
+		//设备状态渲染
 		jt.getColumnModel().getColumn(0).setCellRenderer(new MyRenderStatus());
-		// ���ñ����Ⱦ��
+		//修改设备按钮渲染
 		jt.getColumnModel().getColumn(11).setCellRenderer(new MyRenderModify());
-		// ���ñ��ı༭��
+
 		jt.getColumnModel().getColumn(11).setCellEditor(new MyRenderModify(eventModify));
 
-		// ���ñ����Ⱦ��
+		//删除设备按钮渲染
 		jt.getColumnModel().getColumn(12).setCellRenderer(new MyRenderDelete());
-		// ���ñ��ı༭��
+
 		jt.getColumnModel().getColumn(12).setCellEditor(new MyRenderDelete(eventDelete));
 
-		// ��ʼ�� jsp
+
 		jsp = new JScrollPane(jt);
 		// jsp.setSize(1400, 300);
 		jsp.setViewportView(jt);
-		// ����ģʽ �ӳټ���
+
 		if (panel_center == null) {
 			panel_center = new JPanel();
 		}
 		panel_center.removeAll();
-		// ��jsp���뵽jpanel
+
 		panel_center.add(jsp, BorderLayout.CENTER);
 		panel_center.repaint();
 		// this.setSize(1500, 300);
@@ -397,11 +337,11 @@ public class DeviceList {
 		private MyEvent event;
 
 		public MyRenderModify() {
-			button = new MyButton("�޸�");
+			button = new MyButton("修改");
 			button.addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent e) {
-					int res = JOptionPane.showConfirmDialog(null, "ȷ���޸ĸ��豸��", "�Ƿ����", JOptionPane.YES_NO_OPTION);
+					int res = JOptionPane.showConfirmDialog(null, "确认修改该设备？", "修改", JOptionPane.YES_NO_OPTION);
 					if (res == JOptionPane.YES_OPTION) {
 						event.invoke(e);
 					} else {
@@ -420,29 +360,27 @@ public class DeviceList {
 		public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus,
 				int row, int column) {
 			// TODO Auto-generated method stub
-			// ��Ԫ����ʾ
+
 			// button.setToolTipText("");
-			// ����ɫ
+
 			button.setBackground(Color.BLACK);
-			// ǰ��ɫ
+
 			button.setForeground(Color.green);
 			return button;
 		}
 
-		/*
-		 * ��д�༭������������һ����ť��JTable
-		 */
+
 		@Override
 		public Component getTableCellEditorComponent(JTable table, Object value, boolean isSelected, int row,
 				int column) {
 			// setClickCountToStart(1);
-			// �����������İ�ť���ڵ��к��зŽ�button����
+
 
 			button.setRow(row);
 			button.setColumn(column);
-			// ����ɫ
+
 			button.setBackground(Color.BLACK);
-			// ǰ��ɫ
+
 			button.setForeground(Color.green);
 			return button;
 		}
@@ -465,11 +403,11 @@ public class DeviceList {
 		private MyEvent event;
 
 		public MyRenderDelete() {
-			button = new MyButton("ɾ��");
+			button = new MyButton("删除");
 			button.addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent e) {
-					int res = JOptionPane.showConfirmDialog(null, "ȷ��ɾ�����豸��", "�Ƿ����", JOptionPane.YES_NO_OPTION);
+					int res = JOptionPane.showConfirmDialog(null, "确认删除该设备？", "删除", JOptionPane.YES_NO_OPTION);
 					if (res == JOptionPane.YES_OPTION) {
 						event.invoke(e);
 					} else {
@@ -487,29 +425,23 @@ public class DeviceList {
 		@Override
 		public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus,
 				int row, int column) {
-			// TODO Auto-generated method stub
-			// ��Ԫ����ʾ
+
 			// button.setToolTipText("");
-			// ����ɫ
+
 			button.setBackground(Color.BLACK);
-			// ǰ��ɫ
+
 			button.setForeground(Color.red);
 			return button;
 		}
 
-		/*
-		 * ��д�༭������������һ����ť��JTable
-		 */
+
 		@Override
 		public Component getTableCellEditorComponent(JTable table, Object value, boolean isSelected, int row,
 				int column) {
 			// setClickCountToStart(1);
-			// �����������İ�ť���ڵ��к��зŽ�button����
 			button.setRow(row);
 			button.setColumn(column);
-			// ����ɫ
 			button.setBackground(Color.BLACK);
-			// ǰ��ɫ
 			button.setForeground(Color.red);
 			return button;
 		}
@@ -605,36 +537,36 @@ public class DeviceList {
 	}
 
 	/**
-	 * ����jtable��excel
+	 * 导出excel
 	 * 
 	 * @param table
-	 *            Ҫ������jtable
+	 *            要导出的jtable
 	 * @param file
-	 *            Ҫ��������file
+	 *            file地址
 	 * @throws IOException
-	 *             IO�쳣
+	 *             IO异常
 	 */
 	public static void exportTable(JTable table, File file) throws IOException {
 		try {
 			OutputStream out = new FileOutputStream(file);
 			TableModel model = table.getModel();
 			WritableWorkbook wwb = Workbook.createWorkbook(out);
-			// �����ֱ���д������
+
 			WritableSheet ws = wwb.createSheet("Device", 0);
-			// ��ӱ���
+
 			for (int i = 0; i < model.getColumnCount() - 1; i++) {
 				jxl.write.Label labelN = new jxl.write.Label(i, 0, model.getColumnName(i + 1));
 				try {
 					ws.addCell(labelN);
 				} catch (RowsExceededException e) {
-					// TODO Auto-generated catch block
+
 					e.printStackTrace();
 				} catch (WriteException e) {
-					// TODO Auto-generated catch block
+
 					e.printStackTrace();
 				}
 			}
-			// �����
+
 			for (int i = 0; i < model.getColumnCount() - 1; i++) {
 				for (int j = 0; j < model.getRowCount(); j++) {
 					try {
@@ -655,7 +587,7 @@ public class DeviceList {
 				e.printStackTrace();
 			}
 		} catch (FileNotFoundException e) {
-			JOptionPane.showMessageDialog(null, "��������ǰ��رչ�����");
+			JOptionPane.showMessageDialog(null, "FileNotFoundException");
 		}
 	}
 }

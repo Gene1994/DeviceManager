@@ -6,21 +6,21 @@ import java.util.List;
 
 import javax.swing.JOptionPane;
 
+import team.sdk.sdkauto.devicemanager.DeviceSelect;
 import team.sdk.sdkauto.util.JdbcUtil;
 
 /**
  * <p>
- * Title: DeviceDao<£¯p>
+ * Title: DeviceDao
  * <p>
- * Description: <£¯p>
+ * Description:DeviceDao
  * 
  * @author quzhe
  * 
- *         2018Äê2ÔÂ12ÈÕ
  */
 public class DeviceDao {
 	JdbcUtil jdbcUtil = null;
-	// Éè±¸ÊôĞÔ
+	// ï¿½è±¸ï¿½ï¿½ï¿½ï¿½
 	public String deviceId;
 	public String type;
 	public String model;
@@ -29,12 +29,16 @@ public class DeviceDao {
 	public String userName = "admin";
 	public String password;
 	public String language;
-	public boolean status = true;// Ìí¼ÓÊ±Ä¬ÈÏtrue£¬²éÑ¯Ê±ĞŞ¸Ä
+	public boolean status = true;
 	public int errorCode = 0;
 	public String comment;
 	public String position;
 
 	public DeviceDao() {
+	}
+	
+	public DeviceDao(String deviceId){
+		this.deviceId = deviceId;
 	}
 
 	public DeviceDao(String deviceId, String type, String model, String ip, int port, String userName, String password,
@@ -52,8 +56,8 @@ public class DeviceDao {
 		this.status = status;
 	}
 
+	//å¢
 	public boolean insert() {
-		// INSERT INTO ±íÃû³Æ VALUES (Öµ1, Öµ2,....)
 		String sql = "INSERT INTO DEVICE VALUES (?,?,?,?,?,?,?,?,?,?)";
 		List<Object> paramList = new ArrayList<Object>();
 		paramList.add(deviceId);
@@ -70,19 +74,92 @@ public class DeviceDao {
 		boolean bool = false;
 		try {
 			jdbcUtil = new JdbcUtil();
-			jdbcUtil.getConnection(); // »ñÈ¡Êı¾İ¿âÁ´½Ó
+			jdbcUtil.getConnection();
 			bool = jdbcUtil.updateByPreparedStatement(sql, paramList);
 		} catch (SQLException e) {
 		} finally {
 			if (jdbcUtil != null) {
-				jdbcUtil.releaseConn(); // Ò»¶¨ÒªÊÍ·Å×ÊÔ´
+				jdbcUtil.releaseConn();
 			}
 		}
 		if (bool) {
-			JOptionPane.showMessageDialog(null, "Ìí¼Ó³É¹¦");
+			JOptionPane.showMessageDialog(null, "æ·»åŠ æˆåŠŸï¼");
 		} else {
-			JOptionPane.showMessageDialog(null, "Ìí¼ÓÊ§°Ü", "´íÎó", JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(null, "æ·»åŠ å¤±è´¥ï¼", "é”™è¯¯", JOptionPane.ERROR_MESSAGE);
 		}
 		return bool;
+	}
+	
+	//åˆ 
+	public void delete(){
+		String sql = "delete from device where deviceid=?";
+
+		List<Object> paramList = new ArrayList<Object>();
+
+		paramList.add(deviceId);
+
+		boolean bool = false;
+		try {
+			jdbcUtil = new JdbcUtil();
+			jdbcUtil.getConnection();
+			bool = jdbcUtil.updateByPreparedStatement(sql, paramList);
+		} catch (SQLException exception) {
+			System.out.println(this.getClass() + "æ‰§è¡Œæ•°æ®åº“æ“ä½œå¼‚å¸¸");
+			exception.printStackTrace();
+		} finally {
+			if (jdbcUtil != null) {
+				jdbcUtil.releaseConn();
+			}
+		}
+		System.out.println("åˆ é™¤æ“ä½œç»“æœï¼š" + bool);
+		if (bool) {
+			JOptionPane.showMessageDialog(null, "åˆ é™¤æˆåŠŸ");
+		} else {
+			JOptionPane.showMessageDialog(null, "åˆ é™¤å¤±è´¥", "å¤±è´¥", JOptionPane.ERROR_MESSAGE);
+		}
+	}
+	
+	//æ”¹
+	public boolean update(){
+		String sql = "update device set deviceid=?,type=?,model=?,ip=?,port=?,username=?,password=?,language=?,position=?,comment=? where deviceid=?";
+		List<Object> paramList = new ArrayList<Object>();
+		paramList.add(deviceId);
+		paramList.add(type);
+		paramList.add(model);
+		paramList.add(ip);
+		paramList.add(port);
+		paramList.add(userName);
+		paramList.add(password);
+		paramList.add(language);
+		paramList.add(position);
+		paramList.add(comment);
+		paramList.add(deviceId);
+		
+		boolean bool = false;
+		try {
+			jdbcUtil = new JdbcUtil();
+			jdbcUtil.getConnection();
+			bool = jdbcUtil.updateByPreparedStatement(sql, paramList);
+		} catch (SQLException e1) {
+			System.out.println(this.getClass() + "æ‰§è¡Œæ•°æ®åº“æ“ä½œå¼‚å¸¸");
+			e1.printStackTrace();
+		} finally {
+			if (jdbcUtil != null) {
+				jdbcUtil.releaseConn();
+			}
+		}
+		System.out.println("ä¿®æ”¹æ“ä½œç»“æœï¼š" + bool);
+		if (bool) {
+			JOptionPane.showMessageDialog(null, "ä¿®æ”¹æˆåŠŸ");
+		} else {
+			JOptionPane.showMessageDialog(null, "ä¿®æ”¹å¤±è´¥", "å¤±è´¥", JOptionPane.ERROR_MESSAGE);
+		}
+		
+		return bool;
+	}
+	
+	//æŸ¥
+	public void select(){
+
 	}
 }

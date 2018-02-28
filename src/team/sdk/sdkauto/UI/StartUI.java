@@ -83,7 +83,7 @@ public class StartUI {
 		
 		boolean initSuc = hCNetSDK.NET_DVR_Init();
 		if (initSuc != true) {
-			JOptionPane.showMessageDialog(null, "��ʼ��ʧ��");
+			JOptionPane.showMessageDialog(null, "SDK初始化失败");
 		}
 		int buildVersion = hCNetSDK.NET_DVR_GetSDKBuildVersion();
 		int v1 = (buildVersion >> 24) & 0xff;

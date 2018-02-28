@@ -128,7 +128,7 @@ public class StressXML extends JFrame {
 		this.setBounds(100, 100, 600, 330);
 		this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		this.setIconImage(Toolkit.getDefaultToolkit().getImage(DeviceSelect.class.getResource("/resources/device_icon.png")));
-		this.setTitle("�����ȶ���XML");
+		this.setTitle("生成稳定性XML");
 		getContentPane().setLayout(null);
 		this.setVisible(true);
 		this.setResizable(false);
@@ -159,21 +159,21 @@ public class StressXML extends JFrame {
 		DefaultMutableTreeNode clientaudiostart = new DefaultMutableTreeNode();
 		DefaultMutableTreeNode startvoicecommr = new DefaultMutableTreeNode();
 
-		root.setUserObject("����");
-		preview.setUserObject("Ԥ��preview");
-		playback.setUserObject("�ط�playback");
-		download.setUserObject("����download");
-		login.setUserObject("ע��login");
-		findlog.setUserObject("��־����findlog");
-		findfile.setUserObject("�ļ�����findfile");
-		alarm.setUserObject("����alarm");
-		listen.setUserObject("����listen");
-		paramconfig.setUserObject("��������paramconfig");
-		serial.setUserObject("͸��ͨ��serial");
-		passivedecode.setUserObject("��������passivedecode");
-		startvoicecom.setUserObject("�����Խ�startvoicecom");
-		clientaudiostart.setUserObject("�����㲥clientaudiostart");
-		startvoicecommr.setUserObject("����ת��startvoicecommr");
+		root.setUserObject("场景");
+		preview.setUserObject("预览preview");
+		playback.setUserObject("回放playback");
+		download.setUserObject("下载download");
+		login.setUserObject("注册login");
+		findlog.setUserObject("日志搜索findlog");
+		findfile.setUserObject("文件搜索findfile");
+		alarm.setUserObject("布防alarm");
+		listen.setUserObject("监听listen");
+		paramconfig.setUserObject("参数配置paramconfig");
+		serial.setUserObject("透明通道serial");
+		passivedecode.setUserObject("被动解码passivedecode");
+		startvoicecom.setUserObject("语音对讲startvoicecom");
+		clientaudiostart.setUserObject("语音广播clientaudiostart");
+		startvoicecommr.setUserObject("语音转发startvoicecommr");
 
 		root.add(preview);
 		root.add(playback);
@@ -213,7 +213,7 @@ public class StressXML extends JFrame {
 		JPanel p_blank = new JPanel();
 		p_blank.setLayout(null);
 		JLabel lb = new JLabel();
-		lb.setText("��ѡ�񳡾�");
+		lb.setText("请选择场景");
 		lb.setBounds(150, 130, 70, 20);
 		p_blank.add(lb);
 
@@ -222,22 +222,22 @@ public class StressXML extends JFrame {
 		this.add(panel_button);
 
 		btn_next = new JButton();
-		btn_next.setText("��һ��");
+		btn_next.setText("下一步");
 		panel_button.add(btn_next);
 		btn_next.setVisible(false);
 
 		btn_add = new JButton();
-		btn_add.setText("���");
+		btn_add.setText("添加");
 		panel_button.add(btn_add);
 		btn_add.setVisible(false);
 
 		btn_delete = new JButton();
-		btn_delete.setText("ɾ��");
+		btn_delete.setText("删除");
 		panel_button.add(btn_delete);
 		btn_delete.setVisible(false);
 		
 		btn_init = new JButton();
-		btn_init.setText("����XML");
+		btn_init.setText("生成XML");
 		panel_button.add(btn_init);
 		btn_init.setVisible(true);
 
@@ -312,82 +312,81 @@ public class StressXML extends JFrame {
 
 		List<SceneBean> sceneList = new ArrayList<SceneBean>();
 
-		// ����cardPanel
-		setScene1();// Ԥ��
-		setScene2();// �ط�
+		// 设置cardPanel
+		setScene1();
+		setScene2();
 		setScene3(p_3, b3,
-				new String[] { "0-NET_DVR_GetFileByName", "1-NET_DVR_GetFileByTime", "2-NET_DVR_GetFileByTime_V40" });// ����
-		setScene4(p_4, b4, new String[] { "0-NET_DVR_Login", "1-NET_DVR_Login_V30", "2-NET_DVR_Login_V40 " });// ע��
-		setScene3(p_5, b5, new String[] { "0-NET_DVR_FindDVRLog", "1-NET_DVR_FindDVRLog_V30" });// findlog
+				new String[] { "0-NET_DVR_GetFileByName", "1-NET_DVR_GetFileByTime", "2-NET_DVR_GetFileByTime_V40" });
+		setScene4(p_4, b4, new String[] { "0-NET_DVR_Login", "1-NET_DVR_Login_V30", "2-NET_DVR_Login_V40 " });
+		setScene3(p_5, b5, new String[] { "0-NET_DVR_FindDVRLog", "1-NET_DVR_FindDVRLog_V30" });
 		setScene3(p_6, b6, new String[] { "0-NET_DVR_FindFile", "1-NET_DVR_FindFileByCard", "2-NET_DVR_FindFile_V30",
-				"3-NET_DVR_FindFile_V40" });// findfile
-		setScene4(p_7, b7, new String[] { "0-NET_DVR_SetupAlarmChan", "1-NET_DVR_SetupAlarmChan_V30" });// alarm
-		setScene5();// ����
+				"3-NET_DVR_FindFile_V40" });
+		setScene4(p_7, b7, new String[] { "0-NET_DVR_SetupAlarmChan", "1-NET_DVR_SetupAlarmChan_V30" });
+		setScene5();
 		setScene3(p_9, b9, new String[] { "0-NET_DVR_GET/SET_TIMECFG", "1-NET_DVR_GET/SET_NETCFG_V30",
-				"2-NET_DVR_GET/SET_DEVICECFG", "3-NET_DVR_GET/SET_DEVICECFG_V40" });// paramconfig
+				"2-NET_DVR_GET/SET_DEVICECFG", "3-NET_DVR_GET/SET_DEVICECFG_V40" });
 		setScene3(p_10, b10, new String[] { "0-NET_DVR_SerialStart_V40" });// serial
 		setScene3(p_11, b11, new String[] { "0-NET_DVR_MatrixStartPassiveDecode" });// passivedecode
 		setScene6();// startvoicecom
 		setScene7(p_13, b13, new String[] { "0-NET_DVR_ClientAudioStart_V30" });// clientaudiostart
 		b13.setSleeptime(0);
 		setScene7(p_14, b14, new String[] { "0-NET_DVR_StartVoiceCom_MR_V30" });// startvoicecommr
-		// ��������豸ҳ��
+		// 设置添加设备页面
 		setSceneAddDevice();
 
 		// JPanel panel_show = panel_scene;
-		// ��
 		tree.addTreeSelectionListener(new TreeSelectionListener() {
 			public void valueChanged(TreeSelectionEvent e) {
 				select = (DefaultMutableTreeNode) tree.getLastSelectedPathComponent();
 				btn_next.setVisible(true);
 				btn_add.setVisible(false);
-				if (select.toString().equals("Ԥ��preview")) {
+				if (select.toString().equals("预览preview")) {
 					card.show(panel_scene, "preview");
 					btn_delete.setVisible(false);
-				} else if (select.toString().equals("�ط�playback")) {
+				} else if (select.toString().equals("回放playback")) {
 					card.show(panel_scene, "playback");
 					btn_delete.setVisible(false);
-				} else if (select.toString().equals("����download")) {
+				} else if (select.toString().equals("下载download")) {
 					card.show(panel_scene, "download");
 					btn_delete.setVisible(false);
-				} else if (select.toString().equals("ע��login")) {
+				} else if (select.toString().equals("注册login")) {
 					card.show(panel_scene, "login");
 					btn_delete.setVisible(false);
-				} else if (select.toString().equals("��־����findlog")) {
+				} else if (select.toString().equals("日志搜索findlog")) {
 					card.show(panel_scene, "findlog");
 					btn_delete.setVisible(false);
-				} else if (select.toString().equals("�ļ�����findfile")) {
+				} else if (select.toString().equals("文件搜索findfile")) {
 					card.show(panel_scene, "findfile");
 					btn_delete.setVisible(false);
-				} else if (select.toString().equals("����alarm")) {
+				} else if (select.toString().equals("布防alarm")) {
 					card.show(panel_scene, "alarm");
 					btn_delete.setVisible(false);
-				} else if (select.toString().equals("����listen")) {
+				} else if (select.toString().equals("监听listen")) {
 					card.show(panel_scene, "listen");
 					btn_delete.setVisible(false);
-				} else if (select.toString().equals("����listen")) {
+				} else if (select.toString().equals("监听listen")) {
 					card.show(panel_scene, "listen");
 					btn_delete.setVisible(false);
-				} else if (select.toString().equals("��������paramconfig")) {
+				} else if (select.toString().equals("参数配置paramconfig")) {
 					card.show(panel_scene, "paramconfig");
 					btn_delete.setVisible(false);
-				} else if (select.toString().equals("͸��ͨ��serial")) {
+				} else if (select.toString().equals("透明通道serial")) {
 					card.show(panel_scene, "serial");
 					btn_delete.setVisible(false);
-				} else if (select.toString().equals("��������passivedecode")) {
+				} else if (select.toString().equals("被动解码passivedecode")) {
 					card.show(panel_scene, "passivedecode");
 					btn_delete.setVisible(false);
-				} else if (select.toString().equals("�����Խ�startvoicecom")) {
+				} else if (select.toString().equals("语音对讲startvoicecom")) {
 					card.show(panel_scene, "startvoicecom");
 					btn_delete.setVisible(false);
-				} else if (select.toString().equals("�����㲥clientaudiostart")) {
+				} else if (select.toString().equals("语音广播clientaudiostart")) {
 					card.show(panel_scene, "clientaudiostart");
 					btn_delete.setVisible(false);
-				} else if (select.toString().equals("����ת��startvoicecommr")) {
+				} else if (select.toString().equals("语音转发startvoicecommr")) {
 					card.show(panel_scene, "startvoicecommr");
 					btn_delete.setVisible(false);
 				} else {
-					card.show(panel_scene, "p_blank");
+					card.show(panel_scene, "p_15");
 					btn_next.setVisible(false);
 					btn_delete.setVisible(true);
 				}
@@ -415,98 +414,98 @@ public class StressXML extends JFrame {
 					device.setUserName(user);
 					device.setPassword(password);
 					node_device = new DefaultMutableTreeNode(device.getIp());
-					if (select.toString().equals("Ԥ��preview")) {
+					if (select.toString().equals("预览preview")) {
 						deviceList1.add(device);
 						deviceListList.put(b1, deviceList1);
 						if (!sceneList.contains(b1)) {
 							sceneList.add(b1);
 						}
 						preview.add(node_device);
-					} else if (select.toString().equals("�ط�playback")) {
+					} else if (select.toString().equals("回放playback")) {
 						deviceList2.add(device);
 						deviceListList.put(b2, deviceList2);
 						if (!sceneList.contains(b2)) {
 							sceneList.add(b2);
 						}
 						playback.add(node_device);
-					} else if (select.toString().equals("����download")) {
+					} else if (select.toString().equals("下载download")) {
 						deviceList3.add(device);
 						deviceListList.put(b3, deviceList3);
 						if (!sceneList.contains(b3)) {
 							sceneList.add(b3);
 						}
 						download.add(node_device);
-					} else if (select.toString().equals("ע��login")) {
+					} else if (select.toString().equals("注册login")) {
 						deviceList4.add(device);
 						deviceListList.put(b4, deviceList4);
 						if (!sceneList.contains(b4)) {
 							sceneList.add(b4);
 						}
 						login.add(node_device);
-					} else if (select.toString().equals("��־����findlog")) {
+					} else if (select.toString().equals("日志搜索findlog")) {
 						deviceList5.add(device);
 						deviceListList.put(b5, deviceList5);
 						if (!sceneList.contains(b5)) {
 							sceneList.add(b5);
 						}
 						findlog.add(node_device);
-					} else if (select.toString().equals("�ļ�����findfile")) {
+					} else if (select.toString().equals("文件搜索findfile")) {
 						deviceList6.add(device);
 						deviceListList.put(b6, deviceList6);
 						if (!sceneList.contains(b6)) {
 							sceneList.add(b6);
 						}
 						findfile.add(node_device);
-					} else if (select.toString().equals("����alarm")) {
+					} else if (select.toString().equals("布防alarm")) {
 						deviceList7.add(device);
 						deviceListList.put(b7, deviceList7);
 						if (!sceneList.contains(b7)) {
 							sceneList.add(b7);
 						}
 						alarm.add(node_device);
-					} else if (select.toString().equals("����listen")) {
+					} else if (select.toString().equals("监听listen")) {
 						deviceList8.add(device);
 						deviceListList.put(b8, deviceList8);
 						if (!sceneList.contains(b8)) {
 							sceneList.add(b8);
 						}
 						listen.add(node_device);
-					} else if (select.toString().equals("��������paramconfig")) {
+					} else if (select.toString().equals("参数配置paramconfig")) {
 						deviceList9.add(device);
 						deviceListList.put(b9, deviceList9);
 						if (!sceneList.contains(b9)) {
 							sceneList.add(b9);
 						}
 						paramconfig.add(node_device);
-					} else if (select.toString().equals("͸��ͨ��serial")) {
+					} else if (select.toString().equals("透明通道serial")) {
 						deviceList10.add(device);
 						deviceListList.put(b10, deviceList10);
 						if (!sceneList.contains(b10)) {
 							sceneList.add(b10);
 						}
 						serial.add(node_device);
-					} else if (select.toString().equals("��������passivedecode")) {
+					} else if (select.toString().equals("被动解码passivedecode")) {
 						deviceList11.add(device);
 						deviceListList.put(b11, deviceList11);
 						if (!sceneList.contains(b11)) {
 							sceneList.add(b11);
 						}
 						passivedecode.add(node_device);
-					} else if (select.toString().equals("�����Խ�startvoicecom")) {
+					} else if (select.toString().equals("语音对讲startvoicecom")) {
 						deviceList12.add(device);
 						deviceListList.put(b12, deviceList12);
 						if (!sceneList.contains(b12)) {
 							sceneList.add(b12);
 						}
 						startvoicecom.add(node_device);
-					} else if (select.toString().equals("�����㲥clientaudiostart")) {
+					} else if (select.toString().equals("语音广播clientaudiostart")) {
 						deviceList13.add(device);
 						deviceListList.put(b13, deviceList13);
 						if (!sceneList.contains(b13)) {
 							sceneList.add(b13);
 						}
 						clientaudiostart.add(node_device);
-					} else if (select.toString().equals("����ת��startvoicecommr")) {
+					} else if (select.toString().equals("语音转发startvoicecommr")) {
 						deviceList14.add(device);
 						deviceListList.put(b14, deviceList14);
 						if (!sceneList.contains(b14)) {
@@ -523,7 +522,7 @@ public class StressXML extends JFrame {
 					user = null;
 					password = null;
 				}else{
-					JOptionPane.showMessageDialog(null, "��������ȷ��IP��ַ", "Error!",JOptionPane.ERROR_MESSAGE); 
+					JOptionPane.showMessageDialog(null, "请输入正确的IP地址", "Error!",JOptionPane.ERROR_MESSAGE); 
 				}
 				
 			}
@@ -533,7 +532,7 @@ public class StressXML extends JFrame {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				try {
-					XMLWriter writer = null;// ����дXML�Ķ���
+					XMLWriter writer = null;// 声明写XML的对象
 //					SAXReader reader = new SAXReader();
 
 					String xml_Url = "..\\SDKAuto\\Generate Files\\hikstresstestXml\\hiksdkstresstest_"
@@ -541,7 +540,7 @@ public class StressXML extends JFrame {
 					File xmlFile = new File(xml_Url);
 
 					OutputFormat format = OutputFormat.createPrettyPrint();
-					format.setEncoding("UTF-8");// ����XML�ļ��ı����ʽ
+					format.setEncoding("UTF-8");// 设置XML文件的编码格式
 
 					Document _document = DocumentHelper.createDocument();
 					Element _root = _document.addElement("hiksdkstresstest");
@@ -752,7 +751,7 @@ public class StressXML extends JFrame {
 					writer = new XMLWriter(new FileWriter(xmlFile), format);
 					writer.write(_document);
 					writer.close();
-					JOptionPane.showMessageDialog(null, "���ɳɹ���");  
+					JOptionPane.showMessageDialog(null, "生成成功！");  
 				} catch (Exception e1) {
 				}
 			}
@@ -936,7 +935,7 @@ public class StressXML extends JFrame {
 				try {
 					int i = Integer.parseInt(tfThreadcount.getText());
 					if (i < 1 || i > 2048) {
-						JOptionPane.showMessageDialog(null, "������[1,2048]��������", "Error!", JOptionPane.ERROR_MESSAGE);
+						JOptionPane.showMessageDialog(null, "请输入[1,2048]的整数！", "Error!", JOptionPane.ERROR_MESSAGE);
 						tfThreadcount.setText("1");
 					}
 					b1.setThreadcount(i);
@@ -958,7 +957,7 @@ public class StressXML extends JFrame {
 		p_1.add(lbLoopinterval);
 
 		b1.setLoopinterval(15);
-		JTextField tfLoopinterval = new JTextField("������>=15����", 10);
+		JTextField tfLoopinterval = new JTextField("请输入>=15整数", 10);
 		tfLoopinterval.setBounds(90, 147, 100, 21);
 		p_1.add(tfLoopinterval);
 		// tfLoopinterval.setColumns(10);
@@ -975,17 +974,17 @@ public class StressXML extends JFrame {
 		tfLoopinterval.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mousePressed(MouseEvent e) {
-				if (tfLoopinterval.getText().equals("������>=15����")) {
+				if (tfLoopinterval.getText().equals("请输入>=15整数")) {
 					tfLoopinterval.setText("");
 				}
 			}
 		});
 
-		JLabel lbMention = new JLabel("protoType:�豸ͬʱ֧��˽��Э���RTSPЭ��ʱ��");
+		JLabel lbMention = new JLabel("protoType:设备同时支持私有协议和RTSP协议时，");
 		lbMention.setBounds(10, 180, 300, 15);
 		p_1.add(lbMention);
 
-		JLabel lbMention1 = new JLabel("�ò�������Ч��Ĭ��ʹ��˽��Э�飬��ѡRTSPЭ��");
+		JLabel lbMention1 = new JLabel("该参数才有效，默认使用私有协议，可选RTSP协议");
 		lbMention1.setBounds(10, 195, 300, 15);
 		p_1.add(lbMention1);
 	}
@@ -1056,7 +1055,7 @@ public class StressXML extends JFrame {
 				try {
 					int i = Integer.parseInt(tfThreadcount.getText());
 					if (i < 1 || i > 2048) {
-						JOptionPane.showMessageDialog(null, "������[1,2048]��������", "Error!", JOptionPane.ERROR_MESSAGE);
+						JOptionPane.showMessageDialog(null, "请输入[1,2048]的整数！", "Error!", JOptionPane.ERROR_MESSAGE);
 						tfThreadcount.setText("1");
 					}
 					b2.setThreadcount(i);
@@ -1078,7 +1077,7 @@ public class StressXML extends JFrame {
 		p_2.add(lbLoopinterval);
 
 		b2.setLoopinterval(15);
-		JTextField tfLoopinterval = new JTextField("������>=15����", 10);
+		JTextField tfLoopinterval = new JTextField("请输入>=15整数", 10);
 		tfLoopinterval.setBounds(90, 87, 100, 21);
 		p_2.add(tfLoopinterval);
 		// tfLoopinterval.setColumns(10);
@@ -1095,7 +1094,7 @@ public class StressXML extends JFrame {
 		tfLoopinterval.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mousePressed(MouseEvent e) {
-				if (tfLoopinterval.getText().equals("������>=15����")) {
+				if (tfLoopinterval.getText().equals("请输入>=15整数")) {
 					tfLoopinterval.setText("");
 				}
 			}
@@ -1134,7 +1133,7 @@ public class StressXML extends JFrame {
 				try {
 					int i = Integer.parseInt(tfThreadcount.getText());
 					if (i < 1 || i > 2048) {
-						JOptionPane.showMessageDialog(null, "������[1,2048]��������", "Error!", JOptionPane.ERROR_MESSAGE);
+						JOptionPane.showMessageDialog(null, "请输入[1,2048]的整数！", "Error!", JOptionPane.ERROR_MESSAGE);
 						tfThreadcount.setText("1");
 					}
 					b.setThreadcount(i);
@@ -1156,7 +1155,7 @@ public class StressXML extends JFrame {
 		p.add(lbLoopinterval);
 
 		b.setLoopinterval(15);
-		JTextField tfLoopinterval = new JTextField("������>=15����", 10);
+		JTextField tfLoopinterval = new JTextField("请输入>=15整数", 10);
 		tfLoopinterval.setBounds(90, 47, 100, 21);
 		p.add(tfLoopinterval);
 		// tfLoopinterval.setColumns(10);
@@ -1173,7 +1172,7 @@ public class StressXML extends JFrame {
 		tfLoopinterval.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mousePressed(MouseEvent e) {
-				if (tfLoopinterval.getText().equals("������>=15����")) {
+				if (tfLoopinterval.getText().equals("请输入>=15整数")) {
 					tfLoopinterval.setText("");
 				}
 			}
@@ -1212,7 +1211,7 @@ public class StressXML extends JFrame {
 				try {
 					int i = Integer.parseInt(tfTaskcount.getText());
 					if (i < 1 || i > 2048) {
-						JOptionPane.showMessageDialog(null, "������[1,2048]��������", "Error!", JOptionPane.ERROR_MESSAGE);
+						JOptionPane.showMessageDialog(null, "请输入[1,2048]的整数！", "Error!", JOptionPane.ERROR_MESSAGE);
 						tfTaskcount.setText("1");
 					}
 					b.setTaskcount(i);
@@ -1244,7 +1243,7 @@ public class StressXML extends JFrame {
 				try {
 					int i = Integer.parseInt(tfThreadcount.getText());
 					if (i < 1 || i > 2048) {
-						JOptionPane.showMessageDialog(null, "������[1,2048]��������", "Error!", JOptionPane.ERROR_MESSAGE);
+						JOptionPane.showMessageDialog(null, "请输入[1,2048]的整数！", "Error!", JOptionPane.ERROR_MESSAGE);
 						tfThreadcount.setText("1");
 					}
 					b.setThreadcount(i);
@@ -1266,7 +1265,7 @@ public class StressXML extends JFrame {
 		p.add(lbLoopinterval);
 
 		b.setLoopinterval(15);
-		JTextField tfLoopinterval = new JTextField("������>=15����", 10);
+		JTextField tfLoopinterval = new JTextField("请输入>=15整数", 10);
 		tfLoopinterval.setBounds(90, 67, 100, 21);
 		p.add(tfLoopinterval);
 		// tfLoopinterval.setColumns(10);
@@ -1283,7 +1282,7 @@ public class StressXML extends JFrame {
 		tfLoopinterval.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mousePressed(MouseEvent e) {
-				if (tfLoopinterval.getText().equals("������>=15����")) {
+				if (tfLoopinterval.getText().equals("请输入>=15整数")) {
 					tfLoopinterval.setText("");
 				}
 			}
@@ -1362,7 +1361,7 @@ public class StressXML extends JFrame {
 				try {
 					int i = Integer.parseInt(tfThreadcount.getText());
 					if (i != 1) {
-						JOptionPane.showMessageDialog(null, "д��1��������Ҫ", "Error!", JOptionPane.ERROR_MESSAGE);
+						JOptionPane.showMessageDialog(null, "写死1，代码需要", "Error!", JOptionPane.ERROR_MESSAGE);
 						tfThreadcount.setText("1");
 					}
 					b8.setThreadcount(i);
@@ -1386,7 +1385,7 @@ public class StressXML extends JFrame {
 				try {
 					int i = Integer.parseInt(tfLoopinterval.getText());
 					if (i != 0) {
-						JOptionPane.showMessageDialog(null, "��������Ҫ��Ѳ��д��0", "Error!", JOptionPane.ERROR_MESSAGE);
+						JOptionPane.showMessageDialog(null, "监听不需要轮巡，写死0", "Error!", JOptionPane.ERROR_MESSAGE);
 						tfLoopinterval.setText("0");
 					}
 					b8.setLoopinterval(i);
@@ -1429,7 +1428,7 @@ public class StressXML extends JFrame {
 				try {
 					int i = Integer.parseInt(tfThreadcount.getText());
 					if (i < 1 || i > 512) {
-						JOptionPane.showMessageDialog(null, "������[1,512]��������", "Error!", JOptionPane.ERROR_MESSAGE);
+						JOptionPane.showMessageDialog(null, "请输入[1,512]的整数！", "Error!", JOptionPane.ERROR_MESSAGE);
 						tfThreadcount.setText("1");
 					}
 					b12.setThreadcount(i);
@@ -1454,7 +1453,7 @@ public class StressXML extends JFrame {
 
 		b12.setbNeedCBNoEncData(0);
 		JComboBox cbBNeedCBNoEncData = new JComboBox();
-		cbBNeedCBNoEncData.setModel(new DefaultComboBoxModel(new String[] { "0-��������������", "1-����ǰ��PCMԭʼ���� " }));
+		cbBNeedCBNoEncData.setModel(new DefaultComboBoxModel(new String[] { "0-编码后的语音数据", "1-编码前的PCM原始数据" }));
 		cbBNeedCBNoEncData.setBounds(141, 47, 230, 21);
 		cbBNeedCBNoEncData.addItemListener(new ItemListener() {
 			public void itemStateChanged(ItemEvent e) {
@@ -1485,7 +1484,7 @@ public class StressXML extends JFrame {
 		p_12.add(lbLoopinterval);
 
 		b12.setLoopinterval(15);
-		JTextField tfLoopinterval = new JTextField("������>=15����", 10);
+		JTextField tfLoopinterval = new JTextField("请输入>=15整数", 10);
 		tfLoopinterval.setBounds(141, 87, 100, 21);
 		p_12.add(tfLoopinterval);
 		// tfLoopinterval.setColumns(10);
@@ -1502,7 +1501,7 @@ public class StressXML extends JFrame {
 		tfLoopinterval.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mousePressed(MouseEvent e) {
-				if (tfLoopinterval.getText().equals("������>=15����")) {
+				if (tfLoopinterval.getText().equals("请输入>=15整数")) {
 					tfLoopinterval.setText("");
 				}
 			}
@@ -1541,7 +1540,7 @@ public class StressXML extends JFrame {
 				try {
 					int i = Integer.parseInt(tfThreadcount.getText());
 					if (i < 1 || i > 512) {
-						JOptionPane.showMessageDialog(null, "������[1,512]��������", "Error!", JOptionPane.ERROR_MESSAGE);
+						JOptionPane.showMessageDialog(null, "请输入[1,512]的整数！", "Error!", JOptionPane.ERROR_MESSAGE);
 						tfThreadcount.setText("1");
 					}
 					b.setThreadcount(i);
@@ -1581,7 +1580,7 @@ public class StressXML extends JFrame {
 		p.add(lbLoopinterval);
 
 		b.setLoopinterval(15);
-		JTextField tfLoopinterval = new JTextField("������>=15����", 10);
+		JTextField tfLoopinterval = new JTextField("请输入>=15整数", 10);
 		tfLoopinterval.setBounds(141, 67, 100, 21);
 		p.add(tfLoopinterval);
 		// tfLoopinterval.setColumns(10);
@@ -1598,7 +1597,7 @@ public class StressXML extends JFrame {
 		tfLoopinterval.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mousePressed(MouseEvent e) {
-				if (tfLoopinterval.getText().equals("������>=15����")) {
+				if (tfLoopinterval.getText().equals("请输入>=15整数")) {
 					tfLoopinterval.setText("");
 				}
 			}

@@ -250,18 +250,18 @@ public class DeviceInsert {
 				@Override
 				public void mouseClicked(MouseEvent arg0) {
 					if (isMatches(ip)) {
-						// ���������λdeviceId
+						
 						deviceId = String.format("%05d", (int) (Math.random() * 100000));
 						DeviceDao d = new DeviceDao(deviceId, type, model, ip, port, userName, password, language,
 								position, comment, status);
 						d.insert();
 					} else {
-						JOptionPane.showMessageDialog(null, "��������ȷ��IP��ַ", "Error!", JOptionPane.ERROR_MESSAGE);
+						JOptionPane.showMessageDialog(null, "请输入正确IP", "Error!", JOptionPane.ERROR_MESSAGE);
 					}
 				}
 			});
 		} catch (NumberFormatException e) {
-			JOptionPane.showMessageDialog(null, "Error", "��������ȷ�Ķ˿ںŻ������", JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(null, "Error", "error", JOptionPane.ERROR_MESSAGE);
 		}
 
 		JButton btn_cancel = new JButton("\u53D6\u6D88");

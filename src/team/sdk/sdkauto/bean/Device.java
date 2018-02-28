@@ -10,13 +10,13 @@ import team.sdk.sdkauto.hcnetsdk.HCNetSDK;
 
 /**
  * <p>
- * Title: DeciveInfo<£¯p>
+ * Title: DeciveInfo<ï¿½ï¿½p>
  * <p>
- * Description: <£¯p>
+ * Description: <ï¿½ï¿½p>
  * 
  * @author quzhe
  * 
- *         2018Äê1ÔÂ26ÈÕ
+ *         2018ï¿½ï¿½1ï¿½ï¿½26ï¿½ï¿½
  */
 public class Device implements java.lang.Runnable, java.io.Serializable{
 	/**
@@ -36,9 +36,9 @@ public class Device implements java.lang.Runnable, java.io.Serializable{
 	String comment;
 	Vector hang = new Vector();
 	
-	NativeLong lUserID;// ÓÃ»§¾ä±ú
+	NativeLong lUserID;// ï¿½Ã»ï¿½ï¿½ï¿½ï¿½
 	static HCNetSDK hCNetSDK = HCNetSDK.INSTANCE;
-	HCNetSDK.NET_DVR_DEVICEINFO m_strDeviceInfo;// Éè±¸ĞÅÏ¢
+	HCNetSDK.NET_DVR_DEVICEINFO m_strDeviceInfo;
 	
 	public Device() {}
 	
@@ -236,8 +236,8 @@ public class Device implements java.lang.Runnable, java.io.Serializable{
 		this.hang = hang;
 	}
 
-	/* ¶àÏß³ÌÊµÏÖDeviceÔÚÏß×´Ì¬²éÑ¯
-	 * µ÷ÓÃNET_DVR_Login½Ó¿Ú£¬·µ»Ø-1Îª²»ÔÚÏß£¬ÆäËûÎªÔÚÏß
+	/**
+	 * ä½¿ç”¨å¤šçº¿ç¨‹è§£å†³æŸ¥è¯¢è®¾å¤‡çŠ¶æ€é«˜å¹¶å‘å¡é¡¿ç°è±¡
 	 */
 	@Override
 	public void run() {

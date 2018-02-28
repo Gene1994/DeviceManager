@@ -1,3 +1,19 @@
+/*
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
+ */
+
+/*
+ * HCNetSDK.java
+ *
+ * Created on 2009-9-14, 19:31:34
+ */
+
+/**
+ *
+ * @author Xubinfeng
+ */
+
 package team.sdk.sdkauto.hcnetsdk;
 
 import com.sun.jna.Native;
@@ -5,7 +21,6 @@ import com.sun.jna.NativeLong;
 import com.sun.jna.Pointer;
 import com.sun.jna.Structure;
 import com.sun.jna.Union;
-import com.sun.jna.examples.CLibrary;
 import com.sun.jna.examples.win32.GDI32.RECT;
 import com.sun.jna.examples.win32.W32API;
 import com.sun.jna.examples.win32.W32API.HWND;
@@ -15,183 +30,185 @@ import com.sun.jna.ptr.IntByReference;
 import com.sun.jna.ptr.NativeLongByReference;
 import com.sun.jna.ptr.ShortByReference;
 
-//SDK½Ó¿ÚËµÃ÷,HCNetSDK.dll
+//SDKæ¥å£è¯´æ˜,HCNetSDK.dll
 public interface HCNetSDK extends StdCallLibrary {
-//	String filePath = CLibrary.class.getResource("").getPath().replaceFirst("/","").replaceAll("%20"," ")+"HCNetSDK.dll";
-    HCNetSDK INSTANCE = (HCNetSDK) Native.loadLibrary("D:\\java workspace\\SDKAuto\\SDKAuto\\testobject\\HCNetSDK", HCNetSDK.class);
-    /***ºê¶¨Òå***/
-    //³£Á¿
+	//ä½¿ç”¨32ä½ç‰ˆæœ¬JRE!!!!
+//	String filePath = HCNetSDK.class.getResource("").getPath().replaceFirst("/","").replaceAll("%20"," ")+"HCNetSDK.dll";
+    HCNetSDK INSTANCE = (HCNetSDK) Native.loadLibrary("testobject/HCNetSDK",
+            HCNetSDK.class);
+    /***å®å®šä¹‰***/
+    //å¸¸é‡
 
-    public static final int MAX_NAMELEN = 16;	//DVR±¾µØµÇÂ½Ãû
-    public static final int MAX_RIGHT = 32;	//Éè±¸Ö§³ÖµÄÈ¨ÏŞ£¨1-12±íÊ¾±¾µØÈ¨ÏŞ£¬13-32±íÊ¾Ô¶³ÌÈ¨ÏŞ£©
-    public static final int NAME_LEN = 32;    //ÓÃ»§Ãû³¤¶È
-    public static final int PASSWD_LEN = 16;    //ÃÜÂë³¤¶È
-    public static final int SERIALNO_LEN = 48;   //ĞòÁĞºÅ³¤¶È
-    public static final int MACADDR_LEN = 6;      //macµØÖ·³¤¶È
-    public static final int MAX_ETHERNET = 2;   //Éè±¸¿ÉÅäÒÔÌ«ÍøÂç
-    public static final int PATHNAME_LEN = 128;   //Â·¾¶³¤¶È
-    public static final int MAX_TIMESEGMENT_V30 = 8;    //9000Éè±¸×î´óÊ±¼ä¶ÎÊı
-    public static final int MAX_TIMESEGMENT = 4;   //8000Éè±¸×î´óÊ±¼ä¶ÎÊı
-    public static final int MAX_SHELTERNUM = 4;   //8000Éè±¸×î´óÕÚµ²ÇøÓòÊı
-    public static final int MAX_DAYS = 7;      //Ã¿ÖÜÌìÊı
-    public static final int PHONENUMBER_LEN = 32;   //pppoe²¦ºÅºÅÂë×î´ó³¤¶È
-    public static final int MAX_DISKNUM_V30 = 33;		//9000Éè±¸×î´óÓ²ÅÌÊı/* ×î¶à33¸öÓ²ÅÌ(°üÀ¨16¸öÄÚÖÃSATAÓ²ÅÌ¡¢1¸öeSATAÓ²ÅÌºÍ16¸öNFSÅÌ) */
-    public static final int MAX_DISKNUM = 16;     //8000Éè±¸×î´óÓ²ÅÌÊı
-    public static final int MAX_DISKNUM_V10 = 8;   //1.2°æ±¾Ö®Ç°°æ±¾
-    public static final int MAX_WINDOW_V30 = 32; //9000Éè±¸±¾µØÏÔÊ¾×î´ó²¥·Å´°¿ÚÊı
-    public static final int MAX_WINDOW = 16;    //8000Éè±¸×î´óÓ²ÅÌÊı
-    public static final int MAX_VGA_V30 = 4;     //9000Éè±¸×î´ó¿É½ÓVGAÊı
-    public static final int MAX_VGA = 1;    //8000Éè±¸×î´ó¿É½ÓVGAÊı
-    public static final int MAX_USERNUM_V30 = 32;  //9000Éè±¸×î´óÓÃ»§Êı
-    public static final int MAX_USERNUM = 16;  //8000Éè±¸×î´óÓÃ»§Êı
-    public static final int MAX_EXCEPTIONNUM_V30 = 32;  //9000Éè±¸×î´óÒì³£´¦ÀíÊı
-    public static final int MAX_EXCEPTIONNUM = 16;   //8000Éè±¸×î´óÒì³£´¦ÀíÊı
-    public static final int MAX_LINK = 6;    //8000Éè±¸µ¥Í¨µÀ×î´óÊÓÆµÁ÷Á¬½ÓÊı
-    public static final int MAX_DECPOOLNUM = 4;   //µ¥Â·½âÂëÆ÷Ã¿¸ö½âÂëÍ¨µÀ×î´ó¿ÉÑ­»·½âÂëÊı
-    public static final int MAX_DECNUM = 4;    //µ¥Â·½âÂëÆ÷µÄ×î´ó½âÂëÍ¨µÀÊı£¨Êµ¼ÊÖ»ÓĞÒ»¸ö£¬ÆäËûÈı¸ö±£Áô£©
-    public static final int MAX_TRANSPARENTNUM = 2;   //µ¥Â·½âÂëÆ÷¿ÉÅäÖÃ×î´óÍ¸Ã÷Í¨µÀÊı
-    public static final int MAX_CYCLE_CHAN = 16;   //µ¥Â·½âÂëÆ÷×î´óÂÖÑ­Í¨µÀÊı
-    public static final int MAX_DIRNAME_LENGTH = 80;   //×î´óÄ¿Â¼³¤¶È
-    public static final int MAX_STRINGNUM_V30 = 8;		//9000Éè±¸×î´óOSD×Ö·ûĞĞÊıÊı
-    public static final int MAX_STRINGNUM = 4;   //8000Éè±¸×î´óOSD×Ö·ûĞĞÊıÊı
-    public static final int MAX_STRINGNUM_EX = 8;   //8000¶¨ÖÆÀ©Õ¹
-    public static final int MAX_AUXOUT_V30 = 16;   //9000Éè±¸×î´ó¸¨ÖúÊä³öÊı
-    public static final int MAX_AUXOUT = 4;      //8000Éè±¸×î´ó¸¨ÖúÊä³öÊı
-    public static final int MAX_HD_GROUP = 16;   //9000Éè±¸×î´óÓ²ÅÌ×éÊı
-    public static final int MAX_NFS_DISK = 8;    //8000Éè±¸×î´óNFSÓ²ÅÌÊı
-    public static final int IW_ESSID_MAX_SIZE = 32;    //WIFIµÄSSIDºÅ³¤¶È
-    public static final int IW_ENCODING_TOKEN_MAX = 32;   //WIFIÃÜËø×î´ó×Ö½ÚÊı
-    public static final int MAX_SERIAL_NUM = 64;    //×î¶àÖ§³ÖµÄÍ¸Ã÷Í¨µÀÂ·Êı
-    public static final int MAX_DDNS_NUMS = 10;   //9000Éè±¸×î´ó¿ÉÅäddnsÊı
-    public static final int MAX_DOMAIN_NAME = 64;	/* ×î´óÓòÃû³¤¶È */
+    public static final int MAX_NAMELEN = 16;	//DVRæœ¬åœ°ç™»é™†å
+    public static final int MAX_RIGHT = 32;	//è®¾å¤‡æ”¯æŒçš„æƒé™ï¼ˆ1-12è¡¨ç¤ºæœ¬åœ°æƒé™ï¼Œ13-32è¡¨ç¤ºè¿œç¨‹æƒé™ï¼‰
+    public static final int NAME_LEN = 32;    //ç”¨æˆ·åé•¿åº¦
+    public static final int PASSWD_LEN = 16;    //å¯†ç é•¿åº¦
+    public static final int SERIALNO_LEN = 48;   //åºåˆ—å·é•¿åº¦
+    public static final int MACADDR_LEN = 6;      //macåœ°å€é•¿åº¦
+    public static final int MAX_ETHERNET = 2;   //è®¾å¤‡å¯é…ä»¥å¤ªç½‘ç»œ
+    public static final int PATHNAME_LEN = 128;   //è·¯å¾„é•¿åº¦
+    public static final int MAX_TIMESEGMENT_V30 = 8;    //9000è®¾å¤‡æœ€å¤§æ—¶é—´æ®µæ•°
+    public static final int MAX_TIMESEGMENT = 4;   //8000è®¾å¤‡æœ€å¤§æ—¶é—´æ®µæ•°
+    public static final int MAX_SHELTERNUM = 4;   //8000è®¾å¤‡æœ€å¤§é®æŒ¡åŒºåŸŸæ•°
+    public static final int MAX_DAYS = 7;      //æ¯å‘¨å¤©æ•°
+    public static final int PHONENUMBER_LEN = 32;   //pppoeæ‹¨å·å·ç æœ€å¤§é•¿åº¦
+    public static final int MAX_DISKNUM_V30 = 33;		//9000è®¾å¤‡æœ€å¤§ç¡¬ç›˜æ•°/* æœ€å¤š33ä¸ªç¡¬ç›˜(åŒ…æ‹¬16ä¸ªå†…ç½®SATAç¡¬ç›˜ã€1ä¸ªeSATAç¡¬ç›˜å’Œ16ä¸ªNFSç›˜) */
+    public static final int MAX_DISKNUM = 16;     //8000è®¾å¤‡æœ€å¤§ç¡¬ç›˜æ•°
+    public static final int MAX_DISKNUM_V10 = 8;   //1.2ç‰ˆæœ¬ä¹‹å‰ç‰ˆæœ¬
+    public static final int MAX_WINDOW_V30 = 32; //9000è®¾å¤‡æœ¬åœ°æ˜¾ç¤ºæœ€å¤§æ’­æ”¾çª—å£æ•°
+    public static final int MAX_WINDOW = 16;    //8000è®¾å¤‡æœ€å¤§ç¡¬ç›˜æ•°
+    public static final int MAX_VGA_V30 = 4;     //9000è®¾å¤‡æœ€å¤§å¯æ¥VGAæ•°
+    public static final int MAX_VGA = 1;    //8000è®¾å¤‡æœ€å¤§å¯æ¥VGAæ•°
+    public static final int MAX_USERNUM_V30 = 32;  //9000è®¾å¤‡æœ€å¤§ç”¨æˆ·æ•°
+    public static final int MAX_USERNUM = 16;  //8000è®¾å¤‡æœ€å¤§ç”¨æˆ·æ•°
+    public static final int MAX_EXCEPTIONNUM_V30 = 32;  //9000è®¾å¤‡æœ€å¤§å¼‚å¸¸å¤„ç†æ•°
+    public static final int MAX_EXCEPTIONNUM = 16;   //8000è®¾å¤‡æœ€å¤§å¼‚å¸¸å¤„ç†æ•°
+    public static final int MAX_LINK = 6;    //8000è®¾å¤‡å•é€šé“æœ€å¤§è§†é¢‘æµè¿æ¥æ•°
+    public static final int MAX_DECPOOLNUM = 4;   //å•è·¯è§£ç å™¨æ¯ä¸ªè§£ç é€šé“æœ€å¤§å¯å¾ªç¯è§£ç æ•°
+    public static final int MAX_DECNUM = 4;    //å•è·¯è§£ç å™¨çš„æœ€å¤§è§£ç é€šé“æ•°ï¼ˆå®é™…åªæœ‰ä¸€ä¸ªï¼Œå…¶ä»–ä¸‰ä¸ªä¿ç•™ï¼‰
+    public static final int MAX_TRANSPARENTNUM = 2;   //å•è·¯è§£ç å™¨å¯é…ç½®æœ€å¤§é€æ˜é€šé“æ•°
+    public static final int MAX_CYCLE_CHAN = 16;   //å•è·¯è§£ç å™¨æœ€å¤§è½®å¾ªé€šé“æ•°
+    public static final int MAX_DIRNAME_LENGTH = 80;   //æœ€å¤§ç›®å½•é•¿åº¦
+    public static final int MAX_STRINGNUM_V30 = 8;		//9000è®¾å¤‡æœ€å¤§OSDå­—ç¬¦è¡Œæ•°æ•°
+    public static final int MAX_STRINGNUM = 4;   //8000è®¾å¤‡æœ€å¤§OSDå­—ç¬¦è¡Œæ•°æ•°
+    public static final int MAX_STRINGNUM_EX = 8;   //8000å®šåˆ¶æ‰©å±•
+    public static final int MAX_AUXOUT_V30 = 16;   //9000è®¾å¤‡æœ€å¤§è¾…åŠ©è¾“å‡ºæ•°
+    public static final int MAX_AUXOUT = 4;      //8000è®¾å¤‡æœ€å¤§è¾…åŠ©è¾“å‡ºæ•°
+    public static final int MAX_HD_GROUP = 16;   //9000è®¾å¤‡æœ€å¤§ç¡¬ç›˜ç»„æ•°
+    public static final int MAX_NFS_DISK = 8;    //8000è®¾å¤‡æœ€å¤§NFSç¡¬ç›˜æ•°
+    public static final int IW_ESSID_MAX_SIZE = 32;    //WIFIçš„SSIDå·é•¿åº¦
+    public static final int IW_ENCODING_TOKEN_MAX = 32;   //WIFIå¯†é”æœ€å¤§å­—èŠ‚æ•°
+    public static final int MAX_SERIAL_NUM = 64;    //æœ€å¤šæ”¯æŒçš„é€æ˜é€šé“è·¯æ•°
+    public static final int MAX_DDNS_NUMS = 10;   //9000è®¾å¤‡æœ€å¤§å¯é…ddnsæ•°
+    public static final int MAX_DOMAIN_NAME = 64;	/* æœ€å¤§åŸŸåé•¿åº¦ */
 
-    public static final int MAX_EMAIL_ADDR_LEN = 48;  //×î´óemailµØÖ·³¤¶È
-    public static final int MAX_EMAIL_PWD_LEN = 32;     //×î´óemailÃÜÂë³¤¶È
-    public static final int MAXPROGRESS = 100;  //»Ø·ÅÊ±µÄ×î´ó°Ù·ÖÂÊ
-    public static final int MAX_SERIALNUM = 2;    //8000Éè±¸Ö§³ÖµÄ´®¿ÚÊı 1-232£¬ 2-485
-    public static final int CARDNUM_LEN = 20;    //¿¨ºÅ³¤¶È
-    public static final int MAX_VIDEOOUT_V30 = 4;      //9000Éè±¸µÄÊÓÆµÊä³öÊı
-    public static final int MAX_VIDEOOUT = 2;      //8000Éè±¸µÄÊÓÆµÊä³öÊı
-    public static final int MAX_PRESET_V30 = 256;	/* 9000Éè±¸Ö§³ÖµÄÔÆÌ¨Ô¤ÖÃµãÊı */
-    public static final int MAX_TRACK_V30 = 256;	/* 9000Éè±¸Ö§³ÖµÄÔÆÌ¨¹ì¼£Êı */
-    public static final int MAX_CRUISE_V30 = 256;	/* 9000Éè±¸Ö§³ÖµÄÔÆÌ¨Ñ²º½Êı */
-    public static final int MAX_PRESET = 128;	/* 8000Éè±¸Ö§³ÖµÄÔÆÌ¨Ô¤ÖÃµãÊı */
-    public static final int MAX_TRACK = 128;	/* 8000Éè±¸Ö§³ÖµÄÔÆÌ¨¹ì¼£Êı */
-    public static final int MAX_CRUISE = 128;	/* 8000Éè±¸Ö§³ÖµÄÔÆÌ¨Ñ²º½Êı */
-    public static final int CRUISE_MAX_PRESET_NUMS = 32;    /* Ò»ÌõÑ²º½×î¶àµÄÑ²º½µã */
-    public static final int MAX_SERIAL_PORT = 8;    //9000Éè±¸Ö§³Ö232´®¿ÚÊı
-    public static final int MAX_PREVIEW_MODE = 8;    /* Éè±¸Ö§³Ö×î´óÔ¤ÀÀÄ£Ê½ÊıÄ¿ 1»­Ãæ,4»­Ãæ,9»­Ãæ,16»­Ãæ.... */
-    public static final int MAX_MATRIXOUT = 16;  /* ×î´óÄ£Äâ¾ØÕóÊä³ö¸öÊı */
-    public static final int LOG_INFO_LEN = 11840; /* ÈÕÖ¾¸½¼ÓĞÅÏ¢ */
-    public static final int DESC_LEN = 16;    /* ÔÆÌ¨ÃèÊö×Ö·û´®³¤¶È */
-    public static final int PTZ_PROTOCOL_NUM = 200;   /* 9000×î´óÖ§³ÖµÄÔÆÌ¨Ğ­ÒéÊı */
-    public static final int MAX_AUDIO = 1;    //8000ÓïÒô¶Ô½²Í¨µÀÊı
-    public static final int MAX_AUDIO_V30 = 2;   //9000ÓïÒô¶Ô½²Í¨µÀÊı
-    public static final int MAX_CHANNUM = 16;   //8000Éè±¸×î´óÍ¨µÀÊı
-    public static final int MAX_ALARMIN = 16;  //8000Éè±¸×î´ó±¨¾¯ÊäÈëÊı
-    public static final int MAX_ALARMOUT = 4;    //8000Éè±¸×î´ó±¨¾¯Êä³öÊı
-//9000 IPC½ÓÈë
-    public static final int MAX_ANALOG_CHANNUM = 32;    //×î´ó32¸öÄ£ÄâÍ¨µÀ
-    public static final int MAX_ANALOG_ALARMOUT = 32;    //×î´ó32Â·Ä£Äâ±¨¾¯Êä³ö
-    public static final int MAX_ANALOG_ALARMIN = 32;    //×î´ó32Â·Ä£Äâ±¨¾¯ÊäÈë
-    public static final int MAX_IP_DEVICE = 32;    //ÔÊĞí½ÓÈëµÄ×î´óIPÉè±¸Êı
-    public static final int MAX_IP_CHANNEL = 32;   //ÔÊĞí¼ÓÈëµÄ×î¶àIPÍ¨µÀÊı
-    public static final int MAX_IP_ALARMIN = 128;   //ÔÊĞí¼ÓÈëµÄ×î¶à±¨¾¯ÊäÈëÊı
-    public static final int MAX_IP_ALARMOUT = 64; //ÔÊĞí¼ÓÈëµÄ×î¶à±¨¾¯Êä³öÊı
+    public static final int MAX_EMAIL_ADDR_LEN = 48;  //æœ€å¤§emailåœ°å€é•¿åº¦
+    public static final int MAX_EMAIL_PWD_LEN = 32;     //æœ€å¤§emailå¯†ç é•¿åº¦
+    public static final int MAXPROGRESS = 100;  //å›æ”¾æ—¶çš„æœ€å¤§ç™¾åˆ†ç‡
+    public static final int MAX_SERIALNUM = 2;    //8000è®¾å¤‡æ”¯æŒçš„ä¸²å£æ•° 1-232ï¼Œ 2-485
+    public static final int CARDNUM_LEN = 20;    //å¡å·é•¿åº¦
+    public static final int MAX_VIDEOOUT_V30 = 4;      //9000è®¾å¤‡çš„è§†é¢‘è¾“å‡ºæ•°
+    public static final int MAX_VIDEOOUT = 2;      //8000è®¾å¤‡çš„è§†é¢‘è¾“å‡ºæ•°
+    public static final int MAX_PRESET_V30 = 256;	/* 9000è®¾å¤‡æ”¯æŒçš„äº‘å°é¢„ç½®ç‚¹æ•° */
+    public static final int MAX_TRACK_V30 = 256;	/* 9000è®¾å¤‡æ”¯æŒçš„äº‘å°è½¨è¿¹æ•° */
+    public static final int MAX_CRUISE_V30 = 256;	/* 9000è®¾å¤‡æ”¯æŒçš„äº‘å°å·¡èˆªæ•° */
+    public static final int MAX_PRESET = 128;	/* 8000è®¾å¤‡æ”¯æŒçš„äº‘å°é¢„ç½®ç‚¹æ•° */
+    public static final int MAX_TRACK = 128;	/* 8000è®¾å¤‡æ”¯æŒçš„äº‘å°è½¨è¿¹æ•° */
+    public static final int MAX_CRUISE = 128;	/* 8000è®¾å¤‡æ”¯æŒçš„äº‘å°å·¡èˆªæ•° */
+    public static final int CRUISE_MAX_PRESET_NUMS = 32;    /* ä¸€æ¡å·¡èˆªæœ€å¤šçš„å·¡èˆªç‚¹ */
+    public static final int MAX_SERIAL_PORT = 8;    //9000è®¾å¤‡æ”¯æŒ232ä¸²å£æ•°
+    public static final int MAX_PREVIEW_MODE = 8;    /* è®¾å¤‡æ”¯æŒæœ€å¤§é¢„è§ˆæ¨¡å¼æ•°ç›® 1ç”»é¢,4ç”»é¢,9ç”»é¢,16ç”»é¢.... */
+    public static final int MAX_MATRIXOUT = 16;  /* æœ€å¤§æ¨¡æ‹ŸçŸ©é˜µè¾“å‡ºä¸ªæ•° */
+    public static final int LOG_INFO_LEN = 11840; /* æ—¥å¿—é™„åŠ ä¿¡æ¯ */
+    public static final int DESC_LEN = 16;    /* äº‘å°æè¿°å­—ç¬¦ä¸²é•¿åº¦ */
+    public static final int PTZ_PROTOCOL_NUM = 200;   /* 9000æœ€å¤§æ”¯æŒçš„äº‘å°åè®®æ•° */
+    public static final int MAX_AUDIO = 1;    //8000è¯­éŸ³å¯¹è®²é€šé“æ•°
+    public static final int MAX_AUDIO_V30 = 2;   //9000è¯­éŸ³å¯¹è®²é€šé“æ•°
+    public static final int MAX_CHANNUM = 16;   //8000è®¾å¤‡æœ€å¤§é€šé“æ•°
+    public static final int MAX_ALARMIN = 16;  //8000è®¾å¤‡æœ€å¤§æŠ¥è­¦è¾“å…¥æ•°
+    public static final int MAX_ALARMOUT = 4;    //8000è®¾å¤‡æœ€å¤§æŠ¥è­¦è¾“å‡ºæ•°
+//9000 IPCæ¥å…¥
+    public static final int MAX_ANALOG_CHANNUM = 32;    //æœ€å¤§32ä¸ªæ¨¡æ‹Ÿé€šé“
+    public static final int MAX_ANALOG_ALARMOUT = 32;    //æœ€å¤§32è·¯æ¨¡æ‹ŸæŠ¥è­¦è¾“å‡º
+    public static final int MAX_ANALOG_ALARMIN = 32;    //æœ€å¤§32è·¯æ¨¡æ‹ŸæŠ¥è­¦è¾“å…¥
+    public static final int MAX_IP_DEVICE = 32;    //å…è®¸æ¥å…¥çš„æœ€å¤§IPè®¾å¤‡æ•°
+    public static final int MAX_IP_CHANNEL = 32;   //å…è®¸åŠ å…¥çš„æœ€å¤šIPé€šé“æ•°
+    public static final int MAX_IP_ALARMIN = 128;   //å…è®¸åŠ å…¥çš„æœ€å¤šæŠ¥è­¦è¾“å…¥æ•°
+    public static final int MAX_IP_ALARMOUT = 64; //å…è®¸åŠ å…¥çš„æœ€å¤šæŠ¥è­¦è¾“å‡ºæ•°
 
-    /* ×î´óÖ§³ÖµÄÍ¨µÀÊı ×î´óÄ£Äâ¼ÓÉÏ×î´óIPÖ§³Ö */
+    /* æœ€å¤§æ”¯æŒçš„é€šé“æ•° æœ€å¤§æ¨¡æ‹ŸåŠ ä¸Šæœ€å¤§IPæ”¯æŒ */
     public static final int MAX_CHANNUM_V30 = (MAX_ANALOG_CHANNUM + MAX_IP_CHANNEL);//64
     public static final int MAX_ALARMOUT_V30 = (MAX_ANALOG_ALARMOUT + MAX_IP_ALARMOUT);//96
     public static final int MAX_ALARMIN_V30 = (MAX_ANALOG_ALARMIN + MAX_IP_ALARMIN);//160
 
-    /*******************È«¾Ö´íÎóÂë begin**********************/
-    public static final int NET_DVR_NOERROR = 0;	//Ã»ÓĞ´íÎó
-    public static final int NET_DVR_PASSWORD_ERROR = 1;	//ÓÃ»§ÃûÃÜÂë´íÎó
-    public static final int NET_DVR_NOENOUGHPRI = 2;//È¨ÏŞ²»×ã
-    public static final int NET_DVR_NOINIT = 3;//Ã»ÓĞ³õÊ¼»¯
-    public static final int NET_DVR_CHANNEL_ERROR = 4;	//Í¨µÀºÅ´íÎó
-    public static final int NET_DVR_OVER_MAXLINK = 5;	//Á¬½Óµ½DVRµÄ¿Í»§¶Ë¸öÊı³¬¹ı×î´ó
-    public static final int NET_DVR_VERSIONNOMATCH = 6;	//°æ±¾²»Æ¥Åä
-    public static final int NET_DVR_NETWORK_FAIL_CONNECT = 7;//Á¬½Ó·şÎñÆ÷Ê§°Ü
-    public static final int NET_DVR_NETWORK_SEND_ERROR = 8;	//Ïò·şÎñÆ÷·¢ËÍÊ§°Ü
-    public static final int NET_DVR_NETWORK_RECV_ERROR = 9;	//´Ó·şÎñÆ÷½ÓÊÕÊı¾İÊ§°Ü
-    public static final int NET_DVR_NETWORK_RECV_TIMEOUT = 10;	//´Ó·şÎñÆ÷½ÓÊÕÊı¾İ³¬Ê±
-    public static final int NET_DVR_NETWORK_ERRORDATA = 11;	//´«ËÍµÄÊı¾İÓĞÎó
-    public static final int NET_DVR_ORDER_ERROR = 12;	//µ÷ÓÃ´ÎĞò´íÎó
-    public static final int NET_DVR_OPERNOPERMIT = 13;	//ÎŞ´ËÈ¨ÏŞ
-    public static final int NET_DVR_COMMANDTIMEOUT = 14;	//DVRÃüÁîÖ´ĞĞ³¬Ê±
-    public static final int NET_DVR_ERRORSERIALPORT = 15;	//´®¿ÚºÅ´íÎó
-    public static final int NET_DVR_ERRORALARMPORT = 16;	//±¨¾¯¶Ë¿Ú´íÎó
-    public static final int NET_DVR_PARAMETER_ERROR = 17;//²ÎÊı´íÎó
-    public static final int NET_DVR_CHAN_EXCEPTION = 18;	//·şÎñÆ÷Í¨µÀ´¦ÓÚ´íÎó×´Ì¬
-    public static final int NET_DVR_NODISK = 19;	//Ã»ÓĞÓ²ÅÌ
-    public static final int NET_DVR_ERRORDISKNUM = 20;	//Ó²ÅÌºÅ´íÎó
-    public static final int NET_DVR_DISK_FULL = 21;	//·şÎñÆ÷Ó²ÅÌÂú
-    public static final int NET_DVR_DISK_ERROR = 22;//·şÎñÆ÷Ó²ÅÌ³ö´í
-    public static final int NET_DVR_NOSUPPORT = 23;//·şÎñÆ÷²»Ö§³Ö
-    public static final int NET_DVR_BUSY = 24;//·şÎñÆ÷Ã¦
-    public static final int NET_DVR_MODIFY_FAIL = 25;//·şÎñÆ÷ĞŞ¸Ä²»³É¹¦
-    public static final int NET_DVR_PASSWORD_FORMAT_ERROR = 26;//ÃÜÂëÊäÈë¸ñÊ½²»ÕıÈ·
-    public static final int NET_DVR_DISK_FORMATING = 27;	//Ó²ÅÌÕıÔÚ¸ñÊ½»¯£¬²»ÄÜÆô¶¯²Ù×÷
-    public static final int NET_DVR_DVRNORESOURCE = 28;	//DVR×ÊÔ´²»×ã
-    public static final int NET_DVR_DVROPRATEFAILED = 29; //DVR²Ù×÷Ê§°Ü
-    public static final int NET_DVR_OPENHOSTSOUND_FAIL = 30; //´ò¿ªPCÉùÒôÊ§°Ü
-    public static final int NET_DVR_DVRVOICEOPENED = 31; //·şÎñÆ÷ÓïÒô¶Ô½²±»Õ¼ÓÃ
-    public static final int NET_DVR_TIMEINPUTERROR = 32; //Ê±¼äÊäÈë²»ÕıÈ·
-    public static final int NET_DVR_NOSPECFILE = 33;  //»Ø·ÅÊ±·şÎñÆ÷Ã»ÓĞÖ¸¶¨µÄÎÄ¼ş
-    public static final int NET_DVR_CREATEFILE_ERROR = 34;	//´´½¨ÎÄ¼ş³ö´í
-    public static final int NET_DVR_FILEOPENFAIL = 35; //´ò¿ªÎÄ¼ş³ö´í
-    public static final int NET_DVR_OPERNOTFINISH = 36; //ÉÏ´ÎµÄ²Ù×÷»¹Ã»ÓĞÍê³É
-    public static final int NET_DVR_GETPLAYTIMEFAIL = 37; //»ñÈ¡µ±Ç°²¥·ÅµÄÊ±¼ä³ö´í
-    public static final int NET_DVR_PLAYFAIL = 38; //²¥·Å³ö´í
-    public static final int NET_DVR_FILEFORMAT_ERROR = 39;//ÎÄ¼ş¸ñÊ½²»ÕıÈ·
-    public static final int NET_DVR_DIR_ERROR = 40;	//Â·¾¶´íÎó
-    public static final int NET_DVR_ALLOC_RESOURCE_ERROR = 41;//×ÊÔ´·ÖÅä´íÎó
-    public static final int NET_DVR_AUDIO_MODE_ERROR = 42;	//Éù¿¨Ä£Ê½´íÎó
-    public static final int NET_DVR_NOENOUGH_BUF = 43;	//»º³åÇøÌ«Ğ¡
-    public static final int NET_DVR_CREATESOCKET_ERROR = 44;	//´´½¨SOCKET³ö´í
-    public static final int NET_DVR_SETSOCKET_ERROR = 45;	//ÉèÖÃSOCKET³ö´í
-    public static final int NET_DVR_MAX_NUM = 46;	//¸öÊı´ïµ½×î´ó
-    public static final int NET_DVR_USERNOTEXIST = 47;	//ÓÃ»§²»´æÔÚ
-    public static final int NET_DVR_WRITEFLASHERROR = 48;//Ğ´FLASH³ö´í
-    public static final int NET_DVR_UPGRADEFAIL = 49;//DVRÉı¼¶Ê§°Ü
-    public static final int NET_DVR_CARDHAVEINIT = 50; //½âÂë¿¨ÒÑ¾­³õÊ¼»¯¹ı
-    public static final int NET_DVR_PLAYERFAILED = 51;	//µ÷ÓÃ²¥·Å¿âÖĞÄ³¸öº¯ÊıÊ§°Ü
-    public static final int NET_DVR_MAX_USERNUM = 52; //Éè±¸¶ËÓÃ»§Êı´ïµ½×î´ó
-    public static final int NET_DVR_GETLOCALIPANDMACFAIL = 53;//»ñµÃ¿Í»§¶ËµÄIPµØÖ·»òÎïÀíµØÖ·Ê§°Ü
-    public static final int NET_DVR_NOENCODEING = 54;	//¸ÃÍ¨µÀÃ»ÓĞ±àÂë
-    public static final int NET_DVR_IPMISMATCH = 55;	//IPµØÖ·²»Æ¥Åä
-    public static final int NET_DVR_MACMISMATCH = 56;//MACµØÖ·²»Æ¥Åä
-    public static final int NET_DVR_UPGRADELANGMISMATCH = 57;//Éı¼¶ÎÄ¼şÓïÑÔ²»Æ¥Åä
-    public static final int NET_DVR_MAX_PLAYERPORT = 58;//²¥·ÅÆ÷Â·Êı´ïµ½×î´ó
-    public static final int NET_DVR_NOSPACEBACKUP = 59;//±¸·İÉè±¸ÖĞÃ»ÓĞ×ã¹»¿Õ¼ä½øĞĞ±¸·İ
-    public static final int NET_DVR_NODEVICEBACKUP = 60;	//Ã»ÓĞÕÒµ½Ö¸¶¨µÄ±¸·İÉè±¸
-    public static final int NET_DVR_PICTURE_BITS_ERROR = 61;	//Í¼ÏñËØÎ»Êı²»·û£¬ÏŞ24É«
-    public static final int NET_DVR_PICTURE_DIMENSION_ERROR = 62;//Í¼Æ¬¸ß*¿í³¬ÏŞ£¬ ÏŞ128*256
-    public static final int NET_DVR_PICTURE_SIZ_ERROR = 63;	//Í¼Æ¬´óĞ¡³¬ÏŞ£¬ÏŞ100K
-    public static final int NET_DVR_LOADPLAYERSDKFAILED = 64;	//ÔØÈëµ±Ç°Ä¿Â¼ÏÂPlayer Sdk³ö´í
-    public static final int NET_DVR_LOADPLAYERSDKPROC_ERROR = 65;	//ÕÒ²»µ½Player SdkÖĞÄ³¸öº¯ÊıÈë¿Ú
-    public static final int NET_DVR_LOADDSSDKFAILED = 66;	//ÔØÈëµ±Ç°Ä¿Â¼ÏÂDSsdk³ö´í
-    public static final int NET_DVR_LOADDSSDKPROC_ERROR = 67;	//ÕÒ²»µ½DsSdkÖĞÄ³¸öº¯ÊıÈë¿Ú
-    public static final int NET_DVR_DSSDK_ERROR = 68;	//µ÷ÓÃÓ²½âÂë¿âDsSdkÖĞÄ³¸öº¯ÊıÊ§°Ü
-    public static final int NET_DVR_VOICEMONOPOLIZE = 69;	//Éù¿¨±»¶ÀÕ¼
-    public static final int NET_DVR_JOINMULTICASTFAILED = 70;	//¼ÓÈë¶à²¥×éÊ§°Ü
-    public static final int NET_DVR_CREATEDIR_ERROR = 71;	//½¨Á¢ÈÕÖ¾ÎÄ¼şÄ¿Â¼Ê§°Ü
-    public static final int NET_DVR_BINDSOCKET_ERROR = 72;	//°ó¶¨Ì×½Ó×ÖÊ§°Ü
-    public static final int NET_DVR_SOCKETCLOSE_ERROR = 73;	//socketÁ¬½ÓÖĞ¶Ï£¬´Ë´íÎóÍ¨³£ÊÇÓÉÓÚÁ¬½ÓÖĞ¶Ï»òÄ¿µÄµØ²»¿É´ï
-    public static final int NET_DVR_USERID_ISUSING = 74;	//×¢ÏúÊ±ÓÃ»§IDÕıÔÚ½øĞĞÄ³²Ù×÷
-    public static final int NET_DVR_SOCKETLISTEN_ERROR = 75;	//¼àÌıÊ§°Ü
-    public static final int NET_DVR_PROGRAM_EXCEPTION = 76;	//³ÌĞòÒì³£
-    public static final int NET_DVR_WRITEFILE_FAILED = 77;	//Ğ´ÎÄ¼şÊ§°Ü
-    public static final int NET_DVR_FORMAT_READONLY = 78;//½ûÖ¹¸ñÊ½»¯Ö»¶ÁÓ²ÅÌ
-    public static final int NET_DVR_WITHSAMEUSERNAME = 79;//ÓÃ»§ÅäÖÃ½á¹¹ÖĞ´æÔÚÏàÍ¬µÄÓÃ»§Ãû
-    public static final int NET_DVR_DEVICETYPE_ERROR = 80; /*µ¼Èë²ÎÊıÊ±Éè±¸ĞÍºÅ²»Æ¥Åä*/
-    public static final int NET_DVR_LANGUAGE_ERROR = 81; /*µ¼Èë²ÎÊıÊ±ÓïÑÔ²»Æ¥Åä*/
-    public static final int NET_DVR_PARAVERSION_ERROR = 82; /*µ¼Èë²ÎÊıÊ±Èí¼ş°æ±¾²»Æ¥Åä*/
-    public static final int NET_DVR_IPCHAN_NOTALIVE = 83; /*Ô¤ÀÀÊ±Íâ½ÓIPÍ¨µÀ²»ÔÚÏß*/
-    public static final int NET_DVR_RTSP_SDK_ERROR = 84;	/*¼ÓÔØ¸ßÇåIPCÍ¨Ñ¶¿âStreamTransClient.dllÊ§°Ü*/
-    public static final int NET_DVR_CONVERT_SDK_ERROR = 85;	/*¼ÓÔØ×ªÂë¿âÊ§°Ü*/
-    public static final int NET_DVR_IPC_COUNT_OVERFLOW = 86; /*³¬³ö×î´óµÄip½ÓÈëÍ¨µÀÊı*/
+    /*******************å…¨å±€é”™è¯¯ç  begin**********************/
+    public static final int NET_DVR_NOERROR = 0;	//æ²¡æœ‰é”™è¯¯
+    public static final int NET_DVR_PASSWORD_ERROR = 1;	//ç”¨æˆ·åå¯†ç é”™è¯¯
+    public static final int NET_DVR_NOENOUGHPRI = 2;//æƒé™ä¸è¶³
+    public static final int NET_DVR_NOINIT = 3;//æ²¡æœ‰åˆå§‹åŒ–
+    public static final int NET_DVR_CHANNEL_ERROR = 4;	//é€šé“å·é”™è¯¯
+    public static final int NET_DVR_OVER_MAXLINK = 5;	//è¿æ¥åˆ°DVRçš„å®¢æˆ·ç«¯ä¸ªæ•°è¶…è¿‡æœ€å¤§
+    public static final int NET_DVR_VERSIONNOMATCH = 6;	//ç‰ˆæœ¬ä¸åŒ¹é…
+    public static final int NET_DVR_NETWORK_FAIL_CONNECT = 7;//è¿æ¥æœåŠ¡å™¨å¤±è´¥
+    public static final int NET_DVR_NETWORK_SEND_ERROR = 8;	//å‘æœåŠ¡å™¨å‘é€å¤±è´¥
+    public static final int NET_DVR_NETWORK_RECV_ERROR = 9;	//ä»æœåŠ¡å™¨æ¥æ”¶æ•°æ®å¤±è´¥
+    public static final int NET_DVR_NETWORK_RECV_TIMEOUT = 10;	//ä»æœåŠ¡å™¨æ¥æ”¶æ•°æ®è¶…æ—¶
+    public static final int NET_DVR_NETWORK_ERRORDATA = 11;	//ä¼ é€çš„æ•°æ®æœ‰è¯¯
+    public static final int NET_DVR_ORDER_ERROR = 12;	//è°ƒç”¨æ¬¡åºé”™è¯¯
+    public static final int NET_DVR_OPERNOPERMIT = 13;	//æ— æ­¤æƒé™
+    public static final int NET_DVR_COMMANDTIMEOUT = 14;	//DVRå‘½ä»¤æ‰§è¡Œè¶…æ—¶
+    public static final int NET_DVR_ERRORSERIALPORT = 15;	//ä¸²å£å·é”™è¯¯
+    public static final int NET_DVR_ERRORALARMPORT = 16;	//æŠ¥è­¦ç«¯å£é”™è¯¯
+    public static final int NET_DVR_PARAMETER_ERROR = 17;//å‚æ•°é”™è¯¯
+    public static final int NET_DVR_CHAN_EXCEPTION = 18;	//æœåŠ¡å™¨é€šé“å¤„äºé”™è¯¯çŠ¶æ€
+    public static final int NET_DVR_NODISK = 19;	//æ²¡æœ‰ç¡¬ç›˜
+    public static final int NET_DVR_ERRORDISKNUM = 20;	//ç¡¬ç›˜å·é”™è¯¯
+    public static final int NET_DVR_DISK_FULL = 21;	//æœåŠ¡å™¨ç¡¬ç›˜æ»¡
+    public static final int NET_DVR_DISK_ERROR = 22;//æœåŠ¡å™¨ç¡¬ç›˜å‡ºé”™
+    public static final int NET_DVR_NOSUPPORT = 23;//æœåŠ¡å™¨ä¸æ”¯æŒ
+    public static final int NET_DVR_BUSY = 24;//æœåŠ¡å™¨å¿™
+    public static final int NET_DVR_MODIFY_FAIL = 25;//æœåŠ¡å™¨ä¿®æ”¹ä¸æˆåŠŸ
+    public static final int NET_DVR_PASSWORD_FORMAT_ERROR = 26;//å¯†ç è¾“å…¥æ ¼å¼ä¸æ­£ç¡®
+    public static final int NET_DVR_DISK_FORMATING = 27;	//ç¡¬ç›˜æ­£åœ¨æ ¼å¼åŒ–ï¼Œä¸èƒ½å¯åŠ¨æ“ä½œ
+    public static final int NET_DVR_DVRNORESOURCE = 28;	//DVRèµ„æºä¸è¶³
+    public static final int NET_DVR_DVROPRATEFAILED = 29; //DVRæ“ä½œå¤±è´¥
+    public static final int NET_DVR_OPENHOSTSOUND_FAIL = 30; //æ‰“å¼€PCå£°éŸ³å¤±è´¥
+    public static final int NET_DVR_DVRVOICEOPENED = 31; //æœåŠ¡å™¨è¯­éŸ³å¯¹è®²è¢«å ç”¨
+    public static final int NET_DVR_TIMEINPUTERROR = 32; //æ—¶é—´è¾“å…¥ä¸æ­£ç¡®
+    public static final int NET_DVR_NOSPECFILE = 33;  //å›æ”¾æ—¶æœåŠ¡å™¨æ²¡æœ‰æŒ‡å®šçš„æ–‡ä»¶
+    public static final int NET_DVR_CREATEFILE_ERROR = 34;	//åˆ›å»ºæ–‡ä»¶å‡ºé”™
+    public static final int NET_DVR_FILEOPENFAIL = 35; //æ‰“å¼€æ–‡ä»¶å‡ºé”™
+    public static final int NET_DVR_OPERNOTFINISH = 36; //ä¸Šæ¬¡çš„æ“ä½œè¿˜æ²¡æœ‰å®Œæˆ
+    public static final int NET_DVR_GETPLAYTIMEFAIL = 37; //è·å–å½“å‰æ’­æ”¾çš„æ—¶é—´å‡ºé”™
+    public static final int NET_DVR_PLAYFAIL = 38; //æ’­æ”¾å‡ºé”™
+    public static final int NET_DVR_FILEFORMAT_ERROR = 39;//æ–‡ä»¶æ ¼å¼ä¸æ­£ç¡®
+    public static final int NET_DVR_DIR_ERROR = 40;	//è·¯å¾„é”™è¯¯
+    public static final int NET_DVR_ALLOC_RESOURCE_ERROR = 41;//èµ„æºåˆ†é…é”™è¯¯
+    public static final int NET_DVR_AUDIO_MODE_ERROR = 42;	//å£°å¡æ¨¡å¼é”™è¯¯
+    public static final int NET_DVR_NOENOUGH_BUF = 43;	//ç¼“å†²åŒºå¤ªå°
+    public static final int NET_DVR_CREATESOCKET_ERROR = 44;	//åˆ›å»ºSOCKETå‡ºé”™
+    public static final int NET_DVR_SETSOCKET_ERROR = 45;	//è®¾ç½®SOCKETå‡ºé”™
+    public static final int NET_DVR_MAX_NUM = 46;	//ä¸ªæ•°è¾¾åˆ°æœ€å¤§
+    public static final int NET_DVR_USERNOTEXIST = 47;	//ç”¨æˆ·ä¸å­˜åœ¨
+    public static final int NET_DVR_WRITEFLASHERROR = 48;//å†™FLASHå‡ºé”™
+    public static final int NET_DVR_UPGRADEFAIL = 49;//DVRå‡çº§å¤±è´¥
+    public static final int NET_DVR_CARDHAVEINIT = 50; //è§£ç å¡å·²ç»åˆå§‹åŒ–è¿‡
+    public static final int NET_DVR_PLAYERFAILED = 51;	//è°ƒç”¨æ’­æ”¾åº“ä¸­æŸä¸ªå‡½æ•°å¤±è´¥
+    public static final int NET_DVR_MAX_USERNUM = 52; //è®¾å¤‡ç«¯ç”¨æˆ·æ•°è¾¾åˆ°æœ€å¤§
+    public static final int NET_DVR_GETLOCALIPANDMACFAIL = 53;//è·å¾—å®¢æˆ·ç«¯çš„IPåœ°å€æˆ–ç‰©ç†åœ°å€å¤±è´¥
+    public static final int NET_DVR_NOENCODEING = 54;	//è¯¥é€šé“æ²¡æœ‰ç¼–ç 
+    public static final int NET_DVR_IPMISMATCH = 55;	//IPåœ°å€ä¸åŒ¹é…
+    public static final int NET_DVR_MACMISMATCH = 56;//MACåœ°å€ä¸åŒ¹é…
+    public static final int NET_DVR_UPGRADELANGMISMATCH = 57;//å‡çº§æ–‡ä»¶è¯­è¨€ä¸åŒ¹é…
+    public static final int NET_DVR_MAX_PLAYERPORT = 58;//æ’­æ”¾å™¨è·¯æ•°è¾¾åˆ°æœ€å¤§
+    public static final int NET_DVR_NOSPACEBACKUP = 59;//å¤‡ä»½è®¾å¤‡ä¸­æ²¡æœ‰è¶³å¤Ÿç©ºé—´è¿›è¡Œå¤‡ä»½
+    public static final int NET_DVR_NODEVICEBACKUP = 60;	//æ²¡æœ‰æ‰¾åˆ°æŒ‡å®šçš„å¤‡ä»½è®¾å¤‡
+    public static final int NET_DVR_PICTURE_BITS_ERROR = 61;	//å›¾åƒç´ ä½æ•°ä¸ç¬¦ï¼Œé™24è‰²
+    public static final int NET_DVR_PICTURE_DIMENSION_ERROR = 62;//å›¾ç‰‡é«˜*å®½è¶…é™ï¼Œ é™128*256
+    public static final int NET_DVR_PICTURE_SIZ_ERROR = 63;	//å›¾ç‰‡å¤§å°è¶…é™ï¼Œé™100K
+    public static final int NET_DVR_LOADPLAYERSDKFAILED = 64;	//è½½å…¥å½“å‰ç›®å½•ä¸‹Player Sdkå‡ºé”™
+    public static final int NET_DVR_LOADPLAYERSDKPROC_ERROR = 65;	//æ‰¾ä¸åˆ°Player Sdkä¸­æŸä¸ªå‡½æ•°å…¥å£
+    public static final int NET_DVR_LOADDSSDKFAILED = 66;	//è½½å…¥å½“å‰ç›®å½•ä¸‹DSsdkå‡ºé”™
+    public static final int NET_DVR_LOADDSSDKPROC_ERROR = 67;	//æ‰¾ä¸åˆ°DsSdkä¸­æŸä¸ªå‡½æ•°å…¥å£
+    public static final int NET_DVR_DSSDK_ERROR = 68;	//è°ƒç”¨ç¡¬è§£ç åº“DsSdkä¸­æŸä¸ªå‡½æ•°å¤±è´¥
+    public static final int NET_DVR_VOICEMONOPOLIZE = 69;	//å£°å¡è¢«ç‹¬å 
+    public static final int NET_DVR_JOINMULTICASTFAILED = 70;	//åŠ å…¥å¤šæ’­ç»„å¤±è´¥
+    public static final int NET_DVR_CREATEDIR_ERROR = 71;	//å»ºç«‹æ—¥å¿—æ–‡ä»¶ç›®å½•å¤±è´¥
+    public static final int NET_DVR_BINDSOCKET_ERROR = 72;	//ç»‘å®šå¥—æ¥å­—å¤±è´¥
+    public static final int NET_DVR_SOCKETCLOSE_ERROR = 73;	//socketè¿æ¥ä¸­æ–­ï¼Œæ­¤é”™è¯¯é€šå¸¸æ˜¯ç”±äºè¿æ¥ä¸­æ–­æˆ–ç›®çš„åœ°ä¸å¯è¾¾
+    public static final int NET_DVR_USERID_ISUSING = 74;	//æ³¨é”€æ—¶ç”¨æˆ·IDæ­£åœ¨è¿›è¡ŒæŸæ“ä½œ
+    public static final int NET_DVR_SOCKETLISTEN_ERROR = 75;	//ç›‘å¬å¤±è´¥
+    public static final int NET_DVR_PROGRAM_EXCEPTION = 76;	//ç¨‹åºå¼‚å¸¸
+    public static final int NET_DVR_WRITEFILE_FAILED = 77;	//å†™æ–‡ä»¶å¤±è´¥
+    public static final int NET_DVR_FORMAT_READONLY = 78;//ç¦æ­¢æ ¼å¼åŒ–åªè¯»ç¡¬ç›˜
+    public static final int NET_DVR_WITHSAMEUSERNAME = 79;//ç”¨æˆ·é…ç½®ç»“æ„ä¸­å­˜åœ¨ç›¸åŒçš„ç”¨æˆ·å
+    public static final int NET_DVR_DEVICETYPE_ERROR = 80; /*å¯¼å…¥å‚æ•°æ—¶è®¾å¤‡å‹å·ä¸åŒ¹é…*/
+    public static final int NET_DVR_LANGUAGE_ERROR = 81; /*å¯¼å…¥å‚æ•°æ—¶è¯­è¨€ä¸åŒ¹é…*/
+    public static final int NET_DVR_PARAVERSION_ERROR = 82; /*å¯¼å…¥å‚æ•°æ—¶è½¯ä»¶ç‰ˆæœ¬ä¸åŒ¹é…*/
+    public static final int NET_DVR_IPCHAN_NOTALIVE = 83; /*é¢„è§ˆæ—¶å¤–æ¥IPé€šé“ä¸åœ¨çº¿*/
+    public static final int NET_DVR_RTSP_SDK_ERROR = 84;	/*åŠ è½½é«˜æ¸…IPCé€šè®¯åº“StreamTransClient.dllå¤±è´¥*/
+    public static final int NET_DVR_CONVERT_SDK_ERROR = 85;	/*åŠ è½½è½¬ç åº“å¤±è´¥*/
+    public static final int NET_DVR_IPC_COUNT_OVERFLOW = 86; /*è¶…å‡ºæœ€å¤§çš„ipæ¥å…¥é€šé“æ•°*/
     public static final int NET_PLAYM4_NOERROR = 500;	//no error
     public static final int NET_PLAYM4_PARA_OVER = 501;//input parameter is invalid;
     public static final int NET_PLAYM4_ORDER_ERROR = 502;//The order of the function to be called is error.
@@ -221,84 +238,84 @@ public interface HCNetSDK extends StdCallLibrary {
     public static final int NET_PLAYM4_JPEG_COMPRESS_ERROR = 526; //JPEG compress error
     public static final int NET_PLAYM4_EXTRACT_NOT_SUPPORT = 527;	//Don't support the version of this file.
     public static final int NET_PLAYM4_EXTRACT_DATA_ERROR = 528;	//extract video data failed.
-    /*******************È«¾Ö´íÎóÂë end**********************/
+    /*******************å…¨å±€é”™è¯¯ç  end**********************/
     /*************************************************
-    NET_DVR_IsSupport()·µ»ØÖµ
-    1£­9Î»·Ö±ğ±íÊ¾ÒÔÏÂĞÅÏ¢£¨Î»ÓëÊÇTRUE)±íÊ¾Ö§³Ö£»
+    NET_DVR_IsSupport()è¿”å›å€¼
+    1ï¼9ä½åˆ†åˆ«è¡¨ç¤ºä»¥ä¸‹ä¿¡æ¯ï¼ˆä½ä¸æ˜¯TRUE)è¡¨ç¤ºæ”¯æŒï¼›
      **************************************************/
-    public static final int NET_DVR_SUPPORT_DDRAW = 0x01;//Ö§³ÖDIRECTDRAW£¬Èç¹û²»Ö§³Ö£¬Ôò²¥·ÅÆ÷²»ÄÜ¹¤×÷£»
-    public static final int NET_DVR_SUPPORT_BLT = 0x02;//ÏÔ¿¨Ö§³ÖBLT²Ù×÷£¬Èç¹û²»Ö§³Ö£¬Ôò²¥·ÅÆ÷²»ÄÜ¹¤×÷£»
-    public static final int NET_DVR_SUPPORT_BLTFOURCC = 0x04;//ÏÔ¿¨BLTÖ§³ÖÑÕÉ«×ª»»£¬Èç¹û²»Ö§³Ö£¬²¥·ÅÆ÷»áÓÃÈí¼ş·½·¨×÷RGB×ª»»£»
-    public static final int NET_DVR_SUPPORT_BLTSHRINKX = 0x08;//ÏÔ¿¨BLTÖ§³ÖXÖáËõĞ¡£»Èç¹û²»Ö§³Ö£¬ÏµÍ³»áÓÃÈí¼ş·½·¨×ª»»£»
-    public static final int NET_DVR_SUPPORT_BLTSHRINKY = 0x10;//ÏÔ¿¨BLTÖ§³ÖYÖáËõĞ¡£»Èç¹û²»Ö§³Ö£¬ÏµÍ³»áÓÃÈí¼ş·½·¨×ª»»£»
-    public static final int NET_DVR_SUPPORT_BLTSTRETCHX = 0x20;//ÏÔ¿¨BLTÖ§³ÖXÖá·Å´ó£»Èç¹û²»Ö§³Ö£¬ÏµÍ³»áÓÃÈí¼ş·½·¨×ª»»£»
-    public static final int NET_DVR_SUPPORT_BLTSTRETCHY = 0x40;//ÏÔ¿¨BLTÖ§³ÖYÖá·Å´ó£»Èç¹û²»Ö§³Ö£¬ÏµÍ³»áÓÃÈí¼ş·½·¨×ª»»£»
-    public static final int NET_DVR_SUPPORT_SSE = 0x80;//CPUÖ§³ÖSSEÖ¸Áî£¬Intel Pentium3ÒÔÉÏÖ§³ÖSSEÖ¸Áî£»
-    public static final int NET_DVR_SUPPORT_MMX = 0x100;//CPUÖ§³ÖMMXÖ¸Áî¼¯£¬Intel Pentium3ÒÔÉÏÖ§³ÖSSEÖ¸Áî£»
-    /**********************ÔÆÌ¨¿ØÖÆÃüÁî begin*************************/
-    public static final int LIGHT_PWRON = 2;	/* ½ÓÍ¨µÆ¹âµçÔ´ */
-    public static final int WIPER_PWRON = 3;	/* ½ÓÍ¨ÓêË¢¿ª¹Ø */
-    public static final int FAN_PWRON = 4;	/* ½ÓÍ¨·çÉÈ¿ª¹Ø */
-    public static final int HEATER_PWRON = 5;	/* ½ÓÍ¨¼ÓÈÈÆ÷¿ª¹Ø */
-    public static final int AUX_PWRON1 = 6;	/* ½ÓÍ¨¸¨ÖúÉè±¸¿ª¹Ø */
-    public static final int AUX_PWRON2 = 7;	/* ½ÓÍ¨¸¨ÖúÉè±¸¿ª¹Ø */
-    public static final int SET_PRESET = 8;	/* ÉèÖÃÔ¤ÖÃµã */
-    public static final int CLE_PRESET = 9;	/* Çå³ıÔ¤ÖÃµã */
-    public static final int ZOOM_IN = 11;	/* ½¹¾àÒÔËÙ¶ÈSS±ä´ó(±¶ÂÊ±ä´ó) */
-    public static final int ZOOM_OUT = 12;	/* ½¹¾àÒÔËÙ¶ÈSS±äĞ¡(±¶ÂÊ±äĞ¡) */
-    public static final int FOCUS_NEAR = 13; /* ½¹µãÒÔËÙ¶ÈSSÇ°µ÷ */
-    public static final int FOCUS_FAR = 14; /* ½¹µãÒÔËÙ¶ÈSSºóµ÷ */
-    public static final int IRIS_OPEN = 15; /* ¹âÈ¦ÒÔËÙ¶ÈSSÀ©´ó */
-    public static final int IRIS_CLOSE = 16; /* ¹âÈ¦ÒÔËÙ¶ÈSSËõĞ¡ */
-    public static final int TILT_UP = 21;	/* ÔÆÌ¨ÒÔSSµÄËÙ¶ÈÉÏÑö */
-    public static final int TILT_DOWN = 22;	/* ÔÆÌ¨ÒÔSSµÄËÙ¶ÈÏÂ¸© */
-    public static final int PAN_LEFT = 23;	/* ÔÆÌ¨ÒÔSSµÄËÙ¶È×ó×ª */
-    public static final int PAN_RIGHT = 24;	/* ÔÆÌ¨ÒÔSSµÄËÙ¶ÈÓÒ×ª */
-    public static final int UP_LEFT = 25;	/* ÔÆÌ¨ÒÔSSµÄËÙ¶ÈÉÏÑöºÍ×ó×ª */
-    public static final int UP_RIGHT = 26;	/* ÔÆÌ¨ÒÔSSµÄËÙ¶ÈÉÏÑöºÍÓÒ×ª */
-    public static final int DOWN_LEFT = 27;	/* ÔÆÌ¨ÒÔSSµÄËÙ¶ÈÏÂ¸©ºÍ×ó×ª */
-    public static final int DOWN_RIGHT = 28;	/* ÔÆÌ¨ÒÔSSµÄËÙ¶ÈÏÂ¸©ºÍÓÒ×ª */
-    public static final int PAN_AUTO = 29;	/* ÔÆÌ¨ÒÔSSµÄËÙ¶È×óÓÒ×Ô¶¯É¨Ãè */
-    public static final int FILL_PRE_SEQ = 30;	/* ½«Ô¤ÖÃµã¼ÓÈëÑ²º½ĞòÁĞ */
-    public static final int SET_SEQ_DWELL = 31;	/* ÉèÖÃÑ²º½µãÍ£¶ÙÊ±¼ä */
-    public static final int SET_SEQ_SPEED = 32;	/* ÉèÖÃÑ²º½ËÙ¶È */
-    public static final int CLE_PRE_SEQ = 33;/* ½«Ô¤ÖÃµã´ÓÑ²º½ĞòÁĞÖĞÉ¾³ı */
-    public static final int STA_MEM_CRUISE = 34;/* ¿ªÊ¼¼ÇÂ¼¹ì¼£ */
-    public static final int STO_MEM_CRUISE = 35;/* Í£Ö¹¼ÇÂ¼¹ì¼£ */
-    public static final int RUN_CRUISE = 36;	/* ¿ªÊ¼¹ì¼£ */
-    public static final int RUN_SEQ = 37;	/* ¿ªÊ¼Ñ²º½ */
-    public static final int STOP_SEQ = 38;	/* Í£Ö¹Ñ²º½ */
-    public static final int GOTO_PRESET = 39;	/* ¿ìÇò×ªµ½Ô¤ÖÃµã */
+    public static final int NET_DVR_SUPPORT_DDRAW = 0x01;//æ”¯æŒDIRECTDRAWï¼Œå¦‚æœä¸æ”¯æŒï¼Œåˆ™æ’­æ”¾å™¨ä¸èƒ½å·¥ä½œï¼›
+    public static final int NET_DVR_SUPPORT_BLT = 0x02;//æ˜¾å¡æ”¯æŒBLTæ“ä½œï¼Œå¦‚æœä¸æ”¯æŒï¼Œåˆ™æ’­æ”¾å™¨ä¸èƒ½å·¥ä½œï¼›
+    public static final int NET_DVR_SUPPORT_BLTFOURCC = 0x04;//æ˜¾å¡BLTæ”¯æŒé¢œè‰²è½¬æ¢ï¼Œå¦‚æœä¸æ”¯æŒï¼Œæ’­æ”¾å™¨ä¼šç”¨è½¯ä»¶æ–¹æ³•ä½œRGBè½¬æ¢ï¼›
+    public static final int NET_DVR_SUPPORT_BLTSHRINKX = 0x08;//æ˜¾å¡BLTæ”¯æŒXè½´ç¼©å°ï¼›å¦‚æœä¸æ”¯æŒï¼Œç³»ç»Ÿä¼šç”¨è½¯ä»¶æ–¹æ³•è½¬æ¢ï¼›
+    public static final int NET_DVR_SUPPORT_BLTSHRINKY = 0x10;//æ˜¾å¡BLTæ”¯æŒYè½´ç¼©å°ï¼›å¦‚æœä¸æ”¯æŒï¼Œç³»ç»Ÿä¼šç”¨è½¯ä»¶æ–¹æ³•è½¬æ¢ï¼›
+    public static final int NET_DVR_SUPPORT_BLTSTRETCHX = 0x20;//æ˜¾å¡BLTæ”¯æŒXè½´æ”¾å¤§ï¼›å¦‚æœä¸æ”¯æŒï¼Œç³»ç»Ÿä¼šç”¨è½¯ä»¶æ–¹æ³•è½¬æ¢ï¼›
+    public static final int NET_DVR_SUPPORT_BLTSTRETCHY = 0x40;//æ˜¾å¡BLTæ”¯æŒYè½´æ”¾å¤§ï¼›å¦‚æœä¸æ”¯æŒï¼Œç³»ç»Ÿä¼šç”¨è½¯ä»¶æ–¹æ³•è½¬æ¢ï¼›
+    public static final int NET_DVR_SUPPORT_SSE = 0x80;//CPUæ”¯æŒSSEæŒ‡ä»¤ï¼ŒIntel Pentium3ä»¥ä¸Šæ”¯æŒSSEæŒ‡ä»¤ï¼›
+    public static final int NET_DVR_SUPPORT_MMX = 0x100;//CPUæ”¯æŒMMXæŒ‡ä»¤é›†ï¼ŒIntel Pentium3ä»¥ä¸Šæ”¯æŒSSEæŒ‡ä»¤ï¼›
+    /**********************äº‘å°æ§åˆ¶å‘½ä»¤ begin*************************/
+    public static final int LIGHT_PWRON = 2;	/* æ¥é€šç¯å…‰ç”µæº */
+    public static final int WIPER_PWRON = 3;	/* æ¥é€šé›¨åˆ·å¼€å…³ */
+    public static final int FAN_PWRON = 4;	/* æ¥é€šé£æ‰‡å¼€å…³ */
+    public static final int HEATER_PWRON = 5;	/* æ¥é€šåŠ çƒ­å™¨å¼€å…³ */
+    public static final int AUX_PWRON1 = 6;	/* æ¥é€šè¾…åŠ©è®¾å¤‡å¼€å…³ */
+    public static final int AUX_PWRON2 = 7;	/* æ¥é€šè¾…åŠ©è®¾å¤‡å¼€å…³ */
+    public static final int SET_PRESET = 8;	/* è®¾ç½®é¢„ç½®ç‚¹ */
+    public static final int CLE_PRESET = 9;	/* æ¸…é™¤é¢„ç½®ç‚¹ */
+    public static final int ZOOM_IN = 11;	/* ç„¦è·ä»¥é€Ÿåº¦SSå˜å¤§(å€ç‡å˜å¤§) */
+    public static final int ZOOM_OUT = 12;	/* ç„¦è·ä»¥é€Ÿåº¦SSå˜å°(å€ç‡å˜å°) */
+    public static final int FOCUS_NEAR = 13; /* ç„¦ç‚¹ä»¥é€Ÿåº¦SSå‰è°ƒ */
+    public static final int FOCUS_FAR = 14; /* ç„¦ç‚¹ä»¥é€Ÿåº¦SSåè°ƒ */
+    public static final int IRIS_OPEN = 15; /* å…‰åœˆä»¥é€Ÿåº¦SSæ‰©å¤§ */
+    public static final int IRIS_CLOSE = 16; /* å…‰åœˆä»¥é€Ÿåº¦SSç¼©å° */
+    public static final int TILT_UP = 21;	/* äº‘å°ä»¥SSçš„é€Ÿåº¦ä¸Šä»° */
+    public static final int TILT_DOWN = 22;	/* äº‘å°ä»¥SSçš„é€Ÿåº¦ä¸‹ä¿¯ */
+    public static final int PAN_LEFT = 23;	/* äº‘å°ä»¥SSçš„é€Ÿåº¦å·¦è½¬ */
+    public static final int PAN_RIGHT = 24;	/* äº‘å°ä»¥SSçš„é€Ÿåº¦å³è½¬ */
+    public static final int UP_LEFT = 25;	/* äº‘å°ä»¥SSçš„é€Ÿåº¦ä¸Šä»°å’Œå·¦è½¬ */
+    public static final int UP_RIGHT = 26;	/* äº‘å°ä»¥SSçš„é€Ÿåº¦ä¸Šä»°å’Œå³è½¬ */
+    public static final int DOWN_LEFT = 27;	/* äº‘å°ä»¥SSçš„é€Ÿåº¦ä¸‹ä¿¯å’Œå·¦è½¬ */
+    public static final int DOWN_RIGHT = 28;	/* äº‘å°ä»¥SSçš„é€Ÿåº¦ä¸‹ä¿¯å’Œå³è½¬ */
+    public static final int PAN_AUTO = 29;	/* äº‘å°ä»¥SSçš„é€Ÿåº¦å·¦å³è‡ªåŠ¨æ‰«æ */
+    public static final int FILL_PRE_SEQ = 30;	/* å°†é¢„ç½®ç‚¹åŠ å…¥å·¡èˆªåºåˆ— */
+    public static final int SET_SEQ_DWELL = 31;	/* è®¾ç½®å·¡èˆªç‚¹åœé¡¿æ—¶é—´ */
+    public static final int SET_SEQ_SPEED = 32;	/* è®¾ç½®å·¡èˆªé€Ÿåº¦ */
+    public static final int CLE_PRE_SEQ = 33;/* å°†é¢„ç½®ç‚¹ä»å·¡èˆªåºåˆ—ä¸­åˆ é™¤ */
+    public static final int STA_MEM_CRUISE = 34;/* å¼€å§‹è®°å½•è½¨è¿¹ */
+    public static final int STO_MEM_CRUISE = 35;/* åœæ­¢è®°å½•è½¨è¿¹ */
+    public static final int RUN_CRUISE = 36;	/* å¼€å§‹è½¨è¿¹ */
+    public static final int RUN_SEQ = 37;	/* å¼€å§‹å·¡èˆª */
+    public static final int STOP_SEQ = 38;	/* åœæ­¢å·¡èˆª */
+    public static final int GOTO_PRESET = 39;	/* å¿«çƒè½¬åˆ°é¢„ç½®ç‚¹ */
 
-    /**********************ÔÆÌ¨¿ØÖÆÃüÁî end*************************/
+    /**********************äº‘å°æ§åˆ¶å‘½ä»¤ end*************************/
     /*************************************************
-    »Ø·ÅÊ±²¥·Å¿ØÖÆÃüÁîºê¶¨Òå
+    å›æ”¾æ—¶æ’­æ”¾æ§åˆ¶å‘½ä»¤å®å®šä¹‰
     NET_DVR_PlayBackControl
     NET_DVR_PlayControlLocDisplay
-    NET_DVR_DecPlayBackCtrlµÄºê¶¨Òå
-    ¾ßÌåÖ§³Ö²é¿´º¯ÊıËµÃ÷ºÍ´úÂë
+    NET_DVR_DecPlayBackCtrlçš„å®å®šä¹‰
+    å…·ä½“æ”¯æŒæŸ¥çœ‹å‡½æ•°è¯´æ˜å’Œä»£ç 
      **************************************************/
-    public static final int NET_DVR_PLAYSTART = 1;//¿ªÊ¼²¥·Å
-    public static final int NET_DVR_PLAYSTOP = 2;//Í£Ö¹²¥·Å
-    public static final int NET_DVR_PLAYPAUSE = 3;//ÔİÍ£²¥·Å
-    public static final int NET_DVR_PLAYRESTART = 4;//»Ö¸´²¥·Å
-    public static final int NET_DVR_PLAYFAST = 5;//¿ì·Å
-    public static final int NET_DVR_PLAYSLOW = 6;//Âı·Å
-    public static final int NET_DVR_PLAYNORMAL = 7;//Õı³£ËÙ¶È
-    public static final int NET_DVR_PLAYFRAME = 8;//µ¥Ö¡·Å
-    public static final int NET_DVR_PLAYSTARTAUDIO = 9;//´ò¿ªÉùÒô
-    public static final int NET_DVR_PLAYSTOPAUDIO = 10;//¹Ø±ÕÉùÒô
-    public static final int NET_DVR_PLAYAUDIOVOLUME = 11;//µ÷½ÚÒôÁ¿
-    public static final int NET_DVR_PLAYSETPOS = 12;//¸Ä±äÎÄ¼ş»Ø·ÅµÄ½ø¶È
-    public static final int NET_DVR_PLAYGETPOS = 13;//»ñÈ¡ÎÄ¼ş»Ø·ÅµÄ½ø¶È
-    public static final int NET_DVR_PLAYGETTIME = 14;//»ñÈ¡µ±Ç°ÒÑ¾­²¥·ÅµÄÊ±¼ä(°´ÎÄ¼ş»Ø·ÅµÄÊ±ºòÓĞĞ§)
-    public static final int NET_DVR_PLAYGETFRAME = 15;//»ñÈ¡µ±Ç°ÒÑ¾­²¥·ÅµÄÖ¡Êı(°´ÎÄ¼ş»Ø·ÅµÄÊ±ºòÓĞĞ§)
-    public static final int NET_DVR_GETTOTALFRAMES = 16;//»ñÈ¡µ±Ç°²¥·ÅÎÄ¼ş×ÜµÄÖ¡Êı(°´ÎÄ¼ş»Ø·ÅµÄÊ±ºòÓĞĞ§)
-    public static final int NET_DVR_GETTOTALTIME = 17;//»ñÈ¡µ±Ç°²¥·ÅÎÄ¼ş×ÜµÄÊ±¼ä(°´ÎÄ¼ş»Ø·ÅµÄÊ±ºòÓĞĞ§)
-    public static final int NET_DVR_THROWBFRAME = 20;//¶ªBÖ¡
-    public static final int NET_DVR_SETSPEED = 24;//ÉèÖÃÂëÁ÷ËÙ¶È
-    public static final int NET_DVR_KEEPALIVE = 25;//±£³ÖÓëÉè±¸µÄĞÄÌø(Èç¹û»Øµ÷×èÈû£¬½¨Òé2Ãë·¢ËÍÒ»´Î)
-//Ô¶³Ì°´¼ü¶¨ÒåÈçÏÂ£º
+    public static final int NET_DVR_PLAYSTART = 1;//å¼€å§‹æ’­æ”¾
+    public static final int NET_DVR_PLAYSTOP = 2;//åœæ­¢æ’­æ”¾
+    public static final int NET_DVR_PLAYPAUSE = 3;//æš‚åœæ’­æ”¾
+    public static final int NET_DVR_PLAYRESTART = 4;//æ¢å¤æ’­æ”¾
+    public static final int NET_DVR_PLAYFAST = 5;//å¿«æ”¾
+    public static final int NET_DVR_PLAYSLOW = 6;//æ…¢æ”¾
+    public static final int NET_DVR_PLAYNORMAL = 7;//æ­£å¸¸é€Ÿåº¦
+    public static final int NET_DVR_PLAYFRAME = 8;//å•å¸§æ”¾
+    public static final int NET_DVR_PLAYSTARTAUDIO = 9;//æ‰“å¼€å£°éŸ³
+    public static final int NET_DVR_PLAYSTOPAUDIO = 10;//å…³é—­å£°éŸ³
+    public static final int NET_DVR_PLAYAUDIOVOLUME = 11;//è°ƒèŠ‚éŸ³é‡
+    public static final int NET_DVR_PLAYSETPOS = 12;//æ”¹å˜æ–‡ä»¶å›æ”¾çš„è¿›åº¦
+    public static final int NET_DVR_PLAYGETPOS = 13;//è·å–æ–‡ä»¶å›æ”¾çš„è¿›åº¦
+    public static final int NET_DVR_PLAYGETTIME = 14;//è·å–å½“å‰å·²ç»æ’­æ”¾çš„æ—¶é—´(æŒ‰æ–‡ä»¶å›æ”¾çš„æ—¶å€™æœ‰æ•ˆ)
+    public static final int NET_DVR_PLAYGETFRAME = 15;//è·å–å½“å‰å·²ç»æ’­æ”¾çš„å¸§æ•°(æŒ‰æ–‡ä»¶å›æ”¾çš„æ—¶å€™æœ‰æ•ˆ)
+    public static final int NET_DVR_GETTOTALFRAMES = 16;//è·å–å½“å‰æ’­æ”¾æ–‡ä»¶æ€»çš„å¸§æ•°(æŒ‰æ–‡ä»¶å›æ”¾çš„æ—¶å€™æœ‰æ•ˆ)
+    public static final int NET_DVR_GETTOTALTIME = 17;//è·å–å½“å‰æ’­æ”¾æ–‡ä»¶æ€»çš„æ—¶é—´(æŒ‰æ–‡ä»¶å›æ”¾çš„æ—¶å€™æœ‰æ•ˆ)
+    public static final int NET_DVR_THROWBFRAME = 20;//ä¸¢Bå¸§
+    public static final int NET_DVR_SETSPEED = 24;//è®¾ç½®ç æµé€Ÿåº¦
+    public static final int NET_DVR_KEEPALIVE = 25;//ä¿æŒä¸è®¾å¤‡çš„å¿ƒè·³(å¦‚æœå›è°ƒé˜»å¡ï¼Œå»ºè®®2ç§’å‘é€ä¸€æ¬¡)
+//è¿œç¨‹æŒ‰é”®å®šä¹‰å¦‚ä¸‹ï¼š
 /* key value send to CONFIG program */
     public static final int KEY_CODE_1 = 1;
     public static final int KEY_CODE_2 = 2;
@@ -338,208 +355,208 @@ public interface HCNetSDK extends StdCallLibrary {
     public static final int KEY_PTZ_LEFT_STOP = 34;
     public static final int KEY_PTZ_RIGHT_START = KEY_CODE_RIGHT;
     public static final int KEY_PTZ_RIGHT_STOP = 35;
-    public static final int KEY_PTZ_AP1_START = KEY_CODE_EDIT;/* ¹âÈ¦+ */
+    public static final int KEY_PTZ_AP1_START = KEY_CODE_EDIT;/* å…‰åœˆ+ */
     public static final int KEY_PTZ_AP1_STOP = 36;
-    public static final int KEY_PTZ_AP2_START = KEY_CODE_PAN;/* ¹âÈ¦- */
+    public static final int KEY_PTZ_AP2_START = KEY_CODE_PAN;/* å…‰åœˆ- */
     public static final int KEY_PTZ_AP2_STOP = 37;
-    public static final int KEY_PTZ_FOCUS1_START = KEY_CODE_A;/* ¾Û½¹+ */
+    public static final int KEY_PTZ_FOCUS1_START = KEY_CODE_A;/* èšç„¦+ */
     public static final int KEY_PTZ_FOCUS1_STOP = 38;
-    public static final int KEY_PTZ_FOCUS2_START = KEY_CODE_M ;/* ¾Û½¹- */
+    public static final int KEY_PTZ_FOCUS2_START = KEY_CODE_M ;/* èšç„¦- */
     public static final int KEY_PTZ_FOCUS2_STOP = 39;
-    public static final int KEY_PTZ_B1_START = 40;/* ±ä±¶+ */
+    public static final int KEY_PTZ_B1_START = 40;/* å˜å€+ */
     public static final int KEY_PTZ_B1_STOP = 41;
-    public static final int KEY_PTZ_B2_START = 42;/* ±ä±¶- */
+    public static final int KEY_PTZ_B2_START = 42;/* å˜å€- */
     public static final int KEY_PTZ_B2_STOP = 43;
-//9000ĞÂÔö
+//9000æ–°å¢
     public static final int KEY_CODE_11 = 44;
     public static final int KEY_CODE_12 = 45;
     public static final int KEY_CODE_13 = 46;
     public static final int KEY_CODE_14 = 47;
     public static final int KEY_CODE_15 = 48;
     public static final int KEY_CODE_16 = 49;
-    /*************************²ÎÊıÅäÖÃÃüÁî begin*******************************/
-//ÓÃÓÚNET_DVR_SetDVRConfigºÍNET_DVR_GetDVRConfig,×¢ÒâÆä¶ÔÓ¦µÄÅäÖÃ½á¹¹
-    public static final int NET_DVR_GET_DEVICECFG = 100;	//»ñÈ¡Éè±¸²ÎÊı
-    public static final int NET_DVR_SET_DEVICECFG = 101;	//ÉèÖÃÉè±¸²ÎÊı
-    public static final int NET_DVR_GET_NETCFG = 102;	//»ñÈ¡ÍøÂç²ÎÊı
-    public static final int NET_DVR_SET_NETCFG = 103;	//ÉèÖÃÍøÂç²ÎÊı
-    public static final int NET_DVR_GET_PICCFG = 104;	//»ñÈ¡Í¼Ïó²ÎÊı
-    public static final int NET_DVR_SET_PICCFG = 105;	//ÉèÖÃÍ¼Ïó²ÎÊı
-    public static final int NET_DVR_GET_COMPRESSCFG = 106;	//»ñÈ¡Ñ¹Ëõ²ÎÊı
-    public static final int NET_DVR_SET_COMPRESSCFG = 107;	//ÉèÖÃÑ¹Ëõ²ÎÊı
-    public static final int NET_DVR_GET_RECORDCFG = 108;	//»ñÈ¡Â¼ÏñÊ±¼ä²ÎÊı
-    public static final int NET_DVR_SET_RECORDCFG = 109;	//ÉèÖÃÂ¼ÏñÊ±¼ä²ÎÊı
-    public static final int NET_DVR_GET_DECODERCFG = 110;	//»ñÈ¡½âÂëÆ÷²ÎÊı
-    public static final int NET_DVR_SET_DECODERCFG = 111;	//ÉèÖÃ½âÂëÆ÷²ÎÊı
-    public static final int NET_DVR_GET_RS232CFG = 112;	//»ñÈ¡232´®¿Ú²ÎÊı
-    public static final int NET_DVR_SET_RS232CFG = 113;	//ÉèÖÃ232´®¿Ú²ÎÊı
-    public static final int NET_DVR_GET_ALARMINCFG = 114;	//»ñÈ¡±¨¾¯ÊäÈë²ÎÊı
-    public static final int NET_DVR_SET_ALARMINCFG = 115;	//ÉèÖÃ±¨¾¯ÊäÈë²ÎÊı
-    public static final int NET_DVR_GET_ALARMOUTCFG = 116;	//»ñÈ¡±¨¾¯Êä³ö²ÎÊı
-    public static final int NET_DVR_SET_ALARMOUTCFG = 117;	//ÉèÖÃ±¨¾¯Êä³ö²ÎÊı
-    public static final int NET_DVR_GET_TIMECFG = 118;	//»ñÈ¡DVRÊ±¼ä
-    public static final int NET_DVR_SET_TIMECFG = 119;		//ÉèÖÃDVRÊ±¼ä
-    public static final int NET_DVR_GET_PREVIEWCFG = 120;	//»ñÈ¡Ô¤ÀÀ²ÎÊı
-    public static final int NET_DVR_SET_PREVIEWCFG = 121;	//ÉèÖÃÔ¤ÀÀ²ÎÊı
-    public static final int NET_DVR_GET_VIDEOOUTCFG = 122;	//»ñÈ¡ÊÓÆµÊä³ö²ÎÊı
-    public static final int NET_DVR_SET_VIDEOOUTCFG = 123;	//ÉèÖÃÊÓÆµÊä³ö²ÎÊı
-    public static final int NET_DVR_GET_USERCFG = 124;	//»ñÈ¡ÓÃ»§²ÎÊı
-    public static final int NET_DVR_SET_USERCFG = 125;	//ÉèÖÃÓÃ»§²ÎÊı
-    public static final int NET_DVR_GET_EXCEPTIONCFG = 126;	//»ñÈ¡Òì³£²ÎÊı
-    public static final int NET_DVR_SET_EXCEPTIONCFG = 127;	//ÉèÖÃÒì³£²ÎÊı
-    public static final int NET_DVR_GET_ZONEANDDST = 128;	//»ñÈ¡Ê±ÇøºÍÏÄÊ±ÖÆ²ÎÊı
-    public static final int NET_DVR_SET_ZONEANDDST = 129;	//ÉèÖÃÊ±ÇøºÍÏÄÊ±ÖÆ²ÎÊı
-    public static final int NET_DVR_GET_SHOWSTRING = 130;	//»ñÈ¡µş¼Ó×Ö·û²ÎÊı
-    public static final int NET_DVR_SET_SHOWSTRING = 131;	//ÉèÖÃµş¼Ó×Ö·û²ÎÊı
-    public static final int NET_DVR_GET_EVENTCOMPCFG = 132;	//»ñÈ¡ÊÂ¼ş´¥·¢Â¼Ïñ²ÎÊı
-    public static final int NET_DVR_SET_EVENTCOMPCFG = 133;	//ÉèÖÃÊÂ¼ş´¥·¢Â¼Ïñ²ÎÊı
-    public static final int NET_DVR_GET_AUXOUTCFG = 140;	//»ñÈ¡±¨¾¯´¥·¢¸¨ÖúÊä³öÉèÖÃ(HSÉè±¸¸¨ÖúÊä³ö2006-02-28)
-    public static final int NET_DVR_SET_AUXOUTCFG = 141;	//ÉèÖÃ±¨¾¯´¥·¢¸¨ÖúÊä³öÉèÖÃ(HSÉè±¸¸¨ÖúÊä³ö2006-02-28)
-    public static final int NET_DVR_GET_PREVIEWCFG_AUX = 142;	//»ñÈ¡-sÏµÁĞË«Êä³öÔ¤ÀÀ²ÎÊı(-sÏµÁĞË«Êä³ö2006-04-13)
-    public static final int NET_DVR_SET_PREVIEWCFG_AUX = 143;	//ÉèÖÃ-sÏµÁĞË«Êä³öÔ¤ÀÀ²ÎÊı(-sÏµÁĞË«Êä³ö2006-04-13)
-    public static final int NET_DVR_GET_PICCFG_EX = 200;	//»ñÈ¡Í¼Ïó²ÎÊı(SDK_V14À©Õ¹ÃüÁî)
-    public static final int NET_DVR_SET_PICCFG_EX = 201;	//ÉèÖÃÍ¼Ïó²ÎÊı(SDK_V14À©Õ¹ÃüÁî)
-    public static final int NET_DVR_GET_USERCFG_EX = 202;	//»ñÈ¡ÓÃ»§²ÎÊı(SDK_V15À©Õ¹ÃüÁî)
-    public static final int NET_DVR_SET_USERCFG_EX = 203;	//ÉèÖÃÓÃ»§²ÎÊı(SDK_V15À©Õ¹ÃüÁî)
-    public static final int NET_DVR_GET_COMPRESSCFG_EX = 204;	//»ñÈ¡Ñ¹Ëõ²ÎÊı(SDK_V15À©Õ¹ÃüÁî2006-05-15)
-    public static final int NET_DVR_SET_COMPRESSCFG_EX = 205;	//ÉèÖÃÑ¹Ëõ²ÎÊı(SDK_V15À©Õ¹ÃüÁî2006-05-15)
-    public static final int NET_DVR_GET_NETAPPCFG = 222;	//»ñÈ¡ÍøÂçÓ¦ÓÃ²ÎÊı NTP/DDNS/EMAIL
-    public static final int NET_DVR_SET_NETAPPCFG = 223;	//ÉèÖÃÍøÂçÓ¦ÓÃ²ÎÊı NTP/DDNS/EMAIL
-    public static final int NET_DVR_GET_NTPCFG = 224;	//»ñÈ¡ÍøÂçÓ¦ÓÃ²ÎÊı NTP
-    public static final int NET_DVR_SET_NTPCFG = 225;	//ÉèÖÃÍøÂçÓ¦ÓÃ²ÎÊı NTP
-    public static final int NET_DVR_GET_DDNSCFG = 226;	//»ñÈ¡ÍøÂçÓ¦ÓÃ²ÎÊı DDNS
-    public static final int NET_DVR_SET_DDNSCFG = 227;		//ÉèÖÃÍøÂçÓ¦ÓÃ²ÎÊı DDNS
-//¶ÔÓ¦NET_DVR_EMAILPARA
-    public static final int NET_DVR_GET_EMAILCFG = 228;	//»ñÈ¡ÍøÂçÓ¦ÓÃ²ÎÊı EMAIL
-    public static final int NET_DVR_SET_EMAILCFG = 229;	//ÉèÖÃÍøÂçÓ¦ÓÃ²ÎÊı EMAIL
+    /*************************å‚æ•°é…ç½®å‘½ä»¤ begin*******************************/
+//ç”¨äºNET_DVR_SetDVRConfigå’ŒNET_DVR_GetDVRConfig,æ³¨æ„å…¶å¯¹åº”çš„é…ç½®ç»“æ„
+    public static final int NET_DVR_GET_DEVICECFG = 100;	//è·å–è®¾å¤‡å‚æ•°
+    public static final int NET_DVR_SET_DEVICECFG = 101;	//è®¾ç½®è®¾å¤‡å‚æ•°
+    public static final int NET_DVR_GET_NETCFG = 102;	//è·å–ç½‘ç»œå‚æ•°
+    public static final int NET_DVR_SET_NETCFG = 103;	//è®¾ç½®ç½‘ç»œå‚æ•°
+    public static final int NET_DVR_GET_PICCFG = 104;	//è·å–å›¾è±¡å‚æ•°
+    public static final int NET_DVR_SET_PICCFG = 105;	//è®¾ç½®å›¾è±¡å‚æ•°
+    public static final int NET_DVR_GET_COMPRESSCFG = 106;	//è·å–å‹ç¼©å‚æ•°
+    public static final int NET_DVR_SET_COMPRESSCFG = 107;	//è®¾ç½®å‹ç¼©å‚æ•°
+    public static final int NET_DVR_GET_RECORDCFG = 108;	//è·å–å½•åƒæ—¶é—´å‚æ•°
+    public static final int NET_DVR_SET_RECORDCFG = 109;	//è®¾ç½®å½•åƒæ—¶é—´å‚æ•°
+    public static final int NET_DVR_GET_DECODERCFG = 110;	//è·å–è§£ç å™¨å‚æ•°
+    public static final int NET_DVR_SET_DECODERCFG = 111;	//è®¾ç½®è§£ç å™¨å‚æ•°
+    public static final int NET_DVR_GET_RS232CFG = 112;	//è·å–232ä¸²å£å‚æ•°
+    public static final int NET_DVR_SET_RS232CFG = 113;	//è®¾ç½®232ä¸²å£å‚æ•°
+    public static final int NET_DVR_GET_ALARMINCFG = 114;	//è·å–æŠ¥è­¦è¾“å…¥å‚æ•°
+    public static final int NET_DVR_SET_ALARMINCFG = 115;	//è®¾ç½®æŠ¥è­¦è¾“å…¥å‚æ•°
+    public static final int NET_DVR_GET_ALARMOUTCFG = 116;	//è·å–æŠ¥è­¦è¾“å‡ºå‚æ•°
+    public static final int NET_DVR_SET_ALARMOUTCFG = 117;	//è®¾ç½®æŠ¥è­¦è¾“å‡ºå‚æ•°
+    public static final int NET_DVR_GET_TIMECFG = 118;	//è·å–DVRæ—¶é—´
+    public static final int NET_DVR_SET_TIMECFG = 119;		//è®¾ç½®DVRæ—¶é—´
+    public static final int NET_DVR_GET_PREVIEWCFG = 120;	//è·å–é¢„è§ˆå‚æ•°
+    public static final int NET_DVR_SET_PREVIEWCFG = 121;	//è®¾ç½®é¢„è§ˆå‚æ•°
+    public static final int NET_DVR_GET_VIDEOOUTCFG = 122;	//è·å–è§†é¢‘è¾“å‡ºå‚æ•°
+    public static final int NET_DVR_SET_VIDEOOUTCFG = 123;	//è®¾ç½®è§†é¢‘è¾“å‡ºå‚æ•°
+    public static final int NET_DVR_GET_USERCFG = 124;	//è·å–ç”¨æˆ·å‚æ•°
+    public static final int NET_DVR_SET_USERCFG = 125;	//è®¾ç½®ç”¨æˆ·å‚æ•°
+    public static final int NET_DVR_GET_EXCEPTIONCFG = 126;	//è·å–å¼‚å¸¸å‚æ•°
+    public static final int NET_DVR_SET_EXCEPTIONCFG = 127;	//è®¾ç½®å¼‚å¸¸å‚æ•°
+    public static final int NET_DVR_GET_ZONEANDDST = 128;	//è·å–æ—¶åŒºå’Œå¤æ—¶åˆ¶å‚æ•°
+    public static final int NET_DVR_SET_ZONEANDDST = 129;	//è®¾ç½®æ—¶åŒºå’Œå¤æ—¶åˆ¶å‚æ•°
+    public static final int NET_DVR_GET_SHOWSTRING = 130;	//è·å–å åŠ å­—ç¬¦å‚æ•°
+    public static final int NET_DVR_SET_SHOWSTRING = 131;	//è®¾ç½®å åŠ å­—ç¬¦å‚æ•°
+    public static final int NET_DVR_GET_EVENTCOMPCFG = 132;	//è·å–äº‹ä»¶è§¦å‘å½•åƒå‚æ•°
+    public static final int NET_DVR_SET_EVENTCOMPCFG = 133;	//è®¾ç½®äº‹ä»¶è§¦å‘å½•åƒå‚æ•°
+    public static final int NET_DVR_GET_AUXOUTCFG = 140;	//è·å–æŠ¥è­¦è§¦å‘è¾…åŠ©è¾“å‡ºè®¾ç½®(HSè®¾å¤‡è¾…åŠ©è¾“å‡º2006-02-28)
+    public static final int NET_DVR_SET_AUXOUTCFG = 141;	//è®¾ç½®æŠ¥è­¦è§¦å‘è¾…åŠ©è¾“å‡ºè®¾ç½®(HSè®¾å¤‡è¾…åŠ©è¾“å‡º2006-02-28)
+    public static final int NET_DVR_GET_PREVIEWCFG_AUX = 142;	//è·å–-sç³»åˆ—åŒè¾“å‡ºé¢„è§ˆå‚æ•°(-sç³»åˆ—åŒè¾“å‡º2006-04-13)
+    public static final int NET_DVR_SET_PREVIEWCFG_AUX = 143;	//è®¾ç½®-sç³»åˆ—åŒè¾“å‡ºé¢„è§ˆå‚æ•°(-sç³»åˆ—åŒè¾“å‡º2006-04-13)
+    public static final int NET_DVR_GET_PICCFG_EX = 200;	//è·å–å›¾è±¡å‚æ•°(SDK_V14æ‰©å±•å‘½ä»¤)
+    public static final int NET_DVR_SET_PICCFG_EX = 201;	//è®¾ç½®å›¾è±¡å‚æ•°(SDK_V14æ‰©å±•å‘½ä»¤)
+    public static final int NET_DVR_GET_USERCFG_EX = 202;	//è·å–ç”¨æˆ·å‚æ•°(SDK_V15æ‰©å±•å‘½ä»¤)
+    public static final int NET_DVR_SET_USERCFG_EX = 203;	//è®¾ç½®ç”¨æˆ·å‚æ•°(SDK_V15æ‰©å±•å‘½ä»¤)
+    public static final int NET_DVR_GET_COMPRESSCFG_EX = 204;	//è·å–å‹ç¼©å‚æ•°(SDK_V15æ‰©å±•å‘½ä»¤2006-05-15)
+    public static final int NET_DVR_SET_COMPRESSCFG_EX = 205;	//è®¾ç½®å‹ç¼©å‚æ•°(SDK_V15æ‰©å±•å‘½ä»¤2006-05-15)
+    public static final int NET_DVR_GET_NETAPPCFG = 222;	//è·å–ç½‘ç»œåº”ç”¨å‚æ•° NTP/DDNS/EMAIL
+    public static final int NET_DVR_SET_NETAPPCFG = 223;	//è®¾ç½®ç½‘ç»œåº”ç”¨å‚æ•° NTP/DDNS/EMAIL
+    public static final int NET_DVR_GET_NTPCFG = 224;	//è·å–ç½‘ç»œåº”ç”¨å‚æ•° NTP
+    public static final int NET_DVR_SET_NTPCFG = 225;	//è®¾ç½®ç½‘ç»œåº”ç”¨å‚æ•° NTP
+    public static final int NET_DVR_GET_DDNSCFG = 226;	//è·å–ç½‘ç»œåº”ç”¨å‚æ•° DDNS
+    public static final int NET_DVR_SET_DDNSCFG = 227;		//è®¾ç½®ç½‘ç»œåº”ç”¨å‚æ•° DDNS
+//å¯¹åº”NET_DVR_EMAILPARA
+    public static final int NET_DVR_GET_EMAILCFG = 228;	//è·å–ç½‘ç»œåº”ç”¨å‚æ•° EMAIL
+    public static final int NET_DVR_SET_EMAILCFG = 229;	//è®¾ç½®ç½‘ç»œåº”ç”¨å‚æ•° EMAIL
     public static final int NET_DVR_GET_NFSCFG = 230;	/* NFS disk config */
     public static final int NET_DVR_SET_NFSCFG = 231;	/* NFS disk config */
-    public static final int NET_DVR_GET_SHOWSTRING_EX = 238;	//»ñÈ¡µş¼Ó×Ö·û²ÎÊıÀ©Õ¹(Ö§³Ö8Ìõ×Ö·û)
-    public static final int NET_DVR_SET_SHOWSTRING_EX = 239;	//ÉèÖÃµş¼Ó×Ö·û²ÎÊıÀ©Õ¹(Ö§³Ö8Ìõ×Ö·û)
-    public static final int NET_DVR_GET_NETCFG_OTHER = 244;	//»ñÈ¡ÍøÂç²ÎÊı
-    public static final int NET_DVR_SET_NETCFG_OTHER = 245;	//ÉèÖÃÍøÂç²ÎÊı
-//¶ÔÓ¦NET_DVR_EMAILCFG½á¹¹
+    public static final int NET_DVR_GET_SHOWSTRING_EX = 238;	//è·å–å åŠ å­—ç¬¦å‚æ•°æ‰©å±•(æ”¯æŒ8æ¡å­—ç¬¦)
+    public static final int NET_DVR_SET_SHOWSTRING_EX = 239;	//è®¾ç½®å åŠ å­—ç¬¦å‚æ•°æ‰©å±•(æ”¯æŒ8æ¡å­—ç¬¦)
+    public static final int NET_DVR_GET_NETCFG_OTHER = 244;	//è·å–ç½‘ç»œå‚æ•°
+    public static final int NET_DVR_SET_NETCFG_OTHER = 245;	//è®¾ç½®ç½‘ç»œå‚æ•°
+//å¯¹åº”NET_DVR_EMAILCFGç»“æ„
     public static final int NET_DVR_GET_EMAILPARACFG = 250;	//Get EMAIL parameters
     public static final int NET_DVR_SET_EMAILPARACFG = 251;	//Setup EMAIL parameters
-    public static final int NET_DVR_GET_DDNSCFG_EX = 274;//»ñÈ¡À©Õ¹DDNS²ÎÊı
-    public static final int NET_DVR_SET_DDNSCFG_EX = 275;//ÉèÖÃÀ©Õ¹DDNS²ÎÊı
-    public static final int NET_DVR_SET_PTZPOS = 292;	//ÔÆÌ¨ÉèÖÃPTZÎ»ÖÃ
-    public static final int NET_DVR_GET_PTZPOS = 293;		//ÔÆÌ¨»ñÈ¡PTZÎ»ÖÃ
-    public static final int NET_DVR_GET_PTZSCOPE = 294;//ÔÆÌ¨»ñÈ¡PTZ·¶Î§
-    /***************************DS9000ĞÂÔöÃüÁî(_V30) begin *****************************/
-//ÍøÂç(NET_DVR_NETCFG_V30½á¹¹)
-    public static final int NET_DVR_GET_NETCFG_V30 = 1000;	//»ñÈ¡ÍøÂç²ÎÊı
-    public static final int NET_DVR_SET_NETCFG_V30 = 1001;	//ÉèÖÃÍøÂç²ÎÊı
-//Í¼Ïó(NET_DVR_PICCFG_V30½á¹¹)
-    public static final int NET_DVR_GET_PICCFG_V30 = 1002;	//»ñÈ¡Í¼Ïó²ÎÊı
-    public static final int NET_DVR_SET_PICCFG_V30 = 1003;	//ÉèÖÃÍ¼Ïó²ÎÊı
-//Â¼ÏñÊ±¼ä(NET_DVR_RECORD_V30½á¹¹)
-    public static final int NET_DVR_GET_RECORDCFG_V30 = 1004;	//»ñÈ¡Â¼Ïñ²ÎÊı
-    public static final int NET_DVR_SET_RECORDCFG_V30 = 1005;	//ÉèÖÃÂ¼Ïñ²ÎÊı
-//ÓÃ»§(NET_DVR_USER_V30½á¹¹)
-    public static final int NET_DVR_GET_USERCFG_V30 = 1006;	//»ñÈ¡ÓÃ»§²ÎÊı
-    public static final int NET_DVR_SET_USERCFG_V30 = 1007;	//ÉèÖÃÓÃ»§²ÎÊı
-//9000DDNS²ÎÊıÅäÖÃ(NET_DVR_DDNSPARA_V30½á¹¹)
-    public static final int NET_DVR_GET_DDNSCFG_V30 = 1010;	//»ñÈ¡DDNS(9000À©Õ¹)
-    public static final int NET_DVR_SET_DDNSCFG_V30 = 1011;	//ÉèÖÃDDNS(9000À©Õ¹)
-//EMAIL¹¦ÄÜ(NET_DVR_EMAILCFG_V30½á¹¹)
-    public static final int NET_DVR_GET_EMAILCFG_V30 = 1012;//»ñÈ¡EMAIL²ÎÊı
-    public static final int NET_DVR_SET_EMAILCFG_V30 = 1013;//ÉèÖÃEMAIL²ÎÊı
-//Ñ²º½²ÎÊı (NET_DVR_CRUISE_PARA½á¹¹)
+    public static final int NET_DVR_GET_DDNSCFG_EX = 274;//è·å–æ‰©å±•DDNSå‚æ•°
+    public static final int NET_DVR_SET_DDNSCFG_EX = 275;//è®¾ç½®æ‰©å±•DDNSå‚æ•°
+    public static final int NET_DVR_SET_PTZPOS = 292;	//äº‘å°è®¾ç½®PTZä½ç½®
+    public static final int NET_DVR_GET_PTZPOS = 293;		//äº‘å°è·å–PTZä½ç½®
+    public static final int NET_DVR_GET_PTZSCOPE = 294;//äº‘å°è·å–PTZèŒƒå›´
+    /***************************DS9000æ–°å¢å‘½ä»¤(_V30) begin *****************************/
+//ç½‘ç»œ(NET_DVR_NETCFG_V30ç»“æ„)
+    public static final int NET_DVR_GET_NETCFG_V30 = 1000;	//è·å–ç½‘ç»œå‚æ•°
+    public static final int NET_DVR_SET_NETCFG_V30 = 1001;	//è®¾ç½®ç½‘ç»œå‚æ•°
+//å›¾è±¡(NET_DVR_PICCFG_V30ç»“æ„)
+    public static final int NET_DVR_GET_PICCFG_V30 = 1002;	//è·å–å›¾è±¡å‚æ•°
+    public static final int NET_DVR_SET_PICCFG_V30 = 1003;	//è®¾ç½®å›¾è±¡å‚æ•°
+//å½•åƒæ—¶é—´(NET_DVR_RECORD_V30ç»“æ„)
+    public static final int NET_DVR_GET_RECORDCFG_V30 = 1004;	//è·å–å½•åƒå‚æ•°
+    public static final int NET_DVR_SET_RECORDCFG_V30 = 1005;	//è®¾ç½®å½•åƒå‚æ•°
+//ç”¨æˆ·(NET_DVR_USER_V30ç»“æ„)
+    public static final int NET_DVR_GET_USERCFG_V30 = 1006;	//è·å–ç”¨æˆ·å‚æ•°
+    public static final int NET_DVR_SET_USERCFG_V30 = 1007;	//è®¾ç½®ç”¨æˆ·å‚æ•°
+//9000DDNSå‚æ•°é…ç½®(NET_DVR_DDNSPARA_V30ç»“æ„)
+    public static final int NET_DVR_GET_DDNSCFG_V30 = 1010;	//è·å–DDNS(9000æ‰©å±•)
+    public static final int NET_DVR_SET_DDNSCFG_V30 = 1011;	//è®¾ç½®DDNS(9000æ‰©å±•)
+//EMAILåŠŸèƒ½(NET_DVR_EMAILCFG_V30ç»“æ„)
+    public static final int NET_DVR_GET_EMAILCFG_V30 = 1012;//è·å–EMAILå‚æ•°
+    public static final int NET_DVR_SET_EMAILCFG_V30 = 1013;//è®¾ç½®EMAILå‚æ•°
+//å·¡èˆªå‚æ•° (NET_DVR_CRUISE_PARAç»“æ„)
     public static final int NET_DVR_GET_CRUISE = 1020;
     public static final int NET_DVR_SET_CRUISE = 1021;
-//±¨¾¯ÊäÈë½á¹¹²ÎÊı (NET_DVR_ALARMINCFG_V30½á¹¹)
+//æŠ¥è­¦è¾“å…¥ç»“æ„å‚æ•° (NET_DVR_ALARMINCFG_V30ç»“æ„)
     public static final int NET_DVR_GET_ALARMINCFG_V30 = 1024;
     public static final int NET_DVR_SET_ALARMINCFG_V30 = 1025;
-//±¨¾¯Êä³ö½á¹¹²ÎÊı (NET_DVR_ALARMOUTCFG_V30½á¹¹)
+//æŠ¥è­¦è¾“å‡ºç»“æ„å‚æ•° (NET_DVR_ALARMOUTCFG_V30ç»“æ„)
     public static final int NET_DVR_GET_ALARMOUTCFG_V30 = 1026;
     public static final int NET_DVR_SET_ALARMOUTCFG_V30 = 1027;
-//ÊÓÆµÊä³ö½á¹¹²ÎÊı (NET_DVR_VIDEOOUT_V30½á¹¹)
+//è§†é¢‘è¾“å‡ºç»“æ„å‚æ•° (NET_DVR_VIDEOOUT_V30ç»“æ„)
     public static final int NET_DVR_GET_VIDEOOUTCFG_V30 = 1028;
     public static final int NET_DVR_SET_VIDEOOUTCFG_V30 = 1029;
-//µş¼Ó×Ö·û½á¹¹²ÎÊı (NET_DVR_SHOWSTRING_V30½á¹¹)
+//å åŠ å­—ç¬¦ç»“æ„å‚æ•° (NET_DVR_SHOWSTRING_V30ç»“æ„)
     public static final int NET_DVR_GET_SHOWSTRING_V30 = 1030;
     public static final int NET_DVR_SET_SHOWSTRING_V30 = 1031;
-//Òì³£½á¹¹²ÎÊı (NET_DVR_EXCEPTION_V30½á¹¹)
+//å¼‚å¸¸ç»“æ„å‚æ•° (NET_DVR_EXCEPTION_V30ç»“æ„)
     public static final int NET_DVR_GET_EXCEPTIONCFG_V30 = 1034;
     public static final int NET_DVR_SET_EXCEPTIONCFG_V30 = 1035;
-//´®¿Ú232½á¹¹²ÎÊı (NET_DVR_RS232CFG_V30½á¹¹)
+//ä¸²å£232ç»“æ„å‚æ•° (NET_DVR_RS232CFG_V30ç»“æ„)
     public static final int NET_DVR_GET_RS232CFG_V30 = 1036;
     public static final int NET_DVR_SET_RS232CFG_V30 = 1037;
-//Ñ¹Ëõ²ÎÊı (NET_DVR_COMPRESSIONCFG_V30½á¹¹)
+//å‹ç¼©å‚æ•° (NET_DVR_COMPRESSIONCFG_V30ç»“æ„)
     public static final int NET_DVR_GET_COMPRESSCFG_V30 = 1040;
     public static final int NET_DVR_SET_COMPRESSCFG_V30 = 1041;
-//»ñÈ¡485½âÂëÆ÷²ÎÊı (NET_DVR_DECODERCFG_V30½á¹¹)
-    public static final int NET_DVR_GET_DECODERCFG_V30 = 1042;	//»ñÈ¡½âÂëÆ÷²ÎÊı
-    public static final int NET_DVR_SET_DECODERCFG_V30 = 1043;	//ÉèÖÃ½âÂëÆ÷²ÎÊı
-//»ñÈ¡Ô¤ÀÀ²ÎÊı (NET_DVR_PREVIEWCFG_V30½á¹¹)
-    public static final int NET_DVR_GET_PREVIEWCFG_V30 = 1044;	//»ñÈ¡Ô¤ÀÀ²ÎÊı
-    public static final int NET_DVR_SET_PREVIEWCFG_V30 = 1045;	//ÉèÖÃÔ¤ÀÀ²ÎÊı
-//¸¨ÖúÔ¤ÀÀ²ÎÊı (NET_DVR_PREVIEWCFG_AUX_V30½á¹¹)
-    public static final int NET_DVR_GET_PREVIEWCFG_AUX_V30 = 1046;	//»ñÈ¡¸¨ÖúÔ¤ÀÀ²ÎÊı
-    public static final int NET_DVR_SET_PREVIEWCFG_AUX_V30 = 1047;	//ÉèÖÃ¸¨ÖúÔ¤ÀÀ²ÎÊı
-//IP½ÓÈëÅäÖÃ²ÎÊı £¨NET_DVR_IPPARACFG½á¹¹£©
-    public static final int NET_DVR_GET_IPPARACFG = 1048;    //»ñÈ¡IP½ÓÈëÅäÖÃĞÅÏ¢
-    public static final int NET_DVR_SET_IPPARACFG = 1049;    //ÉèÖÃIP½ÓÈëÅäÖÃĞÅÏ¢
-//IP±¨¾¯ÊäÈë½ÓÈëÅäÖÃ²ÎÊı £¨NET_DVR_IPALARMINCFG½á¹¹£©
-    public static final int NET_DVR_GET_IPALARMINCFG = 1050;    //»ñÈ¡IP±¨¾¯ÊäÈë½ÓÈëÅäÖÃĞÅÏ¢
-    public static final int NET_DVR_SET_IPALARMINCFG = 1051;   //ÉèÖÃIP±¨¾¯ÊäÈë½ÓÈëÅäÖÃĞÅÏ¢
-//IP±¨¾¯Êä³ö½ÓÈëÅäÖÃ²ÎÊı £¨NET_DVR_IPALARMOUTCFG½á¹¹£©
-    public static final int NET_DVR_GET_IPALARMOUTCFG = 1052;   //»ñÈ¡IP±¨¾¯Êä³ö½ÓÈëÅäÖÃĞÅÏ¢
-    public static final int NET_DVR_SET_IPALARMOUTCFG = 1053;  //ÉèÖÃIP±¨¾¯Êä³ö½ÓÈëÅäÖÃĞÅÏ¢
-//Ó²ÅÌ¹ÜÀíµÄ²ÎÊı»ñÈ¡ (NET_DVR_HDCFG½á¹¹)
-    public static final int NET_DVR_GET_HDCFG = 1054;    //»ñÈ¡Ó²ÅÌ¹ÜÀíÅäÖÃ²ÎÊı
-    public static final int NET_DVR_SET_HDCFG = 1055;    //ÉèÖÃÓ²ÅÌ¹ÜÀíÅäÖÃ²ÎÊı
-//ÅÌ×é¹ÜÀíµÄ²ÎÊı»ñÈ¡ (NET_DVR_HDGROUP_CFG½á¹¹)
-    public static final int NET_DVR_GET_HDGROUP_CFG = 1056;    //»ñÈ¡ÅÌ×é¹ÜÀíÅäÖÃ²ÎÊı
-    public static final int NET_DVR_SET_HDGROUP_CFG = 1057;    //ÉèÖÃÅÌ×é¹ÜÀíÅäÖÃ²ÎÊı
-//Éè±¸±àÂëÀàĞÍÅäÖÃ(NET_DVR_COMPRESSION_AUDIO½á¹¹)
-    public static final int NET_DVR_GET_COMPRESSCFG_AUD = 1058;     //»ñÈ¡Éè±¸ÓïÒô¶Ô½²±àÂë²ÎÊı
-    public static final int NET_DVR_SET_COMPRESSCFG_AUD = 1059;     //ÉèÖÃÉè±¸ÓïÒô¶Ô½²±àÂë²ÎÊı
-    /***************************DS9000ĞÂÔöÃüÁî(_V30) end *****************************/
-    /*************************²ÎÊıÅäÖÃÃüÁî end*******************************/
-    /*******************²éÕÒÎÄ¼şºÍÈÕÖ¾º¯Êı·µ»ØÖµ*************************/
-    public static final int NET_DVR_FILE_SUCCESS = 1000;	//»ñµÃÎÄ¼şĞÅÏ¢
-    public static final int NET_DVR_FILE_NOFIND = 1001;	//Ã»ÓĞÎÄ¼ş
-    public static final int NET_DVR_ISFINDING = 1002;//ÕıÔÚ²éÕÒÎÄ¼ş
-    public static final int NET_DVR_NOMOREFILE = 1003;//²éÕÒÎÄ¼şÊ±Ã»ÓĞ¸ü¶àµÄÎÄ¼ş
-    public static final int NET_DVR_FILE_EXCEPTION = 1004;//²éÕÒÎÄ¼şÊ±Òì³£
-    /*********************»Øµ÷º¯ÊıÀàĞÍ begin************************/
-    public static final int COMM_ALARM = 0x1100;	//8000±¨¾¯ĞÅÏ¢Ö÷¶¯ÉÏ´«
-    public static final int COMM_TRADEINFO = 0x1500;  //ATMDVRÖ÷¶¯ÉÏ´«½»Ò×ĞÅÏ¢
-    public static final int COMM_ALARM_V30 = 0x4000;//9000±¨¾¯ĞÅÏ¢Ö÷¶¯ÉÏ´«
-    public static final int COMM_IPCCFG = 0x4001;//9000Éè±¸IPC½ÓÈëÅäÖÃ¸Ä±ä±¨¾¯ĞÅÏ¢Ö÷¶¯ÉÏ´«
-    /*************²Ù×÷Òì³£ÀàĞÍ(ÏûÏ¢·½Ê½, »Øµ÷·½Ê½(±£Áô))****************/
-    public static final int EXCEPTION_EXCHANGE = 0x8000;//ÓÃ»§½»»¥Ê±Òì³£
-    public static final int EXCEPTION_AUDIOEXCHANGE = 0x8001;//ÓïÒô¶Ô½²Òì³£
-    public static final int EXCEPTION_ALARM = 0x8002;//±¨¾¯Òì³£
-    public static final int EXCEPTION_PREVIEW = 0x8003;//ÍøÂçÔ¤ÀÀÒì³£
-    public static final int EXCEPTION_SERIAL = 0x8004;//Í¸Ã÷Í¨µÀÒì³£
-    public static final int EXCEPTION_RECONNECT = 0x8005;	//Ô¤ÀÀÊ±ÖØÁ¬
-    public static final int EXCEPTION_ALARMRECONNECT = 0x8006;//±¨¾¯Ê±ÖØÁ¬
-    public static final int EXCEPTION_SERIALRECONNECT = 0x8007;//Í¸Ã÷Í¨µÀÖØÁ¬
-    public static final int EXCEPTION_PLAYBACK = 0x8010;//»Ø·ÅÒì³£
-    public static final int EXCEPTION_DISKFMT = 0x8011;//Ó²ÅÌ¸ñÊ½»¯
-    /********************Ô¤ÀÀ»Øµ÷º¯Êı*********************/
-    public static final int NET_DVR_SYSHEAD = 1;//ÏµÍ³Í·Êı¾İ
-    public static final int NET_DVR_STREAMDATA = 2;//ÊÓÆµÁ÷Êı¾İ£¨°üÀ¨¸´ºÏÁ÷ºÍÒôÊÓÆµ·Ö¿ªµÄÊÓÆµÁ÷Êı¾İ£©
-    public static final int NET_DVR_AUDIOSTREAMDATA = 3;//ÒôÆµÁ÷Êı¾İ
-    public static final int NET_DVR_STD_VIDEODATA = 4;//±ê×¼ÊÓÆµÁ÷Êı¾İ
-    public static final int NET_DVR_STD_AUDIODATA = 5;//±ê×¼ÒôÆµÁ÷Êı¾İ
-//»Øµ÷Ô¤ÀÀÖĞµÄ×´Ì¬ºÍÏûÏ¢
-    public static final int NET_DVR_REALPLAYEXCEPTION = 111;//Ô¤ÀÀÒì³£
-    public static final int NET_DVR_REALPLAYNETCLOSE = 112;//Ô¤ÀÀÊ±Á¬½Ó¶Ï¿ª
-    public static final int NET_DVR_REALPLAY5SNODATA = 113;//Ô¤ÀÀ5sÃ»ÓĞÊÕµ½Êı¾İ
-    public static final int NET_DVR_REALPLAYRECONNECT = 114;//Ô¤ÀÀÖØÁ¬
-    /********************»Ø·Å»Øµ÷º¯Êı*********************/
-    public static final int NET_DVR_PLAYBACKOVER = 101;//»Ø·ÅÊı¾İ²¥·ÅÍê±Ï
-    public static final int NET_DVR_PLAYBACKEXCEPTION = 102;//»Ø·ÅÒì³£
-    public static final int NET_DVR_PLAYBACKNETCLOSE = 103;//»Ø·ÅÊ±ºòÁ¬½Ó¶Ï¿ª
-    public static final int NET_DVR_PLAYBACK5SNODATA = 104;	//»Ø·Å5sÃ»ÓĞÊÕµ½Êı¾İ
-    /*********************»Øµ÷º¯ÊıÀàĞÍ end************************/
-//Éè±¸ĞÍºÅ(DVRÀàĞÍ)
-/* Éè±¸ÀàĞÍ */
-    public static final int DVR = 1;			/*¶ÔÉĞÎ´¶¨ÒåµÄdvrÀàĞÍ·µ»ØNETRET_DVR*/
+//è·å–485è§£ç å™¨å‚æ•° (NET_DVR_DECODERCFG_V30ç»“æ„)
+    public static final int NET_DVR_GET_DECODERCFG_V30 = 1042;	//è·å–è§£ç å™¨å‚æ•°
+    public static final int NET_DVR_SET_DECODERCFG_V30 = 1043;	//è®¾ç½®è§£ç å™¨å‚æ•°
+//è·å–é¢„è§ˆå‚æ•° (NET_DVR_PREVIEWCFG_V30ç»“æ„)
+    public static final int NET_DVR_GET_PREVIEWCFG_V30 = 1044;	//è·å–é¢„è§ˆå‚æ•°
+    public static final int NET_DVR_SET_PREVIEWCFG_V30 = 1045;	//è®¾ç½®é¢„è§ˆå‚æ•°
+//è¾…åŠ©é¢„è§ˆå‚æ•° (NET_DVR_PREVIEWCFG_AUX_V30ç»“æ„)
+    public static final int NET_DVR_GET_PREVIEWCFG_AUX_V30 = 1046;	//è·å–è¾…åŠ©é¢„è§ˆå‚æ•°
+    public static final int NET_DVR_SET_PREVIEWCFG_AUX_V30 = 1047;	//è®¾ç½®è¾…åŠ©é¢„è§ˆå‚æ•°
+//IPæ¥å…¥é…ç½®å‚æ•° ï¼ˆNET_DVR_IPPARACFGç»“æ„ï¼‰
+    public static final int NET_DVR_GET_IPPARACFG = 1048;    //è·å–IPæ¥å…¥é…ç½®ä¿¡æ¯
+    public static final int NET_DVR_SET_IPPARACFG = 1049;    //è®¾ç½®IPæ¥å…¥é…ç½®ä¿¡æ¯
+//IPæŠ¥è­¦è¾“å…¥æ¥å…¥é…ç½®å‚æ•° ï¼ˆNET_DVR_IPALARMINCFGç»“æ„ï¼‰
+    public static final int NET_DVR_GET_IPALARMINCFG = 1050;    //è·å–IPæŠ¥è­¦è¾“å…¥æ¥å…¥é…ç½®ä¿¡æ¯
+    public static final int NET_DVR_SET_IPALARMINCFG = 1051;   //è®¾ç½®IPæŠ¥è­¦è¾“å…¥æ¥å…¥é…ç½®ä¿¡æ¯
+//IPæŠ¥è­¦è¾“å‡ºæ¥å…¥é…ç½®å‚æ•° ï¼ˆNET_DVR_IPALARMOUTCFGç»“æ„ï¼‰
+    public static final int NET_DVR_GET_IPALARMOUTCFG = 1052;   //è·å–IPæŠ¥è­¦è¾“å‡ºæ¥å…¥é…ç½®ä¿¡æ¯
+    public static final int NET_DVR_SET_IPALARMOUTCFG = 1053;  //è®¾ç½®IPæŠ¥è­¦è¾“å‡ºæ¥å…¥é…ç½®ä¿¡æ¯
+//ç¡¬ç›˜ç®¡ç†çš„å‚æ•°è·å– (NET_DVR_HDCFGç»“æ„)
+    public static final int NET_DVR_GET_HDCFG = 1054;    //è·å–ç¡¬ç›˜ç®¡ç†é…ç½®å‚æ•°
+    public static final int NET_DVR_SET_HDCFG = 1055;    //è®¾ç½®ç¡¬ç›˜ç®¡ç†é…ç½®å‚æ•°
+//ç›˜ç»„ç®¡ç†çš„å‚æ•°è·å– (NET_DVR_HDGROUP_CFGç»“æ„)
+    public static final int NET_DVR_GET_HDGROUP_CFG = 1056;    //è·å–ç›˜ç»„ç®¡ç†é…ç½®å‚æ•°
+    public static final int NET_DVR_SET_HDGROUP_CFG = 1057;    //è®¾ç½®ç›˜ç»„ç®¡ç†é…ç½®å‚æ•°
+//è®¾å¤‡ç¼–ç ç±»å‹é…ç½®(NET_DVR_COMPRESSION_AUDIOç»“æ„)
+    public static final int NET_DVR_GET_COMPRESSCFG_AUD = 1058;     //è·å–è®¾å¤‡è¯­éŸ³å¯¹è®²ç¼–ç å‚æ•°
+    public static final int NET_DVR_SET_COMPRESSCFG_AUD = 1059;     //è®¾ç½®è®¾å¤‡è¯­éŸ³å¯¹è®²ç¼–ç å‚æ•°
+    /***************************DS9000æ–°å¢å‘½ä»¤(_V30) end *****************************/
+    /*************************å‚æ•°é…ç½®å‘½ä»¤ end*******************************/
+    /*******************æŸ¥æ‰¾æ–‡ä»¶å’Œæ—¥å¿—å‡½æ•°è¿”å›å€¼*************************/
+    public static final int NET_DVR_FILE_SUCCESS = 1000;	//è·å¾—æ–‡ä»¶ä¿¡æ¯
+    public static final int NET_DVR_FILE_NOFIND = 1001;	//æ²¡æœ‰æ–‡ä»¶
+    public static final int NET_DVR_ISFINDING = 1002;//æ­£åœ¨æŸ¥æ‰¾æ–‡ä»¶
+    public static final int NET_DVR_NOMOREFILE = 1003;//æŸ¥æ‰¾æ–‡ä»¶æ—¶æ²¡æœ‰æ›´å¤šçš„æ–‡ä»¶
+    public static final int NET_DVR_FILE_EXCEPTION = 1004;//æŸ¥æ‰¾æ–‡ä»¶æ—¶å¼‚å¸¸
+    /*********************å›è°ƒå‡½æ•°ç±»å‹ begin************************/
+    public static final int COMM_ALARM = 0x1100;	//8000æŠ¥è­¦ä¿¡æ¯ä¸»åŠ¨ä¸Šä¼ 
+    public static final int COMM_TRADEINFO = 0x1500;  //ATMDVRä¸»åŠ¨ä¸Šä¼ äº¤æ˜“ä¿¡æ¯
+    public static final int COMM_ALARM_V30 = 0x4000;//9000æŠ¥è­¦ä¿¡æ¯ä¸»åŠ¨ä¸Šä¼ 
+    public static final int COMM_IPCCFG = 0x4001;//9000è®¾å¤‡IPCæ¥å…¥é…ç½®æ”¹å˜æŠ¥è­¦ä¿¡æ¯ä¸»åŠ¨ä¸Šä¼ 
+    /*************æ“ä½œå¼‚å¸¸ç±»å‹(æ¶ˆæ¯æ–¹å¼, å›è°ƒæ–¹å¼(ä¿ç•™))****************/
+    public static final int EXCEPTION_EXCHANGE = 0x8000;//ç”¨æˆ·äº¤äº’æ—¶å¼‚å¸¸
+    public static final int EXCEPTION_AUDIOEXCHANGE = 0x8001;//è¯­éŸ³å¯¹è®²å¼‚å¸¸
+    public static final int EXCEPTION_ALARM = 0x8002;//æŠ¥è­¦å¼‚å¸¸
+    public static final int EXCEPTION_PREVIEW = 0x8003;//ç½‘ç»œé¢„è§ˆå¼‚å¸¸
+    public static final int EXCEPTION_SERIAL = 0x8004;//é€æ˜é€šé“å¼‚å¸¸
+    public static final int EXCEPTION_RECONNECT = 0x8005;	//é¢„è§ˆæ—¶é‡è¿
+    public static final int EXCEPTION_ALARMRECONNECT = 0x8006;//æŠ¥è­¦æ—¶é‡è¿
+    public static final int EXCEPTION_SERIALRECONNECT = 0x8007;//é€æ˜é€šé“é‡è¿
+    public static final int EXCEPTION_PLAYBACK = 0x8010;//å›æ”¾å¼‚å¸¸
+    public static final int EXCEPTION_DISKFMT = 0x8011;//ç¡¬ç›˜æ ¼å¼åŒ–
+    /********************é¢„è§ˆå›è°ƒå‡½æ•°*********************/
+    public static final int NET_DVR_SYSHEAD = 1;//ç³»ç»Ÿå¤´æ•°æ®
+    public static final int NET_DVR_STREAMDATA = 2;//è§†é¢‘æµæ•°æ®ï¼ˆåŒ…æ‹¬å¤åˆæµå’ŒéŸ³è§†é¢‘åˆ†å¼€çš„è§†é¢‘æµæ•°æ®ï¼‰
+    public static final int NET_DVR_AUDIOSTREAMDATA = 3;//éŸ³é¢‘æµæ•°æ®
+    public static final int NET_DVR_STD_VIDEODATA = 4;//æ ‡å‡†è§†é¢‘æµæ•°æ®
+    public static final int NET_DVR_STD_AUDIODATA = 5;//æ ‡å‡†éŸ³é¢‘æµæ•°æ®
+//å›è°ƒé¢„è§ˆä¸­çš„çŠ¶æ€å’Œæ¶ˆæ¯
+    public static final int NET_DVR_REALPLAYEXCEPTION = 111;//é¢„è§ˆå¼‚å¸¸
+    public static final int NET_DVR_REALPLAYNETCLOSE = 112;//é¢„è§ˆæ—¶è¿æ¥æ–­å¼€
+    public static final int NET_DVR_REALPLAY5SNODATA = 113;//é¢„è§ˆ5sæ²¡æœ‰æ”¶åˆ°æ•°æ®
+    public static final int NET_DVR_REALPLAYRECONNECT = 114;//é¢„è§ˆé‡è¿
+    /********************å›æ”¾å›è°ƒå‡½æ•°*********************/
+    public static final int NET_DVR_PLAYBACKOVER = 101;//å›æ”¾æ•°æ®æ’­æ”¾å®Œæ¯•
+    public static final int NET_DVR_PLAYBACKEXCEPTION = 102;//å›æ”¾å¼‚å¸¸
+    public static final int NET_DVR_PLAYBACKNETCLOSE = 103;//å›æ”¾æ—¶å€™è¿æ¥æ–­å¼€
+    public static final int NET_DVR_PLAYBACK5SNODATA = 104;	//å›æ”¾5sæ²¡æœ‰æ”¶åˆ°æ•°æ®
+    /*********************å›è°ƒå‡½æ•°ç±»å‹ end************************/
+//è®¾å¤‡å‹å·(DVRç±»å‹)
+/* è®¾å¤‡ç±»å‹ */
+    public static final int DVR = 1;			/*å¯¹å°šæœªå®šä¹‰çš„dvrç±»å‹è¿”å›NETRET_DVR*/
     public static final int ATMDVR = 2;		/*atm dvr*/
     public static final int DVS = 3;			/*DVS*/
     public static final int DEC = 4;			/* 6001D */
@@ -551,26 +568,26 @@ public interface HCNetSDK extends StdCallLibrary {
     public static final int DVR_HTS = 10;         /* 8016HTS DVR(no audio) */
     public static final int DVR_HB = 11;         /* HB DVR(SATA HD) */
     public static final int DVR_HCS = 12;         /* 8000HCS DVR */
-    public static final int DVS_A = 13;         /* ´øATAÓ²ÅÌµÄDVS */
+    public static final int DVS_A = 13;         /* å¸¦ATAç¡¬ç›˜çš„DVS */
     public static final int DVR_HC_S = 14;         /* 8000HC-S */
     public static final int DVR_HT_S = 15;         /* 8000HT-S */
     public static final int DVR_HF_S = 16;         /* 8000HF-S */
     public static final int DVR_HS_S = 17;         /* 8000HS-S */
     public static final int ATMDVR_S = 18;         /* ATM-S */
-    public static final int LOWCOST_DVR = 19;			/*7000HÏµÁĞ*/
-    public static final int DEC_MAT = 20;         /*¶àÂ·½âÂëÆ÷*/
+    public static final int LOWCOST_DVR = 19;			/*7000Hç³»åˆ—*/
+    public static final int DEC_MAT = 20;         /*å¤šè·¯è§£ç å™¨*/
     public static final int DVR_MOBILE = 21;			/* mobile DVR */
     public static final int DVR_HD_S = 22;        /* 8000HD-S */
     public static final int DVR_HD_SL = 23;			/* 8000HD-SL */
     public static final int DVR_HC_SL = 24;			/* 8000HC-SL */
     public static final int DVR_HS_ST = 25;			/* 8000HS_ST */
     public static final int DVS_HW = 26;         /* 6000HW */
-    public static final int IPCAM = 30;			/*IP ÉãÏñ»ú*/
-    public static final int MEGA_IPCAM = 31;			/*X52MFÏµÁĞ,752MF,852MF*/
-    public static final int IPCAM_X62MF = 32;			/*X62MFÏµÁĞ¿É½ÓÈë9000Éè±¸,762MF,862MF*/
-    public static final int IPDOME = 40;			/*IP±êÇå¿ìÇò*/
-    public static final int MEGA_IPDOME = 41;     /*IP¸ßÇå¿ìÇò*/
-    public static final int IPMOD = 50;			/*IP Ä£¿é*/
+    public static final int IPCAM = 30;			/*IP æ‘„åƒæœº*/
+    public static final int MEGA_IPCAM = 31;			/*X52MFç³»åˆ—,752MF,852MF*/
+    public static final int IPCAM_X62MF = 32;			/*X62MFç³»åˆ—å¯æ¥å…¥9000è®¾å¤‡,762MF,862MF*/
+    public static final int IPDOME = 40;			/*IPæ ‡æ¸…å¿«çƒ*/
+    public static final int MEGA_IPDOME = 41;     /*IPé«˜æ¸…å¿«çƒ*/
+    public static final int IPMOD = 50;			/*IP æ¨¡å—*/
     public static final int DS71XX_H = 71;			/* DS71XXH_S */
     public static final int DS72XX_H_S = 72;			/* DS72XXH_S */
     public static final int DS73XX_H_S = 73;			/* DS73XXH_S */
@@ -586,173 +603,173 @@ public interface HCNetSDK extends StdCallLibrary {
     public static final int DS91XX_HF_S = 91;             /*DS91XX_HF_S*/
     public static final int DS91XX_HD_S = 92;            /*91XXHD-S(MD)*/
 
-    /* ²Ù×÷ */
-//Ö÷ÀàĞÍ
+    /* æ“ä½œ */
+//ä¸»ç±»å‹
     public static final int MAJOR_OPERATION = 0x3;
-//´ÎÀàĞÍ
-    public static final int MINOR_START_DVR = 0x41; /* ¿ª»ú */
-    public static final int MINOR_STOP_DVR = 0x42;/* ¹Ø»ú */
-    public static final int MINOR_STOP_ABNORMAL = 0x43;/* Òì³£¹Ø»ú */
-    public static final int MINOR_REBOOT_DVR = 0x44;   /*±¾µØÖØÆôÉè±¸*/
-    public static final int MINOR_LOCAL_LOGIN = 0x50; /* ±¾µØµÇÂ½ */
-    public static final int MINOR_LOCAL_LOGOUT = 0x51; /* ±¾µØ×¢ÏúµÇÂ½ */
-    public static final int MINOR_LOCAL_CFG_PARM = 0x52; /* ±¾µØÅäÖÃ²ÎÊı */
-    public static final int MINOR_LOCAL_PLAYBYFILE = 0x53; /* ±¾µØ°´ÎÄ¼ş»Ø·Å»òÏÂÔØ */
-    public static final int MINOR_LOCAL_PLAYBYTIME = 0x54; /* ±¾µØ°´Ê±¼ä»Ø·Å»òÏÂÔØ*/
-    public static final int MINOR_LOCAL_START_REC = 0x55; /* ±¾µØ¿ªÊ¼Â¼Ïñ */
-    public static final int MINOR_LOCAL_STOP_REC = 0x56; /* ±¾µØÍ£Ö¹Â¼Ïñ */
-    public static final int MINOR_LOCAL_PTZCTRL = 0x57; /* ±¾µØÔÆÌ¨¿ØÖÆ */
-    public static final int MINOR_LOCAL_PREVIEW = 0x58;/* ±¾µØÔ¤ÀÀ (±£Áô²»Ê¹ÓÃ)*/
-    public static final int MINOR_LOCAL_MODIFY_TIME = 0x59;/* ±¾µØĞŞ¸ÄÊ±¼ä(±£Áô²»Ê¹ÓÃ) */
-    public static final int MINOR_LOCAL_UPGRADE = 0x5a;/* ±¾µØÉı¼¶ */
-    public static final int MINOR_LOCAL_RECFILE_OUTPUT = 0x5b;   /* ±¾µØ±¸·İÂ¼ÏóÎÄ¼ş */
-    public static final int MINOR_LOCAL_FORMAT_HDD = 0x5c;  /* ±¾µØ³õÊ¼»¯Ó²ÅÌ */
-    public static final int MINOR_LOCAL_CFGFILE_OUTPUT = 0x5d;  /* µ¼³ö±¾µØÅäÖÃÎÄ¼ş */
-    public static final int MINOR_LOCAL_CFGFILE_INPUT = 0x5e;  /* µ¼Èë±¾µØÅäÖÃÎÄ¼ş */
-    public static final int MINOR_LOCAL_COPYFILE = 0x5f;  /* ±¾µØ±¸·İÎÄ¼ş */
-    public static final int MINOR_LOCAL_LOCKFILE = 0x60;  /* ±¾µØËø¶¨Â¼ÏñÎÄ¼ş */
-    public static final int MINOR_LOCAL_UNLOCKFILE = 0x61;   /* ±¾µØ½âËøÂ¼ÏñÎÄ¼ş */
-    public static final int MINOR_LOCAL_DVR_ALARM = 0x62;  /* ±¾µØÊÖ¶¯Çå³ıºÍ´¥·¢±¨¾¯*/
-    public static final int MINOR_IPC_ADD = 0x63;  /* ±¾µØÌí¼ÓIPC */
-    public static final int MINOR_IPC_DEL = 0x64;  /* ±¾µØÉ¾³ıIPC */
-    public static final int MINOR_IPC_SET = 0x65;  /* ±¾µØÉèÖÃIPC */
-    public static final int MINOR_LOCAL_START_BACKUP = 0x66;	/* ±¾µØ¿ªÊ¼±¸·İ */
-    public static final int MINOR_LOCAL_STOP_BACKUP = 0x67;/* ±¾µØÍ£Ö¹±¸·İ*/
-    public static final int MINOR_LOCAL_COPYFILE_START_TIME = 0x68;/* ±¾µØ±¸·İ¿ªÊ¼Ê±¼ä*/
-    public static final int MINOR_LOCAL_COPYFILE_END_TIME = 0x69;	/* ±¾µØ±¸·İ½áÊøÊ±¼ä*/
-    public static final int MINOR_REMOTE_LOGIN = 0x70;/* Ô¶³ÌµÇÂ¼ */
-    public static final int MINOR_REMOTE_LOGOUT = 0x71;/* Ô¶³Ì×¢ÏúµÇÂ½ */
-    public static final int MINOR_REMOTE_START_REC = 0x72;/* Ô¶³Ì¿ªÊ¼Â¼Ïñ */
-    public static final int MINOR_REMOTE_STOP_REC = 0x73;/* Ô¶³ÌÍ£Ö¹Â¼Ïñ */
-    public static final int MINOR_START_TRANS_CHAN = 0x74;/* ¿ªÊ¼Í¸Ã÷´«Êä */
-    public static final int MINOR_STOP_TRANS_CHAN = 0x75; /* Í£Ö¹Í¸Ã÷´«Êä */
-    public static final int MINOR_REMOTE_GET_PARM = 0x76;/* Ô¶³Ì»ñÈ¡²ÎÊı */
-    public static final int MINOR_REMOTE_CFG_PARM = 0x77;/* Ô¶³ÌÅäÖÃ²ÎÊı */
-    public static final int MINOR_REMOTE_GET_STATUS = 0x78;/* Ô¶³Ì»ñÈ¡×´Ì¬ */
-    public static final int MINOR_REMOTE_ARM = 0x79; /* Ô¶³Ì²¼·À */
-    public static final int MINOR_REMOTE_DISARM = 0x7a;/* Ô¶³Ì³··À */
-    public static final int MINOR_REMOTE_REBOOT = 0x7b; /* Ô¶³ÌÖØÆô */
-    public static final int MINOR_START_VT = 0x7c;/* ¿ªÊ¼ÓïÒô¶Ô½² */
-    public static final int MINOR_STOP_VT = 0x7d;/* Í£Ö¹ÓïÒô¶Ô½² */
-    public static final int MINOR_REMOTE_UPGRADE = 0x7e; /* Ô¶³ÌÉı¼¶ */
-    public static final int MINOR_REMOTE_PLAYBYFILE = 0x7f; /* Ô¶³Ì°´ÎÄ¼ş»Ø·Å */
-    public static final int MINOR_REMOTE_PLAYBYTIME = 0x80; /* Ô¶³Ì°´Ê±¼ä»Ø·Å */
-    public static final int MINOR_REMOTE_PTZCTRL = 0x81; /* Ô¶³ÌÔÆÌ¨¿ØÖÆ */
-    public static final int MINOR_REMOTE_FORMAT_HDD = 0x82;  /* Ô¶³Ì¸ñÊ½»¯Ó²ÅÌ */
-    public static final int MINOR_REMOTE_STOP = 0x83;  /* Ô¶³Ì¹Ø»ú */
-    public static final int MINOR_REMOTE_LOCKFILE = 0x84;/* Ô¶³ÌËø¶¨ÎÄ¼ş */
-    public static final int MINOR_REMOTE_UNLOCKFILE = 0x85;/* Ô¶³Ì½âËøÎÄ¼ş */
-    public static final int MINOR_REMOTE_CFGFILE_OUTPUT = 0x86;   /* Ô¶³Ìµ¼³öÅäÖÃÎÄ¼ş */
-    public static final int MINOR_REMOTE_CFGFILE_INTPUT = 0x87;   /* Ô¶³Ìµ¼ÈëÅäÖÃÎÄ¼ş */
-    public static final int MINOR_REMOTE_RECFILE_OUTPUT = 0x88;   /* Ô¶³Ìµ¼³öÂ¼ÏóÎÄ¼ş */
-    public static final int MINOR_REMOTE_DVR_ALARM = 0x89;    /* Ô¶³ÌÊÖ¶¯Çå³ıºÍ´¥·¢±¨¾¯*/
-    public static final int MINOR_REMOTE_IPC_ADD = 0x8a;  /* Ô¶³ÌÌí¼ÓIPC */
-    public static final int MINOR_REMOTE_IPC_DEL = 0x8b;/* Ô¶³ÌÉ¾³ıIPC */
-    public static final int MINOR_REMOTE_IPC_SET = 0x8c; /* Ô¶³ÌÉèÖÃIPC */
-    public static final int MINOR_REBOOT_VCA_LIB = 0x8d;		/*ÖØÆôÖÇÄÜ¿â*/
+//æ¬¡ç±»å‹
+    public static final int MINOR_START_DVR = 0x41; /* å¼€æœº */
+    public static final int MINOR_STOP_DVR = 0x42;/* å…³æœº */
+    public static final int MINOR_STOP_ABNORMAL = 0x43;/* å¼‚å¸¸å…³æœº */
+    public static final int MINOR_REBOOT_DVR = 0x44;   /*æœ¬åœ°é‡å¯è®¾å¤‡*/
+    public static final int MINOR_LOCAL_LOGIN = 0x50; /* æœ¬åœ°ç™»é™† */
+    public static final int MINOR_LOCAL_LOGOUT = 0x51; /* æœ¬åœ°æ³¨é”€ç™»é™† */
+    public static final int MINOR_LOCAL_CFG_PARM = 0x52; /* æœ¬åœ°é…ç½®å‚æ•° */
+    public static final int MINOR_LOCAL_PLAYBYFILE = 0x53; /* æœ¬åœ°æŒ‰æ–‡ä»¶å›æ”¾æˆ–ä¸‹è½½ */
+    public static final int MINOR_LOCAL_PLAYBYTIME = 0x54; /* æœ¬åœ°æŒ‰æ—¶é—´å›æ”¾æˆ–ä¸‹è½½*/
+    public static final int MINOR_LOCAL_START_REC = 0x55; /* æœ¬åœ°å¼€å§‹å½•åƒ */
+    public static final int MINOR_LOCAL_STOP_REC = 0x56; /* æœ¬åœ°åœæ­¢å½•åƒ */
+    public static final int MINOR_LOCAL_PTZCTRL = 0x57; /* æœ¬åœ°äº‘å°æ§åˆ¶ */
+    public static final int MINOR_LOCAL_PREVIEW = 0x58;/* æœ¬åœ°é¢„è§ˆ (ä¿ç•™ä¸ä½¿ç”¨)*/
+    public static final int MINOR_LOCAL_MODIFY_TIME = 0x59;/* æœ¬åœ°ä¿®æ”¹æ—¶é—´(ä¿ç•™ä¸ä½¿ç”¨) */
+    public static final int MINOR_LOCAL_UPGRADE = 0x5a;/* æœ¬åœ°å‡çº§ */
+    public static final int MINOR_LOCAL_RECFILE_OUTPUT = 0x5b;   /* æœ¬åœ°å¤‡ä»½å½•è±¡æ–‡ä»¶ */
+    public static final int MINOR_LOCAL_FORMAT_HDD = 0x5c;  /* æœ¬åœ°åˆå§‹åŒ–ç¡¬ç›˜ */
+    public static final int MINOR_LOCAL_CFGFILE_OUTPUT = 0x5d;  /* å¯¼å‡ºæœ¬åœ°é…ç½®æ–‡ä»¶ */
+    public static final int MINOR_LOCAL_CFGFILE_INPUT = 0x5e;  /* å¯¼å…¥æœ¬åœ°é…ç½®æ–‡ä»¶ */
+    public static final int MINOR_LOCAL_COPYFILE = 0x5f;  /* æœ¬åœ°å¤‡ä»½æ–‡ä»¶ */
+    public static final int MINOR_LOCAL_LOCKFILE = 0x60;  /* æœ¬åœ°é”å®šå½•åƒæ–‡ä»¶ */
+    public static final int MINOR_LOCAL_UNLOCKFILE = 0x61;   /* æœ¬åœ°è§£é”å½•åƒæ–‡ä»¶ */
+    public static final int MINOR_LOCAL_DVR_ALARM = 0x62;  /* æœ¬åœ°æ‰‹åŠ¨æ¸…é™¤å’Œè§¦å‘æŠ¥è­¦*/
+    public static final int MINOR_IPC_ADD = 0x63;  /* æœ¬åœ°æ·»åŠ IPC */
+    public static final int MINOR_IPC_DEL = 0x64;  /* æœ¬åœ°åˆ é™¤IPC */
+    public static final int MINOR_IPC_SET = 0x65;  /* æœ¬åœ°è®¾ç½®IPC */
+    public static final int MINOR_LOCAL_START_BACKUP = 0x66;	/* æœ¬åœ°å¼€å§‹å¤‡ä»½ */
+    public static final int MINOR_LOCAL_STOP_BACKUP = 0x67;/* æœ¬åœ°åœæ­¢å¤‡ä»½*/
+    public static final int MINOR_LOCAL_COPYFILE_START_TIME = 0x68;/* æœ¬åœ°å¤‡ä»½å¼€å§‹æ—¶é—´*/
+    public static final int MINOR_LOCAL_COPYFILE_END_TIME = 0x69;	/* æœ¬åœ°å¤‡ä»½ç»“æŸæ—¶é—´*/
+    public static final int MINOR_REMOTE_LOGIN = 0x70;/* è¿œç¨‹ç™»å½• */
+    public static final int MINOR_REMOTE_LOGOUT = 0x71;/* è¿œç¨‹æ³¨é”€ç™»é™† */
+    public static final int MINOR_REMOTE_START_REC = 0x72;/* è¿œç¨‹å¼€å§‹å½•åƒ */
+    public static final int MINOR_REMOTE_STOP_REC = 0x73;/* è¿œç¨‹åœæ­¢å½•åƒ */
+    public static final int MINOR_START_TRANS_CHAN = 0x74;/* å¼€å§‹é€æ˜ä¼ è¾“ */
+    public static final int MINOR_STOP_TRANS_CHAN = 0x75; /* åœæ­¢é€æ˜ä¼ è¾“ */
+    public static final int MINOR_REMOTE_GET_PARM = 0x76;/* è¿œç¨‹è·å–å‚æ•° */
+    public static final int MINOR_REMOTE_CFG_PARM = 0x77;/* è¿œç¨‹é…ç½®å‚æ•° */
+    public static final int MINOR_REMOTE_GET_STATUS = 0x78;/* è¿œç¨‹è·å–çŠ¶æ€ */
+    public static final int MINOR_REMOTE_ARM = 0x79; /* è¿œç¨‹å¸ƒé˜² */
+    public static final int MINOR_REMOTE_DISARM = 0x7a;/* è¿œç¨‹æ’¤é˜² */
+    public static final int MINOR_REMOTE_REBOOT = 0x7b; /* è¿œç¨‹é‡å¯ */
+    public static final int MINOR_START_VT = 0x7c;/* å¼€å§‹è¯­éŸ³å¯¹è®² */
+    public static final int MINOR_STOP_VT = 0x7d;/* åœæ­¢è¯­éŸ³å¯¹è®² */
+    public static final int MINOR_REMOTE_UPGRADE = 0x7e; /* è¿œç¨‹å‡çº§ */
+    public static final int MINOR_REMOTE_PLAYBYFILE = 0x7f; /* è¿œç¨‹æŒ‰æ–‡ä»¶å›æ”¾ */
+    public static final int MINOR_REMOTE_PLAYBYTIME = 0x80; /* è¿œç¨‹æŒ‰æ—¶é—´å›æ”¾ */
+    public static final int MINOR_REMOTE_PTZCTRL = 0x81; /* è¿œç¨‹äº‘å°æ§åˆ¶ */
+    public static final int MINOR_REMOTE_FORMAT_HDD = 0x82;  /* è¿œç¨‹æ ¼å¼åŒ–ç¡¬ç›˜ */
+    public static final int MINOR_REMOTE_STOP = 0x83;  /* è¿œç¨‹å…³æœº */
+    public static final int MINOR_REMOTE_LOCKFILE = 0x84;/* è¿œç¨‹é”å®šæ–‡ä»¶ */
+    public static final int MINOR_REMOTE_UNLOCKFILE = 0x85;/* è¿œç¨‹è§£é”æ–‡ä»¶ */
+    public static final int MINOR_REMOTE_CFGFILE_OUTPUT = 0x86;   /* è¿œç¨‹å¯¼å‡ºé…ç½®æ–‡ä»¶ */
+    public static final int MINOR_REMOTE_CFGFILE_INTPUT = 0x87;   /* è¿œç¨‹å¯¼å…¥é…ç½®æ–‡ä»¶ */
+    public static final int MINOR_REMOTE_RECFILE_OUTPUT = 0x88;   /* è¿œç¨‹å¯¼å‡ºå½•è±¡æ–‡ä»¶ */
+    public static final int MINOR_REMOTE_DVR_ALARM = 0x89;    /* è¿œç¨‹æ‰‹åŠ¨æ¸…é™¤å’Œè§¦å‘æŠ¥è­¦*/
+    public static final int MINOR_REMOTE_IPC_ADD = 0x8a;  /* è¿œç¨‹æ·»åŠ IPC */
+    public static final int MINOR_REMOTE_IPC_DEL = 0x8b;/* è¿œç¨‹åˆ é™¤IPC */
+    public static final int MINOR_REMOTE_IPC_SET = 0x8c; /* è¿œç¨‹è®¾ç½®IPC */
+    public static final int MINOR_REBOOT_VCA_LIB = 0x8d;		/*é‡å¯æ™ºèƒ½åº“*/
 
-    /*ÈÕÖ¾¸½¼ÓĞÅÏ¢*/
-//Ö÷ÀàĞÍ
-    public static final int MAJOR_INFORMATION = 0x4;   /*¸½¼ÓĞÅÏ¢*/
-//´ÎÀàĞÍ
-    public static final int MINOR_HDD_INFO = 0xa1;/*Ó²ÅÌĞÅÏ¢*/
-    public static final int MINOR_SMART_INFO = 0xa2;   /*SMARTĞÅÏ¢*/
-    public static final int MINOR_REC_START = 0xa3;   /*¿ªÊ¼Â¼Ïñ*/
-    public static final int MINOR_REC_STOP = 0xa4;/*Í£Ö¹Â¼Ïñ*/
-    public static final int MINOR_REC_OVERDUE = 0xa5;/*¹ıÆÚÂ¼ÏñÉ¾³ı*/
-    public static final int MINOR_LINK_START = 0xa6; // ivms£¬¶àÂ·½âÂëÆ÷µÈÁ¬½ÓÇ°¶ËÉè±¸
-    public static final int MINOR_LINK_STOP = 0xa7;// ivms£¬¶àÂ·½âÂëÆ÷µÈ¶Ï¿ªÇ°¶ËÉè±¸¡¡
-//µ±ÈÕÖ¾µÄÖ÷ÀàĞÍÎªMAJOR_OPERATION=03£¬´ÎÀàĞÍÎªMINOR_LOCAL_CFG_PARM=0x52»òÕßMINOR_REMOTE_GET_PARM=0x76»òÕßMINOR_REMOTE_CFG_PARM=0x77Ê±£¬dwParaType:²ÎÊıÀàĞÍÓĞĞ§£¬Æäº¬ÒåÈçÏÂ£º
+    /*æ—¥å¿—é™„åŠ ä¿¡æ¯*/
+//ä¸»ç±»å‹
+    public static final int MAJOR_INFORMATION = 0x4;   /*é™„åŠ ä¿¡æ¯*/
+//æ¬¡ç±»å‹
+    public static final int MINOR_HDD_INFO = 0xa1;/*ç¡¬ç›˜ä¿¡æ¯*/
+    public static final int MINOR_SMART_INFO = 0xa2;   /*SMARTä¿¡æ¯*/
+    public static final int MINOR_REC_START = 0xa3;   /*å¼€å§‹å½•åƒ*/
+    public static final int MINOR_REC_STOP = 0xa4;/*åœæ­¢å½•åƒ*/
+    public static final int MINOR_REC_OVERDUE = 0xa5;/*è¿‡æœŸå½•åƒåˆ é™¤*/
+    public static final int MINOR_LINK_START = 0xa6; // ivmsï¼Œå¤šè·¯è§£ç å™¨ç­‰è¿æ¥å‰ç«¯è®¾å¤‡
+    public static final int MINOR_LINK_STOP = 0xa7;// ivmsï¼Œå¤šè·¯è§£ç å™¨ç­‰æ–­å¼€å‰ç«¯è®¾å¤‡ã€€
+//å½“æ—¥å¿—çš„ä¸»ç±»å‹ä¸ºMAJOR_OPERATION=03ï¼Œæ¬¡ç±»å‹ä¸ºMINOR_LOCAL_CFG_PARM=0x52æˆ–è€…MINOR_REMOTE_GET_PARM=0x76æˆ–è€…MINOR_REMOTE_CFG_PARM=0x77æ—¶ï¼ŒdwParaType:å‚æ•°ç±»å‹æœ‰æ•ˆï¼Œå…¶å«ä¹‰å¦‚ä¸‹ï¼š
     public static final int PARA_VIDEOOUT = 0x1;
     public static final int PARA_IMAGE = 0x2;
     public static final int PARA_ENCODE = 0x4;
     public static final int PARA_NETWORK = 0x8;
     public static final int PARA_ALARM = 0x10;
     public static final int PARA_EXCEPTION = 0x20;
-    public static final int PARA_DECODER = 0x40; /*½âÂëÆ÷*/
+    public static final int PARA_DECODER = 0x40; /*è§£ç å™¨*/
     public static final int PARA_RS232 = 0x80;
     public static final int PARA_PREVIEW = 0x100;
     public static final int PARA_SECURITY = 0x200;
     public static final int PARA_DATETIME = 0x400;
-    public static final int PARA_FRAMETYPE = 0x800;  /*Ö¡¸ñÊ½*/
-    public static final int PARA_VCA_RULE = 0x1000;    //ĞĞÎª¹æÔò
+    public static final int PARA_FRAMETYPE = 0x800;  /*å¸§æ ¼å¼*/
+    public static final int PARA_VCA_RULE = 0x1000;    //è¡Œä¸ºè§„åˆ™
 //SDK_V222
-//ÖÇÄÜÉè±¸ÀàĞÍ
-    public static final int DS6001_HF_B = 60;//ĞĞÎª·ÖÎö£ºDS6001-HF/B
-    public static final int DS6001_HF_P = 61;//³µÅÆÊ¶±ğ£ºDS6001-HF/P
-    public static final int DS6002_HF_B = 62;//Ë«»ú¸ú×Ù£ºDS6002-HF/B
-    public static final int DS6101_HF_B = 63;//ĞĞÎª·ÖÎö£ºDS6101-HF/B
-    public static final int IVMS_2000 = 64;//ÖÇÄÜ·ÖÎöÒÇ
-    public static final int DS9000_IVS = 65;//9000ÏµÁĞÖÇÄÜDVR
-    public static final int DS8004_AHL_A = 66;//ÖÇÄÜATM, DS8004AHL-S/A
-    public static final int DS6101_HF_P = 67;//³µÅÆÊ¶±ğ£ºDS6101-HF/P
-//ÄÜÁ¦»ñÈ¡ÃüÁî
-    public static final int VCA_DEV_ABILITY = 0x100;//Éè±¸ÖÇÄÜ·ÖÎöµÄ×ÜÄÜÁ¦
-    public static final int VCA_CHAN_ABILITY = 0x110;//ĞĞÎª·ÖÎöÄÜÁ¦
-//»ñÈ¡/ÉèÖÃ´ó½Ó¿Ú²ÎÊıÅäÖÃÃüÁî
-//³µÅÆÊ¶±ğ£¨NET_VCA_PLATE_CFG£©;
-    public static final int NET_DVR_SET_PLATECFG = 150 ;//ÉèÖÃ³µÅÆÊ¶±ğ²ÎÊı
+//æ™ºèƒ½è®¾å¤‡ç±»å‹
+    public static final int DS6001_HF_B = 60;//è¡Œä¸ºåˆ†æï¼šDS6001-HF/B
+    public static final int DS6001_HF_P = 61;//è½¦ç‰Œè¯†åˆ«ï¼šDS6001-HF/P
+    public static final int DS6002_HF_B = 62;//åŒæœºè·Ÿè¸ªï¼šDS6002-HF/B
+    public static final int DS6101_HF_B = 63;//è¡Œä¸ºåˆ†æï¼šDS6101-HF/B
+    public static final int IVMS_2000 = 64;//æ™ºèƒ½åˆ†æä»ª
+    public static final int DS9000_IVS = 65;//9000ç³»åˆ—æ™ºèƒ½DVR
+    public static final int DS8004_AHL_A = 66;//æ™ºèƒ½ATM, DS8004AHL-S/A
+    public static final int DS6101_HF_P = 67;//è½¦ç‰Œè¯†åˆ«ï¼šDS6101-HF/P
+//èƒ½åŠ›è·å–å‘½ä»¤
+    public static final int VCA_DEV_ABILITY = 0x100;//è®¾å¤‡æ™ºèƒ½åˆ†æçš„æ€»èƒ½åŠ›
+    public static final int VCA_CHAN_ABILITY = 0x110;//è¡Œä¸ºåˆ†æèƒ½åŠ›
+//è·å–/è®¾ç½®å¤§æ¥å£å‚æ•°é…ç½®å‘½ä»¤
+//è½¦ç‰Œè¯†åˆ«ï¼ˆNET_VCA_PLATE_CFGï¼‰;
+    public static final int NET_DVR_SET_PLATECFG = 150 ;//è®¾ç½®è½¦ç‰Œè¯†åˆ«å‚æ•°
 
-    public static final int NET_DVR_GET_PLATECFG = 151;	//»ñÈ¡³µÅÆÊ¶±ğ²ÎÊı
-//ĞĞÎª¶ÔÓ¦£¨NET_VCA_RULECFG£©
-    public static final int NET_DVR_SET_RULECFG = 152;	//ÉèÖÃĞĞÎª·ÖÎö¹æÔò
-    public static final int NET_DVR_GET_RULECFG = 153;//»ñÈ¡ĞĞÎª·ÖÎö¹æÔò,
-//Ë«ÉãÏñ»ú±ê¶¨²ÎÊı£¨NET_DVR_LF_CFG£©
-    public static final int NET_DVR_SET_LF_CFG = 160;//ÉèÖÃË«ÉãÏñ»úµÄÅäÖÃ²ÎÊı
-    public static final int NET_DVR_GET_LF_CFG = 161;//»ñÈ¡Ë«ÉãÏñ»úµÄÅäÖÃ²ÎÊı
-//ÖÇÄÜ·ÖÎöÒÇÈ¡Á÷ÅäÖÃ½á¹¹
-    public static final int NET_DVR_SET_IVMS_STREAMCFG = 162;	//ÉèÖÃÖÇÄÜ·ÖÎöÒÇÈ¡Á÷²ÎÊı
-    public static final int NET_DVR_GET_IVMS_STREAMCFG = 163;	//»ñÈ¡ÖÇÄÜ·ÖÎöÒÇÈ¡Á÷²ÎÊı
-//ÖÇÄÜ¿ØÖÆ²ÎÊı½á¹¹
-    public static final int NET_DVR_SET_VCA_CTRLCFG = 164; //ÉèÖÃÖÇÄÜ¿ØÖÆ²ÎÊı
-    public static final int NET_DVR_GET_VCA_CTRLCFG = 165;	 //»ñÈ¡ÖÇÄÜ¿ØÖÆ²ÎÊı
-//ÆÁ±ÎÇøÓòNET_VCA_MASK_REGION_LIST
-    public static final int NET_DVR_SET_VCA_MASK_REGION = 166;	 //ÉèÖÃÆÁ±ÎÇøÓò²ÎÊı
-    public static final int NET_DVR_GET_VCA_MASK_REGION = 167;	 //»ñÈ¡ÆÁ±ÎÇøÓò²ÎÊı
-//ATM½øÈëÇøÓò NET_VCA_ENTER_REGION
-    public static final int NET_DVR_SET_VCA_ENTER_REGION = 168; //ÉèÖÃ½øÈëÇøÓò²ÎÊı
-    public static final int NET_DVR_GET_VCA_ENTER_REGION = 169;	 //»ñÈ¡½øÈëÇøÓò²ÎÊı
-//±ê¶¨ÏßÅäÖÃNET_VCA_LINE_SEGMENT_LIST
-    public static final int NET_DVR_SET_VCA_LINE_SEGMENT = 170;	 //ÉèÖÃ±ê¶¨Ïß
-    public static final int NET_DVR_GET_VCA_LINE_SEGMENT = 171;	 //»ñÈ¡±ê¶¨Ïß
-// ivmsÆÁ±ÎÇøÓòNET_IVMS_MASK_REGION_LIST
-    public static final int NET_DVR_SET_IVMS_MASK_REGION = 172;	 //ÉèÖÃIVMSÆÁ±ÎÇøÓò²ÎÊı
-    public static final int NET_DVR_GET_IVMS_MASK_REGION = 173;	 //»ñÈ¡IVMSÆÁ±ÎÇøÓò²ÎÊı
-// ivms½øÈë¼ì²âÇøÓòNET_IVMS_ENTER_REGION
-    public static final int NET_DVR_SET_IVMS_ENTER_REGION = 174; //ÉèÖÃIVMS½øÈëÇøÓò²ÎÊı
-    public static final int NET_DVR_GET_IVMS_ENTER_REGION = 175; //»ñÈ¡IVMS½øÈëÇøÓò²ÎÊı
-    public static final int NET_DVR_SET_IVMS_BEHAVIORCFG = 176;//ÉèÖÃÖÇÄÜ·ÖÎöÒÇĞĞÎª¹æÔò²ÎÊı
-    public static final int NET_DVR_GET_IVMS_BEHAVIORCFG = 177;	//»ñÈ¡ÖÇÄÜ·ÖÎöÒÇĞĞÎª¹æÔò²ÎÊı
+    public static final int NET_DVR_GET_PLATECFG = 151;	//è·å–è½¦ç‰Œè¯†åˆ«å‚æ•°
+//è¡Œä¸ºå¯¹åº”ï¼ˆNET_VCA_RULECFGï¼‰
+    public static final int NET_DVR_SET_RULECFG = 152;	//è®¾ç½®è¡Œä¸ºåˆ†æè§„åˆ™
+    public static final int NET_DVR_GET_RULECFG = 153;//è·å–è¡Œä¸ºåˆ†æè§„åˆ™,
+//åŒæ‘„åƒæœºæ ‡å®šå‚æ•°ï¼ˆNET_DVR_LF_CFGï¼‰
+    public static final int NET_DVR_SET_LF_CFG = 160;//è®¾ç½®åŒæ‘„åƒæœºçš„é…ç½®å‚æ•°
+    public static final int NET_DVR_GET_LF_CFG = 161;//è·å–åŒæ‘„åƒæœºçš„é…ç½®å‚æ•°
+//æ™ºèƒ½åˆ†æä»ªå–æµé…ç½®ç»“æ„
+    public static final int NET_DVR_SET_IVMS_STREAMCFG = 162;	//è®¾ç½®æ™ºèƒ½åˆ†æä»ªå–æµå‚æ•°
+    public static final int NET_DVR_GET_IVMS_STREAMCFG = 163;	//è·å–æ™ºèƒ½åˆ†æä»ªå–æµå‚æ•°
+//æ™ºèƒ½æ§åˆ¶å‚æ•°ç»“æ„
+    public static final int NET_DVR_SET_VCA_CTRLCFG = 164; //è®¾ç½®æ™ºèƒ½æ§åˆ¶å‚æ•°
+    public static final int NET_DVR_GET_VCA_CTRLCFG = 165;	 //è·å–æ™ºèƒ½æ§åˆ¶å‚æ•°
+//å±è”½åŒºåŸŸNET_VCA_MASK_REGION_LIST
+    public static final int NET_DVR_SET_VCA_MASK_REGION = 166;	 //è®¾ç½®å±è”½åŒºåŸŸå‚æ•°
+    public static final int NET_DVR_GET_VCA_MASK_REGION = 167;	 //è·å–å±è”½åŒºåŸŸå‚æ•°
+//ATMè¿›å…¥åŒºåŸŸ NET_VCA_ENTER_REGION
+    public static final int NET_DVR_SET_VCA_ENTER_REGION = 168; //è®¾ç½®è¿›å…¥åŒºåŸŸå‚æ•°
+    public static final int NET_DVR_GET_VCA_ENTER_REGION = 169;	 //è·å–è¿›å…¥åŒºåŸŸå‚æ•°
+//æ ‡å®šçº¿é…ç½®NET_VCA_LINE_SEGMENT_LIST
+    public static final int NET_DVR_SET_VCA_LINE_SEGMENT = 170;	 //è®¾ç½®æ ‡å®šçº¿
+    public static final int NET_DVR_GET_VCA_LINE_SEGMENT = 171;	 //è·å–æ ‡å®šçº¿
+// ivmså±è”½åŒºåŸŸNET_IVMS_MASK_REGION_LIST
+    public static final int NET_DVR_SET_IVMS_MASK_REGION = 172;	 //è®¾ç½®IVMSå±è”½åŒºåŸŸå‚æ•°
+    public static final int NET_DVR_GET_IVMS_MASK_REGION = 173;	 //è·å–IVMSå±è”½åŒºåŸŸå‚æ•°
+// ivmsè¿›å…¥æ£€æµ‹åŒºåŸŸNET_IVMS_ENTER_REGION
+    public static final int NET_DVR_SET_IVMS_ENTER_REGION = 174; //è®¾ç½®IVMSè¿›å…¥åŒºåŸŸå‚æ•°
+    public static final int NET_DVR_GET_IVMS_ENTER_REGION = 175; //è·å–IVMSè¿›å…¥åŒºåŸŸå‚æ•°
+    public static final int NET_DVR_SET_IVMS_BEHAVIORCFG = 176;//è®¾ç½®æ™ºèƒ½åˆ†æä»ªè¡Œä¸ºè§„åˆ™å‚æ•°
+    public static final int NET_DVR_GET_IVMS_BEHAVIORCFG = 177;	//è·å–æ™ºèƒ½åˆ†æä»ªè¡Œä¸ºè§„åˆ™å‚æ•°
 
 
 
-    /**********************Éè±¸ÀàĞÍ end***********************/
+    /**********************è®¾å¤‡ç±»å‹ end***********************/
 
 /*************************************************
-²ÎÊıÅäÖÃ½á¹¹¡¢²ÎÊı(ÆäÖĞ_V30Îª9000ĞÂÔö)
+å‚æ•°é…ç½®ç»“æ„ã€å‚æ•°(å…¶ä¸­_V30ä¸º9000æ–°å¢)
 **************************************************/
 
 /////////////////////////////////////////////////////////////////////////
-//Ğ£Ê±½á¹¹²ÎÊı
-    public static class NET_DVR_TIME extends Structure {//Ğ£Ê±½á¹¹²ÎÊı
-        public int dwYear;		//Äê
-        public int dwMonth;		//ÔÂ
-        public int dwDay;		//ÈÕ
-        public int dwHour;		//Ê±
-        public int dwMinute;		//·Ö
-        public int dwSecond;		//Ãë
+//æ ¡æ—¶ç»“æ„å‚æ•°
+    public static class NET_DVR_TIME extends Structure {//æ ¡æ—¶ç»“æ„å‚æ•°
+        public int dwYear;		//å¹´
+        public int dwMonth;		//æœˆ
+        public int dwDay;		//æ—¥
+        public int dwHour;		//æ—¶
+        public int dwMinute;		//åˆ†
+        public int dwSecond;		//ç§’
 
       public String toString() {
             return "NET_DVR_TIME.dwYear: " + dwYear + "\n" + "NET_DVR_TIME.dwMonth: \n" + dwMonth + "\n" + "NET_DVR_TIME.dwDay: \n" + dwDay + "\n" + "NET_DVR_TIME.dwHour: \n" + dwHour + "\n" + "NET_DVR_TIME.dwMinute: \n" + dwMinute + "\n" + "NET_DVR_TIME.dwSecond: \n" + dwSecond;
         }
 
-        //ÓÃÓÚÁĞ±íÖĞÏÔÊ¾
+        //ç”¨äºåˆ—è¡¨ä¸­æ˜¾ç¤º
         public String toStringTime()
         {
             return  String.format("%02d/%02d/%02d%02d:%02d:%02d", dwYear, dwMonth, dwDay, dwHour, dwMinute, dwSecond);
         }
 
-        //´æ´¢ÎÄ¼şÃûÊ¹ÓÃ
+        //å­˜å‚¨æ–‡ä»¶åä½¿ç”¨
          public String toStringTitle()
         {
             return  String.format("Time%02d%02d%02d%02d%02d%02d", dwYear, dwMonth, dwDay, dwHour, dwMinute, dwSecond);
@@ -760,53 +777,53 @@ public interface HCNetSDK extends StdCallLibrary {
     }
 
     public static class NET_DVR_SCHEDTIME extends Structure {
-        public byte byStartHour;	//¿ªÊ¼Ê±¼ä
+        public byte byStartHour;	//å¼€å§‹æ—¶é—´
         public byte byStartMin;
-        public byte byStopHour;	        //½áÊøÊ±¼ä
+        public byte byStopHour;	        //ç»“æŸæ—¶é—´
         public byte byStopMin;
     }
 
   public static class NET_DVR_HANDLEEXCEPTION_V30 extends Structure {
-	public int dwHandleType;	/*´¦Àí·½Ê½,´¦Àí·½Ê½µÄ"»ò"½á¹û*//*0x00: ÎŞÏìÓ¦*//*0x01: ¼àÊÓÆ÷ÉÏ¾¯¸æ*//*0x02: ÉùÒô¾¯¸æ*//*0x04: ÉÏ´«ÖĞĞÄ*/	/*0x08: ´¥·¢±¨¾¯Êä³ö*//*0x20: ´¥·¢×¥Í¼*/  //(JPEG¶¨ÖÆ)
-	public byte[] byRelAlarmOut = new byte[MAX_ALARMOUT_V30];  //±¨¾¯´¥·¢µÄÊä³öÍ¨µÀ,±¨¾¯´¥·¢µÄÊä³ö,Îª1±íÊ¾´¥·¢¸ÃÊä³ö
+	public int dwHandleType;	/*å¤„ç†æ–¹å¼,å¤„ç†æ–¹å¼çš„"æˆ–"ç»“æœ*//*0x00: æ— å“åº”*//*0x01: ç›‘è§†å™¨ä¸Šè­¦å‘Š*//*0x02: å£°éŸ³è­¦å‘Š*//*0x04: ä¸Šä¼ ä¸­å¿ƒ*/	/*0x08: è§¦å‘æŠ¥è­¦è¾“å‡º*//*0x20: è§¦å‘æŠ“å›¾*/  //(JPEGå®šåˆ¶)
+	public byte[] byRelAlarmOut = new byte[MAX_ALARMOUT_V30];  //æŠ¥è­¦è§¦å‘çš„è¾“å‡ºé€šé“,æŠ¥è­¦è§¦å‘çš„è¾“å‡º,ä¸º1è¡¨ç¤ºè§¦å‘è¯¥è¾“å‡º
 }
 
-//±¨¾¯ºÍÒì³£´¦Àí½á¹¹(×Ó½á¹¹)(¶à´¦Ê¹ÓÃ)
+//æŠ¥è­¦å’Œå¼‚å¸¸å¤„ç†ç»“æ„(å­ç»“æ„)(å¤šå¤„ä½¿ç”¨)
   public static class NET_DVR_HANDLEEXCEPTION extends Structure {
-	public int	dwHandleType;			/*´¦Àí·½Ê½,´¦Àí·½Ê½µÄ"»ò"½á¹û*//*0x00: ÎŞÏìÓ¦*//*0x01: ¼àÊÓÆ÷ÉÏ¾¯¸æ*//*0x02: ÉùÒô¾¯¸æ*//*0x04: ÉÏ´«ÖĞĞÄ*/	/*0x08: ´¥·¢±¨¾¯Êä³ö*//*0x20: ´¥·¢×¥Í¼*/  //(JPEG¶¨ÖÆ)
-	public byte[]  byRelAlarmOut = new byte[MAX_ALARMOUT];  //±¨¾¯´¥·¢µÄÊä³öÍ¨µÀ,±¨¾¯´¥·¢µÄÊä³ö,Îª1±íÊ¾´¥·¢¸ÃÊä³ö
+	public int	dwHandleType;			/*å¤„ç†æ–¹å¼,å¤„ç†æ–¹å¼çš„"æˆ–"ç»“æœ*//*0x00: æ— å“åº”*//*0x01: ç›‘è§†å™¨ä¸Šè­¦å‘Š*//*0x02: å£°éŸ³è­¦å‘Š*//*0x04: ä¸Šä¼ ä¸­å¿ƒ*/	/*0x08: è§¦å‘æŠ¥è­¦è¾“å‡º*//*0x20: è§¦å‘æŠ“å›¾*/  //(JPEGå®šåˆ¶)
+	public byte[]  byRelAlarmOut = new byte[MAX_ALARMOUT];  //æŠ¥è­¦è§¦å‘çš„è¾“å‡ºé€šé“,æŠ¥è­¦è§¦å‘çš„è¾“å‡º,ä¸º1è¡¨ç¤ºè§¦å‘è¯¥è¾“å‡º
 }
 
-//DVRÉè±¸²ÎÊı
+//DVRè®¾å¤‡å‚æ•°
   public static class NET_DVR_DEVICECFG extends Structure {
         public int dwSize;
-        public byte[] sDVRName = new byte[NAME_LEN];     //DVRÃû³Æ
-        public int dwDVRID;				 //DVR ID,ÓÃÓÚÒ£¿ØÆ÷ //V1.4(0-99), V1.5(0-255)
-        public int dwRecycleRecord;		         //ÊÇ·ñÑ­»·Â¼Ïñ,0:²»ÊÇ; 1:ÊÇ
-        //ÒÔÏÂ²»¿É¸ü¸Ä
-        public byte[] sSerialNumber = new byte[SERIALNO_LEN];  //ĞòÁĞºÅ
-        public int dwSoftwareVersion;			       //Èí¼ş°æ±¾ºÅ,¸ß16Î»ÊÇÖ÷°æ±¾,µÍ16Î»ÊÇ´Î°æ±¾
-        public int dwSoftwareBuildDate;			        //Èí¼şÉú³ÉÈÕÆÚ,0xYYYYMMDD
-        public int dwDSPSoftwareVersion;		        //DSPÈí¼ş°æ±¾,¸ß16Î»ÊÇÖ÷°æ±¾,µÍ16Î»ÊÇ´Î°æ±¾
-        public int dwDSPSoftwareBuildDate;		        // DSPÈí¼şÉú³ÉÈÕÆÚ,0xYYYYMMDD
-        public int dwPanelVersion;				// Ç°Ãæ°å°æ±¾,¸ß16Î»ÊÇÖ÷°æ±¾,µÍ16Î»ÊÇ´Î°æ±¾
-        public int dwHardwareVersion;	        // Ó²¼ş°æ±¾,¸ß16Î»ÊÇÖ÷°æ±¾,µÍ16Î»ÊÇ´Î°æ±¾
-        public byte byAlarmInPortNum;		//DVR±¨¾¯ÊäÈë¸öÊı
-        public byte byAlarmOutPortNum;		//DVR±¨¾¯Êä³ö¸öÊı
-        public byte byRS232Num;			//DVR 232´®¿Ú¸öÊı
-        public byte byRS485Num;			//DVR 485´®¿Ú¸öÊı
-        public byte byNetworkPortNum;		//ÍøÂç¿Ú¸öÊı
-        public byte byDiskCtrlNum;			//DVR Ó²ÅÌ¿ØÖÆÆ÷¸öÊı
-        public byte byDiskNum;				//DVR Ó²ÅÌ¸öÊı
-        public byte byDVRType;				//DVRÀàĞÍ, 1:DVR 2:ATM DVR 3:DVS ......
-        public byte byChanNum;				//DVR Í¨µÀ¸öÊı
-        public byte byStartChan;			//ÆğÊ¼Í¨µÀºÅ,ÀıÈçDVS-1,DVR - 1
-        public byte byDecordChans;			//DVR ½âÂëÂ·Êı
-        public byte byVGANum;				//VGA¿ÚµÄ¸öÊı
-        public byte byUSBNum;				//USB¿ÚµÄ¸öÊı
-        public byte byAuxoutNum;			//¸¨¿ÚµÄ¸öÊı
-        public byte byAudioNum;			        //ÓïÒô¿ÚµÄ¸öÊı
-        public byte byIPChanNum;			//×î´óÊı×ÖÍ¨µÀÊı
+        public byte[] sDVRName = new byte[NAME_LEN];     //DVRåç§°
+        public int dwDVRID;				 //DVR ID,ç”¨äºé¥æ§å™¨ //V1.4(0-99), V1.5(0-255)
+        public int dwRecycleRecord;		         //æ˜¯å¦å¾ªç¯å½•åƒ,0:ä¸æ˜¯; 1:æ˜¯
+        //ä»¥ä¸‹ä¸å¯æ›´æ”¹
+        public byte[] sSerialNumber = new byte[SERIALNO_LEN];  //åºåˆ—å·
+        public int dwSoftwareVersion;			       //è½¯ä»¶ç‰ˆæœ¬å·,é«˜16ä½æ˜¯ä¸»ç‰ˆæœ¬,ä½16ä½æ˜¯æ¬¡ç‰ˆæœ¬
+        public int dwSoftwareBuildDate;			        //è½¯ä»¶ç”Ÿæˆæ—¥æœŸ,0xYYYYMMDD
+        public int dwDSPSoftwareVersion;		        //DSPè½¯ä»¶ç‰ˆæœ¬,é«˜16ä½æ˜¯ä¸»ç‰ˆæœ¬,ä½16ä½æ˜¯æ¬¡ç‰ˆæœ¬
+        public int dwDSPSoftwareBuildDate;		        // DSPè½¯ä»¶ç”Ÿæˆæ—¥æœŸ,0xYYYYMMDD
+        public int dwPanelVersion;				// å‰é¢æ¿ç‰ˆæœ¬,é«˜16ä½æ˜¯ä¸»ç‰ˆæœ¬,ä½16ä½æ˜¯æ¬¡ç‰ˆæœ¬
+        public int dwHardwareVersion;	        // ç¡¬ä»¶ç‰ˆæœ¬,é«˜16ä½æ˜¯ä¸»ç‰ˆæœ¬,ä½16ä½æ˜¯æ¬¡ç‰ˆæœ¬
+        public byte byAlarmInPortNum;		//DVRæŠ¥è­¦è¾“å…¥ä¸ªæ•°
+        public byte byAlarmOutPortNum;		//DVRæŠ¥è­¦è¾“å‡ºä¸ªæ•°
+        public byte byRS232Num;			//DVR 232ä¸²å£ä¸ªæ•°
+        public byte byRS485Num;			//DVR 485ä¸²å£ä¸ªæ•°
+        public byte byNetworkPortNum;		//ç½‘ç»œå£ä¸ªæ•°
+        public byte byDiskCtrlNum;			//DVR ç¡¬ç›˜æ§åˆ¶å™¨ä¸ªæ•°
+        public byte byDiskNum;				//DVR ç¡¬ç›˜ä¸ªæ•°
+        public byte byDVRType;				//DVRç±»å‹, 1:DVR 2:ATM DVR 3:DVS ......
+        public byte byChanNum;				//DVR é€šé“ä¸ªæ•°
+        public byte byStartChan;			//èµ·å§‹é€šé“å·,ä¾‹å¦‚DVS-1,DVR - 1
+        public byte byDecordChans;			//DVR è§£ç è·¯æ•°
+        public byte byVGANum;				//VGAå£çš„ä¸ªæ•°
+        public byte byUSBNum;				//USBå£çš„ä¸ªæ•°
+        public byte byAuxoutNum;			//è¾…å£çš„ä¸ªæ•°
+        public byte byAudioNum;			        //è¯­éŸ³å£çš„ä¸ªæ•°
+        public byte byIPChanNum;			//æœ€å¤§æ•°å­—é€šé“æ•°
     }
 
 public static class NET_DVR_IPADDR extends Structure {
@@ -819,7 +836,7 @@ public static class NET_DVR_IPADDR extends Structure {
     }
 
 
-//ÍøÂçÊı¾İ½á¹¹(×Ó½á¹¹)(9000À©Õ¹)
+//ç½‘ç»œæ•°æ®ç»“æ„(å­ç»“æ„)(9000æ‰©å±•)
     public static class NET_DVR_ETHERNET_V30 extends Structure {
         public NET_DVR_IPADDR struDVRIP;
         public NET_DVR_IPADDR struDVRIPMask;
@@ -833,12 +850,12 @@ public static class NET_DVR_IPADDR extends Structure {
         }
     }
 
-    public static class NET_DVR_ETHERNET extends Structure {//ÍøÂçÊı¾İ½á¹¹(×Ó½á¹¹)
-	public byte[]  sDVRIP = new byte[16];                    //DVR IPµØÖ·
-	public byte[]  sDVRIPMask = new byte[16];                //DVR IPµØÖ·ÑÚÂë
-	public int dwNetInterface;               //ÍøÂç½Ó¿Ú 1-10MBase-T 2-10MBase-TÈ«Ë«¹¤ 3-100MBase-TX 4-100MÈ«Ë«¹¤ 5-10M/100M×ÔÊÊÓ¦
-	public short wDVRPort;		                //¶Ë¿ÚºÅ
-	public byte[]  byMACAddr = new byte[MACADDR_LEN];		//·şÎñÆ÷µÄÎïÀíµØÖ·
+    public static class NET_DVR_ETHERNET extends Structure {//ç½‘ç»œæ•°æ®ç»“æ„(å­ç»“æ„)
+	public byte[]  sDVRIP = new byte[16];                    //DVR IPåœ°å€
+	public byte[]  sDVRIPMask = new byte[16];                //DVR IPåœ°å€æ©ç 
+	public int dwNetInterface;               //ç½‘ç»œæ¥å£ 1-10MBase-T 2-10MBase-Tå…¨åŒå·¥ 3-100MBase-TX 4-100Må…¨åŒå·¥ 5-10M/100Mè‡ªé€‚åº”
+	public short wDVRPort;		                //ç«¯å£å·
+	public byte[]  byMACAddr = new byte[MACADDR_LEN];		//æœåŠ¡å™¨çš„ç‰©ç†åœ°å€
 }
 
     public static class NET_DVR_PPPOECFG extends Structure {//PPPoe
@@ -873,23 +890,23 @@ public static class NET_DVR_IPADDR extends Structure {
     }
 
 
- public static class NET_DVR_NETCFG extends Structure {//ÍøÂçÅäÖÃ½á¹¹
+ public static class NET_DVR_NETCFG extends Structure {//ç½‘ç»œé…ç½®ç»“æ„
 	public int dwSize;
-	public NET_DVR_ETHERNET[] struEtherNet = new NET_DVR_ETHERNET[MAX_ETHERNET];		/* ÒÔÌ«Íø¿Ú */
-	public byte[] sManageHostIP = new byte[16];		    //Ô¶³Ì¹ÜÀíÖ÷»úµØÖ·
-	public short wManageHostPort;		    //Ô¶³Ì¹ÜÀíÖ÷»ú¶Ë¿ÚºÅ
-	public byte[] sIPServerIP = new byte[16];           //IPServer·şÎñÆ÷µØÖ·
-	public byte[] sMultiCastIP = new byte[16];          //¶à²¥×éµØÖ·
-	public byte[] sGatewayIP = new byte[16];       	    //Íø¹ØµØÖ·
-	public byte[] sNFSIP = new byte[16];			    //NFSÖ÷»úIPµØÖ·
-	public byte[] sNFSDirectory = new byte[PATHNAME_LEN];//NFSÄ¿Â¼
-	public int dwPPPOE;				    //0-²»ÆôÓÃ,1-ÆôÓÃ
-	public byte[] sPPPoEUser = new byte[NAME_LEN];	    //PPPoEÓÃ»§Ãû
-	public byte[] sPPPoEPassword = new byte[PASSWD_LEN];// PPPoEÃÜÂë
-	public byte[] sPPPoEIP = new byte[16];			    //PPPoE IPµØÖ·(Ö»¶Á)
+	public NET_DVR_ETHERNET[] struEtherNet = new NET_DVR_ETHERNET[MAX_ETHERNET];		/* ä»¥å¤ªç½‘å£ */
+	public byte[] sManageHostIP = new byte[16];		    //è¿œç¨‹ç®¡ç†ä¸»æœºåœ°å€
+	public short wManageHostPort;		    //è¿œç¨‹ç®¡ç†ä¸»æœºç«¯å£å·
+	public byte[] sIPServerIP = new byte[16];           //IPServeræœåŠ¡å™¨åœ°å€
+	public byte[] sMultiCastIP = new byte[16];          //å¤šæ’­ç»„åœ°å€
+	public byte[] sGatewayIP = new byte[16];       	    //ç½‘å…³åœ°å€
+	public byte[] sNFSIP = new byte[16];			    //NFSä¸»æœºIPåœ°å€
+	public byte[] sNFSDirectory = new byte[PATHNAME_LEN];//NFSç›®å½•
+	public int dwPPPOE;				    //0-ä¸å¯ç”¨,1-å¯ç”¨
+	public byte[] sPPPoEUser = new byte[NAME_LEN];	    //PPPoEç”¨æˆ·å
+	public byte[] sPPPoEPassword = new byte[PASSWD_LEN];// PPPoEå¯†ç 
+	public byte[] sPPPoEIP = new byte[16];			    //PPPoE IPåœ°å€(åªè¯»)
 }
 
-//Í¨µÀÍ¼Ïó½á¹¹
+//é€šé“å›¾è±¡ç»“æ„
     public static class NET_DVR_SCHEDTIMEWEEK extends Structure {
         public NET_DVR_SCHEDTIME[] struAlarmTime = new NET_DVR_SCHEDTIME[8];
     }
@@ -898,268 +915,268 @@ public static class NET_DVR_IPADDR extends Structure {
         public byte[] byMotionScope = new byte[96];
     }
      
-  public static class NET_DVR_MOTION_V30 extends Structure {//ÒÆ¶¯Õì²â(×Ó½á¹¹)(9000À©Õ¹)
-        public byte96[] byMotionScope = new byte96[64];						/*Õì²âÇøÓò,0-96Î»,±íÊ¾64ĞĞ,¹²ÓĞ96*64¸öĞ¡ºê¿é,Îª1±íÊ¾ÊÇÒÆ¶¯Õì²âÇøÓò,0-±íÊ¾²»ÊÇ*/
-        public byte byMotionSensitive;							/*ÒÆ¶¯Õì²âÁéÃô¶È, 0 - 5,Ô½¸ßÔ½ÁéÃô,oxff¹Ø±Õ*/
-        public byte byEnableHandleMotion;						/* ÊÇ·ñ´¦ÀíÒÆ¶¯Õì²â 0£­·ñ 1£­ÊÇ*/
-        public byte byPrecision;							/* ÒÆ¶¯Õì²âËã·¨µÄ½ø¶È: 0--16*16, 1--32*32, 2--64*64 ... */
+  public static class NET_DVR_MOTION_V30 extends Structure {//ç§»åŠ¨ä¾¦æµ‹(å­ç»“æ„)(9000æ‰©å±•)
+        public byte96[] byMotionScope = new byte96[64];						/*ä¾¦æµ‹åŒºåŸŸ,0-96ä½,è¡¨ç¤º64è¡Œ,å…±æœ‰96*64ä¸ªå°å®å—,ä¸º1è¡¨ç¤ºæ˜¯ç§»åŠ¨ä¾¦æµ‹åŒºåŸŸ,0-è¡¨ç¤ºä¸æ˜¯*/
+        public byte byMotionSensitive;							/*ç§»åŠ¨ä¾¦æµ‹çµæ•åº¦, 0 - 5,è¶Šé«˜è¶Šçµæ•,oxffå…³é—­*/
+        public byte byEnableHandleMotion;						/* æ˜¯å¦å¤„ç†ç§»åŠ¨ä¾¦æµ‹ 0ï¼å¦ 1ï¼æ˜¯*/
+        public byte byPrecision;							/* ç§»åŠ¨ä¾¦æµ‹ç®—æ³•çš„è¿›åº¦: 0--16*16, 1--32*32, 2--64*64 ... */
         public byte reservedData;
-        public NET_DVR_HANDLEEXCEPTION_V30 struMotionHandleType;			/* ´¦Àí·½Ê½ */
-        public NET_DVR_SCHEDTIMEWEEK[] struAlarmTime = new NET_DVR_SCHEDTIMEWEEK[MAX_DAYS]; /*²¼·ÀÊ±¼ä*/
-        public byte[] byRelRecordChan = new byte[64];					/* ±¨¾¯´¥·¢µÄÂ¼ÏóÍ¨µÀ*/
+        public NET_DVR_HANDLEEXCEPTION_V30 struMotionHandleType;			/* å¤„ç†æ–¹å¼ */
+        public NET_DVR_SCHEDTIMEWEEK[] struAlarmTime = new NET_DVR_SCHEDTIMEWEEK[MAX_DAYS]; /*å¸ƒé˜²æ—¶é—´*/
+        public byte[] byRelRecordChan = new byte[64];					/* æŠ¥è­¦è§¦å‘çš„å½•è±¡é€šé“*/
     }
 
-  public static class NET_DVR_MOTION extends Structure {//ÒÆ¶¯Õì²â(×Ó½á¹¹)
-	byte[][] byMotionScope = new byte[18][22];	/*Õì²âÇøÓò,¹²ÓĞ22*18¸öĞ¡ºê¿é,Îª1±íÊ¾¸Äºê¿éÊÇÒÆ¶¯Õì²âÇøÓò,0-±íÊ¾²»ÊÇ*/
-	byte byMotionSensitive;		/*ÒÆ¶¯Õì²âÁéÃô¶È, 0 - 5,Ô½¸ßÔ½ÁéÃô,0xff¹Ø±Õ*/
-	byte byEnableHandleMotion;	/* ÊÇ·ñ´¦ÀíÒÆ¶¯Õì²â */
+  public static class NET_DVR_MOTION extends Structure {//ç§»åŠ¨ä¾¦æµ‹(å­ç»“æ„)
+	byte[][] byMotionScope = new byte[18][22];	/*ä¾¦æµ‹åŒºåŸŸ,å…±æœ‰22*18ä¸ªå°å®å—,ä¸º1è¡¨ç¤ºæ”¹å®å—æ˜¯ç§»åŠ¨ä¾¦æµ‹åŒºåŸŸ,0-è¡¨ç¤ºä¸æ˜¯*/
+	byte byMotionSensitive;		/*ç§»åŠ¨ä¾¦æµ‹çµæ•åº¦, 0 - 5,è¶Šé«˜è¶Šçµæ•,0xffå…³é—­*/
+	byte byEnableHandleMotion;	/* æ˜¯å¦å¤„ç†ç§»åŠ¨ä¾¦æµ‹ */
         byte[]  reservedData = new byte[2];
-        NET_DVR_HANDLEEXCEPTION strMotionHandleType;	/* ´¦Àí·½Ê½ */
-	byte[] byRelRecordChan = new byte[MAX_CHANNUM]; //±¨¾¯´¥·¢µÄÂ¼ÏóÍ¨µÀ,Îª1±íÊ¾´¥·¢¸ÃÍ¨µÀ
+        NET_DVR_HANDLEEXCEPTION strMotionHandleType;	/* å¤„ç†æ–¹å¼ */
+	byte[] byRelRecordChan = new byte[MAX_CHANNUM]; //æŠ¥è­¦è§¦å‘çš„å½•è±¡é€šé“,ä¸º1è¡¨ç¤ºè§¦å‘è¯¥é€šé“
 }
 
-  public static class NET_DVR_HIDEALARM_V30 extends Structure {//ÕÚµ²±¨¾¯
-        public int dwEnableHideAlarm;				/* ÊÇ·ñÆô¶¯ÕÚµ²±¨¾¯ ,0-·ñ,1-µÍÁéÃô¶È 2-ÖĞÁéÃô¶È 3-¸ßÁéÃô¶È*/
-        public short wHideAlarmAreaTopLeftX;			/* ÕÚµ²ÇøÓòµÄx×ø±ê */
-        public short wHideAlarmAreaTopLeftY;			/* ÕÚµ²ÇøÓòµÄy×ø±ê */
-        public short wHideAlarmAreaWidth;				/* ÕÚµ²ÇøÓòµÄ¿í */
-        public short wHideAlarmAreaHeight;				/*ÕÚµ²ÇøÓòµÄ¸ß*/
-        public NET_DVR_HANDLEEXCEPTION_V30 strHideAlarmHandleType;	/* ´¦Àí·½Ê½ */
-        public NET_DVR_SCHEDTIMEWEEK[] struAlarmTime = new NET_DVR_SCHEDTIMEWEEK[MAX_DAYS];//²¼·ÀÊ±¼ä
+  public static class NET_DVR_HIDEALARM_V30 extends Structure {//é®æŒ¡æŠ¥è­¦
+        public int dwEnableHideAlarm;				/* æ˜¯å¦å¯åŠ¨é®æŒ¡æŠ¥è­¦ ,0-å¦,1-ä½çµæ•åº¦ 2-ä¸­çµæ•åº¦ 3-é«˜çµæ•åº¦*/
+        public short wHideAlarmAreaTopLeftX;			/* é®æŒ¡åŒºåŸŸçš„xåæ ‡ */
+        public short wHideAlarmAreaTopLeftY;			/* é®æŒ¡åŒºåŸŸçš„yåæ ‡ */
+        public short wHideAlarmAreaWidth;				/* é®æŒ¡åŒºåŸŸçš„å®½ */
+        public short wHideAlarmAreaHeight;				/*é®æŒ¡åŒºåŸŸçš„é«˜*/
+        public NET_DVR_HANDLEEXCEPTION_V30 strHideAlarmHandleType;	/* å¤„ç†æ–¹å¼ */
+        public NET_DVR_SCHEDTIMEWEEK[] struAlarmTime = new NET_DVR_SCHEDTIMEWEEK[MAX_DAYS];//å¸ƒé˜²æ—¶é—´
     }
 
-  public static class NET_DVR_HIDEALARM extends Structure {//ÕÚµ²±¨¾¯(×Ó½á¹¹)  ÇøÓò´óĞ¡704*576
-	public int dwEnableHideAlarm;				/* ÊÇ·ñÆô¶¯ÕÚµ²±¨¾¯ ,0-·ñ,1-µÍÁéÃô¶È 2-ÖĞÁéÃô¶È 3-¸ßÁéÃô¶È*/
-	public short wHideAlarmAreaTopLeftX;			/* ÕÚµ²ÇøÓòµÄx×ø±ê */
-	public short wHideAlarmAreaTopLeftY;			/* ÕÚµ²ÇøÓòµÄy×ø±ê */
-	public short wHideAlarmAreaWidth;				/* ÕÚµ²ÇøÓòµÄ¿í */
-	public short wHideAlarmAreaHeight;				/*ÕÚµ²ÇøÓòµÄ¸ß*/
-	public NET_DVR_HANDLEEXCEPTION strHideAlarmHandleType;	/* ´¦Àí·½Ê½ */
+  public static class NET_DVR_HIDEALARM extends Structure {//é®æŒ¡æŠ¥è­¦(å­ç»“æ„)  åŒºåŸŸå¤§å°704*576
+	public int dwEnableHideAlarm;				/* æ˜¯å¦å¯åŠ¨é®æŒ¡æŠ¥è­¦ ,0-å¦,1-ä½çµæ•åº¦ 2-ä¸­çµæ•åº¦ 3-é«˜çµæ•åº¦*/
+	public short wHideAlarmAreaTopLeftX;			/* é®æŒ¡åŒºåŸŸçš„xåæ ‡ */
+	public short wHideAlarmAreaTopLeftY;			/* é®æŒ¡åŒºåŸŸçš„yåæ ‡ */
+	public short wHideAlarmAreaWidth;				/* é®æŒ¡åŒºåŸŸçš„å®½ */
+	public short wHideAlarmAreaHeight;				/*é®æŒ¡åŒºåŸŸçš„é«˜*/
+	public NET_DVR_HANDLEEXCEPTION strHideAlarmHandleType;	/* å¤„ç†æ–¹å¼ */
 }
 
-    public static class NET_DVR_VILOST_V30 extends Structure {    //ĞÅºÅ¶ªÊ§±¨¾¯(×Ó½á¹¹)(9000À©Õ¹)
-        public byte byEnableHandleVILost;	                     /* ÊÇ·ñ´¦ÀíĞÅºÅ¶ªÊ§±¨¾¯ */
-        public NET_DVR_HANDLEEXCEPTION_V30 strVILostHandleType;	     /* ´¦Àí·½Ê½ */
-        public NET_DVR_SCHEDTIMEWEEK[] struAlarmTime = new NET_DVR_SCHEDTIMEWEEK[MAX_DAYS];//²¼·ÀÊ±¼ä
+    public static class NET_DVR_VILOST_V30 extends Structure {    //ä¿¡å·ä¸¢å¤±æŠ¥è­¦(å­ç»“æ„)(9000æ‰©å±•)
+        public byte byEnableHandleVILost;	                     /* æ˜¯å¦å¤„ç†ä¿¡å·ä¸¢å¤±æŠ¥è­¦ */
+        public NET_DVR_HANDLEEXCEPTION_V30 strVILostHandleType;	     /* å¤„ç†æ–¹å¼ */
+        public NET_DVR_SCHEDTIMEWEEK[] struAlarmTime = new NET_DVR_SCHEDTIMEWEEK[MAX_DAYS];//å¸ƒé˜²æ—¶é—´
     }
 
-public static class NET_DVR_VILOST extends Structure {    //ĞÅºÅ¶ªÊ§±¨¾¯(×Ó½á¹¹)
-	byte byEnableHandleVILost;	/* ÊÇ·ñ´¦ÀíĞÅºÅ¶ªÊ§±¨¾¯ */
-	NET_DVR_HANDLEEXCEPTION strVILostHandleType;	/* ´¦Àí·½Ê½ */
+public static class NET_DVR_VILOST extends Structure {    //ä¿¡å·ä¸¢å¤±æŠ¥è­¦(å­ç»“æ„)
+	byte byEnableHandleVILost;	/* æ˜¯å¦å¤„ç†ä¿¡å·ä¸¢å¤±æŠ¥è­¦ */
+	NET_DVR_HANDLEEXCEPTION strVILostHandleType;	/* å¤„ç†æ–¹å¼ */
 }
 
-    public static class NET_DVR_SHELTER extends Structure {  //ÕÚµ²ÇøÓò(×Ó½á¹¹)
-        public short wHideAreaTopLeftX;				/* ÕÚµ²ÇøÓòµÄx×ø±ê */
-        public short wHideAreaTopLeftY;				/* ÕÚµ²ÇøÓòµÄy×ø±ê */
-        public short wHideAreaWidth;				/* ÕÚµ²ÇøÓòµÄ¿í */
-        public short wHideAreaHeight;				/* ÕÚµ²ÇøÓòµÄ¸ß*/
+    public static class NET_DVR_SHELTER extends Structure {  //é®æŒ¡åŒºåŸŸ(å­ç»“æ„)
+        public short wHideAreaTopLeftX;				/* é®æŒ¡åŒºåŸŸçš„xåæ ‡ */
+        public short wHideAreaTopLeftY;				/* é®æŒ¡åŒºåŸŸçš„yåæ ‡ */
+        public short wHideAreaWidth;				/* é®æŒ¡åŒºåŸŸçš„å®½ */
+        public short wHideAreaHeight;				/* é®æŒ¡åŒºåŸŸçš„é«˜*/
     }
 
     public static class NET_DVR_COLOR extends Structure {
-        public byte byBrightness;  	/*ÁÁ¶È,0-255*/
-        public byte byContrast;    	/*¶Ô±È¶È,0-255*/
-        public byte bySaturation;  	/*±¥ºÍ¶È,0-255*/
-        public byte byHue;    		/*É«µ÷,0-255*/
+        public byte byBrightness;  	/*äº®åº¦,0-255*/
+        public byte byContrast;    	/*å¯¹æ¯”åº¦,0-255*/
+        public byte bySaturation;  	/*é¥±å’Œåº¦,0-255*/
+        public byte byHue;    		/*è‰²è°ƒ,0-255*/
     }
 
     public static class NET_DVR_VICOLOR extends Structure {
-        public NET_DVR_COLOR[] struColor = new NET_DVR_COLOR[MAX_TIMESEGMENT_V30];/*Í¼Ïó²ÎÊı(µÚÒ»¸öÓĞĞ§£¬ÆäËûÈı¸ö±£Áô)*/
-        public NET_DVR_SCHEDTIME[] struHandleTime = new NET_DVR_SCHEDTIME[MAX_TIMESEGMENT_V30];/*´¦ÀíÊ±¼ä¶Î(±£Áô)*/
+        public NET_DVR_COLOR[] struColor = new NET_DVR_COLOR[MAX_TIMESEGMENT_V30];/*å›¾è±¡å‚æ•°(ç¬¬ä¸€ä¸ªæœ‰æ•ˆï¼Œå…¶ä»–ä¸‰ä¸ªä¿ç•™)*/
+        public NET_DVR_SCHEDTIME[] struHandleTime = new NET_DVR_SCHEDTIME[MAX_TIMESEGMENT_V30];/*å¤„ç†æ—¶é—´æ®µ(ä¿ç•™)*/
     };
 
     public static class NET_DVR_PICCFG_V30 extends Structure {
         public int dwSize;
         public byte[] sChanName = new byte[NAME_LEN];
-        public int dwVideoFormat;	            /* Ö»¶Á ÊÓÆµÖÆÊ½ 1-NTSC 2-PAL*/
-        public NET_DVR_VICOLOR struViColor;        // Í¼Ïñ²ÎÊı°´Ê±¼ä¶ÎÉèÖÃ
-        public int dwShowChanName;               // Ô¤ÀÀµÄÍ¼ÏóÉÏÊÇ·ñÏÔÊ¾Í¨µÀÃû³Æ,0-²»ÏÔÊ¾,1-ÏÔÊ¾ ÇøÓò´óĞ¡704*576
-        public short wShowNameTopLeftX;				/* Í¨µÀÃû³ÆÏÔÊ¾Î»ÖÃµÄx×ø±ê */
-        public short wShowNameTopLeftY;				/* Í¨µÀÃû³ÆÏÔÊ¾Î»ÖÃµÄy×ø±ê */
-        public NET_DVR_VILOST_V30 struVILost;      //ÊÓÆµĞÅºÅ¶ªÊ§±¨¾¯
-        public NET_DVR_VILOST_V30 struAULost;	/*ÒôÆµĞÅºÅ¶ªÊ§±¨¾¯(±£Áô)*/
-        public NET_DVR_MOTION_V30 struMotion;      //ÒÆ¶¯Õì²â
-        public NET_DVR_HIDEALARM_V30 struHideAlarm;//ÕÚµ²±¨¾¯
-        public int dwEnableHide;		            /* ÊÇ·ñÆô¶¯ÕÚ¸Ç(ÇøÓò´óĞ¡704*576) ,0-·ñ,1-ÊÇ*/
+        public int dwVideoFormat;	            /* åªè¯» è§†é¢‘åˆ¶å¼ 1-NTSC 2-PAL*/
+        public NET_DVR_VICOLOR struViColor;        // å›¾åƒå‚æ•°æŒ‰æ—¶é—´æ®µè®¾ç½®
+        public int dwShowChanName;               // é¢„è§ˆçš„å›¾è±¡ä¸Šæ˜¯å¦æ˜¾ç¤ºé€šé“åç§°,0-ä¸æ˜¾ç¤º,1-æ˜¾ç¤º åŒºåŸŸå¤§å°704*576
+        public short wShowNameTopLeftX;				/* é€šé“åç§°æ˜¾ç¤ºä½ç½®çš„xåæ ‡ */
+        public short wShowNameTopLeftY;				/* é€šé“åç§°æ˜¾ç¤ºä½ç½®çš„yåæ ‡ */
+        public NET_DVR_VILOST_V30 struVILost;      //è§†é¢‘ä¿¡å·ä¸¢å¤±æŠ¥è­¦
+        public NET_DVR_VILOST_V30 struAULost;	/*éŸ³é¢‘ä¿¡å·ä¸¢å¤±æŠ¥è­¦(ä¿ç•™)*/
+        public NET_DVR_MOTION_V30 struMotion;      //ç§»åŠ¨ä¾¦æµ‹
+        public NET_DVR_HIDEALARM_V30 struHideAlarm;//é®æŒ¡æŠ¥è­¦
+        public int dwEnableHide;		            /* æ˜¯å¦å¯åŠ¨é®ç›–(åŒºåŸŸå¤§å°704*576) ,0-å¦,1-æ˜¯*/
         public NET_DVR_SHELTER[] struShelter = new NET_DVR_SHELTER[4];
-        public int dwShowOsd;                //Ô¤ÀÀµÄÍ¼ÏóÉÏÊÇ·ñÏÔÊ¾OSD,0-²»ÏÔÊ¾,1-ÏÔÊ¾ ÇøÓò´óĞ¡704*576
-        public short wOSDTopLeftX;				/* OSDµÄx×ø±ê */
-        public short wOSDTopLeftY;				/* OSDµÄy×ø±ê */
-        public byte byOSDType;					/* OSDÀàĞÍ(Ö÷ÒªÊÇÄêÔÂÈÕ¸ñÊ½) */
-        public byte byDispWeek;				/* ÊÇ·ñÏÔÊ¾ĞÇÆÚ */
-        public byte byOSDAttrib;				/* OSDÊôĞÔ:Í¸Ã÷£¬ÉÁË¸ */
-        public byte byHourOSDType;				/* OSDĞ¡Ê±ÖÆ:0-24Ğ¡Ê±ÖÆ,1-12Ğ¡Ê±ÖÆ */
+        public int dwShowOsd;                //é¢„è§ˆçš„å›¾è±¡ä¸Šæ˜¯å¦æ˜¾ç¤ºOSD,0-ä¸æ˜¾ç¤º,1-æ˜¾ç¤º åŒºåŸŸå¤§å°704*576
+        public short wOSDTopLeftX;				/* OSDçš„xåæ ‡ */
+        public short wOSDTopLeftY;				/* OSDçš„yåæ ‡ */
+        public byte byOSDType;					/* OSDç±»å‹(ä¸»è¦æ˜¯å¹´æœˆæ—¥æ ¼å¼) */
+        public byte byDispWeek;				/* æ˜¯å¦æ˜¾ç¤ºæ˜ŸæœŸ */
+        public byte byOSDAttrib;				/* OSDå±æ€§:é€æ˜ï¼Œé—ªçƒ */
+        public byte byHourOSDType;				/* OSDå°æ—¶åˆ¶:0-24å°æ—¶åˆ¶,1-12å°æ—¶åˆ¶ */
         public byte[] byRes = new byte[64];
     }
 
-    public static class NET_DVR_PICCFG_EX extends Structure {//Í¨µÀÍ¼Ïó½á¹¹SDK_V14À©Õ¹
+    public static class NET_DVR_PICCFG_EX extends Structure {//é€šé“å›¾è±¡ç»“æ„SDK_V14æ‰©å±•
 	public int dwSize;
 	 public byte[] sChanName = new byte[NAME_LEN];
-	 public int dwVideoFormat;	/* Ö»¶Á ÊÓÆµÖÆÊ½ 1-NTSC 2-PAL*/
-	 public byte byBrightness;  	/*ÁÁ¶È,0-255*/
-	 public byte byContrast;    	/*¶Ô±È¶È,0-255*/
-	 public byte bySaturation;  	/*±¥ºÍ¶È,0-255 */
-	 public byte byHue;    			/*É«µ÷,0-255*/
-	//ÏÔÊ¾Í¨µÀÃû
-	 public int dwShowChanName; // Ô¤ÀÀµÄÍ¼ÏóÉÏÊÇ·ñÏÔÊ¾Í¨µÀÃû³Æ,0-²»ÏÔÊ¾,1-ÏÔÊ¾ ÇøÓò´óĞ¡704*576
-	 public short wShowNameTopLeftX;				/* Í¨µÀÃû³ÆÏÔÊ¾Î»ÖÃµÄx×ø±ê */
-	 public short wShowNameTopLeftY;				/* Í¨µÀÃû³ÆÏÔÊ¾Î»ÖÃµÄy×ø±ê */
-	//ĞÅºÅ¶ªÊ§±¨¾¯
+	 public int dwVideoFormat;	/* åªè¯» è§†é¢‘åˆ¶å¼ 1-NTSC 2-PAL*/
+	 public byte byBrightness;  	/*äº®åº¦,0-255*/
+	 public byte byContrast;    	/*å¯¹æ¯”åº¦,0-255*/
+	 public byte bySaturation;  	/*é¥±å’Œåº¦,0-255 */
+	 public byte byHue;    			/*è‰²è°ƒ,0-255*/
+	//æ˜¾ç¤ºé€šé“å
+	 public int dwShowChanName; // é¢„è§ˆçš„å›¾è±¡ä¸Šæ˜¯å¦æ˜¾ç¤ºé€šé“åç§°,0-ä¸æ˜¾ç¤º,1-æ˜¾ç¤º åŒºåŸŸå¤§å°704*576
+	 public short wShowNameTopLeftX;				/* é€šé“åç§°æ˜¾ç¤ºä½ç½®çš„xåæ ‡ */
+	 public short wShowNameTopLeftY;				/* é€šé“åç§°æ˜¾ç¤ºä½ç½®çš„yåæ ‡ */
+	//ä¿¡å·ä¸¢å¤±æŠ¥è­¦
 	 public NET_DVR_VILOST struVILost;
-	//ÒÆ¶¯Õì²â
+	//ç§»åŠ¨ä¾¦æµ‹
 	 public NET_DVR_MOTION struMotion;
-	//ÕÚµ²±¨¾¯
+	//é®æŒ¡æŠ¥è­¦
 	 public NET_DVR_HIDEALARM struHideAlarm;
-	//ÕÚµ²  ÇøÓò´óĞ¡704*576
-	 public int dwEnableHide;		/* ÊÇ·ñÆô¶¯ÕÚµ² ,0-·ñ,1-ÊÇ*/
+	//é®æŒ¡  åŒºåŸŸå¤§å°704*576
+	 public int dwEnableHide;		/* æ˜¯å¦å¯åŠ¨é®æŒ¡ ,0-å¦,1-æ˜¯*/
 	 public NET_DVR_SHELTER[] struShelter = new NET_DVR_SHELTER[MAX_SHELTERNUM];
 	//OSD
-	 public int dwShowOsd;// Ô¤ÀÀµÄÍ¼ÏóÉÏÊÇ·ñÏÔÊ¾OSD,0-²»ÏÔÊ¾,1-ÏÔÊ¾ ÇøÓò´óĞ¡704*576
-	 public short wOSDTopLeftX;				/* OSDµÄx×ø±ê */
-	 public short wOSDTopLeftY;				/* OSDµÄy×ø±ê */
-	 public byte byOSDType;					/* OSDÀàĞÍ(Ö÷ÒªÊÇÄêÔÂÈÕ¸ñÊ½) */
-	/* 0: XXXX-XX-XX ÄêÔÂÈÕ */
-	/* 1: XX-XX-XXXX ÔÂÈÕÄê */
-	/* 2: XXXXÄêXXÔÂXXÈÕ */
-	/* 3: XXÔÂXXÈÕXXXXÄê */
-	/* 4: XX-XX-XXXX ÈÕÔÂÄê*/
-	/* 5: XXÈÕXXÔÂXXXXÄê */
-	 public byte byDispWeek;				/* ÊÇ·ñÏÔÊ¾ĞÇÆÚ */
-	 public byte byOSDAttrib;				/* OSDÊôĞÔ:Í¸Ã÷£¬ÉÁË¸ */
-	/* 0: ²»ÏÔÊ¾OSD */
-	/* 1: Í¸Ã÷,ÉÁË¸ */
-	/* 2: Í¸Ã÷,²»ÉÁË¸ */
-	/* 3: ÉÁË¸,²»Í¸Ã÷ */
-	/* 4: ²»Í¸Ã÷,²»ÉÁË¸ */
-	 public byte byHourOsdType;	//Ğ¡Ê±ÖÆ£º0±íÊ¾24Ğ¡Ê±ÖÆ£¬1-12Ğ¡Ê±ÖÆ»òam/pm
+	 public int dwShowOsd;// é¢„è§ˆçš„å›¾è±¡ä¸Šæ˜¯å¦æ˜¾ç¤ºOSD,0-ä¸æ˜¾ç¤º,1-æ˜¾ç¤º åŒºåŸŸå¤§å°704*576
+	 public short wOSDTopLeftX;				/* OSDçš„xåæ ‡ */
+	 public short wOSDTopLeftY;				/* OSDçš„yåæ ‡ */
+	 public byte byOSDType;					/* OSDç±»å‹(ä¸»è¦æ˜¯å¹´æœˆæ—¥æ ¼å¼) */
+	/* 0: XXXX-XX-XX å¹´æœˆæ—¥ */
+	/* 1: XX-XX-XXXX æœˆæ—¥å¹´ */
+	/* 2: XXXXå¹´XXæœˆXXæ—¥ */
+	/* 3: XXæœˆXXæ—¥XXXXå¹´ */
+	/* 4: XX-XX-XXXX æ—¥æœˆå¹´*/
+	/* 5: XXæ—¥XXæœˆXXXXå¹´ */
+	 public byte byDispWeek;				/* æ˜¯å¦æ˜¾ç¤ºæ˜ŸæœŸ */
+	 public byte byOSDAttrib;				/* OSDå±æ€§:é€æ˜ï¼Œé—ªçƒ */
+	/* 0: ä¸æ˜¾ç¤ºOSD */
+	/* 1: é€æ˜,é—ªçƒ */
+	/* 2: é€æ˜,ä¸é—ªçƒ */
+	/* 3: é—ªçƒ,ä¸é€æ˜ */
+	/* 4: ä¸é€æ˜,ä¸é—ªçƒ */
+	 public byte byHourOsdType;	//å°æ—¶åˆ¶ï¼š0è¡¨ç¤º24å°æ—¶åˆ¶ï¼Œ1-12å°æ—¶åˆ¶æˆ–am/pm
 }
 
 
- public static class NET_DVR_PICCFG extends Structure { //Í¨µÀÍ¼Ïó½á¹¹(SDK_V13¼°Ö®Ç°°æ±¾)
+ public static class NET_DVR_PICCFG extends Structure { //é€šé“å›¾è±¡ç»“æ„(SDK_V13åŠä¹‹å‰ç‰ˆæœ¬)
 	 public int dwSize;
 	 public byte[] sChanName = new byte[NAME_LEN];
-	 public int dwVideoFormat;	/* Ö»¶Á ÊÓÆµÖÆÊ½ 1-NTSC 2-PAL*/
-	 public byte byBrightness;  	/*ÁÁ¶È,0-255*/
-	 public byte byContrast;    	/*¶Ô±È¶È,0-255*/
-	 public byte bySaturation;  	/*±¥ºÍ¶È,0-255 */
-	 public byte byHue;    			/*É«µ÷,0-255*/
-	//ÏÔÊ¾Í¨µÀÃû
-	 public int dwShowChanName; // Ô¤ÀÀµÄÍ¼ÏóÉÏÊÇ·ñÏÔÊ¾Í¨µÀÃû³Æ,0-²»ÏÔÊ¾,1-ÏÔÊ¾ ÇøÓò´óĞ¡704*576
-	 public short wShowNameTopLeftX;				/* Í¨µÀÃû³ÆÏÔÊ¾Î»ÖÃµÄx×ø±ê */
-	 public short wShowNameTopLeftY;				/* Í¨µÀÃû³ÆÏÔÊ¾Î»ÖÃµÄy×ø±ê */
-	//ĞÅºÅ¶ªÊ§±¨¾¯
+	 public int dwVideoFormat;	/* åªè¯» è§†é¢‘åˆ¶å¼ 1-NTSC 2-PAL*/
+	 public byte byBrightness;  	/*äº®åº¦,0-255*/
+	 public byte byContrast;    	/*å¯¹æ¯”åº¦,0-255*/
+	 public byte bySaturation;  	/*é¥±å’Œåº¦,0-255 */
+	 public byte byHue;    			/*è‰²è°ƒ,0-255*/
+	//æ˜¾ç¤ºé€šé“å
+	 public int dwShowChanName; // é¢„è§ˆçš„å›¾è±¡ä¸Šæ˜¯å¦æ˜¾ç¤ºé€šé“åç§°,0-ä¸æ˜¾ç¤º,1-æ˜¾ç¤º åŒºåŸŸå¤§å°704*576
+	 public short wShowNameTopLeftX;				/* é€šé“åç§°æ˜¾ç¤ºä½ç½®çš„xåæ ‡ */
+	 public short wShowNameTopLeftY;				/* é€šé“åç§°æ˜¾ç¤ºä½ç½®çš„yåæ ‡ */
+	//ä¿¡å·ä¸¢å¤±æŠ¥è­¦
 	 public NET_DVR_VILOST struVILost;
-	//ÒÆ¶¯Õì²â
+	//ç§»åŠ¨ä¾¦æµ‹
 	 public NET_DVR_MOTION struMotion;
-	//ÕÚµ²±¨¾¯
+	//é®æŒ¡æŠ¥è­¦
 	 public NET_DVR_HIDEALARM struHideAlarm;
-	//ÕÚµ²  ÇøÓò´óĞ¡704*576
-	 public int dwEnableHide;		/* ÊÇ·ñÆô¶¯ÕÚµ² ,0-·ñ,1-ÊÇ*/
-	 public short wHideAreaTopLeftX;				/* ÕÚµ²ÇøÓòµÄx×ø±ê */
-	 public short wHideAreaTopLeftY;				/* ÕÚµ²ÇøÓòµÄy×ø±ê */
-	 public short wHideAreaWidth;				/* ÕÚµ²ÇøÓòµÄ¿í */
-	 public short wHideAreaHeight;				/*ÕÚµ²ÇøÓòµÄ¸ß*/
+	//é®æŒ¡  åŒºåŸŸå¤§å°704*576
+	 public int dwEnableHide;		/* æ˜¯å¦å¯åŠ¨é®æŒ¡ ,0-å¦,1-æ˜¯*/
+	 public short wHideAreaTopLeftX;				/* é®æŒ¡åŒºåŸŸçš„xåæ ‡ */
+	 public short wHideAreaTopLeftY;				/* é®æŒ¡åŒºåŸŸçš„yåæ ‡ */
+	 public short wHideAreaWidth;				/* é®æŒ¡åŒºåŸŸçš„å®½ */
+	 public short wHideAreaHeight;				/*é®æŒ¡åŒºåŸŸçš„é«˜*/
 	//OSD
-	 public int dwShowOsd;// Ô¤ÀÀµÄÍ¼ÏóÉÏÊÇ·ñÏÔÊ¾OSD,0-²»ÏÔÊ¾,1-ÏÔÊ¾ ÇøÓò´óĞ¡704*576
-	 public short wOSDTopLeftX;				/* OSDµÄx×ø±ê */
-	 public short wOSDTopLeftY;				/* OSDµÄy×ø±ê */
-	 public byte byOSDType;					/* OSDÀàĞÍ(Ö÷ÒªÊÇÄêÔÂÈÕ¸ñÊ½) */
-	/* 0: XXXX-XX-XX ÄêÔÂÈÕ */
-	/* 1: XX-XX-XXXX ÔÂÈÕÄê */
-	/* 2: XXXXÄêXXÔÂXXÈÕ */
-	/* 3: XXÔÂXXÈÕXXXXÄê */
-	/* 4: XX-XX-XXXX ÈÕÔÂÄê*/
-	/* 5: XXÈÕXXÔÂXXXXÄê */
-	byte byDispWeek;				/* ÊÇ·ñÏÔÊ¾ĞÇÆÚ */
-	byte byOSDAttrib;				/* OSDÊôĞÔ:Í¸Ã÷£¬ÉÁË¸ */
-	/* 0: ²»ÏÔÊ¾OSD */
-	/* 1: Í¸Ã÷,ÉÁË¸ */
-	/* 2: Í¸Ã÷,²»ÉÁË¸ */
-	/* 3: ÉÁË¸,²»Í¸Ã÷ */
-	/* 4: ²»Í¸Ã÷,²»ÉÁË¸ */
+	 public int dwShowOsd;// é¢„è§ˆçš„å›¾è±¡ä¸Šæ˜¯å¦æ˜¾ç¤ºOSD,0-ä¸æ˜¾ç¤º,1-æ˜¾ç¤º åŒºåŸŸå¤§å°704*576
+	 public short wOSDTopLeftX;				/* OSDçš„xåæ ‡ */
+	 public short wOSDTopLeftY;				/* OSDçš„yåæ ‡ */
+	 public byte byOSDType;					/* OSDç±»å‹(ä¸»è¦æ˜¯å¹´æœˆæ—¥æ ¼å¼) */
+	/* 0: XXXX-XX-XX å¹´æœˆæ—¥ */
+	/* 1: XX-XX-XXXX æœˆæ—¥å¹´ */
+	/* 2: XXXXå¹´XXæœˆXXæ—¥ */
+	/* 3: XXæœˆXXæ—¥XXXXå¹´ */
+	/* 4: XX-XX-XXXX æ—¥æœˆå¹´*/
+	/* 5: XXæ—¥XXæœˆXXXXå¹´ */
+	byte byDispWeek;				/* æ˜¯å¦æ˜¾ç¤ºæ˜ŸæœŸ */
+	byte byOSDAttrib;				/* OSDå±æ€§:é€æ˜ï¼Œé—ªçƒ */
+	/* 0: ä¸æ˜¾ç¤ºOSD */
+	/* 1: é€æ˜,é—ªçƒ */
+	/* 2: é€æ˜,ä¸é—ªçƒ */
+	/* 3: é—ªçƒ,ä¸é€æ˜ */
+	/* 4: ä¸é€æ˜,ä¸é—ªçƒ */
 	 public byte reservedData2;
 }
 
-    //ÂëÁ÷Ñ¹Ëõ²ÎÊı(×Ó½á¹¹)(9000À©Õ¹)
+    //ç æµå‹ç¼©å‚æ•°(å­ç»“æ„)(9000æ‰©å±•)
     public static class NET_DVR_COMPRESSION_INFO_V30 extends Structure {
-        public byte byStreamType;		//ÂëÁ÷ÀàĞÍ 0-ÊÓÆµÁ÷, 1-¸´ºÏÁ÷
-        public byte byResolution;  	//·Ö±æÂÊ0-DCIF 1-CIF, 2-QCIF, 3-4CIF, 4-2CIF 5£¨±£Áô£©16-VGA£¨640*480£© 17-UXGA£¨1600*1200£© 18-SVGA £¨800*600£©19-HD720p£¨1280*720£©20-XVGA  21-HD900p
-        public byte byBitrateType;		//ÂëÂÊÀàĞÍ 0:¶¨ÂëÂÊ£¬1:±äÂëÂÊ
-        public byte byPicQuality;		//Í¼ÏóÖÊÁ¿ 0-×îºÃ 1-´ÎºÃ 2-½ÏºÃ 3-Ò»°ã 4-½Ï²î 5-²î
-        public int dwVideoBitrate; 	//ÊÓÆµÂëÂÊ 0-±£Áô 1-16K 2-32K 3-48k 4-64K 5-80K 6-96K 7-128K 8-160k 9-192K 10-224K 11-256K 12-320K 13-384K 14-448K 15-512K 16-640K 17-768K 18-896K 19-1024K 20-1280K 21-1536K 22-1792K 23-2048×î¸ßÎ»(31Î»)ÖÃ³É1±íÊ¾ÊÇ×Ô¶¨ÒåÂëÁ÷, 0-30Î»±íÊ¾ÂëÁ÷Öµ¡£
-        public int dwVideoFrameRate;	//Ö¡ÂÊ 0-È«²¿; 1-1/16; 2-1/8; 3-1/4; 4-1/2; 5-1; 6-2; 7-4; 8-6; 9-8; 10-10; 11-12; 12-16; 13-20; V2.0°æ±¾ÖĞĞÂ¼Ó14-15; 15-18; 16-22;
-        public short wIntervalFrameI;  //IÖ¡¼ä¸ô
-        public byte byIntervalBPFrame;//0-BBPÖ¡; 1-BPÖ¡; 2-µ¥PÖ¡
-        public byte byENumber;        //EÖ¡ÊıÁ¿£¨±£Áô£©
-        public byte byVideoEncType;//ÊÓÆµ±àÂëÀàĞÍ 0 hik264;1±ê×¼h264; 2±ê×¼mpeg4;
-        public byte byAudioEncType;//ÒôÆµ±àÂëÀàĞÍ 0 G722
+        public byte byStreamType;		//ç æµç±»å‹ 0-è§†é¢‘æµ, 1-å¤åˆæµ
+        public byte byResolution;  	//åˆ†è¾¨ç‡0-DCIF 1-CIF, 2-QCIF, 3-4CIF, 4-2CIF 5ï¼ˆä¿ç•™ï¼‰16-VGAï¼ˆ640*480ï¼‰ 17-UXGAï¼ˆ1600*1200ï¼‰ 18-SVGA ï¼ˆ800*600ï¼‰19-HD720pï¼ˆ1280*720ï¼‰20-XVGA  21-HD900p
+        public byte byBitrateType;		//ç ç‡ç±»å‹ 0:å®šç ç‡ï¼Œ1:å˜ç ç‡
+        public byte byPicQuality;		//å›¾è±¡è´¨é‡ 0-æœ€å¥½ 1-æ¬¡å¥½ 2-è¾ƒå¥½ 3-ä¸€èˆ¬ 4-è¾ƒå·® 5-å·®
+        public int dwVideoBitrate; 	//è§†é¢‘ç ç‡ 0-ä¿ç•™ 1-16K 2-32K 3-48k 4-64K 5-80K 6-96K 7-128K 8-160k 9-192K 10-224K 11-256K 12-320K 13-384K 14-448K 15-512K 16-640K 17-768K 18-896K 19-1024K 20-1280K 21-1536K 22-1792K 23-2048æœ€é«˜ä½(31ä½)ç½®æˆ1è¡¨ç¤ºæ˜¯è‡ªå®šä¹‰ç æµ, 0-30ä½è¡¨ç¤ºç æµå€¼ã€‚
+        public int dwVideoFrameRate;	//å¸§ç‡ 0-å…¨éƒ¨; 1-1/16; 2-1/8; 3-1/4; 4-1/2; 5-1; 6-2; 7-4; 8-6; 9-8; 10-10; 11-12; 12-16; 13-20; V2.0ç‰ˆæœ¬ä¸­æ–°åŠ 14-15; 15-18; 16-22;
+        public short wIntervalFrameI;  //Iå¸§é—´éš”
+        public byte byIntervalBPFrame;//0-BBPå¸§; 1-BPå¸§; 2-å•På¸§
+        public byte byENumber;        //Eå¸§æ•°é‡ï¼ˆä¿ç•™ï¼‰
+        public byte byVideoEncType;//è§†é¢‘ç¼–ç ç±»å‹ 0 hik264;1æ ‡å‡†h264; 2æ ‡å‡†mpeg4;
+        public byte byAudioEncType;//éŸ³é¢‘ç¼–ç ç±»å‹ 0 G722
         public byte[] byres = new byte[10];
     }
 
-    //Í¨µÀÑ¹Ëõ²ÎÊı(9000À©Õ¹)
+    //é€šé“å‹ç¼©å‚æ•°(9000æ‰©å±•)
     public static class NET_DVR_COMPRESSIONCFG_V30 extends Structure {
         public int dwSize;
-        public NET_DVR_COMPRESSION_INFO_V30 struNormHighRecordPara;    //Â¼Ïñ ¶ÔÓ¦8000µÄÆÕÍ¨
-        public NET_DVR_COMPRESSION_INFO_V30 struRes;   //±£Áô String[28];
-        public NET_DVR_COMPRESSION_INFO_V30 struEventRecordPara;       //ÊÂ¼ş´¥·¢Ñ¹Ëõ²ÎÊı
-        public NET_DVR_COMPRESSION_INFO_V30 struNetPara;               //Íø´«(×ÓÂëÁ÷)
+        public NET_DVR_COMPRESSION_INFO_V30 struNormHighRecordPara;    //å½•åƒ å¯¹åº”8000çš„æ™®é€š
+        public NET_DVR_COMPRESSION_INFO_V30 struRes;   //ä¿ç•™ String[28];
+        public NET_DVR_COMPRESSION_INFO_V30 struEventRecordPara;       //äº‹ä»¶è§¦å‘å‹ç¼©å‚æ•°
+        public NET_DVR_COMPRESSION_INFO_V30 struNetPara;               //ç½‘ä¼ (å­ç æµ)
     }
 
 
-    public static class NET_DVR_COMPRESSION_INFO extends Structure {//ÂëÁ÷Ñ¹Ëõ²ÎÊı(×Ó½á¹¹)
-	public byte byStreamType;		//ÂëÁ÷ÀàĞÍ0-ÊÓÆµÁ÷,1-¸´ºÏÁ÷,±íÊ¾Ñ¹Ëõ²ÎÊıÊ±×î¸ßÎ»±íÊ¾ÊÇ·ñÆôÓÃÑ¹Ëõ²ÎÊı
-	public byte byResolution;  	//·Ö±æÂÊ0-DCIF 1-CIF, 2-QCIF, 3-4CIF, 4-2CIF, 5-2QCIF(352X144)(³µÔØ×¨ÓÃ)
-	public byte byBitrateType;		//ÂëÂÊÀàĞÍ0:±äÂëÂÊ£¬1:¶¨ÂëÂÊ
-	public byte  byPicQuality;		//Í¼ÏóÖÊÁ¿ 0-×îºÃ 1-´ÎºÃ 2-½ÏºÃ 3-Ò»°ã 4-½Ï²î 5-²î
-	public int dwVideoBitrate; 	//ÊÓÆµÂëÂÊ 0-±£Áô 1-16K(±£Áô) 2-32K 3-48k 4-64K 5-80K 6-96K 7-128K 8-160k 9-192K 10-224K 11-256K 12-320K
+    public static class NET_DVR_COMPRESSION_INFO extends Structure {//ç æµå‹ç¼©å‚æ•°(å­ç»“æ„)
+	public byte byStreamType;		//ç æµç±»å‹0-è§†é¢‘æµ,1-å¤åˆæµ,è¡¨ç¤ºå‹ç¼©å‚æ•°æ—¶æœ€é«˜ä½è¡¨ç¤ºæ˜¯å¦å¯ç”¨å‹ç¼©å‚æ•°
+	public byte byResolution;  	//åˆ†è¾¨ç‡0-DCIF 1-CIF, 2-QCIF, 3-4CIF, 4-2CIF, 5-2QCIF(352X144)(è½¦è½½ä¸“ç”¨)
+	public byte byBitrateType;		//ç ç‡ç±»å‹0:å˜ç ç‡ï¼Œ1:å®šç ç‡
+	public byte  byPicQuality;		//å›¾è±¡è´¨é‡ 0-æœ€å¥½ 1-æ¬¡å¥½ 2-è¾ƒå¥½ 3-ä¸€èˆ¬ 4-è¾ƒå·® 5-å·®
+	public int dwVideoBitrate; 	//è§†é¢‘ç ç‡ 0-ä¿ç•™ 1-16K(ä¿ç•™) 2-32K 3-48k 4-64K 5-80K 6-96K 7-128K 8-160k 9-192K 10-224K 11-256K 12-320K
 							// 13-384K 14-448K 15-512K 16-640K 17-768K 18-896K 19-1024K 20-1280K 21-1536K 22-1792K 23-2048K
-							//×î¸ßÎ»(31Î»)ÖÃ³É1±íÊ¾ÊÇ×Ô¶¨ÒåÂëÁ÷, 0-30Î»±íÊ¾ÂëÁ÷Öµ(MIN-32K MAX-8192K)¡£
-	public int dwVideoFrameRate;	//Ö¡ÂÊ 0-È«²¿; 1-1/16; 2-1/8; 3-1/4; 4-1/2; 5-1; 6-2; 7-4; 8-6; 9-8; 10-10; 11-12; 12-16; 13-20;
+							//æœ€é«˜ä½(31ä½)ç½®æˆ1è¡¨ç¤ºæ˜¯è‡ªå®šä¹‰ç æµ, 0-30ä½è¡¨ç¤ºç æµå€¼(MIN-32K MAX-8192K)ã€‚
+	public int dwVideoFrameRate;	//å¸§ç‡ 0-å…¨éƒ¨; 1-1/16; 2-1/8; 3-1/4; 4-1/2; 5-1; 6-2; 7-4; 8-6; 9-8; 10-10; 11-12; 12-16; 13-20;
 }
 
-    public static class NET_DVR_COMPRESSIONCFG extends Structure {//Í¨µÀÑ¹Ëõ²ÎÊı
+    public static class NET_DVR_COMPRESSIONCFG extends Structure {//é€šé“å‹ç¼©å‚æ•°
 	public int dwSize;
-	public NET_DVR_COMPRESSION_INFO struRecordPara; //Â¼Ïñ/ÊÂ¼ş´¥·¢Â¼Ïñ
-	public NET_DVR_COMPRESSION_INFO struNetPara;	//Íø´«/±£Áô
+	public NET_DVR_COMPRESSION_INFO struRecordPara; //å½•åƒ/äº‹ä»¶è§¦å‘å½•åƒ
+	public NET_DVR_COMPRESSION_INFO struNetPara;	//ç½‘ä¼ /ä¿ç•™
 }
 
 
-    public static class NET_DVR_COMPRESSION_INFO_EX extends Structure {//ÂëÁ÷Ñ¹Ëõ²ÎÊı(×Ó½á¹¹)(À©Õ¹) Ôö¼ÓIÖ¡¼ä¸ô
-	public byte byStreamType;		//ÂëÁ÷ÀàĞÍ0-ÊÓÆµÁ÷, 1-¸´ºÏÁ÷
-	public byte byResolution;  	//·Ö±æÂÊ0-DCIF 1-CIF, 2-QCIF, 3-4CIF, 4-2CIF, 5-2QCIF(352X144)(³µÔØ×¨ÓÃ)
-	public byte byBitrateType;		//ÂëÂÊÀàĞÍ0:±äÂëÂÊ£¬1:¶¨ÂëÂÊ
-	public byte  byPicQuality;		//Í¼ÏóÖÊÁ¿ 0-×îºÃ 1-´ÎºÃ 2-½ÏºÃ 3-Ò»°ã 4-½Ï²î 5-²î
-	public int dwVideoBitrate; 	//ÊÓÆµÂëÂÊ 0-±£Áô 1-16K(±£Áô) 2-32K 3-48k 4-64K 5-80K 6-96K 7-128K 8-160k 9-192K 10-224K 11-256K 12-320K
+    public static class NET_DVR_COMPRESSION_INFO_EX extends Structure {//ç æµå‹ç¼©å‚æ•°(å­ç»“æ„)(æ‰©å±•) å¢åŠ Iå¸§é—´éš”
+	public byte byStreamType;		//ç æµç±»å‹0-è§†é¢‘æµ, 1-å¤åˆæµ
+	public byte byResolution;  	//åˆ†è¾¨ç‡0-DCIF 1-CIF, 2-QCIF, 3-4CIF, 4-2CIF, 5-2QCIF(352X144)(è½¦è½½ä¸“ç”¨)
+	public byte byBitrateType;		//ç ç‡ç±»å‹0:å˜ç ç‡ï¼Œ1:å®šç ç‡
+	public byte  byPicQuality;		//å›¾è±¡è´¨é‡ 0-æœ€å¥½ 1-æ¬¡å¥½ 2-è¾ƒå¥½ 3-ä¸€èˆ¬ 4-è¾ƒå·® 5-å·®
+	public int dwVideoBitrate; 	//è§†é¢‘ç ç‡ 0-ä¿ç•™ 1-16K(ä¿ç•™) 2-32K 3-48k 4-64K 5-80K 6-96K 7-128K 8-160k 9-192K 10-224K 11-256K 12-320K
 	// 13-384K 14-448K 15-512K 16-640K 17-768K 18-896K 19-1024K 20-1280K 21-1536K 22-1792K 23-2048K
-	//×î¸ßÎ»(31Î»)ÖÃ³É1±íÊ¾ÊÇ×Ô¶¨ÒåÂëÁ÷, 0-30Î»±íÊ¾ÂëÁ÷Öµ(MIN-32K MAX-8192K)¡£
-	public int dwVideoFrameRate;	//Ö¡ÂÊ 0-È«²¿; 1-1/16; 2-1/8; 3-1/4; 4-1/2; 5-1; 6-2; 7-4; 8-6; 9-8; 10-10; 11-12; 12-16; 13-20, //V2.0Ôö¼Ó14-15, 15-18, 16-22;
-	public short  wIntervalFrameI;  //IÖ¡¼ä¸ô
-	//2006-08-11 Ôö¼Óµ¥PÖ¡µÄÅäÖÃ½Ó¿Ú£¬¿ÉÒÔ¸ÄÉÆÊµÊ±Á÷ÑÓÊ±ÎÊÌâ
-	public byte  byIntervalBPFrame;//0-BBPÖ¡; 1-BPÖ¡; 2-µ¥PÖ¡
-	public byte  byENumber;//EÖ¡ÊıÁ¿
+	//æœ€é«˜ä½(31ä½)ç½®æˆ1è¡¨ç¤ºæ˜¯è‡ªå®šä¹‰ç æµ, 0-30ä½è¡¨ç¤ºç æµå€¼(MIN-32K MAX-8192K)ã€‚
+	public int dwVideoFrameRate;	//å¸§ç‡ 0-å…¨éƒ¨; 1-1/16; 2-1/8; 3-1/4; 4-1/2; 5-1; 6-2; 7-4; 8-6; 9-8; 10-10; 11-12; 12-16; 13-20, //V2.0å¢åŠ 14-15, 15-18, 16-22;
+	public short  wIntervalFrameI;  //Iå¸§é—´éš”
+	//2006-08-11 å¢åŠ å•På¸§çš„é…ç½®æ¥å£ï¼Œå¯ä»¥æ”¹å–„å®æ—¶æµå»¶æ—¶é—®é¢˜
+	public byte  byIntervalBPFrame;//0-BBPå¸§; 1-BPå¸§; 2-å•På¸§
+	public byte  byENumber;//Eå¸§æ•°é‡
 }
 
-    public static class NET_DVR_COMPRESSIONCFG_EX extends Structure {//Í¨µÀÑ¹Ëõ²ÎÊı(À©Õ¹)
+    public static class NET_DVR_COMPRESSIONCFG_EX extends Structure {//é€šé“å‹ç¼©å‚æ•°(æ‰©å±•)
 	public int dwSize;
-	public NET_DVR_COMPRESSION_INFO_EX struRecordPara; //Â¼Ïñ
-	public NET_DVR_COMPRESSION_INFO_EX struNetPara;	//Íø´«
+	public NET_DVR_COMPRESSION_INFO_EX struRecordPara; //å½•åƒ
+	public NET_DVR_COMPRESSION_INFO_EX struNetPara;	//ç½‘ä¼ 
 }
 
-    public static class NET_DVR_RECCOMPRESSIONCFG_EX extends Structure {//Â¼ÏóÊ±¼ä¶ÎÑ¹Ëõ²ÎÊıÅäÖÃ(GE¶¨ÖÆ)2006-09-18
+    public static class NET_DVR_RECCOMPRESSIONCFG_EX extends Structure {//å½•è±¡æ—¶é—´æ®µå‹ç¼©å‚æ•°é…ç½®(GEå®šåˆ¶)2006-09-18
 	int dwSize;
-	NET_DVR_COMPRESSION_INFO_EX[][]  struRecTimePara = new NET_DVR_COMPRESSION_INFO_EX[MAX_DAYS][MAX_TIMESEGMENT]; //Â¼ÏñÊ±¼ä¶Î
+	NET_DVR_COMPRESSION_INFO_EX[][]  struRecTimePara = new NET_DVR_COMPRESSION_INFO_EX[MAX_DAYS][MAX_TIMESEGMENT]; //å½•åƒæ—¶é—´æ®µ
 }
 
-    public static class NET_DVR_RECORDSCHED extends Structure //Ê±¼ä¶ÎÂ¼Ïñ²ÎÊıÅäÖÃ(×Ó½á¹¹)
+    public static class NET_DVR_RECORDSCHED extends Structure //æ—¶é—´æ®µå½•åƒå‚æ•°é…ç½®(å­ç»“æ„)
     {
         public  NET_DVR_SCHEDTIME struRecordTime = new NET_DVR_SCHEDTIME() ;
-        public byte byRecordType;	//0:¶¨Ê±Â¼Ïñ£¬1:ÒÆ¶¯Õì²â£¬2:±¨¾¯Â¼Ïñ£¬3:¶¯²â|±¨¾¯£¬4:¶¯²â&±¨¾¯, 5:ÃüÁî´¥·¢, 6: ÖÇÄÜÂ¼Ïñ
+        public byte byRecordType;	//0:å®šæ—¶å½•åƒï¼Œ1:ç§»åŠ¨ä¾¦æµ‹ï¼Œ2:æŠ¥è­¦å½•åƒï¼Œ3:åŠ¨æµ‹|æŠ¥è­¦ï¼Œ4:åŠ¨æµ‹&æŠ¥è­¦, 5:å‘½ä»¤è§¦å‘, 6: æ™ºèƒ½å½•åƒ
         public byte[] reservedData = new byte[3];
     }
 
-    public static class NET_DVR_RECORDDAY extends Structure //È«ÌìÂ¼Ïñ²ÎÊıÅäÖÃ(×Ó½á¹¹)
+    public static class NET_DVR_RECORDDAY extends Structure //å…¨å¤©å½•åƒå‚æ•°é…ç½®(å­ç»“æ„)
     {
-        public short wAllDayRecord;				/* ÊÇ·ñÈ«ÌìÂ¼Ïñ 0-·ñ 1-ÊÇ*/
-        public byte byRecordType;				/* Â¼ÏóÀàĞÍ 0:¶¨Ê±Â¼Ïñ£¬1:ÒÆ¶¯Õì²â£¬2:±¨¾¯Â¼Ïñ£¬3:¶¯²â|±¨¾¯£¬4:¶¯²â&±¨¾¯ 5:ÃüÁî´¥·¢, 6: ÖÇÄÜÂ¼Ïñ*/
+        public short wAllDayRecord;				/* æ˜¯å¦å…¨å¤©å½•åƒ 0-å¦ 1-æ˜¯*/
+        public byte byRecordType;				/* å½•è±¡ç±»å‹ 0:å®šæ—¶å½•åƒï¼Œ1:ç§»åŠ¨ä¾¦æµ‹ï¼Œ2:æŠ¥è­¦å½•åƒï¼Œ3:åŠ¨æµ‹|æŠ¥è­¦ï¼Œ4:åŠ¨æµ‹&æŠ¥è­¦ 5:å‘½ä»¤è§¦å‘, 6: æ™ºèƒ½å½•åƒ*/
         public byte reservedData;
     }
 
@@ -1168,773 +1185,773 @@ public static class NET_DVR_VILOST extends Structure {    //ĞÅºÅ¶ªÊ§±¨¾¯(×Ó½á¹¹)
        public 	NET_DVR_RECORDSCHED[] struRecordSched = new NET_DVR_RECORDSCHED[MAX_TIMESEGMENT_V30];
     }
 
-    public static class NET_DVR_RECORD_V30 extends Structure {    //Í¨µÀÂ¼Ïñ²ÎÊıÅäÖÃ(9000À©Õ¹)
+    public static class NET_DVR_RECORD_V30 extends Structure {    //é€šé“å½•åƒå‚æ•°é…ç½®(9000æ‰©å±•)
         public int dwSize;
-        public int dwRecord;  						/*ÊÇ·ñÂ¼Ïñ 0-·ñ 1-ÊÇ*/
+        public int dwRecord;  						/*æ˜¯å¦å½•åƒ 0-å¦ 1-æ˜¯*/
         public NET_DVR_RECORDDAY[] struRecAllDay = new NET_DVR_RECORDDAY[MAX_DAYS];
         public NET_DVR_RECORDSCHEDWEEK[] struRecordSched = new NET_DVR_RECORDSCHEDWEEK[MAX_DAYS];
-        public int dwRecordTime;					/* Â¼ÏóÑÓÊ±³¤¶È 0-5Ãë£¬ 1-20Ãë£¬ 2-30Ãë£¬ 3-1·ÖÖÓ£¬ 4-2·ÖÖÓ£¬ 5-5·ÖÖÓ£¬ 6-10·ÖÖÓ*/
-        public int dwPreRecordTime;				/* Ô¤Â¼Ê±¼ä 0-²»Ô¤Â¼ 1-5Ãë 2-10Ãë 3-15Ãë 4-20Ãë 5-25Ãë 6-30Ãë 7-0xffffffff(¾¡¿ÉÄÜÔ¤Â¼) */
-        public int dwRecorderDuration;				/* Â¼Ïñ±£´æµÄ×î³¤Ê±¼ä */
-        public byte byRedundancyRec;	/*ÊÇ·ñÈßÓàÂ¼Ïñ,ÖØÒªÊı¾İË«±¸·İ£º0/1*/
-        public byte byAudioRec;		/*Â¼ÏñÊ±¸´ºÏÁ÷±àÂëÊ±ÊÇ·ñ¼ÇÂ¼ÒôÆµÊı¾İ£º¹úÍâÓĞ´Ë·¨¹æ*/
+        public int dwRecordTime;					/* å½•è±¡å»¶æ—¶é•¿åº¦ 0-5ç§’ï¼Œ 1-20ç§’ï¼Œ 2-30ç§’ï¼Œ 3-1åˆ†é’Ÿï¼Œ 4-2åˆ†é’Ÿï¼Œ 5-5åˆ†é’Ÿï¼Œ 6-10åˆ†é’Ÿ*/
+        public int dwPreRecordTime;				/* é¢„å½•æ—¶é—´ 0-ä¸é¢„å½• 1-5ç§’ 2-10ç§’ 3-15ç§’ 4-20ç§’ 5-25ç§’ 6-30ç§’ 7-0xffffffff(å°½å¯èƒ½é¢„å½•) */
+        public int dwRecorderDuration;				/* å½•åƒä¿å­˜çš„æœ€é•¿æ—¶é—´ */
+        public byte byRedundancyRec;	/*æ˜¯å¦å†—ä½™å½•åƒ,é‡è¦æ•°æ®åŒå¤‡ä»½ï¼š0/1*/
+        public byte byAudioRec;		/*å½•åƒæ—¶å¤åˆæµç¼–ç æ—¶æ˜¯å¦è®°å½•éŸ³é¢‘æ•°æ®ï¼šå›½å¤–æœ‰æ­¤æ³•è§„*/
         public byte[] byReserve = new byte[10];
     }
 
- public static class NET_DVR_RECORD extends Structure { //Í¨µÀÂ¼Ïñ²ÎÊıÅäÖÃ
+ public static class NET_DVR_RECORD extends Structure { //é€šé“å½•åƒå‚æ•°é…ç½®
 	 public int dwSize;
-	 public int dwRecord;  /*ÊÇ·ñÂ¼Ïñ 0-·ñ 1-ÊÇ*/
+	 public int dwRecord;  /*æ˜¯å¦å½•åƒ 0-å¦ 1-æ˜¯*/
 	 public NET_DVR_RECORDDAY[]  struRecAllDay = new NET_DVR_RECORDDAY[MAX_DAYS];
          public NET_DVR_RECORDSCHEDWEEK[] struRecordSched = new NET_DVR_RECORDSCHEDWEEK[MAX_DAYS];
-	 public int dwRecordTime;	/* Â¼ÏóÊ±¼ä³¤¶È 0-5Ãë£¬ 1-20Ãë£¬ 2-30Ãë£¬ 3-1·ÖÖÓ£¬ 4-2·ÖÖÓ£¬ 5-5·ÖÖÓ£¬ 6-10·ÖÖÓ*/
-	 public int dwPreRecordTime;	/* Ô¤Â¼Ê±¼ä 0-²»Ô¤Â¼ 1-5Ãë 2-10Ãë 3-15Ãë 4-20Ãë 5-25Ãë 6-30Ãë 7-0xffffffff(¾¡¿ÉÄÜÔ¤Â¼) */
+	 public int dwRecordTime;	/* å½•è±¡æ—¶é—´é•¿åº¦ 0-5ç§’ï¼Œ 1-20ç§’ï¼Œ 2-30ç§’ï¼Œ 3-1åˆ†é’Ÿï¼Œ 4-2åˆ†é’Ÿï¼Œ 5-5åˆ†é’Ÿï¼Œ 6-10åˆ†é’Ÿ*/
+	 public int dwPreRecordTime;	/* é¢„å½•æ—¶é—´ 0-ä¸é¢„å½• 1-5ç§’ 2-10ç§’ 3-15ç§’ 4-20ç§’ 5-25ç§’ 6-30ç§’ 7-0xffffffff(å°½å¯èƒ½é¢„å½•) */
 }
 
-//ÔÆÌ¨Ğ­Òé±í½á¹¹ÅäÖÃ
+//äº‘å°åè®®è¡¨ç»“æ„é…ç½®
  public static class NET_DVR_PTZ_PROTOCOL extends Structure {
-       public int dwType;               /*½âÂëÆ÷ÀàĞÍÖµ£¬´Ó1¿ªÊ¼Á¬ĞøµİÔö*/
-       public byte[]  byDescribe = new byte[DESC_LEN]; /*½âÂëÆ÷µÄÃèÊö·û£¬ºÍ8000ÖĞµÄÒ»ÖÂ*/
+       public int dwType;               /*è§£ç å™¨ç±»å‹å€¼ï¼Œä»1å¼€å§‹è¿ç»­é€’å¢*/
+       public byte[]  byDescribe = new byte[DESC_LEN]; /*è§£ç å™¨çš„æè¿°ç¬¦ï¼Œå’Œ8000ä¸­çš„ä¸€è‡´*/
 }
 
  public static class NET_DVR_PTZCFG extends Structure {
        public  int   dwSize;
-       public  NET_DVR_PTZ_PROTOCOL[] struPtz = new NET_DVR_PTZ_PROTOCOL[PTZ_PROTOCOL_NUM];/*×î´ó200ÖĞPTZĞ­Òé*/
-       public  int   dwPtzNum;           /*ÓĞĞ§µÄptzĞ­ÒéÊıÄ¿£¬´Ó0¿ªÊ¼(¼´¼ÆËãÊ±¼Ó1)*/
+       public  NET_DVR_PTZ_PROTOCOL[] struPtz = new NET_DVR_PTZ_PROTOCOL[PTZ_PROTOCOL_NUM];/*æœ€å¤§200ä¸­PTZåè®®*/
+       public  int   dwPtzNum;           /*æœ‰æ•ˆçš„ptzåè®®æ•°ç›®ï¼Œä»0å¼€å§‹(å³è®¡ç®—æ—¶åŠ 1)*/
        public  byte[]  byRes = new byte[8];
 }
-/***************************ÔÆÌ¨ÀàĞÍ(end)******************************/
- public static class NET_DVR_DECODERCFG_V30 extends Structure {//Í¨µÀ½âÂëÆ÷(ÔÆÌ¨)²ÎÊıÅäÖÃ(9000À©Õ¹)
+/***************************äº‘å°ç±»å‹(end)******************************/
+ public static class NET_DVR_DECODERCFG_V30 extends Structure {//é€šé“è§£ç å™¨(äº‘å°)å‚æ•°é…ç½®(9000æ‰©å±•)
 	public int dwSize;
-	public int dwBaudRate;       //²¨ÌØÂÊ(bps)£¬0£­50£¬1£­75£¬2£­110£¬3£­150£¬4£­300£¬5£­600£¬6£­1200£¬7£­2400£¬8£­4800£¬9£­9600£¬10£­19200£¬ 11£­38400£¬12£­57600£¬13£­76800£¬14£­115.2k;
-	public byte byDataBit;         // Êı¾İÓĞ¼¸Î» 0£­5Î»£¬1£­6Î»£¬2£­7Î»£¬3£­8Î»;
-	public byte byStopBit;         // Í£Ö¹Î» 0£­1Î»£¬1£­2Î»;
-	public byte byParity;          // Ğ£Ñé 0£­ÎŞĞ£Ñé£¬1£­ÆæĞ£Ñé£¬2£­Å¼Ğ£Ñé;
-	public byte byFlowcontrol;     // 0£­ÎŞ£¬1£­ÈíÁ÷¿Ø,2-Ó²Á÷¿Ø
-	public short wDecoderType;      //½âÂëÆ÷ÀàĞÍ, 0£­YouLi£¬1£­LiLin-1016£¬2£­LiLin-820£¬3£­Pelco-p£¬4£­DM DynaColor£¬5£­HD600£¬6£­JC-4116£¬7£­Pelco-d WX£¬8£­Pelco-d PICO
-	public short wDecoderAddress;	/*½âÂëÆ÷µØÖ·:0 - 255*/
-	public byte[] bySetPreset = new byte[MAX_PRESET_V30];		/* Ô¤ÖÃµãÊÇ·ñÉèÖÃ,0-Ã»ÓĞÉèÖÃ,1-ÉèÖÃ*/
-	public byte[] bySetCruise = new byte[MAX_CRUISE_V30];		/* Ñ²º½ÊÇ·ñÉèÖÃ: 0-Ã»ÓĞÉèÖÃ,1-ÉèÖÃ */
-	public byte[] bySetTrack = new byte[MAX_TRACK_V30];		    /* ¹ì¼£ÊÇ·ñÉèÖÃ,0-Ã»ÓĞÉèÖÃ,1-ÉèÖÃ*/
+	public int dwBaudRate;       //æ³¢ç‰¹ç‡(bps)ï¼Œ0ï¼50ï¼Œ1ï¼75ï¼Œ2ï¼110ï¼Œ3ï¼150ï¼Œ4ï¼300ï¼Œ5ï¼600ï¼Œ6ï¼1200ï¼Œ7ï¼2400ï¼Œ8ï¼4800ï¼Œ9ï¼9600ï¼Œ10ï¼19200ï¼Œ 11ï¼38400ï¼Œ12ï¼57600ï¼Œ13ï¼76800ï¼Œ14ï¼115.2k;
+	public byte byDataBit;         // æ•°æ®æœ‰å‡ ä½ 0ï¼5ä½ï¼Œ1ï¼6ä½ï¼Œ2ï¼7ä½ï¼Œ3ï¼8ä½;
+	public byte byStopBit;         // åœæ­¢ä½ 0ï¼1ä½ï¼Œ1ï¼2ä½;
+	public byte byParity;          // æ ¡éªŒ 0ï¼æ— æ ¡éªŒï¼Œ1ï¼å¥‡æ ¡éªŒï¼Œ2ï¼å¶æ ¡éªŒ;
+	public byte byFlowcontrol;     // 0ï¼æ— ï¼Œ1ï¼è½¯æµæ§,2-ç¡¬æµæ§
+	public short wDecoderType;      //è§£ç å™¨ç±»å‹, 0ï¼YouLiï¼Œ1ï¼LiLin-1016ï¼Œ2ï¼LiLin-820ï¼Œ3ï¼Pelco-pï¼Œ4ï¼DM DynaColorï¼Œ5ï¼HD600ï¼Œ6ï¼JC-4116ï¼Œ7ï¼Pelco-d WXï¼Œ8ï¼Pelco-d PICO
+	public short wDecoderAddress;	/*è§£ç å™¨åœ°å€:0 - 255*/
+	public byte[] bySetPreset = new byte[MAX_PRESET_V30];		/* é¢„ç½®ç‚¹æ˜¯å¦è®¾ç½®,0-æ²¡æœ‰è®¾ç½®,1-è®¾ç½®*/
+	public byte[] bySetCruise = new byte[MAX_CRUISE_V30];		/* å·¡èˆªæ˜¯å¦è®¾ç½®: 0-æ²¡æœ‰è®¾ç½®,1-è®¾ç½® */
+	public byte[] bySetTrack = new byte[MAX_TRACK_V30];		    /* è½¨è¿¹æ˜¯å¦è®¾ç½®,0-æ²¡æœ‰è®¾ç½®,1-è®¾ç½®*/
 }
 
- public static class NET_DVR_DECODERCFG extends Structure {//Í¨µÀ½âÂëÆ÷(ÔÆÌ¨)²ÎÊıÅäÖÃ
+ public static class NET_DVR_DECODERCFG extends Structure {//é€šé“è§£ç å™¨(äº‘å°)å‚æ•°é…ç½®
 	public int dwSize;
-	public int dwBaudRate;       //²¨ÌØÂÊ(bps)£¬0£­50£¬1£­75£¬2£­110£¬3£­150£¬4£­300£¬5£­600£¬6£­1200£¬7£­2400£¬8£­4800£¬9£­9600£¬10£­19200£¬ 11£­38400£¬12£­57600£¬13£­76800£¬14£­115.2k;
-	public byte byDataBit;         // Êı¾İÓĞ¼¸Î» 0£­5Î»£¬1£­6Î»£¬2£­7Î»£¬3£­8Î»;
-	public byte byStopBit;         // Í£Ö¹Î» 0£­1Î»£¬1£­2Î»;
-	public byte byParity;          // Ğ£Ñé 0£­ÎŞĞ£Ñé£¬1£­ÆæĞ£Ñé£¬2£­Å¼Ğ£Ñé;
-	public byte byFlowcontrol;     // 0£­ÎŞ£¬1£­ÈíÁ÷¿Ø,2-Ó²Á÷¿Ø
-	public short wDecoderType;      //½âÂëÆ÷ÀàĞÍ, 0£­YouLi£¬1£­LiLin-1016£¬2£­LiLin-820£¬3£­Pelco-p£¬4£­DM DynaColor£¬5£­HD600£¬6£­JC-4116£¬7£­Pelco-d WX£¬8£­Pelco-d PICO
-	public short wDecoderAddress;	/*½âÂëÆ÷µØÖ·:0 - 255*/
-	public byte[] bySetPreset = new byte[MAX_PRESET];		/* Ô¤ÖÃµãÊÇ·ñÉèÖÃ,0-Ã»ÓĞÉèÖÃ,1-ÉèÖÃ*/
-	public byte[] bySetCruise = new byte[MAX_CRUISE];		/* Ñ²º½ÊÇ·ñÉèÖÃ: 0-Ã»ÓĞÉèÖÃ,1-ÉèÖÃ */
-	public byte[] bySetTrack = new byte[MAX_TRACK];		    /* ¹ì¼£ÊÇ·ñÉèÖÃ,0-Ã»ÓĞÉèÖÃ,1-ÉèÖÃ*/
+	public int dwBaudRate;       //æ³¢ç‰¹ç‡(bps)ï¼Œ0ï¼50ï¼Œ1ï¼75ï¼Œ2ï¼110ï¼Œ3ï¼150ï¼Œ4ï¼300ï¼Œ5ï¼600ï¼Œ6ï¼1200ï¼Œ7ï¼2400ï¼Œ8ï¼4800ï¼Œ9ï¼9600ï¼Œ10ï¼19200ï¼Œ 11ï¼38400ï¼Œ12ï¼57600ï¼Œ13ï¼76800ï¼Œ14ï¼115.2k;
+	public byte byDataBit;         // æ•°æ®æœ‰å‡ ä½ 0ï¼5ä½ï¼Œ1ï¼6ä½ï¼Œ2ï¼7ä½ï¼Œ3ï¼8ä½;
+	public byte byStopBit;         // åœæ­¢ä½ 0ï¼1ä½ï¼Œ1ï¼2ä½;
+	public byte byParity;          // æ ¡éªŒ 0ï¼æ— æ ¡éªŒï¼Œ1ï¼å¥‡æ ¡éªŒï¼Œ2ï¼å¶æ ¡éªŒ;
+	public byte byFlowcontrol;     // 0ï¼æ— ï¼Œ1ï¼è½¯æµæ§,2-ç¡¬æµæ§
+	public short wDecoderType;      //è§£ç å™¨ç±»å‹, 0ï¼YouLiï¼Œ1ï¼LiLin-1016ï¼Œ2ï¼LiLin-820ï¼Œ3ï¼Pelco-pï¼Œ4ï¼DM DynaColorï¼Œ5ï¼HD600ï¼Œ6ï¼JC-4116ï¼Œ7ï¼Pelco-d WXï¼Œ8ï¼Pelco-d PICO
+	public short wDecoderAddress;	/*è§£ç å™¨åœ°å€:0 - 255*/
+	public byte[] bySetPreset = new byte[MAX_PRESET];		/* é¢„ç½®ç‚¹æ˜¯å¦è®¾ç½®,0-æ²¡æœ‰è®¾ç½®,1-è®¾ç½®*/
+	public byte[] bySetCruise = new byte[MAX_CRUISE];		/* å·¡èˆªæ˜¯å¦è®¾ç½®: 0-æ²¡æœ‰è®¾ç½®,1-è®¾ç½® */
+	public byte[] bySetTrack = new byte[MAX_TRACK];		    /* è½¨è¿¹æ˜¯å¦è®¾ç½®,0-æ²¡æœ‰è®¾ç½®,1-è®¾ç½®*/
 }
 
-public static class NET_DVR_PPPCFG_V30 extends Structure {//ppp²ÎÊıÅäÖÃ(×Ó½á¹¹)
-	public NET_DVR_IPADDR struRemoteIP;	//Ô¶¶ËIPµØÖ·
-	public NET_DVR_IPADDR struLocalIP;		//±¾µØIPµØÖ·
-	public byte[] sLocalIPMask = new byte[16];			//±¾µØIPµØÖ·ÑÚÂë
-	public byte[] sUsername = new byte[NAME_LEN];		/* ÓÃ»§Ãû */
-	public byte[] sPassword = new byte[PASSWD_LEN];		/* ÃÜÂë */
-	public byte byPPPMode;					//PPPÄ£Ê½, 0£­Ö÷¶¯£¬1£­±»¶¯
-	public byte byRedial;					//ÊÇ·ñ»Ø²¦ £º0-·ñ,1-ÊÇ
-	public byte byRedialMode;				//»Ø²¦Ä£Ê½,0-ÓÉ²¦ÈëÕßÖ¸¶¨,1-Ô¤ÖÃ»Ø²¦ºÅÂë
-	public byte byDataEncrypt;				//Êı¾İ¼ÓÃÜ,0-·ñ,1-ÊÇ
+public static class NET_DVR_PPPCFG_V30 extends Structure {//pppå‚æ•°é…ç½®(å­ç»“æ„)
+	public NET_DVR_IPADDR struRemoteIP;	//è¿œç«¯IPåœ°å€
+	public NET_DVR_IPADDR struLocalIP;		//æœ¬åœ°IPåœ°å€
+	public byte[] sLocalIPMask = new byte[16];			//æœ¬åœ°IPåœ°å€æ©ç 
+	public byte[] sUsername = new byte[NAME_LEN];		/* ç”¨æˆ·å */
+	public byte[] sPassword = new byte[PASSWD_LEN];		/* å¯†ç  */
+	public byte byPPPMode;					//PPPæ¨¡å¼, 0ï¼ä¸»åŠ¨ï¼Œ1ï¼è¢«åŠ¨
+	public byte byRedial;					//æ˜¯å¦å›æ‹¨ ï¼š0-å¦,1-æ˜¯
+	public byte byRedialMode;				//å›æ‹¨æ¨¡å¼,0-ç”±æ‹¨å…¥è€…æŒ‡å®š,1-é¢„ç½®å›æ‹¨å·ç 
+	public byte byDataEncrypt;				//æ•°æ®åŠ å¯†,0-å¦,1-æ˜¯
 	public int dwMTU;					//MTU
-	public byte[] sTelephoneNumber = new byte[PHONENUMBER_LEN];   //µç»°ºÅÂë
+	public byte[] sTelephoneNumber = new byte[PHONENUMBER_LEN];   //ç”µè¯å·ç 
 }
 
-public static class NET_DVR_PPPCFG extends Structure {//ppp²ÎÊıÅäÖÃ(×Ó½á¹¹)
-	public byte[] sRemoteIP = new byte[16];				//Ô¶¶ËIPµØÖ·
-	public byte[] sLocalIP = new byte[16];				//±¾µØIPµØÖ·
-	public byte[] sLocalIPMask = new byte[16];			//±¾µØIPµØÖ·ÑÚÂë
-	public byte[] sUsername = new byte[NAME_LEN];		/* ÓÃ»§Ãû */
-	public byte[] sPassword = new byte[PASSWD_LEN];		/* ÃÜÂë */
-	public byte byPPPMode;					//PPPÄ£Ê½, 0£­Ö÷¶¯£¬1£­±»¶¯
-	public byte byRedial;					//ÊÇ·ñ»Ø²¦ £º0-·ñ,1-ÊÇ
-	public byte byRedialMode;				//»Ø²¦Ä£Ê½,0-ÓÉ²¦ÈëÕßÖ¸¶¨,1-Ô¤ÖÃ»Ø²¦ºÅÂë
-	public byte byDataEncrypt;				//Êı¾İ¼ÓÃÜ,0-·ñ,1-ÊÇ
+public static class NET_DVR_PPPCFG extends Structure {//pppå‚æ•°é…ç½®(å­ç»“æ„)
+	public byte[] sRemoteIP = new byte[16];				//è¿œç«¯IPåœ°å€
+	public byte[] sLocalIP = new byte[16];				//æœ¬åœ°IPåœ°å€
+	public byte[] sLocalIPMask = new byte[16];			//æœ¬åœ°IPåœ°å€æ©ç 
+	public byte[] sUsername = new byte[NAME_LEN];		/* ç”¨æˆ·å */
+	public byte[] sPassword = new byte[PASSWD_LEN];		/* å¯†ç  */
+	public byte byPPPMode;					//PPPæ¨¡å¼, 0ï¼ä¸»åŠ¨ï¼Œ1ï¼è¢«åŠ¨
+	public byte byRedial;					//æ˜¯å¦å›æ‹¨ ï¼š0-å¦,1-æ˜¯
+	public byte byRedialMode;				//å›æ‹¨æ¨¡å¼,0-ç”±æ‹¨å…¥è€…æŒ‡å®š,1-é¢„ç½®å›æ‹¨å·ç 
+	public byte byDataEncrypt;				//æ•°æ®åŠ å¯†,0-å¦,1-æ˜¯
 	public int dwMTU;					//MTU
-	public byte[] sTelephoneNumber = new byte[PHONENUMBER_LEN];   //µç»°ºÅÂë
+	public byte[] sTelephoneNumber = new byte[PHONENUMBER_LEN];   //ç”µè¯å·ç 
 }
 
 
-public static class NET_DVR_SINGLE_RS232 extends Structure {//RS232´®¿Ú²ÎÊıÅäÖÃ(9000À©Õ¹)
-       public int dwBaudRate;   /*²¨ÌØÂÊ(bps)£¬0£­50£¬1£­75£¬2£­110£¬3£­150£¬4£­300£¬5£­600£¬6£­1200£¬7£­2400£¬8£­4800£¬9£­9600£¬10£­19200£¬ 11£­38400£¬12£­57600£¬13£­76800£¬14£­115.2k;*/
-       public byte byDataBit;     /* Êı¾İÓĞ¼¸Î» 0£­5Î»£¬1£­6Î»£¬2£­7Î»£¬3£­8Î» */
-       public byte byStopBit;     /* Í£Ö¹Î» 0£­1Î»£¬1£­2Î» */
-       public byte byParity;      /* Ğ£Ñé 0£­ÎŞĞ£Ñé£¬1£­ÆæĞ£Ñé£¬2£­Å¼Ğ£Ñé */
-       public byte byFlowcontrol; /* 0£­ÎŞ£¬1£­ÈíÁ÷¿Ø,2-Ó²Á÷¿Ø */
-       public int dwWorkMode;   /* ¹¤×÷Ä£Ê½£¬0£­232´®¿ÚÓÃÓÚPPP²¦ºÅ£¬1£­232´®¿ÚÓÃÓÚ²ÎÊı¿ØÖÆ£¬2£­Í¸Ã÷Í¨µÀ */
+public static class NET_DVR_SINGLE_RS232 extends Structure {//RS232ä¸²å£å‚æ•°é…ç½®(9000æ‰©å±•)
+       public int dwBaudRate;   /*æ³¢ç‰¹ç‡(bps)ï¼Œ0ï¼50ï¼Œ1ï¼75ï¼Œ2ï¼110ï¼Œ3ï¼150ï¼Œ4ï¼300ï¼Œ5ï¼600ï¼Œ6ï¼1200ï¼Œ7ï¼2400ï¼Œ8ï¼4800ï¼Œ9ï¼9600ï¼Œ10ï¼19200ï¼Œ 11ï¼38400ï¼Œ12ï¼57600ï¼Œ13ï¼76800ï¼Œ14ï¼115.2k;*/
+       public byte byDataBit;     /* æ•°æ®æœ‰å‡ ä½ 0ï¼5ä½ï¼Œ1ï¼6ä½ï¼Œ2ï¼7ä½ï¼Œ3ï¼8ä½ */
+       public byte byStopBit;     /* åœæ­¢ä½ 0ï¼1ä½ï¼Œ1ï¼2ä½ */
+       public byte byParity;      /* æ ¡éªŒ 0ï¼æ— æ ¡éªŒï¼Œ1ï¼å¥‡æ ¡éªŒï¼Œ2ï¼å¶æ ¡éªŒ */
+       public byte byFlowcontrol; /* 0ï¼æ— ï¼Œ1ï¼è½¯æµæ§,2-ç¡¬æµæ§ */
+       public int dwWorkMode;   /* å·¥ä½œæ¨¡å¼ï¼Œ0ï¼232ä¸²å£ç”¨äºPPPæ‹¨å·ï¼Œ1ï¼232ä¸²å£ç”¨äºå‚æ•°æ§åˆ¶ï¼Œ2ï¼é€æ˜é€šé“ */
 }
 
-public static class NET_DVR_RS232CFG_V30 extends Structure {//RS232´®¿Ú²ÎÊıÅäÖÃ(9000À©Õ¹)
+public static class NET_DVR_RS232CFG_V30 extends Structure {//RS232ä¸²å£å‚æ•°é…ç½®(9000æ‰©å±•)
 	public int dwSize;
-        public NET_DVR_SINGLE_RS232 struRs232;/*Ä¿Ç°Ö»ÓĞµÚÒ»¸ö´®¿ÚÉèÖÃÓĞĞ§£¬ËùÓĞÉè±¸¶¼Ö»Ö§³ÖÒ»¸ö´®¿Ú£¬ÆäËûÆß¸ö±£Áô*/
+        public NET_DVR_SINGLE_RS232 struRs232;/*ç›®å‰åªæœ‰ç¬¬ä¸€ä¸ªä¸²å£è®¾ç½®æœ‰æ•ˆï¼Œæ‰€æœ‰è®¾å¤‡éƒ½åªæ”¯æŒä¸€ä¸ªä¸²å£ï¼Œå…¶ä»–ä¸ƒä¸ªä¿ç•™*/
 	public byte[] byRes = new byte[84];
-        public NET_DVR_PPPCFG_V30 struPPPConfig;/*ppp²ÎÊı*/
+        public NET_DVR_PPPCFG_V30 struPPPConfig;/*pppå‚æ•°*/
 }
 
-public static class NET_DVR_RS232CFG extends Structure {//RS232´®¿Ú²ÎÊıÅäÖÃ
+public static class NET_DVR_RS232CFG extends Structure {//RS232ä¸²å£å‚æ•°é…ç½®
 	public int dwSize;
-	public int dwBaudRate;//²¨ÌØÂÊ(bps)£¬0£­50£¬1£­75£¬2£­110£¬3£­150£¬4£­300£¬5£­600£¬6£­1200£¬7£­2400£¬8£­4800£¬9£­9600£¬10£­19200£¬ 11£­38400£¬12£­57600£¬13£­76800£¬14£­115.2k;
-	public byte byDataBit;// Êı¾İÓĞ¼¸Î» 0£­5Î»£¬1£­6Î»£¬2£­7Î»£¬3£­8Î»;
-	public byte byStopBit;// Í£Ö¹Î» 0£­1Î»£¬1£­2Î»;
-	public byte byParity;// Ğ£Ñé 0£­ÎŞĞ£Ñé£¬1£­ÆæĞ£Ñé£¬2£­Å¼Ğ£Ñé;
-	public byte byFlowcontrol;// 0£­ÎŞ£¬1£­ÈíÁ÷¿Ø,2-Ó²Á÷¿Ø
-	public int dwWorkMode;// ¹¤×÷Ä£Ê½£¬0£­Õ­´ø´«Êä(232´®¿ÚÓÃÓÚPPP²¦ºÅ)£¬1£­¿ØÖÆÌ¨(232´®¿ÚÓÃÓÚ²ÎÊı¿ØÖÆ)£¬2£­Í¸Ã÷Í¨µÀ
+	public int dwBaudRate;//æ³¢ç‰¹ç‡(bps)ï¼Œ0ï¼50ï¼Œ1ï¼75ï¼Œ2ï¼110ï¼Œ3ï¼150ï¼Œ4ï¼300ï¼Œ5ï¼600ï¼Œ6ï¼1200ï¼Œ7ï¼2400ï¼Œ8ï¼4800ï¼Œ9ï¼9600ï¼Œ10ï¼19200ï¼Œ 11ï¼38400ï¼Œ12ï¼57600ï¼Œ13ï¼76800ï¼Œ14ï¼115.2k;
+	public byte byDataBit;// æ•°æ®æœ‰å‡ ä½ 0ï¼5ä½ï¼Œ1ï¼6ä½ï¼Œ2ï¼7ä½ï¼Œ3ï¼8ä½;
+	public byte byStopBit;// åœæ­¢ä½ 0ï¼1ä½ï¼Œ1ï¼2ä½;
+	public byte byParity;// æ ¡éªŒ 0ï¼æ— æ ¡éªŒï¼Œ1ï¼å¥‡æ ¡éªŒï¼Œ2ï¼å¶æ ¡éªŒ;
+	public byte byFlowcontrol;// 0ï¼æ— ï¼Œ1ï¼è½¯æµæ§,2-ç¡¬æµæ§
+	public int dwWorkMode;// å·¥ä½œæ¨¡å¼ï¼Œ0ï¼çª„å¸¦ä¼ è¾“(232ä¸²å£ç”¨äºPPPæ‹¨å·)ï¼Œ1ï¼æ§åˆ¶å°(232ä¸²å£ç”¨äºå‚æ•°æ§åˆ¶)ï¼Œ2ï¼é€æ˜é€šé“
 	public NET_DVR_PPPCFG struPPPConfig;
 }
 
-public static class NET_DVR_ALARMINCFG_V30 extends Structure {//±¨¾¯ÊäÈë²ÎÊıÅäÖÃ(9000À©Õ¹)
+public static class NET_DVR_ALARMINCFG_V30 extends Structure {//æŠ¥è­¦è¾“å…¥å‚æ•°é…ç½®(9000æ‰©å±•)
         public 	int dwSize;
-        public 	byte[] sAlarmInName = new byte[NAME_LEN];	/* Ãû³Æ */
-        public 	byte byAlarmType;	            //±¨¾¯Æ÷ÀàĞÍ,0£º³£¿ª,1£º³£±Õ
-        public 	byte byAlarmInHandle;	        /* ÊÇ·ñ´¦Àí 0-²»´¦Àí 1-´¦Àí*/
+        public 	byte[] sAlarmInName = new byte[NAME_LEN];	/* åç§° */
+        public 	byte byAlarmType;	            //æŠ¥è­¦å™¨ç±»å‹,0ï¼šå¸¸å¼€,1ï¼šå¸¸é—­
+        public 	byte byAlarmInHandle;	        /* æ˜¯å¦å¤„ç† 0-ä¸å¤„ç† 1-å¤„ç†*/
         public    byte[] reservedData = new byte[2];
-	public NET_DVR_HANDLEEXCEPTION_V30 struAlarmHandleType;	/* ´¦Àí·½Ê½ */
-	public NET_DVR_SCHEDTIMEWEEK[] struAlarmTime = new NET_DVR_SCHEDTIMEWEEK[MAX_DAYS];//²¼·ÀÊ±¼ä
-	public byte[] byRelRecordChan = new byte[MAX_CHANNUM_V30]; //±¨¾¯´¥·¢µÄÂ¼ÏóÍ¨µÀ,Îª1±íÊ¾´¥·¢¸ÃÍ¨µÀ
-	public byte[] byEnablePreset = new byte[MAX_CHANNUM_V30];		/* ÊÇ·ñµ÷ÓÃÔ¤ÖÃµã 0-·ñ,1-ÊÇ*/
-	public byte[] byPresetNo = new byte[MAX_CHANNUM_V30];			/* µ÷ÓÃµÄÔÆÌ¨Ô¤ÖÃµãĞòºÅ,Ò»¸ö±¨¾¯ÊäÈë¿ÉÒÔµ÷ÓÃ¶à¸öÍ¨µÀµÄÔÆÌ¨Ô¤ÖÃµã, 0xff±íÊ¾²»µ÷ÓÃÔ¤ÖÃµã¡£*/
-	public byte[] byEnablePresetRevert = new byte[MAX_CHANNUM_V30]; /* ÊÇ·ñ»Ö¸´µ½µ÷ÓÃÔ¤ÖÃµãÇ°µÄÎ»ÖÃ(±£Áô) */
-	public short[] wPresetRevertDelay = new short[MAX_CHANNUM_V30];	/* »Ö¸´Ô¤ÖÃµãÑÓÊ±(±£Áô) */
-	public byte[] byEnableCruise = new byte[MAX_CHANNUM_V30];		/* ÊÇ·ñµ÷ÓÃÑ²º½ 0-·ñ,1-ÊÇ*/
-	public byte[] byCruiseNo = new byte[MAX_CHANNUM_V30];			/* Ñ²º½ */
-	public byte[] byEnablePtzTrack = new byte[MAX_CHANNUM_V30];		/* ÊÇ·ñµ÷ÓÃ¹ì¼£ 0-·ñ,1-ÊÇ*/
-	public byte[] byPTZTrack = new byte[MAX_CHANNUM_V30];			/* µ÷ÓÃµÄÔÆÌ¨µÄ¹ì¼£ĞòºÅ */
+	public NET_DVR_HANDLEEXCEPTION_V30 struAlarmHandleType;	/* å¤„ç†æ–¹å¼ */
+	public NET_DVR_SCHEDTIMEWEEK[] struAlarmTime = new NET_DVR_SCHEDTIMEWEEK[MAX_DAYS];//å¸ƒé˜²æ—¶é—´
+	public byte[] byRelRecordChan = new byte[MAX_CHANNUM_V30]; //æŠ¥è­¦è§¦å‘çš„å½•è±¡é€šé“,ä¸º1è¡¨ç¤ºè§¦å‘è¯¥é€šé“
+	public byte[] byEnablePreset = new byte[MAX_CHANNUM_V30];		/* æ˜¯å¦è°ƒç”¨é¢„ç½®ç‚¹ 0-å¦,1-æ˜¯*/
+	public byte[] byPresetNo = new byte[MAX_CHANNUM_V30];			/* è°ƒç”¨çš„äº‘å°é¢„ç½®ç‚¹åºå·,ä¸€ä¸ªæŠ¥è­¦è¾“å…¥å¯ä»¥è°ƒç”¨å¤šä¸ªé€šé“çš„äº‘å°é¢„ç½®ç‚¹, 0xffè¡¨ç¤ºä¸è°ƒç”¨é¢„ç½®ç‚¹ã€‚*/
+	public byte[] byEnablePresetRevert = new byte[MAX_CHANNUM_V30]; /* æ˜¯å¦æ¢å¤åˆ°è°ƒç”¨é¢„ç½®ç‚¹å‰çš„ä½ç½®(ä¿ç•™) */
+	public short[] wPresetRevertDelay = new short[MAX_CHANNUM_V30];	/* æ¢å¤é¢„ç½®ç‚¹å»¶æ—¶(ä¿ç•™) */
+	public byte[] byEnableCruise = new byte[MAX_CHANNUM_V30];		/* æ˜¯å¦è°ƒç”¨å·¡èˆª 0-å¦,1-æ˜¯*/
+	public byte[] byCruiseNo = new byte[MAX_CHANNUM_V30];			/* å·¡èˆª */
+	public byte[] byEnablePtzTrack = new byte[MAX_CHANNUM_V30];		/* æ˜¯å¦è°ƒç”¨è½¨è¿¹ 0-å¦,1-æ˜¯*/
+	public byte[] byPTZTrack = new byte[MAX_CHANNUM_V30];			/* è°ƒç”¨çš„äº‘å°çš„è½¨è¿¹åºå· */
         public   byte[] byRes = new byte[16];
 }
 
-public static class NET_DVR_ALARMINCFG extends Structure {//±¨¾¯ÊäÈë²ÎÊıÅäÖÃ
+public static class NET_DVR_ALARMINCFG extends Structure {//æŠ¥è­¦è¾“å…¥å‚æ•°é…ç½®
 	public int dwSize;
-	public byte[] sAlarmInName = new byte[NAME_LEN];	/* Ãû³Æ */
-	public byte byAlarmType;	//±¨¾¯Æ÷ÀàĞÍ,0£º³£¿ª,1£º³£±Õ
-	public byte byAlarmInHandle;	/* ÊÇ·ñ´¦Àí 0-²»´¦Àí 1-´¦Àí*/
-	public NET_DVR_HANDLEEXCEPTION struAlarmHandleType;	/* ´¦Àí·½Ê½ */
-        public  NET_DVR_SCHEDTIMEWEEK[] struAlarmTime = new NET_DVR_SCHEDTIMEWEEK[MAX_DAYS];//²¼·ÀÊ±¼ä
-	public byte[] byRelRecordChan = new byte[MAX_CHANNUM]; //±¨¾¯´¥·¢µÄÂ¼ÏóÍ¨µÀ,Îª1±íÊ¾´¥·¢¸ÃÍ¨µÀ
-	public byte[] byEnablePreset = new byte[MAX_CHANNUM];		/* ÊÇ·ñµ÷ÓÃÔ¤ÖÃµã 0-·ñ,1-ÊÇ*/
-	public byte[] byPresetNo = new byte[MAX_CHANNUM];			/* µ÷ÓÃµÄÔÆÌ¨Ô¤ÖÃµãĞòºÅ,Ò»¸ö±¨¾¯ÊäÈë¿ÉÒÔµ÷ÓÃ¶à¸öÍ¨µÀµÄÔÆÌ¨Ô¤ÖÃµã, 0xff±íÊ¾²»µ÷ÓÃÔ¤ÖÃµã¡£*/
-	public byte[] byEnableCruise = new byte[MAX_CHANNUM];		/* ÊÇ·ñµ÷ÓÃÑ²º½ 0-·ñ,1-ÊÇ*/
-	public byte[] byCruiseNo = new byte[MAX_CHANNUM];			/* Ñ²º½ */
-	public byte[] byEnablePtzTrack = new byte[MAX_CHANNUM];		/* ÊÇ·ñµ÷ÓÃ¹ì¼£ 0-·ñ,1-ÊÇ*/
-	public byte[] byPTZTrack = new byte[MAX_CHANNUM];			/* µ÷ÓÃµÄÔÆÌ¨µÄ¹ì¼£ĞòºÅ */
+	public byte[] sAlarmInName = new byte[NAME_LEN];	/* åç§° */
+	public byte byAlarmType;	//æŠ¥è­¦å™¨ç±»å‹,0ï¼šå¸¸å¼€,1ï¼šå¸¸é—­
+	public byte byAlarmInHandle;	/* æ˜¯å¦å¤„ç† 0-ä¸å¤„ç† 1-å¤„ç†*/
+	public NET_DVR_HANDLEEXCEPTION struAlarmHandleType;	/* å¤„ç†æ–¹å¼ */
+        public  NET_DVR_SCHEDTIMEWEEK[] struAlarmTime = new NET_DVR_SCHEDTIMEWEEK[MAX_DAYS];//å¸ƒé˜²æ—¶é—´
+	public byte[] byRelRecordChan = new byte[MAX_CHANNUM]; //æŠ¥è­¦è§¦å‘çš„å½•è±¡é€šé“,ä¸º1è¡¨ç¤ºè§¦å‘è¯¥é€šé“
+	public byte[] byEnablePreset = new byte[MAX_CHANNUM];		/* æ˜¯å¦è°ƒç”¨é¢„ç½®ç‚¹ 0-å¦,1-æ˜¯*/
+	public byte[] byPresetNo = new byte[MAX_CHANNUM];			/* è°ƒç”¨çš„äº‘å°é¢„ç½®ç‚¹åºå·,ä¸€ä¸ªæŠ¥è­¦è¾“å…¥å¯ä»¥è°ƒç”¨å¤šä¸ªé€šé“çš„äº‘å°é¢„ç½®ç‚¹, 0xffè¡¨ç¤ºä¸è°ƒç”¨é¢„ç½®ç‚¹ã€‚*/
+	public byte[] byEnableCruise = new byte[MAX_CHANNUM];		/* æ˜¯å¦è°ƒç”¨å·¡èˆª 0-å¦,1-æ˜¯*/
+	public byte[] byCruiseNo = new byte[MAX_CHANNUM];			/* å·¡èˆª */
+	public byte[] byEnablePtzTrack = new byte[MAX_CHANNUM];		/* æ˜¯å¦è°ƒç”¨è½¨è¿¹ 0-å¦,1-æ˜¯*/
+	public byte[] byPTZTrack = new byte[MAX_CHANNUM];			/* è°ƒç”¨çš„äº‘å°çš„è½¨è¿¹åºå· */
 }
 
-public static class NET_DVR_ADDIT_POSITION extends Structure {//³µÔØGPSĞÅÏ¢½á¹¹(2007-12-27)
-	public byte[]	sDevName = new byte[32];		/* Éè±¸Ãû³Æ */
-	public int	dwSpeed;			/*ËÙ¶È*/
-	public int	dwLongitude;		/* ¾­¶È*/
-	public int	dwLatitude;       /* Î³¶È*/
-	public byte[]	direction = new byte[2];   /* direction[0]:'E'or'W'(¶«¾­/Î÷¾­), direction[1]:'N'or'S'(±±Î³/ÄÏÎ³) */
-	public byte[]  res = new byte[2];              /* ±£ÁôÎ» */
+public static class NET_DVR_ADDIT_POSITION extends Structure {//è½¦è½½GPSä¿¡æ¯ç»“æ„(2007-12-27)
+	public byte[]	sDevName = new byte[32];		/* è®¾å¤‡åç§° */
+	public int	dwSpeed;			/*é€Ÿåº¦*/
+	public int	dwLongitude;		/* ç»åº¦*/
+	public int	dwLatitude;       /* çº¬åº¦*/
+	public byte[]	direction = new byte[2];   /* direction[0]:'E'or'W'(ä¸œç»/è¥¿ç»), direction[1]:'N'or'S'(åŒ—çº¬/å—çº¬) */
+	public byte[]  res = new byte[2];              /* ä¿ç•™ä½ */
 }
 
-public static class NET_DVR_ALARMINFO_V30 extends Structure {//ÉÏ´«±¨¾¯ĞÅÏ¢(9000À©Õ¹)
-	public int dwAlarmType;/*0-ĞÅºÅÁ¿±¨¾¯,1-Ó²ÅÌÂú,2-ĞÅºÅ¶ªÊ§,3£­ÒÆ¶¯Õì²â,4£­Ó²ÅÌÎ´¸ñÊ½»¯,5-¶ÁĞ´Ó²ÅÌ³ö´í,6-ÕÚµ²±¨¾¯,7-ÖÆÊ½²»Æ¥Åä, 8-·Ç·¨·ÃÎÊ, 0xa-GPS¶¨Î»ĞÅÏ¢(³µÔØ¶¨ÖÆ)*/
-	public int dwAlarmInputNumber;/*±¨¾¯ÊäÈë¶Ë¿Ú*/
-	public byte[]  byAlarmOutputNumber = new byte[MAX_ALARMOUT_V30];/*´¥·¢µÄÊä³ö¶Ë¿Ú£¬Îª1±íÊ¾¶ÔÓ¦Êä³ö*/
-	public byte[]  byAlarmRelateChannel= new byte[MAX_CHANNUM_V30];/*´¥·¢µÄÂ¼ÏñÍ¨µÀ£¬Îª1±íÊ¾¶ÔÓ¦Â¼Ïñ, dwAlarmRelateChannel[0]¶ÔÓ¦µÚ1¸öÍ¨µÀ*/
-	public byte[]  byChannel= new byte[MAX_CHANNUM_V30];/*dwAlarmTypeÎª2»ò3,6Ê±£¬±íÊ¾ÄÄ¸öÍ¨µÀ£¬dwChannel[0]¶ÔÓ¦µÚ1¸öÍ¨µÀ*/
-	public byte[]  byDiskNumber= new byte[MAX_DISKNUM_V30];/*dwAlarmTypeÎª1,4,5Ê±,±íÊ¾ÄÄ¸öÓ²ÅÌ, dwDiskNumber[0]¶ÔÓ¦µÚ1¸öÓ²ÅÌ*/
+public static class NET_DVR_ALARMINFO_V30 extends Structure {//ä¸Šä¼ æŠ¥è­¦ä¿¡æ¯(9000æ‰©å±•)
+	public int dwAlarmType;/*0-ä¿¡å·é‡æŠ¥è­¦,1-ç¡¬ç›˜æ»¡,2-ä¿¡å·ä¸¢å¤±,3ï¼ç§»åŠ¨ä¾¦æµ‹,4ï¼ç¡¬ç›˜æœªæ ¼å¼åŒ–,5-è¯»å†™ç¡¬ç›˜å‡ºé”™,6-é®æŒ¡æŠ¥è­¦,7-åˆ¶å¼ä¸åŒ¹é…, 8-éæ³•è®¿é—®, 0xa-GPSå®šä½ä¿¡æ¯(è½¦è½½å®šåˆ¶)*/
+	public int dwAlarmInputNumber;/*æŠ¥è­¦è¾“å…¥ç«¯å£*/
+	public byte[]  byAlarmOutputNumber = new byte[MAX_ALARMOUT_V30];/*è§¦å‘çš„è¾“å‡ºç«¯å£ï¼Œä¸º1è¡¨ç¤ºå¯¹åº”è¾“å‡º*/
+	public byte[]  byAlarmRelateChannel= new byte[MAX_CHANNUM_V30];/*è§¦å‘çš„å½•åƒé€šé“ï¼Œä¸º1è¡¨ç¤ºå¯¹åº”å½•åƒ, dwAlarmRelateChannel[0]å¯¹åº”ç¬¬1ä¸ªé€šé“*/
+	public byte[]  byChannel= new byte[MAX_CHANNUM_V30];/*dwAlarmTypeä¸º2æˆ–3,6æ—¶ï¼Œè¡¨ç¤ºå“ªä¸ªé€šé“ï¼ŒdwChannel[0]å¯¹åº”ç¬¬1ä¸ªé€šé“*/
+	public byte[]  byDiskNumber= new byte[MAX_DISKNUM_V30];/*dwAlarmTypeä¸º1,4,5æ—¶,è¡¨ç¤ºå“ªä¸ªç¡¬ç›˜, dwDiskNumber[0]å¯¹åº”ç¬¬1ä¸ªç¡¬ç›˜*/
 }
 
 public static class NET_DVR_ALARMINFO extends Structure {
-	public int dwAlarmType;/*0-ĞÅºÅÁ¿±¨¾¯,1-Ó²ÅÌÂú,2-ĞÅºÅ¶ªÊ§,3£­ÒÆ¶¯Õì²â,4£­Ó²ÅÌÎ´¸ñÊ½»¯,5-¶ÁĞ´Ó²ÅÌ³ö´í,6-ÕÚµ²±¨¾¯,7-ÖÆÊ½²»Æ¥Åä, 8-·Ç·¨·ÃÎÊ, 9-´®¿Ú×´Ì¬, 0xa-GPS¶¨Î»ĞÅÏ¢(³µÔØ¶¨ÖÆ)*/
-	public int dwAlarmInputNumber;/*±¨¾¯ÊäÈë¶Ë¿Ú, µ±±¨¾¯ÀàĞÍÎª9Ê±¸Ã±äÁ¿±íÊ¾´®¿Ú×´Ì¬0±íÊ¾Õı³££¬ -1±íÊ¾´íÎó*/
-	public int[] dwAlarmOutputNumber = new int[MAX_ALARMOUT];/*´¥·¢µÄÊä³ö¶Ë¿Ú£¬Îª1±íÊ¾¶ÔÓ¦ÄÄÒ»¸öÊä³ö*/
-	public int[] dwAlarmRelateChannel = new int[MAX_CHANNUM];/*´¥·¢µÄÂ¼ÏñÍ¨µÀ£¬dwAlarmRelateChannel[0]Îª1±íÊ¾µÚ1¸öÍ¨µÀÂ¼Ïñ*/
-	public int[] dwChannel = new int[MAX_CHANNUM];/*dwAlarmTypeÎª2»ò3,6Ê±£¬±íÊ¾ÄÄ¸öÍ¨µÀ£¬dwChannel[0]Î»¶ÔÓ¦µÚ1¸öÍ¨µÀ*/
-	public int[] dwDiskNumber = new int[MAX_DISKNUM];/*dwAlarmTypeÎª1,4,5Ê±,±íÊ¾ÄÄ¸öÓ²ÅÌ, dwDiskNumber[0]Î»¶ÔÓ¦µÚ1¸öÓ²ÅÌ*/
+	public int dwAlarmType;/*0-ä¿¡å·é‡æŠ¥è­¦,1-ç¡¬ç›˜æ»¡,2-ä¿¡å·ä¸¢å¤±,3ï¼ç§»åŠ¨ä¾¦æµ‹,4ï¼ç¡¬ç›˜æœªæ ¼å¼åŒ–,5-è¯»å†™ç¡¬ç›˜å‡ºé”™,6-é®æŒ¡æŠ¥è­¦,7-åˆ¶å¼ä¸åŒ¹é…, 8-éæ³•è®¿é—®, 9-ä¸²å£çŠ¶æ€, 0xa-GPSå®šä½ä¿¡æ¯(è½¦è½½å®šåˆ¶)*/
+	public int dwAlarmInputNumber;/*æŠ¥è­¦è¾“å…¥ç«¯å£, å½“æŠ¥è­¦ç±»å‹ä¸º9æ—¶è¯¥å˜é‡è¡¨ç¤ºä¸²å£çŠ¶æ€0è¡¨ç¤ºæ­£å¸¸ï¼Œ -1è¡¨ç¤ºé”™è¯¯*/
+	public int[] dwAlarmOutputNumber = new int[MAX_ALARMOUT];/*è§¦å‘çš„è¾“å‡ºç«¯å£ï¼Œä¸º1è¡¨ç¤ºå¯¹åº”å“ªä¸€ä¸ªè¾“å‡º*/
+	public int[] dwAlarmRelateChannel = new int[MAX_CHANNUM];/*è§¦å‘çš„å½•åƒé€šé“ï¼ŒdwAlarmRelateChannel[0]ä¸º1è¡¨ç¤ºç¬¬1ä¸ªé€šé“å½•åƒ*/
+	public int[] dwChannel = new int[MAX_CHANNUM];/*dwAlarmTypeä¸º2æˆ–3,6æ—¶ï¼Œè¡¨ç¤ºå“ªä¸ªé€šé“ï¼ŒdwChannel[0]ä½å¯¹åº”ç¬¬1ä¸ªé€šé“*/
+	public int[] dwDiskNumber = new int[MAX_DISKNUM];/*dwAlarmTypeä¸º1,4,5æ—¶,è¡¨ç¤ºå“ªä¸ªç¡¬ç›˜, dwDiskNumber[0]ä½å¯¹åº”ç¬¬1ä¸ªç¡¬ç›˜*/
 }
 
-public static class NET_DVR_ALARMINFO_EX extends Structure {//ÉÏ´«±¨¾¯ĞÅÏ¢(º¼Öİ¾ºÌì¶¨ÖÆ 2006-07-28)
-	public int dwAlarmType;/*0-ĞÅºÅÁ¿±¨¾¯,1-Ó²ÅÌÂú,2-ĞÅºÅ¶ªÊ§,3£­ÒÆ¶¯Õì²â,4£­Ó²ÅÌÎ´¸ñÊ½»¯,5-¶ÁĞ´Ó²ÅÌ³ö´í,6-ÕÚµ²±¨¾¯,7-ÖÆÊ½²»Æ¥Åä, 8-·Ç·¨·ÃÎÊ*/
-	public int dwAlarmInputNumber;/*±¨¾¯ÊäÈë¶Ë¿Ú*/
-	public int[] dwAlarmOutputNumber = new int[MAX_ALARMOUT];/*±¨¾¯ÊäÈë¶Ë¿Ú¶ÔÓ¦µÄÊä³ö¶Ë¿Ú£¬ÄÄÒ»Î»Îª1±íÊ¾¶ÔÓ¦ÄÄÒ»¸öÊä³ö*/
-	public int[] dwAlarmRelateChannel = new int[MAX_CHANNUM];/*±¨¾¯ÊäÈë¶Ë¿Ú¶ÔÓ¦µÄÂ¼ÏñÍ¨µÀ£¬ÄÄÒ»Î»Îª1±íÊ¾¶ÔÓ¦ÄÄÒ»Â·Â¼Ïñ,dwAlarmRelateChannel[0]¶ÔÓ¦µÚ1¸öÍ¨µÀ*/
-	public int[] dwChannel = new int[MAX_CHANNUM];/*dwAlarmTypeÎª2»ò3,6Ê±£¬±íÊ¾ÄÄ¸öÍ¨µÀ£¬dwChannel[0]Î»¶ÔÓ¦µÚ0¸öÍ¨µÀ*/
-	public int[] dwDiskNumber = new int[MAX_DISKNUM];/*dwAlarmTypeÎª1,4,5Ê±,±íÊ¾ÄÄ¸öÓ²ÅÌ*/
-	public byte[] sSerialNumber = new byte[SERIALNO_LEN];  //ĞòÁĞºÅ
-	public byte[]  sRemoteAlarmIP = new byte[16];			//Ô¶³Ì±¨¾¯IPµØÖ·£»
+public static class NET_DVR_ALARMINFO_EX extends Structure {//ä¸Šä¼ æŠ¥è­¦ä¿¡æ¯(æ­å·ç«å¤©å®šåˆ¶ 2006-07-28)
+	public int dwAlarmType;/*0-ä¿¡å·é‡æŠ¥è­¦,1-ç¡¬ç›˜æ»¡,2-ä¿¡å·ä¸¢å¤±,3ï¼ç§»åŠ¨ä¾¦æµ‹,4ï¼ç¡¬ç›˜æœªæ ¼å¼åŒ–,5-è¯»å†™ç¡¬ç›˜å‡ºé”™,6-é®æŒ¡æŠ¥è­¦,7-åˆ¶å¼ä¸åŒ¹é…, 8-éæ³•è®¿é—®*/
+	public int dwAlarmInputNumber;/*æŠ¥è­¦è¾“å…¥ç«¯å£*/
+	public int[] dwAlarmOutputNumber = new int[MAX_ALARMOUT];/*æŠ¥è­¦è¾“å…¥ç«¯å£å¯¹åº”çš„è¾“å‡ºç«¯å£ï¼Œå“ªä¸€ä½ä¸º1è¡¨ç¤ºå¯¹åº”å“ªä¸€ä¸ªè¾“å‡º*/
+	public int[] dwAlarmRelateChannel = new int[MAX_CHANNUM];/*æŠ¥è­¦è¾“å…¥ç«¯å£å¯¹åº”çš„å½•åƒé€šé“ï¼Œå“ªä¸€ä½ä¸º1è¡¨ç¤ºå¯¹åº”å“ªä¸€è·¯å½•åƒ,dwAlarmRelateChannel[0]å¯¹åº”ç¬¬1ä¸ªé€šé“*/
+	public int[] dwChannel = new int[MAX_CHANNUM];/*dwAlarmTypeä¸º2æˆ–3,6æ—¶ï¼Œè¡¨ç¤ºå“ªä¸ªé€šé“ï¼ŒdwChannel[0]ä½å¯¹åº”ç¬¬0ä¸ªé€šé“*/
+	public int[] dwDiskNumber = new int[MAX_DISKNUM];/*dwAlarmTypeä¸º1,4,5æ—¶,è¡¨ç¤ºå“ªä¸ªç¡¬ç›˜*/
+	public byte[] sSerialNumber = new byte[SERIALNO_LEN];  //åºåˆ—å·
+	public byte[]  sRemoteAlarmIP = new byte[16];			//è¿œç¨‹æŠ¥è­¦IPåœ°å€ï¼›
 }
 
 //////////////////////////////////////////////////////////////////////////////////////
-//IPC½ÓÈë²ÎÊıÅäÖÃ
-public static class NET_DVR_IPDEVINFO extends Structure {/* IPÉè±¸½á¹¹ */
-       public   int dwEnable;				    /* ¸ÃIPÉè±¸ÊÇ·ñÆôÓÃ */
-       public   byte[] sUserName = new byte[NAME_LEN];		/* ÓÃ»§Ãû */
-       public   byte[] sPassword = new byte[PASSWD_LEN];	    /* ÃÜÂë */
-       public   NET_DVR_IPADDR struIP = new NET_DVR_IPADDR();			/* IPµØÖ· */
-       public   short wDVRPort;			 	    /* ¶Ë¿ÚºÅ */
-       public   byte[] byres = new byte[34];				/* ±£Áô */
+//IPCæ¥å…¥å‚æ•°é…ç½®
+public static class NET_DVR_IPDEVINFO extends Structure {/* IPè®¾å¤‡ç»“æ„ */
+       public   int dwEnable;				    /* è¯¥IPè®¾å¤‡æ˜¯å¦å¯ç”¨ */
+       public   byte[] sUserName = new byte[NAME_LEN];		/* ç”¨æˆ·å */
+       public   byte[] sPassword = new byte[PASSWD_LEN];	    /* å¯†ç  */
+       public   NET_DVR_IPADDR struIP = new NET_DVR_IPADDR();			/* IPåœ°å€ */
+       public   short wDVRPort;			 	    /* ç«¯å£å· */
+       public   byte[] byres = new byte[34];				/* ä¿ç•™ */
 }
 
-public static class NET_DVR_IPCHANINFO extends Structure {/* IPÍ¨µÀÆ¥Åä²ÎÊı */
-       public   byte byEnable;					/* ¸ÃÍ¨µÀÊÇ·ñÆôÓÃ */
-       public  byte byIPID;					/* IPÉè±¸ID È¡Öµ1- MAX_IP_DEVICE */
-       public  byte byChannel;					/* Í¨µÀºÅ */
-       public   byte[] byres = new byte[33];					/* ±£Áô */
+public static class NET_DVR_IPCHANINFO extends Structure {/* IPé€šé“åŒ¹é…å‚æ•° */
+       public   byte byEnable;					/* è¯¥é€šé“æ˜¯å¦å¯ç”¨ */
+       public  byte byIPID;					/* IPè®¾å¤‡ID å–å€¼1- MAX_IP_DEVICE */
+       public  byte byChannel;					/* é€šé“å· */
+       public   byte[] byres = new byte[33];					/* ä¿ç•™ */
 }
 
-public static class NET_DVR_IPPARACFG extends Structure {/* IP½ÓÈëÅäÖÃ½á¹¹ */
-       public  int dwSize;			                            /* ½á¹¹´óĞ¡ */
-       public  NET_DVR_IPDEVINFO[]  struIPDevInfo = new NET_DVR_IPDEVINFO[MAX_IP_DEVICE];    /* IPÉè±¸ */
-       public   byte[] byAnalogChanEnable = new byte[MAX_ANALOG_CHANNUM];        /* Ä£ÄâÍ¨µÀÊÇ·ñÆôÓÃ£¬´ÓµÍµ½¸ß±íÊ¾1-32Í¨µÀ£¬0±íÊ¾ÎŞĞ§ 1ÓĞĞ§ */
-       public NET_DVR_IPCHANINFO[] struIPChanInfo = new NET_DVR_IPCHANINFO[MAX_IP_CHANNEL];	/* IPÍ¨µÀ */
+public static class NET_DVR_IPPARACFG extends Structure {/* IPæ¥å…¥é…ç½®ç»“æ„ */
+       public  int dwSize;			                            /* ç»“æ„å¤§å° */
+       public  NET_DVR_IPDEVINFO[]  struIPDevInfo = new NET_DVR_IPDEVINFO[MAX_IP_DEVICE];    /* IPè®¾å¤‡ */
+       public   byte[] byAnalogChanEnable = new byte[MAX_ANALOG_CHANNUM];        /* æ¨¡æ‹Ÿé€šé“æ˜¯å¦å¯ç”¨ï¼Œä»ä½åˆ°é«˜è¡¨ç¤º1-32é€šé“ï¼Œ0è¡¨ç¤ºæ— æ•ˆ 1æœ‰æ•ˆ */
+       public NET_DVR_IPCHANINFO[] struIPChanInfo = new NET_DVR_IPCHANINFO[MAX_IP_CHANNEL];	/* IPé€šé“ */
 }
 
-public static class NET_DVR_IPALARMOUTINFO extends Structure {/* ±¨¾¯Êä³ö²ÎÊı */
-       public  byte byIPID;					/* IPÉè±¸IDÈ¡Öµ1- MAX_IP_DEVICE */
-       public  byte byAlarmOut;				/* ±¨¾¯Êä³öºÅ */
-       public  byte[] byRes = new byte[18];					/* ±£Áô */
+public static class NET_DVR_IPALARMOUTINFO extends Structure {/* æŠ¥è­¦è¾“å‡ºå‚æ•° */
+       public  byte byIPID;					/* IPè®¾å¤‡IDå–å€¼1- MAX_IP_DEVICE */
+       public  byte byAlarmOut;				/* æŠ¥è­¦è¾“å‡ºå· */
+       public  byte[] byRes = new byte[18];					/* ä¿ç•™ */
 }
 
-public static class NET_DVR_IPALARMOUTCFG extends Structure {/* IP±¨¾¯Êä³öÅäÖÃ½á¹¹ */
-       public  int dwSize;			                        /* ½á¹¹´óĞ¡ */
-       public  NET_DVR_IPALARMOUTINFO[] struIPAlarmOutInfo = new NET_DVR_IPALARMOUTINFO[MAX_IP_ALARMOUT];/* IP±¨¾¯Êä³ö */
+public static class NET_DVR_IPALARMOUTCFG extends Structure {/* IPæŠ¥è­¦è¾“å‡ºé…ç½®ç»“æ„ */
+       public  int dwSize;			                        /* ç»“æ„å¤§å° */
+       public  NET_DVR_IPALARMOUTINFO[] struIPAlarmOutInfo = new NET_DVR_IPALARMOUTINFO[MAX_IP_ALARMOUT];/* IPæŠ¥è­¦è¾“å‡º */
 }
 
-public static class NET_DVR_IPALARMININFO extends Structure {/* ±¨¾¯ÊäÈë²ÎÊı */
-       public  byte byIPID;					/* IPÉè±¸IDÈ¡Öµ1- MAX_IP_DEVICE */
-       public  byte byAlarmIn;					/* ±¨¾¯ÊäÈëºÅ */
-       public  byte[] byRes = new byte[18];					/* ±£Áô */
+public static class NET_DVR_IPALARMININFO extends Structure {/* æŠ¥è­¦è¾“å…¥å‚æ•° */
+       public  byte byIPID;					/* IPè®¾å¤‡IDå–å€¼1- MAX_IP_DEVICE */
+       public  byte byAlarmIn;					/* æŠ¥è­¦è¾“å…¥å· */
+       public  byte[] byRes = new byte[18];					/* ä¿ç•™ */
 }
 
-public static class NET_DVR_IPALARMINCFG extends Structure {/* IP±¨¾¯ÊäÈëÅäÖÃ½á¹¹ */
-       public  int dwSize;			                        /* ½á¹¹´óĞ¡ */
-       public NET_DVR_IPALARMININFO[] struIPAlarmInInfo = new NET_DVR_IPALARMININFO[MAX_IP_ALARMIN];/* IP±¨¾¯ÊäÈë */
+public static class NET_DVR_IPALARMINCFG extends Structure {/* IPæŠ¥è­¦è¾“å…¥é…ç½®ç»“æ„ */
+       public  int dwSize;			                        /* ç»“æ„å¤§å° */
+       public NET_DVR_IPALARMININFO[] struIPAlarmInInfo = new NET_DVR_IPALARMININFO[MAX_IP_ALARMIN];/* IPæŠ¥è­¦è¾“å…¥ */
 }
 
 public static class NET_DVR_IPALARMINFO extends Structure {//ipc alarm info
-       public  NET_DVR_IPDEVINFO[]  struIPDevInfo = new NET_DVR_IPDEVINFO[MAX_IP_DEVICE];            /* IPÉè±¸ */
-       public  byte[] byAnalogChanEnable = new byte[MAX_ANALOG_CHANNUM];                /* Ä£ÄâÍ¨µÀÊÇ·ñÆôÓÃ£¬0-Î´ÆôÓÃ 1-ÆôÓÃ */
-       public  NET_DVR_IPCHANINFO[] struIPChanInfo = new NET_DVR_IPCHANINFO[MAX_IP_CHANNEL];	        /* IPÍ¨µÀ */
-       public NET_DVR_IPALARMININFO[] struIPAlarmInInfo = new NET_DVR_IPALARMININFO[MAX_IP_ALARMIN];    /* IP±¨¾¯ÊäÈë */
-       public NET_DVR_IPALARMOUTINFO[] struIPAlarmOutInfo = new NET_DVR_IPALARMOUTINFO[MAX_IP_ALARMOUT]; /* IP±¨¾¯Êä³ö */
+       public  NET_DVR_IPDEVINFO[]  struIPDevInfo = new NET_DVR_IPDEVINFO[MAX_IP_DEVICE];            /* IPè®¾å¤‡ */
+       public  byte[] byAnalogChanEnable = new byte[MAX_ANALOG_CHANNUM];                /* æ¨¡æ‹Ÿé€šé“æ˜¯å¦å¯ç”¨ï¼Œ0-æœªå¯ç”¨ 1-å¯ç”¨ */
+       public  NET_DVR_IPCHANINFO[] struIPChanInfo = new NET_DVR_IPCHANINFO[MAX_IP_CHANNEL];	        /* IPé€šé“ */
+       public NET_DVR_IPALARMININFO[] struIPAlarmInInfo = new NET_DVR_IPALARMININFO[MAX_IP_ALARMIN];    /* IPæŠ¥è­¦è¾“å…¥ */
+       public NET_DVR_IPALARMOUTINFO[] struIPAlarmOutInfo = new NET_DVR_IPALARMOUTINFO[MAX_IP_ALARMOUT]; /* IPæŠ¥è­¦è¾“å‡º */
 }
 
-public static class NET_DVR_SINGLE_HD extends Structure {//±¾µØÓ²ÅÌĞÅÏ¢ÅäÖÃ
-       public int dwHDNo;         /*Ó²ÅÌºÅ, È¡Öµ0~MAX_DISKNUM_V30-1*/
-       public int dwCapacity;     /*Ó²ÅÌÈİÁ¿(²»¿ÉÉèÖÃ)*/
-       public int dwFreeSpace;    /*Ó²ÅÌÊ£Óà¿Õ¼ä(²»¿ÉÉèÖÃ)*/
-       public int dwHdStatus;     /*Ó²ÅÌ×´Ì¬(²»¿ÉÉèÖÃ) 0-Õı³£, 1-Î´¸ñÊ½»¯, 2-´íÎó, 3-SMART×´Ì¬, 4-²»Æ¥Åä, 5-ĞİÃß*/
-       public byte  byHDAttr;       /*0-Ä¬ÈÏ, 1-ÈßÓà; 2-Ö»¶Á*/
+public static class NET_DVR_SINGLE_HD extends Structure {//æœ¬åœ°ç¡¬ç›˜ä¿¡æ¯é…ç½®
+       public int dwHDNo;         /*ç¡¬ç›˜å·, å–å€¼0~MAX_DISKNUM_V30-1*/
+       public int dwCapacity;     /*ç¡¬ç›˜å®¹é‡(ä¸å¯è®¾ç½®)*/
+       public int dwFreeSpace;    /*ç¡¬ç›˜å‰©ä½™ç©ºé—´(ä¸å¯è®¾ç½®)*/
+       public int dwHdStatus;     /*ç¡¬ç›˜çŠ¶æ€(ä¸å¯è®¾ç½®) 0-æ­£å¸¸, 1-æœªæ ¼å¼åŒ–, 2-é”™è¯¯, 3-SMARTçŠ¶æ€, 4-ä¸åŒ¹é…, 5-ä¼‘çœ */
+       public byte  byHDAttr;       /*0-é»˜è®¤, 1-å†—ä½™; 2-åªè¯»*/
        public byte[]  byRes1 = new byte[3];
-       public  int dwHdGroup;      /*ÊôÓÚÄÄ¸öÅÌ×é 1-MAX_HD_GROUP*/
+       public  int dwHdGroup;      /*å±äºå“ªä¸ªç›˜ç»„ 1-MAX_HD_GROUP*/
        public  byte[]  byRes2 = new byte[120];
 }
 
 public static class NET_DVR_HDCFG extends Structure {
        public  int dwSize;
-       public  int dwHDCount;          /*Ó²ÅÌÊı(²»¿ÉÉèÖÃ)*/
-       public  NET_DVR_SINGLE_HD[] struHDInfo = new NET_DVR_SINGLE_HD[MAX_DISKNUM_V30];//Ó²ÅÌÏà¹Ø²Ù×÷¶¼ĞèÒªÖØÆô²ÅÄÜÉúĞ§£»
+       public  int dwHDCount;          /*ç¡¬ç›˜æ•°(ä¸å¯è®¾ç½®)*/
+       public  NET_DVR_SINGLE_HD[] struHDInfo = new NET_DVR_SINGLE_HD[MAX_DISKNUM_V30];//ç¡¬ç›˜ç›¸å…³æ“ä½œéƒ½éœ€è¦é‡å¯æ‰èƒ½ç”Ÿæ•ˆï¼›
 }
 
-public static class NET_DVR_SINGLE_HDGROUP extends Structure {//±¾µØÅÌ×éĞÅÏ¢ÅäÖÃ
-       public  int dwHDGroupNo;       /*ÅÌ×éºÅ(²»¿ÉÉèÖÃ) 1-MAX_HD_GROUP*/
-       public  byte[] byHDGroupChans = new byte[64]; /*ÅÌ×é¶ÔÓ¦µÄÂ¼ÏñÍ¨µÀ, 0-±íÊ¾¸ÃÍ¨µÀ²»Â¼Ïóµ½¸ÃÅÌ×é£¬1-±íÊ¾Â¼Ïóµ½¸ÃÅÌ×é*/
+public static class NET_DVR_SINGLE_HDGROUP extends Structure {//æœ¬åœ°ç›˜ç»„ä¿¡æ¯é…ç½®
+       public  int dwHDGroupNo;       /*ç›˜ç»„å·(ä¸å¯è®¾ç½®) 1-MAX_HD_GROUP*/
+       public  byte[] byHDGroupChans = new byte[64]; /*ç›˜ç»„å¯¹åº”çš„å½•åƒé€šé“, 0-è¡¨ç¤ºè¯¥é€šé“ä¸å½•è±¡åˆ°è¯¥ç›˜ç»„ï¼Œ1-è¡¨ç¤ºå½•è±¡åˆ°è¯¥ç›˜ç»„*/
        public  byte[] byRes = new byte[8];
 }
 
 public static class NET_DVR_HDGROUP_CFG extends Structure {
        public int dwSize;
-       public  int dwHDGroupCount;        /*ÅÌ×é×ÜÊı(²»¿ÉÉèÖÃ)*/
-       public  NET_DVR_SINGLE_HDGROUP[] struHDGroupAttr = new NET_DVR_SINGLE_HDGROUP[MAX_HD_GROUP];//Ó²ÅÌÏà¹Ø²Ù×÷¶¼ĞèÒªÖØÆô²ÅÄÜÉúĞ§£»
+       public  int dwHDGroupCount;        /*ç›˜ç»„æ€»æ•°(ä¸å¯è®¾ç½®)*/
+       public  NET_DVR_SINGLE_HDGROUP[] struHDGroupAttr = new NET_DVR_SINGLE_HDGROUP[MAX_HD_GROUP];//ç¡¬ç›˜ç›¸å…³æ“ä½œéƒ½éœ€è¦é‡å¯æ‰èƒ½ç”Ÿæ•ˆï¼›
 }
 
-public static class NET_DVR_SCALECFG extends Structure {//ÅäÖÃËõ·Å²ÎÊıµÄ½á¹¹
+public static class NET_DVR_SCALECFG extends Structure {//é…ç½®ç¼©æ”¾å‚æ•°çš„ç»“æ„
        public  int dwSize;
-       public  int dwMajorScale;    /* Ö÷ÏÔÊ¾ 0-²»Ëõ·Å£¬1-Ëõ·Å*/
-       public  int dwMinorScale;    /* ¸¨ÏÔÊ¾ 0-²»Ëõ·Å£¬1-Ëõ·Å*/
+       public  int dwMajorScale;    /* ä¸»æ˜¾ç¤º 0-ä¸ç¼©æ”¾ï¼Œ1-ç¼©æ”¾*/
+       public  int dwMinorScale;    /* è¾…æ˜¾ç¤º 0-ä¸ç¼©æ”¾ï¼Œ1-ç¼©æ”¾*/
        public  int[] dwRes = new int[2];
 }
 
-public static class NET_DVR_ALARMOUTCFG_V30 extends Structure {//DVR±¨¾¯Êä³ö(9000À©Õ¹)
+public static class NET_DVR_ALARMOUTCFG_V30 extends Structure {//DVRæŠ¥è­¦è¾“å‡º(9000æ‰©å±•)
 	public int dwSize;
-	public byte[] sAlarmOutName = new byte[NAME_LEN];	/* Ãû³Æ */
-	public int dwAlarmOutDelay;	/* Êä³ö±£³ÖÊ±¼ä(-1ÎªÎŞÏŞ£¬ÊÖ¶¯¹Ø±Õ) */
-	//0-5Ãë,1-10Ãë,2-30Ãë,3-1·ÖÖÓ,4-2·ÖÖÓ,5-5·ÖÖÓ,6-10·ÖÖÓ,7-ÊÖ¶¯
-	public NET_DVR_SCHEDTIMEWEEK[] struAlarmOutTime= new NET_DVR_SCHEDTIMEWEEK[MAX_DAYS];/* ±¨¾¯Êä³ö¼¤»îÊ±¼ä¶Î */
+	public byte[] sAlarmOutName = new byte[NAME_LEN];	/* åç§° */
+	public int dwAlarmOutDelay;	/* è¾“å‡ºä¿æŒæ—¶é—´(-1ä¸ºæ— é™ï¼Œæ‰‹åŠ¨å…³é—­) */
+	//0-5ç§’,1-10ç§’,2-30ç§’,3-1åˆ†é’Ÿ,4-2åˆ†é’Ÿ,5-5åˆ†é’Ÿ,6-10åˆ†é’Ÿ,7-æ‰‹åŠ¨
+	public NET_DVR_SCHEDTIMEWEEK[] struAlarmOutTime= new NET_DVR_SCHEDTIMEWEEK[MAX_DAYS];/* æŠ¥è­¦è¾“å‡ºæ¿€æ´»æ—¶é—´æ®µ */
         public     byte[] byRes = new byte[16];
 }
 
-public static class NET_DVR_ALARMOUTCFG extends Structure {//DVR±¨¾¯Êä³ö
+public static class NET_DVR_ALARMOUTCFG extends Structure {//DVRæŠ¥è­¦è¾“å‡º
 	public int dwSize;
-	public byte[] sAlarmOutName = new byte[NAME_LEN];	/* Ãû³Æ */
-	public int dwAlarmOutDelay;	/* Êä³ö±£³ÖÊ±¼ä(-1ÎªÎŞÏŞ£¬ÊÖ¶¯¹Ø±Õ) */
-	//0-5Ãë,1-10Ãë,2-30Ãë,3-1·ÖÖÓ,4-2·ÖÖÓ,5-5·ÖÖÓ,6-10·ÖÖÓ,7-ÊÖ¶¯
-	public NET_DVR_SCHEDTIMEWEEK[] struAlarmOutTime = new NET_DVR_SCHEDTIMEWEEK[MAX_DAYS];/* ±¨¾¯Êä³ö¼¤»îÊ±¼ä¶Î */
+	public byte[] sAlarmOutName = new byte[NAME_LEN];	/* åç§° */
+	public int dwAlarmOutDelay;	/* è¾“å‡ºä¿æŒæ—¶é—´(-1ä¸ºæ— é™ï¼Œæ‰‹åŠ¨å…³é—­) */
+	//0-5ç§’,1-10ç§’,2-30ç§’,3-1åˆ†é’Ÿ,4-2åˆ†é’Ÿ,5-5åˆ†é’Ÿ,6-10åˆ†é’Ÿ,7-æ‰‹åŠ¨
+	public NET_DVR_SCHEDTIMEWEEK[] struAlarmOutTime = new NET_DVR_SCHEDTIMEWEEK[MAX_DAYS];/* æŠ¥è­¦è¾“å‡ºæ¿€æ´»æ—¶é—´æ®µ */
 }
 
-public static class NET_DVR_PREVIEWCFG_V30 extends Structure {//DVR±¾µØÔ¤ÀÀ²ÎÊı(9000À©Õ¹)
+public static class NET_DVR_PREVIEWCFG_V30 extends Structure {//DVRæœ¬åœ°é¢„è§ˆå‚æ•°(9000æ‰©å±•)
        public  int dwSize;
-       public  byte byPreviewNumber;//Ô¤ÀÀÊıÄ¿,0-1»­Ãæ,1-4»­Ãæ,2-9»­Ãæ,3-16»­Ãæ, 4-6»­Ãæ, 5-8»­Ãæ, 0xff:×î´ó»­Ãæ
-       public  byte byEnableAudio;//ÊÇ·ñÉùÒôÔ¤ÀÀ,0-²»Ô¤ÀÀ,1-Ô¤ÀÀ
-       public  short wSwitchTime;//ÇĞ»»Ê±¼ä,0-²»ÇĞ»»,1-5s,2-10s,3-20s,4-30s,5-60s,6-120s,7-300s
-       public  byte[][] bySwitchSeq = new byte[MAX_PREVIEW_MODE][MAX_WINDOW_V30];//ÇĞ»»Ë³Ğò,Èç¹ûlSwitchSeq[i]Îª 0xff±íÊ¾²»ÓÃ
+       public  byte byPreviewNumber;//é¢„è§ˆæ•°ç›®,0-1ç”»é¢,1-4ç”»é¢,2-9ç”»é¢,3-16ç”»é¢, 4-6ç”»é¢, 5-8ç”»é¢, 0xff:æœ€å¤§ç”»é¢
+       public  byte byEnableAudio;//æ˜¯å¦å£°éŸ³é¢„è§ˆ,0-ä¸é¢„è§ˆ,1-é¢„è§ˆ
+       public  short wSwitchTime;//åˆ‡æ¢æ—¶é—´,0-ä¸åˆ‡æ¢,1-5s,2-10s,3-20s,4-30s,5-60s,6-120s,7-300s
+       public  byte[][] bySwitchSeq = new byte[MAX_PREVIEW_MODE][MAX_WINDOW_V30];//åˆ‡æ¢é¡ºåº,å¦‚æœlSwitchSeq[i]ä¸º 0xffè¡¨ç¤ºä¸ç”¨
        public  byte[] byRes = new byte[24];
 }
 
-public static class NET_DVR_PREVIEWCFG extends Structure {//DVR±¾µØÔ¤ÀÀ²ÎÊı
+public static class NET_DVR_PREVIEWCFG extends Structure {//DVRæœ¬åœ°é¢„è§ˆå‚æ•°
 	public int dwSize;
-	public byte byPreviewNumber;//Ô¤ÀÀÊıÄ¿,0-1»­Ãæ,1-4»­Ãæ,2-9»­Ãæ,3-16»­Ãæ,0xff:×î´ó»­Ãæ
-	public byte byEnableAudio;//ÊÇ·ñÉùÒôÔ¤ÀÀ,0-²»Ô¤ÀÀ,1-Ô¤ÀÀ
-	public short wSwitchTime;//ÇĞ»»Ê±¼ä,0-²»ÇĞ»»,1-5s,2-10s,3-20s,4-30s,5-60s,6-120s,7-300s
-	public byte[] bySwitchSeq = new byte[MAX_WINDOW];//ÇĞ»»Ë³Ğò,Èç¹ûlSwitchSeq[i]Îª 0xff±íÊ¾²»ÓÃ
+	public byte byPreviewNumber;//é¢„è§ˆæ•°ç›®,0-1ç”»é¢,1-4ç”»é¢,2-9ç”»é¢,3-16ç”»é¢,0xff:æœ€å¤§ç”»é¢
+	public byte byEnableAudio;//æ˜¯å¦å£°éŸ³é¢„è§ˆ,0-ä¸é¢„è§ˆ,1-é¢„è§ˆ
+	public short wSwitchTime;//åˆ‡æ¢æ—¶é—´,0-ä¸åˆ‡æ¢,1-5s,2-10s,3-20s,4-30s,5-60s,6-120s,7-300s
+	public byte[] bySwitchSeq = new byte[MAX_WINDOW];//åˆ‡æ¢é¡ºåº,å¦‚æœlSwitchSeq[i]ä¸º 0xffè¡¨ç¤ºä¸ç”¨
 }
 
-public static class NET_DVR_VGAPARA extends Structure {//DVRÊÓÆµÊä³ö
-	public short wResolution;							/* ·Ö±æÂÊ */
-	public short wFreq;									/* Ë¢ĞÂÆµÂÊ */
-	public int dwBrightness;							/* ÁÁ¶È */
+public static class NET_DVR_VGAPARA extends Structure {//DVRè§†é¢‘è¾“å‡º
+	public short wResolution;							/* åˆ†è¾¨ç‡ */
+	public short wFreq;									/* åˆ·æ–°é¢‘ç‡ */
+	public int dwBrightness;							/* äº®åº¦ */
 }
 
 /*
-* MATRIXÊä³ö²ÎÊı½á¹¹
+* MATRIXè¾“å‡ºå‚æ•°ç»“æ„
 */
 public static class NET_DVR_MATRIXPARA_V30 extends Structure {
-	public short[]	wOrder = new short[MAX_ANALOG_CHANNUM];		/* Ô¤ÀÀË³Ğò, 0xff±íÊ¾ÏàÓ¦µÄ´°¿Ú²»Ô¤ÀÀ */
-	public short	wSwitchTime;				    /* Ô¤ÀÀÇĞ»»Ê±¼ä */
+	public short[]	wOrder = new short[MAX_ANALOG_CHANNUM];		/* é¢„è§ˆé¡ºåº, 0xffè¡¨ç¤ºç›¸åº”çš„çª—å£ä¸é¢„è§ˆ */
+	public short	wSwitchTime;				    /* é¢„è§ˆåˆ‡æ¢æ—¶é—´ */
 	public byte[]	res = new byte[14];
 }
 
 public static class NET_DVR_MATRIXPARA extends Structure {
-	public short wDisplayLogo;						/* ÏÔÊ¾ÊÓÆµÍ¨µÀºÅ(±£Áô) */
-	public short wDisplayOsd;						/* ÏÔÊ¾Ê±¼ä(±£Áô) */
+	public short wDisplayLogo;						/* æ˜¾ç¤ºè§†é¢‘é€šé“å·(ä¿ç•™) */
+	public short wDisplayOsd;						/* æ˜¾ç¤ºæ—¶é—´(ä¿ç•™) */
 }
 
 public static class NET_DVR_VOOUT extends Structure {
-	public byte byVideoFormat;						/* Êä³öÖÆÊ½,0-PAL,1-NTSC */
-	public byte byMenuAlphaValue;					/* ²Ëµ¥Óë±³¾°Í¼Ïó¶Ô±È¶È */
-	public short wScreenSaveTime;					/* ÆÁÄ»±£»¤Ê±¼ä 0-´Ó²»,1-1·ÖÖÓ,2-2·ÖÖÓ,3-5·ÖÖÓ,4-10·ÖÖÓ,5-20·ÖÖÓ,6-30·ÖÖÓ */
-	public short wVOffset;							/* ÊÓÆµÊä³öÆ«ÒÆ */
-	public short wBrightness;						/* ÊÓÆµÊä³öÁÁ¶È */
-	public byte byStartMode;						/* Æô¶¯ºóÊÓÆµÊä³öÄ£Ê½(0:²Ëµ¥,1:Ô¤ÀÀ)*/
-	public byte byEnableScaler;                    /* ÊÇ·ñÆô¶¯Ëõ·Å (0-²»Æô¶¯, 1-Æô¶¯)*/
+	public byte byVideoFormat;						/* è¾“å‡ºåˆ¶å¼,0-PAL,1-NTSC */
+	public byte byMenuAlphaValue;					/* èœå•ä¸èƒŒæ™¯å›¾è±¡å¯¹æ¯”åº¦ */
+	public short wScreenSaveTime;					/* å±å¹•ä¿æŠ¤æ—¶é—´ 0-ä»ä¸,1-1åˆ†é’Ÿ,2-2åˆ†é’Ÿ,3-5åˆ†é’Ÿ,4-10åˆ†é’Ÿ,5-20åˆ†é’Ÿ,6-30åˆ†é’Ÿ */
+	public short wVOffset;							/* è§†é¢‘è¾“å‡ºåç§» */
+	public short wBrightness;						/* è§†é¢‘è¾“å‡ºäº®åº¦ */
+	public byte byStartMode;						/* å¯åŠ¨åè§†é¢‘è¾“å‡ºæ¨¡å¼(0:èœå•,1:é¢„è§ˆ)*/
+	public byte byEnableScaler;                    /* æ˜¯å¦å¯åŠ¨ç¼©æ”¾ (0-ä¸å¯åŠ¨, 1-å¯åŠ¨)*/
 }
 
-public static class NET_DVR_VIDEOOUT_V30 extends Structure {//DVRÊÓÆµÊä³ö(9000À©Õ¹)
+public static class NET_DVR_VIDEOOUT_V30 extends Structure {//DVRè§†é¢‘è¾“å‡º(9000æ‰©å±•)
 	public int dwSize;
 	public NET_DVR_VOOUT[] struVOOut = new NET_DVR_VOOUT[MAX_VIDEOOUT_V30];
-	public NET_DVR_VGAPARA[] struVGAPara = new NET_DVR_VGAPARA[MAX_VGA_V30];	/* VGA²ÎÊı */
-	public NET_DVR_MATRIXPARA_V30[] struMatrixPara = new NET_DVR_MATRIXPARA_V30[MAX_MATRIXOUT];		/* MATRIX²ÎÊı */
+	public NET_DVR_VGAPARA[] struVGAPara = new NET_DVR_VGAPARA[MAX_VGA_V30];	/* VGAå‚æ•° */
+	public NET_DVR_MATRIXPARA_V30[] struMatrixPara = new NET_DVR_MATRIXPARA_V30[MAX_MATRIXOUT];		/* MATRIXå‚æ•° */
         public   byte[] byRes = new byte[16];
 }
 
-public static class NET_DVR_VIDEOOUT extends Structure {//DVRÊÓÆµÊä³ö
+public static class NET_DVR_VIDEOOUT extends Structure {//DVRè§†é¢‘è¾“å‡º
 	public int dwSize;
 	public NET_DVR_VOOUT[] struVOOut = new NET_DVR_VOOUT[MAX_VIDEOOUT];
-	public NET_DVR_VGAPARA[] struVGAPara = new NET_DVR_VGAPARA[MAX_VGA];	/* VGA²ÎÊı */
-	public NET_DVR_MATRIXPARA struMatrixPara;		/* MATRIX²ÎÊı */
+	public NET_DVR_VGAPARA[] struVGAPara = new NET_DVR_VGAPARA[MAX_VGA];	/* VGAå‚æ•° */
+	public NET_DVR_MATRIXPARA struMatrixPara;		/* MATRIXå‚æ•° */
 }
 
-public static class NET_DVR_USER_INFO_V30 extends Structure {//µ¥ÓÃ»§²ÎÊı(×Ó½á¹¹)(9000À©Õ¹)
-	public byte[] sUserName = new byte[NAME_LEN];		/* ÓÃ»§Ãû */
-	public byte[] sPassword = new byte[PASSWD_LEN];		/* ÃÜÂë */
-        public byte[] byLocalRight = new byte[MAX_RIGHT];	/* ±¾µØÈ¨ÏŞ */
-	/*Êı×é0: ±¾µØ¿ØÖÆÔÆÌ¨*/
-	/*Êı×é1: ±¾µØÊÖ¶¯Â¼Ïó*/
-	/*Êı×é2: ±¾µØ»Ø·Å*/
-	/*Êı×é3: ±¾µØÉèÖÃ²ÎÊı*/
-	/*Êı×é4: ±¾µØ²é¿´×´Ì¬¡¢ÈÕÖ¾*/
-	/*Êı×é5: ±¾µØ¸ß¼¶²Ù×÷(Éı¼¶£¬¸ñÊ½»¯£¬ÖØÆô£¬¹Ø»ú)*/
-        /*Êı×é6: ±¾µØ²é¿´²ÎÊı */
-        /*Êı×é7: ±¾µØ¹ÜÀíÄ£ÄâºÍIP camera */
-        /*Êı×é8: ±¾µØ±¸·İ */
-        /*Êı×é9: ±¾µØ¹Ø»ú/ÖØÆô */
-	public byte[] byRemoteRight = new byte[MAX_RIGHT];/* Ô¶³ÌÈ¨ÏŞ */
-	/*Êı×é0: Ô¶³Ì¿ØÖÆÔÆÌ¨*/
-	/*Êı×é1: Ô¶³ÌÊÖ¶¯Â¼Ïó*/
-	/*Êı×é2: Ô¶³Ì»Ø·Å */
-	/*Êı×é3: Ô¶³ÌÉèÖÃ²ÎÊı*/
-	/*Êı×é4: Ô¶³Ì²é¿´×´Ì¬¡¢ÈÕÖ¾*/
-	/*Êı×é5: Ô¶³Ì¸ß¼¶²Ù×÷(Éı¼¶£¬¸ñÊ½»¯£¬ÖØÆô£¬¹Ø»ú)*/
-	/*Êı×é6: Ô¶³Ì·¢ÆğÓïÒô¶Ô½²*/
-	/*Êı×é7: Ô¶³ÌÔ¤ÀÀ*/
-	/*Êı×é8: Ô¶³ÌÇëÇó±¨¾¯ÉÏ´«¡¢±¨¾¯Êä³ö*/
-	/*Êı×é9: Ô¶³Ì¿ØÖÆ£¬±¾µØÊä³ö*/
-	/*Êı×é10: Ô¶³Ì¿ØÖÆ´®¿Ú*/
-        /*Êı×é11: Ô¶³Ì²é¿´²ÎÊı */
-        /*Êı×é12: Ô¶³Ì¹ÜÀíÄ£ÄâºÍIP camera */
-        /*Êı×é13: Ô¶³Ì¹Ø»ú/ÖØÆô */
-	public byte[] byNetPreviewRight = new byte[MAX_CHANNUM_V30];		/* Ô¶³Ì¿ÉÒÔÔ¤ÀÀµÄÍ¨µÀ 0-ÓĞÈ¨ÏŞ£¬1-ÎŞÈ¨ÏŞ*/
-	public byte[] byLocalPlaybackRight = new byte[MAX_CHANNUM_V30];	    /* ±¾µØ¿ÉÒÔ»Ø·ÅµÄÍ¨µÀ 0-ÓĞÈ¨ÏŞ£¬1-ÎŞÈ¨ÏŞ*/
-	public byte[] byNetPlaybackRight = new byte[MAX_CHANNUM_V30];	    /* Ô¶³Ì¿ÉÒÔ»Ø·ÅµÄÍ¨µÀ 0-ÓĞÈ¨ÏŞ£¬1-ÎŞÈ¨ÏŞ*/
-	public byte[] byLocalRecordRight = new byte[MAX_CHANNUM_V30];		/* ±¾µØ¿ÉÒÔÂ¼ÏñµÄÍ¨µÀ 0-ÓĞÈ¨ÏŞ£¬1-ÎŞÈ¨ÏŞ*/
-	public byte[] byNetRecordRight = new byte[MAX_CHANNUM_V30];		    /* Ô¶³Ì¿ÉÒÔÂ¼ÏñµÄÍ¨µÀ 0-ÓĞÈ¨ÏŞ£¬1-ÎŞÈ¨ÏŞ*/
-	public byte[] byLocalPTZRight = new byte[MAX_CHANNUM_V30];		    /* ±¾µØ¿ÉÒÔPTZµÄÍ¨µÀ 0-ÓĞÈ¨ÏŞ£¬1-ÎŞÈ¨ÏŞ*/
-	public byte[] byNetPTZRight = new byte[MAX_CHANNUM_V30];			/* Ô¶³Ì¿ÉÒÔPTZµÄÍ¨µÀ 0-ÓĞÈ¨ÏŞ£¬1-ÎŞÈ¨ÏŞ*/
-	public byte[] byLocalBackupRight = new byte[MAX_CHANNUM_V30];		/* ±¾µØ±¸·İÈ¨ÏŞÍ¨µÀ 0-ÓĞÈ¨ÏŞ£¬1-ÎŞÈ¨ÏŞ*/
-	public NET_DVR_IPADDR struUserIP;		/* ÓÃ»§IPµØÖ·(Îª0Ê±±íÊ¾ÔÊĞíÈÎºÎµØÖ·) */
-	public byte[] byMACAddr = new byte[MACADDR_LEN];	/* ÎïÀíµØÖ· */
-	public byte byPriority;				/* ÓÅÏÈ¼¶£¬0xff-ÎŞ£¬0--µÍ£¬1--ÖĞ£¬2--¸ß */
+public static class NET_DVR_USER_INFO_V30 extends Structure {//å•ç”¨æˆ·å‚æ•°(å­ç»“æ„)(9000æ‰©å±•)
+	public byte[] sUserName = new byte[NAME_LEN];		/* ç”¨æˆ·å */
+	public byte[] sPassword = new byte[PASSWD_LEN];		/* å¯†ç  */
+        public byte[] byLocalRight = new byte[MAX_RIGHT];	/* æœ¬åœ°æƒé™ */
+	/*æ•°ç»„0: æœ¬åœ°æ§åˆ¶äº‘å°*/
+	/*æ•°ç»„1: æœ¬åœ°æ‰‹åŠ¨å½•è±¡*/
+	/*æ•°ç»„2: æœ¬åœ°å›æ”¾*/
+	/*æ•°ç»„3: æœ¬åœ°è®¾ç½®å‚æ•°*/
+	/*æ•°ç»„4: æœ¬åœ°æŸ¥çœ‹çŠ¶æ€ã€æ—¥å¿—*/
+	/*æ•°ç»„5: æœ¬åœ°é«˜çº§æ“ä½œ(å‡çº§ï¼Œæ ¼å¼åŒ–ï¼Œé‡å¯ï¼Œå…³æœº)*/
+        /*æ•°ç»„6: æœ¬åœ°æŸ¥çœ‹å‚æ•° */
+        /*æ•°ç»„7: æœ¬åœ°ç®¡ç†æ¨¡æ‹Ÿå’ŒIP camera */
+        /*æ•°ç»„8: æœ¬åœ°å¤‡ä»½ */
+        /*æ•°ç»„9: æœ¬åœ°å…³æœº/é‡å¯ */
+	public byte[] byRemoteRight = new byte[MAX_RIGHT];/* è¿œç¨‹æƒé™ */
+	/*æ•°ç»„0: è¿œç¨‹æ§åˆ¶äº‘å°*/
+	/*æ•°ç»„1: è¿œç¨‹æ‰‹åŠ¨å½•è±¡*/
+	/*æ•°ç»„2: è¿œç¨‹å›æ”¾ */
+	/*æ•°ç»„3: è¿œç¨‹è®¾ç½®å‚æ•°*/
+	/*æ•°ç»„4: è¿œç¨‹æŸ¥çœ‹çŠ¶æ€ã€æ—¥å¿—*/
+	/*æ•°ç»„5: è¿œç¨‹é«˜çº§æ“ä½œ(å‡çº§ï¼Œæ ¼å¼åŒ–ï¼Œé‡å¯ï¼Œå…³æœº)*/
+	/*æ•°ç»„6: è¿œç¨‹å‘èµ·è¯­éŸ³å¯¹è®²*/
+	/*æ•°ç»„7: è¿œç¨‹é¢„è§ˆ*/
+	/*æ•°ç»„8: è¿œç¨‹è¯·æ±‚æŠ¥è­¦ä¸Šä¼ ã€æŠ¥è­¦è¾“å‡º*/
+	/*æ•°ç»„9: è¿œç¨‹æ§åˆ¶ï¼Œæœ¬åœ°è¾“å‡º*/
+	/*æ•°ç»„10: è¿œç¨‹æ§åˆ¶ä¸²å£*/
+        /*æ•°ç»„11: è¿œç¨‹æŸ¥çœ‹å‚æ•° */
+        /*æ•°ç»„12: è¿œç¨‹ç®¡ç†æ¨¡æ‹Ÿå’ŒIP camera */
+        /*æ•°ç»„13: è¿œç¨‹å…³æœº/é‡å¯ */
+	public byte[] byNetPreviewRight = new byte[MAX_CHANNUM_V30];		/* è¿œç¨‹å¯ä»¥é¢„è§ˆçš„é€šé“ 0-æœ‰æƒé™ï¼Œ1-æ— æƒé™*/
+	public byte[] byLocalPlaybackRight = new byte[MAX_CHANNUM_V30];	    /* æœ¬åœ°å¯ä»¥å›æ”¾çš„é€šé“ 0-æœ‰æƒé™ï¼Œ1-æ— æƒé™*/
+	public byte[] byNetPlaybackRight = new byte[MAX_CHANNUM_V30];	    /* è¿œç¨‹å¯ä»¥å›æ”¾çš„é€šé“ 0-æœ‰æƒé™ï¼Œ1-æ— æƒé™*/
+	public byte[] byLocalRecordRight = new byte[MAX_CHANNUM_V30];		/* æœ¬åœ°å¯ä»¥å½•åƒçš„é€šé“ 0-æœ‰æƒé™ï¼Œ1-æ— æƒé™*/
+	public byte[] byNetRecordRight = new byte[MAX_CHANNUM_V30];		    /* è¿œç¨‹å¯ä»¥å½•åƒçš„é€šé“ 0-æœ‰æƒé™ï¼Œ1-æ— æƒé™*/
+	public byte[] byLocalPTZRight = new byte[MAX_CHANNUM_V30];		    /* æœ¬åœ°å¯ä»¥PTZçš„é€šé“ 0-æœ‰æƒé™ï¼Œ1-æ— æƒé™*/
+	public byte[] byNetPTZRight = new byte[MAX_CHANNUM_V30];			/* è¿œç¨‹å¯ä»¥PTZçš„é€šé“ 0-æœ‰æƒé™ï¼Œ1-æ— æƒé™*/
+	public byte[] byLocalBackupRight = new byte[MAX_CHANNUM_V30];		/* æœ¬åœ°å¤‡ä»½æƒé™é€šé“ 0-æœ‰æƒé™ï¼Œ1-æ— æƒé™*/
+	public NET_DVR_IPADDR struUserIP;		/* ç”¨æˆ·IPåœ°å€(ä¸º0æ—¶è¡¨ç¤ºå…è®¸ä»»ä½•åœ°å€) */
+	public byte[] byMACAddr = new byte[MACADDR_LEN];	/* ç‰©ç†åœ°å€ */
+	public byte byPriority;				/* ä¼˜å…ˆçº§ï¼Œ0xff-æ— ï¼Œ0--ä½ï¼Œ1--ä¸­ï¼Œ2--é«˜ */
                                     /*
-                                    ÎŞ¡­¡­±íÊ¾²»Ö§³ÖÓÅÏÈ¼¶µÄÉèÖÃ
-                                    µÍ¡­¡­Ä¬ÈÏÈ¨ÏŞ:°üÀ¨±¾µØºÍÔ¶³Ì»Ø·Å,±¾µØºÍÔ¶³Ì²é¿´ÈÕÖ¾ºÍ×´Ì¬,±¾µØºÍÔ¶³Ì¹Ø»ú/ÖØÆô
-                                    ÖĞ¡­¡­°üÀ¨±¾µØºÍÔ¶³Ì¿ØÖÆÔÆÌ¨,±¾µØºÍÔ¶³ÌÊÖ¶¯Â¼Ïñ,±¾µØºÍÔ¶³Ì»Ø·Å,ÓïÒô¶Ô½²ºÍÔ¶³ÌÔ¤ÀÀ
-                                          ±¾µØ±¸·İ,±¾µØ/Ô¶³Ì¹Ø»ú/ÖØÆô
-                                    ¸ß¡­¡­¹ÜÀíÔ±
+                                    æ— â€¦â€¦è¡¨ç¤ºä¸æ”¯æŒä¼˜å…ˆçº§çš„è®¾ç½®
+                                    ä½â€¦â€¦é»˜è®¤æƒé™:åŒ…æ‹¬æœ¬åœ°å’Œè¿œç¨‹å›æ”¾,æœ¬åœ°å’Œè¿œç¨‹æŸ¥çœ‹æ—¥å¿—å’ŒçŠ¶æ€,æœ¬åœ°å’Œè¿œç¨‹å…³æœº/é‡å¯
+                                    ä¸­â€¦â€¦åŒ…æ‹¬æœ¬åœ°å’Œè¿œç¨‹æ§åˆ¶äº‘å°,æœ¬åœ°å’Œè¿œç¨‹æ‰‹åŠ¨å½•åƒ,æœ¬åœ°å’Œè¿œç¨‹å›æ”¾,è¯­éŸ³å¯¹è®²å’Œè¿œç¨‹é¢„è§ˆ
+                                          æœ¬åœ°å¤‡ä»½,æœ¬åœ°/è¿œç¨‹å…³æœº/é‡å¯
+                                    é«˜â€¦â€¦ç®¡ç†å‘˜
                                     */
 	public byte[] byRes = new byte[17];
 }
 
-public static class NET_DVR_USER_INFO_EX extends Structure {//µ¥ÓÃ»§²ÎÊı(SDK_V15À©Õ¹)(×Ó½á¹¹)
-	public byte[] sUserName = new byte[NAME_LEN];		/* ÓÃ»§Ãû */
-	public byte[] sPassword = new byte[PASSWD_LEN];		/* ÃÜÂë */
-	public int[] dwLocalRight = new int[MAX_RIGHT];	/* È¨ÏŞ */
-	/*Êı×é0: ±¾µØ¿ØÖÆÔÆÌ¨*/
-	/*Êı×é1: ±¾µØÊÖ¶¯Â¼Ïó*/
-	/*Êı×é2: ±¾µØ»Ø·Å*/
-	/*Êı×é3: ±¾µØÉèÖÃ²ÎÊı*/
-	/*Êı×é4: ±¾µØ²é¿´×´Ì¬¡¢ÈÕÖ¾*/
-	/*Êı×é5: ±¾µØ¸ß¼¶²Ù×÷(Éı¼¶£¬¸ñÊ½»¯£¬ÖØÆô£¬¹Ø»ú)*/
-	public int dwLocalPlaybackRight;		/* ±¾µØ¿ÉÒÔ»Ø·ÅµÄÍ¨µÀ bit0 -- channel 1*/
-	public int[] dwRemoteRight = new int[MAX_RIGHT];	/* È¨ÏŞ */
-	/*Êı×é0: Ô¶³Ì¿ØÖÆÔÆÌ¨*/
-	/*Êı×é1: Ô¶³ÌÊÖ¶¯Â¼Ïó*/
-	/*Êı×é2: Ô¶³Ì»Ø·Å */
-	/*Êı×é3: Ô¶³ÌÉèÖÃ²ÎÊı*/
-	/*Êı×é4: Ô¶³Ì²é¿´×´Ì¬¡¢ÈÕÖ¾*/
-	/*Êı×é5: Ô¶³Ì¸ß¼¶²Ù×÷(Éı¼¶£¬¸ñÊ½»¯£¬ÖØÆô£¬¹Ø»ú)*/
-	/*Êı×é6: Ô¶³Ì·¢ÆğÓïÒô¶Ô½²*/
-	/*Êı×é7: Ô¶³ÌÔ¤ÀÀ*/
-	/*Êı×é8: Ô¶³ÌÇëÇó±¨¾¯ÉÏ´«¡¢±¨¾¯Êä³ö*/
-	/*Êı×é9: Ô¶³Ì¿ØÖÆ£¬±¾µØÊä³ö*/
-	/*Êı×é10: Ô¶³Ì¿ØÖÆ´®¿Ú*/
-	public int dwNetPreviewRight;		/* Ô¶³Ì¿ÉÒÔÔ¤ÀÀµÄÍ¨µÀ bit0 -- channel 1*/
-	public int dwNetPlaybackRight;		/* Ô¶³Ì¿ÉÒÔ»Ø·ÅµÄÍ¨µÀ bit0 -- channel 1*/
-	public byte[] sUserIP = new byte[16];				/* ÓÃ»§IPµØÖ·(Îª0Ê±±íÊ¾ÔÊĞíÈÎºÎµØÖ·) */
-	public byte[] byMACAddr = new byte[MACADDR_LEN];	/* ÎïÀíµØÖ· */
+public static class NET_DVR_USER_INFO_EX extends Structure {//å•ç”¨æˆ·å‚æ•°(SDK_V15æ‰©å±•)(å­ç»“æ„)
+	public byte[] sUserName = new byte[NAME_LEN];		/* ç”¨æˆ·å */
+	public byte[] sPassword = new byte[PASSWD_LEN];		/* å¯†ç  */
+	public int[] dwLocalRight = new int[MAX_RIGHT];	/* æƒé™ */
+	/*æ•°ç»„0: æœ¬åœ°æ§åˆ¶äº‘å°*/
+	/*æ•°ç»„1: æœ¬åœ°æ‰‹åŠ¨å½•è±¡*/
+	/*æ•°ç»„2: æœ¬åœ°å›æ”¾*/
+	/*æ•°ç»„3: æœ¬åœ°è®¾ç½®å‚æ•°*/
+	/*æ•°ç»„4: æœ¬åœ°æŸ¥çœ‹çŠ¶æ€ã€æ—¥å¿—*/
+	/*æ•°ç»„5: æœ¬åœ°é«˜çº§æ“ä½œ(å‡çº§ï¼Œæ ¼å¼åŒ–ï¼Œé‡å¯ï¼Œå…³æœº)*/
+	public int dwLocalPlaybackRight;		/* æœ¬åœ°å¯ä»¥å›æ”¾çš„é€šé“ bit0 -- channel 1*/
+	public int[] dwRemoteRight = new int[MAX_RIGHT];	/* æƒé™ */
+	/*æ•°ç»„0: è¿œç¨‹æ§åˆ¶äº‘å°*/
+	/*æ•°ç»„1: è¿œç¨‹æ‰‹åŠ¨å½•è±¡*/
+	/*æ•°ç»„2: è¿œç¨‹å›æ”¾ */
+	/*æ•°ç»„3: è¿œç¨‹è®¾ç½®å‚æ•°*/
+	/*æ•°ç»„4: è¿œç¨‹æŸ¥çœ‹çŠ¶æ€ã€æ—¥å¿—*/
+	/*æ•°ç»„5: è¿œç¨‹é«˜çº§æ“ä½œ(å‡çº§ï¼Œæ ¼å¼åŒ–ï¼Œé‡å¯ï¼Œå…³æœº)*/
+	/*æ•°ç»„6: è¿œç¨‹å‘èµ·è¯­éŸ³å¯¹è®²*/
+	/*æ•°ç»„7: è¿œç¨‹é¢„è§ˆ*/
+	/*æ•°ç»„8: è¿œç¨‹è¯·æ±‚æŠ¥è­¦ä¸Šä¼ ã€æŠ¥è­¦è¾“å‡º*/
+	/*æ•°ç»„9: è¿œç¨‹æ§åˆ¶ï¼Œæœ¬åœ°è¾“å‡º*/
+	/*æ•°ç»„10: è¿œç¨‹æ§åˆ¶ä¸²å£*/
+	public int dwNetPreviewRight;		/* è¿œç¨‹å¯ä»¥é¢„è§ˆçš„é€šé“ bit0 -- channel 1*/
+	public int dwNetPlaybackRight;		/* è¿œç¨‹å¯ä»¥å›æ”¾çš„é€šé“ bit0 -- channel 1*/
+	public byte[] sUserIP = new byte[16];				/* ç”¨æˆ·IPåœ°å€(ä¸º0æ—¶è¡¨ç¤ºå…è®¸ä»»ä½•åœ°å€) */
+	public byte[] byMACAddr = new byte[MACADDR_LEN];	/* ç‰©ç†åœ°å€ */
 }
 
-public static class NET_DVR_USER_INFO extends Structure {//µ¥ÓÃ»§²ÎÊı(×Ó½á¹¹)
-	public byte[] sUserName = new byte[NAME_LEN];		/* ÓÃ»§Ãû */
-	public byte[] sPassword = new byte[PASSWD_LEN];		/* ÃÜÂë */
-	public int[] dwLocalRight = new int[MAX_RIGHT];	/* È¨ÏŞ */
-	/*Êı×é0: ±¾µØ¿ØÖÆÔÆÌ¨*/
-	/*Êı×é1: ±¾µØÊÖ¶¯Â¼Ïó*/
-	/*Êı×é2: ±¾µØ»Ø·Å*/
-	/*Êı×é3: ±¾µØÉèÖÃ²ÎÊı*/
-	/*Êı×é4: ±¾µØ²é¿´×´Ì¬¡¢ÈÕÖ¾*/
-	/*Êı×é5: ±¾µØ¸ß¼¶²Ù×÷(Éı¼¶£¬¸ñÊ½»¯£¬ÖØÆô£¬¹Ø»ú)*/
-	public int[] dwRemoteRight = new int[MAX_RIGHT];	/* È¨ÏŞ */
-	/*Êı×é0: Ô¶³Ì¿ØÖÆÔÆÌ¨*/
-	/*Êı×é1: Ô¶³ÌÊÖ¶¯Â¼Ïó*/
-	/*Êı×é2: Ô¶³Ì»Ø·Å */
-	/*Êı×é3: Ô¶³ÌÉèÖÃ²ÎÊı*/
-	/*Êı×é4: Ô¶³Ì²é¿´×´Ì¬¡¢ÈÕÖ¾*/
-	/*Êı×é5: Ô¶³Ì¸ß¼¶²Ù×÷(Éı¼¶£¬¸ñÊ½»¯£¬ÖØÆô£¬¹Ø»ú)*/
-	/*Êı×é6: Ô¶³Ì·¢ÆğÓïÒô¶Ô½²*/
-	/*Êı×é7: Ô¶³ÌÔ¤ÀÀ*/
-	/*Êı×é8: Ô¶³ÌÇëÇó±¨¾¯ÉÏ´«¡¢±¨¾¯Êä³ö*/
-	/*Êı×é9: Ô¶³Ì¿ØÖÆ£¬±¾µØÊä³ö*/
-	/*Êı×é10: Ô¶³Ì¿ØÖÆ´®¿Ú*/
-	public byte[] sUserIP = new byte[16];				/* ÓÃ»§IPµØÖ·(Îª0Ê±±íÊ¾ÔÊĞíÈÎºÎµØÖ·) */
-	public byte[] byMACAddr = new byte[MACADDR_LEN];	/* ÎïÀíµØÖ· */
+public static class NET_DVR_USER_INFO extends Structure {//å•ç”¨æˆ·å‚æ•°(å­ç»“æ„)
+	public byte[] sUserName = new byte[NAME_LEN];		/* ç”¨æˆ·å */
+	public byte[] sPassword = new byte[PASSWD_LEN];		/* å¯†ç  */
+	public int[] dwLocalRight = new int[MAX_RIGHT];	/* æƒé™ */
+	/*æ•°ç»„0: æœ¬åœ°æ§åˆ¶äº‘å°*/
+	/*æ•°ç»„1: æœ¬åœ°æ‰‹åŠ¨å½•è±¡*/
+	/*æ•°ç»„2: æœ¬åœ°å›æ”¾*/
+	/*æ•°ç»„3: æœ¬åœ°è®¾ç½®å‚æ•°*/
+	/*æ•°ç»„4: æœ¬åœ°æŸ¥çœ‹çŠ¶æ€ã€æ—¥å¿—*/
+	/*æ•°ç»„5: æœ¬åœ°é«˜çº§æ“ä½œ(å‡çº§ï¼Œæ ¼å¼åŒ–ï¼Œé‡å¯ï¼Œå…³æœº)*/
+	public int[] dwRemoteRight = new int[MAX_RIGHT];	/* æƒé™ */
+	/*æ•°ç»„0: è¿œç¨‹æ§åˆ¶äº‘å°*/
+	/*æ•°ç»„1: è¿œç¨‹æ‰‹åŠ¨å½•è±¡*/
+	/*æ•°ç»„2: è¿œç¨‹å›æ”¾ */
+	/*æ•°ç»„3: è¿œç¨‹è®¾ç½®å‚æ•°*/
+	/*æ•°ç»„4: è¿œç¨‹æŸ¥çœ‹çŠ¶æ€ã€æ—¥å¿—*/
+	/*æ•°ç»„5: è¿œç¨‹é«˜çº§æ“ä½œ(å‡çº§ï¼Œæ ¼å¼åŒ–ï¼Œé‡å¯ï¼Œå…³æœº)*/
+	/*æ•°ç»„6: è¿œç¨‹å‘èµ·è¯­éŸ³å¯¹è®²*/
+	/*æ•°ç»„7: è¿œç¨‹é¢„è§ˆ*/
+	/*æ•°ç»„8: è¿œç¨‹è¯·æ±‚æŠ¥è­¦ä¸Šä¼ ã€æŠ¥è­¦è¾“å‡º*/
+	/*æ•°ç»„9: è¿œç¨‹æ§åˆ¶ï¼Œæœ¬åœ°è¾“å‡º*/
+	/*æ•°ç»„10: è¿œç¨‹æ§åˆ¶ä¸²å£*/
+	public byte[] sUserIP = new byte[16];				/* ç”¨æˆ·IPåœ°å€(ä¸º0æ—¶è¡¨ç¤ºå…è®¸ä»»ä½•åœ°å€) */
+	public byte[] byMACAddr = new byte[MACADDR_LEN];	/* ç‰©ç†åœ°å€ */
 }
 
-public static class NET_DVR_USER_V30 extends Structure {//DVRÓÃ»§²ÎÊı(9000À©Õ¹)
+public static class NET_DVR_USER_V30 extends Structure {//DVRç”¨æˆ·å‚æ•°(9000æ‰©å±•)
 	public int dwSize;
 	public NET_DVR_USER_INFO_V30[] struUser = new NET_DVR_USER_INFO_V30[MAX_USERNUM_V30];
 }
 
-public static class NET_DVR_USER_EX extends Structure {//DVRÓÃ»§²ÎÊı(SDK_V15À©Õ¹)
+public static class NET_DVR_USER_EX extends Structure {//DVRç”¨æˆ·å‚æ•°(SDK_V15æ‰©å±•)
 	public int dwSize;
 	public NET_DVR_USER_INFO_EX[] struUser = new NET_DVR_USER_INFO_EX[MAX_USERNUM];
 }
 
-public static class NET_DVR_USER extends Structure {//DVRÓÃ»§²ÎÊı
+public static class NET_DVR_USER extends Structure {//DVRç”¨æˆ·å‚æ•°
 	public int dwSize;
 	public NET_DVR_USER_INFO[] struUser = new NET_DVR_USER_INFO[MAX_USERNUM];
 }
 
-public static class NET_DVR_EXCEPTION_V30 extends Structure {//DVRÒì³£²ÎÊı(9000À©Õ¹)
+public static class NET_DVR_EXCEPTION_V30 extends Structure {//DVRå¼‚å¸¸å‚æ•°(9000æ‰©å±•)
 	public int dwSize;
 	public NET_DVR_HANDLEEXCEPTION_V30[] struExceptionHandleType = new NET_DVR_HANDLEEXCEPTION_V30[MAX_EXCEPTIONNUM_V30];
-	/*Êı×é0-ÅÌÂú,1- Ó²ÅÌ³ö´í,2-ÍøÏß¶Ï,3-¾ÖÓòÍøÄÚIP µØÖ·³åÍ»,4-·Ç·¨·ÃÎÊ, 5-ÊäÈë/Êä³öÊÓÆµÖÆÊ½²»Æ¥Åä, 6-ĞĞ³µ³¬ËÙ(³µÔØ×¨ÓÃ), 7-ÊÓÆµĞÅºÅÒì³£(9000)*/
+	/*æ•°ç»„0-ç›˜æ»¡,1- ç¡¬ç›˜å‡ºé”™,2-ç½‘çº¿æ–­,3-å±€åŸŸç½‘å†…IP åœ°å€å†²çª,4-éæ³•è®¿é—®, 5-è¾“å…¥/è¾“å‡ºè§†é¢‘åˆ¶å¼ä¸åŒ¹é…, 6-è¡Œè½¦è¶…é€Ÿ(è½¦è½½ä¸“ç”¨), 7-è§†é¢‘ä¿¡å·å¼‚å¸¸(9000)*/
 }
 
-public static class NET_DVR_EXCEPTION extends Structure {//DVRÒì³£²ÎÊı
+public static class NET_DVR_EXCEPTION extends Structure {//DVRå¼‚å¸¸å‚æ•°
 	public int dwSize;
 	public NET_DVR_HANDLEEXCEPTION[] struExceptionHandleType = new NET_DVR_HANDLEEXCEPTION[MAX_EXCEPTIONNUM];
-	/*Êı×é0-ÅÌÂú,1- Ó²ÅÌ³ö´í,2-ÍøÏß¶Ï,3-¾ÖÓòÍøÄÚIP µØÖ·³åÍ»,4-·Ç·¨·ÃÎÊ, 5-ÊäÈë/Êä³öÊÓÆµÖÆÊ½²»Æ¥Åä, 6-ĞĞ³µ³¬ËÙ(³µÔØ×¨ÓÃ)*/
+	/*æ•°ç»„0-ç›˜æ»¡,1- ç¡¬ç›˜å‡ºé”™,2-ç½‘çº¿æ–­,3-å±€åŸŸç½‘å†…IP åœ°å€å†²çª,4-éæ³•è®¿é—®, 5-è¾“å…¥/è¾“å‡ºè§†é¢‘åˆ¶å¼ä¸åŒ¹é…, 6-è¡Œè½¦è¶…é€Ÿ(è½¦è½½ä¸“ç”¨)*/
 }
 
-public static class NET_DVR_CHANNELSTATE_V30 extends Structure {//Í¨µÀ×´Ì¬(9000À©Õ¹)
-	public byte byRecordStatic; //Í¨µÀÊÇ·ñÔÚÂ¼Ïñ,0-²»Â¼Ïñ,1-Â¼Ïñ
-	public byte bySignalStatic; //Á¬½ÓµÄĞÅºÅ×´Ì¬,0-Õı³£,1-ĞÅºÅ¶ªÊ§
-	public byte byHardwareStatic;//Í¨µÀÓ²¼ş×´Ì¬,0-Õı³£,1-Òì³£,ÀıÈçDSPËÀµô
-	public byte reservedData;		//±£Áô
-	public int dwBitRate;//Êµ¼ÊÂëÂÊ
-	public int dwLinkNum;//¿Í»§¶ËÁ¬½ÓµÄ¸öÊı
-	public NET_DVR_IPADDR[] struClientIP = new NET_DVR_IPADDR[MAX_LINK];//¿Í»§¶ËµÄIPµØÖ·
-        public  int dwIPLinkNum;//Èç¹û¸ÃÍ¨µÀÎªIP½ÓÈë£¬ÄÇÃ´±íÊ¾IP½ÓÈëµ±Ç°µÄÁ¬½ÓÊı
+public static class NET_DVR_CHANNELSTATE_V30 extends Structure {//é€šé“çŠ¶æ€(9000æ‰©å±•)
+	public byte byRecordStatic; //é€šé“æ˜¯å¦åœ¨å½•åƒ,0-ä¸å½•åƒ,1-å½•åƒ
+	public byte bySignalStatic; //è¿æ¥çš„ä¿¡å·çŠ¶æ€,0-æ­£å¸¸,1-ä¿¡å·ä¸¢å¤±
+	public byte byHardwareStatic;//é€šé“ç¡¬ä»¶çŠ¶æ€,0-æ­£å¸¸,1-å¼‚å¸¸,ä¾‹å¦‚DSPæ­»æ‰
+	public byte reservedData;		//ä¿ç•™
+	public int dwBitRate;//å®é™…ç ç‡
+	public int dwLinkNum;//å®¢æˆ·ç«¯è¿æ¥çš„ä¸ªæ•°
+	public NET_DVR_IPADDR[] struClientIP = new NET_DVR_IPADDR[MAX_LINK];//å®¢æˆ·ç«¯çš„IPåœ°å€
+        public  int dwIPLinkNum;//å¦‚æœè¯¥é€šé“ä¸ºIPæ¥å…¥ï¼Œé‚£ä¹ˆè¡¨ç¤ºIPæ¥å…¥å½“å‰çš„è¿æ¥æ•°
         public  byte[] byRes = new byte[12];
 }
 
-public static class NET_DVR_CHANNELSTATE extends Structure {//Í¨µÀ×´Ì¬
-	public byte byRecordStatic; //Í¨µÀÊÇ·ñÔÚÂ¼Ïñ,0-²»Â¼Ïñ,1-Â¼Ïñ
-	public byte bySignalStatic; //Á¬½ÓµÄĞÅºÅ×´Ì¬,0-Õı³£,1-ĞÅºÅ¶ªÊ§
-	public byte byHardwareStatic;//Í¨µÀÓ²¼ş×´Ì¬,0-Õı³£,1-Òì³£,ÀıÈçDSPËÀµô
-	public byte reservedData;		//±£Áô
-	public int dwBitRate;//Êµ¼ÊÂëÂÊ
-	public int dwLinkNum;//¿Í»§¶ËÁ¬½ÓµÄ¸öÊı
-	public int[] dwClientIP = new int[MAX_LINK];//¿Í»§¶ËµÄIPµØÖ·
+public static class NET_DVR_CHANNELSTATE extends Structure {//é€šé“çŠ¶æ€
+	public byte byRecordStatic; //é€šé“æ˜¯å¦åœ¨å½•åƒ,0-ä¸å½•åƒ,1-å½•åƒ
+	public byte bySignalStatic; //è¿æ¥çš„ä¿¡å·çŠ¶æ€,0-æ­£å¸¸,1-ä¿¡å·ä¸¢å¤±
+	public byte byHardwareStatic;//é€šé“ç¡¬ä»¶çŠ¶æ€,0-æ­£å¸¸,1-å¼‚å¸¸,ä¾‹å¦‚DSPæ­»æ‰
+	public byte reservedData;		//ä¿ç•™
+	public int dwBitRate;//å®é™…ç ç‡
+	public int dwLinkNum;//å®¢æˆ·ç«¯è¿æ¥çš„ä¸ªæ•°
+	public int[] dwClientIP = new int[MAX_LINK];//å®¢æˆ·ç«¯çš„IPåœ°å€
 }
 
-public static class NET_DVR_DISKSTATE extends Structure {//Ó²ÅÌ×´Ì¬
-	public int dwVolume;//Ó²ÅÌµÄÈİÁ¿
-	public int dwFreeSpace;//Ó²ÅÌµÄÊ£Óà¿Õ¼ä
-	public int dwHardDiskStatic; //Ó²ÅÌµÄ×´Ì¬,°´Î»:1-ĞİÃß,2-²»Õı³£,3-ĞİÃßÓ²ÅÌ³ö´í
+public static class NET_DVR_DISKSTATE extends Structure {//ç¡¬ç›˜çŠ¶æ€
+	public int dwVolume;//ç¡¬ç›˜çš„å®¹é‡
+	public int dwFreeSpace;//ç¡¬ç›˜çš„å‰©ä½™ç©ºé—´
+	public int dwHardDiskStatic; //ç¡¬ç›˜çš„çŠ¶æ€,æŒ‰ä½:1-ä¼‘çœ ,2-ä¸æ­£å¸¸,3-ä¼‘çœ ç¡¬ç›˜å‡ºé”™
 }
 
-public static class NET_DVR_WORKSTATE_V30 extends Structure {//DVR¹¤×÷×´Ì¬(9000À©Õ¹)
-	public int dwDeviceStatic; 	//Éè±¸µÄ×´Ì¬,0-Õı³£,1-CPUÕ¼ÓÃÂÊÌ«¸ß,³¬¹ı85%,2-Ó²¼ş´íÎó,ÀıÈç´®¿ÚËÀµô
+public static class NET_DVR_WORKSTATE_V30 extends Structure {//DVRå·¥ä½œçŠ¶æ€(9000æ‰©å±•)
+	public int dwDeviceStatic; 	//è®¾å¤‡çš„çŠ¶æ€,0-æ­£å¸¸,1-CPUå ç”¨ç‡å¤ªé«˜,è¶…è¿‡85%,2-ç¡¬ä»¶é”™è¯¯,ä¾‹å¦‚ä¸²å£æ­»æ‰
 	public NET_DVR_DISKSTATE[]  struHardDiskStatic = new NET_DVR_DISKSTATE[MAX_DISKNUM_V30];
-	public NET_DVR_CHANNELSTATE_V30[] struChanStatic = new NET_DVR_CHANNELSTATE_V30[MAX_CHANNUM_V30];//Í¨µÀµÄ×´Ì¬
-	public byte[]  byAlarmInStatic = new byte[MAX_ALARMIN_V30]; //±¨¾¯¶Ë¿ÚµÄ×´Ì¬,0-Ã»ÓĞ±¨¾¯,1-ÓĞ±¨¾¯
-	public byte[]  byAlarmOutStatic = new byte[MAX_ALARMOUT_V30]; //±¨¾¯Êä³ö¶Ë¿ÚµÄ×´Ì¬,0-Ã»ÓĞÊä³ö,1-ÓĞ±¨¾¯Êä³ö
-	public int  dwLocalDisplay;//±¾µØÏÔÊ¾×´Ì¬,0-Õı³£,1-²»Õı³£
-        public  byte [] byAudioChanStatus = new byte[MAX_AUDIO_V30];//±íÊ¾ÓïÒôÍ¨µÀµÄ×´Ì¬ 0-Î´Ê¹ÓÃ£¬1-Ê¹ÓÃÖĞ, 0xffÎŞĞ§
+	public NET_DVR_CHANNELSTATE_V30[] struChanStatic = new NET_DVR_CHANNELSTATE_V30[MAX_CHANNUM_V30];//é€šé“çš„çŠ¶æ€
+	public byte[]  byAlarmInStatic = new byte[MAX_ALARMIN_V30]; //æŠ¥è­¦ç«¯å£çš„çŠ¶æ€,0-æ²¡æœ‰æŠ¥è­¦,1-æœ‰æŠ¥è­¦
+	public byte[]  byAlarmOutStatic = new byte[MAX_ALARMOUT_V30]; //æŠ¥è­¦è¾“å‡ºç«¯å£çš„çŠ¶æ€,0-æ²¡æœ‰è¾“å‡º,1-æœ‰æŠ¥è­¦è¾“å‡º
+	public int  dwLocalDisplay;//æœ¬åœ°æ˜¾ç¤ºçŠ¶æ€,0-æ­£å¸¸,1-ä¸æ­£å¸¸
+        public  byte [] byAudioChanStatus = new byte[MAX_AUDIO_V30];//è¡¨ç¤ºè¯­éŸ³é€šé“çš„çŠ¶æ€ 0-æœªä½¿ç”¨ï¼Œ1-ä½¿ç”¨ä¸­, 0xffæ— æ•ˆ
         public  byte[]  byRes = new byte[10];
 }
 
-public static class NET_DVR_WORKSTATE extends Structure {//DVR¹¤×÷×´Ì¬
-	public int dwDeviceStatic; 	//Éè±¸µÄ×´Ì¬,0-Õı³£,1-CPUÕ¼ÓÃÂÊÌ«¸ß,³¬¹ı85%,2-Ó²¼ş´íÎó,ÀıÈç´®¿ÚËÀµô
+public static class NET_DVR_WORKSTATE extends Structure {//DVRå·¥ä½œçŠ¶æ€
+	public int dwDeviceStatic; 	//è®¾å¤‡çš„çŠ¶æ€,0-æ­£å¸¸,1-CPUå ç”¨ç‡å¤ªé«˜,è¶…è¿‡85%,2-ç¡¬ä»¶é”™è¯¯,ä¾‹å¦‚ä¸²å£æ­»æ‰
 	public NET_DVR_DISKSTATE[]  struHardDiskStatic = new NET_DVR_DISKSTATE[MAX_DISKNUM];
-	public NET_DVR_CHANNELSTATE[] struChanStatic = new NET_DVR_CHANNELSTATE[MAX_CHANNUM];//Í¨µÀµÄ×´Ì¬
-	public byte[]  byAlarmInStatic = new byte[MAX_ALARMIN]; //±¨¾¯¶Ë¿ÚµÄ×´Ì¬,0-Ã»ÓĞ±¨¾¯,1-ÓĞ±¨¾¯
-	public byte[]  byAlarmOutStatic = new byte[MAX_ALARMOUT]; //±¨¾¯Êä³ö¶Ë¿ÚµÄ×´Ì¬,0-Ã»ÓĞÊä³ö,1-ÓĞ±¨¾¯Êä³ö
-	public int  dwLocalDisplay;//±¾µØÏÔÊ¾×´Ì¬,0-Õı³£,1-²»Õı³£
+	public NET_DVR_CHANNELSTATE[] struChanStatic = new NET_DVR_CHANNELSTATE[MAX_CHANNUM];//é€šé“çš„çŠ¶æ€
+	public byte[]  byAlarmInStatic = new byte[MAX_ALARMIN]; //æŠ¥è­¦ç«¯å£çš„çŠ¶æ€,0-æ²¡æœ‰æŠ¥è­¦,1-æœ‰æŠ¥è­¦
+	public byte[]  byAlarmOutStatic = new byte[MAX_ALARMOUT]; //æŠ¥è­¦è¾“å‡ºç«¯å£çš„çŠ¶æ€,0-æ²¡æœ‰è¾“å‡º,1-æœ‰æŠ¥è­¦è¾“å‡º
+	public int  dwLocalDisplay;//æœ¬åœ°æ˜¾ç¤ºçŠ¶æ€,0-æ­£å¸¸,1-ä¸æ­£å¸¸
 }
 
-public static class NET_DVR_LOG_V30 extends Structure {//ÈÕÖ¾ĞÅÏ¢(9000À©Õ¹)
+public static class NET_DVR_LOG_V30 extends Structure {//æ—¥å¿—ä¿¡æ¯(9000æ‰©å±•)
 	public NET_DVR_TIME strLogTime;
-	public int	dwMajorType;	//Ö÷ÀàĞÍ 1-±¨¾¯; 2-Òì³£; 3-²Ù×÷; 0xff-È«²¿
-	public int	dwMinorType;//´ÎÀàĞÍ 0-È«²¿;
-	public byte[]	sPanelUser = new byte[MAX_NAMELEN]; //²Ù×÷Ãæ°åµÄÓÃ»§Ãû
-	public byte[]	sNetUser = new byte[MAX_NAMELEN];//ÍøÂç²Ù×÷µÄÓÃ»§Ãû
-	public NET_DVR_IPADDR	struRemoteHostAddr;//Ô¶³ÌÖ÷»úµØÖ·
-	public int	dwParaType;//²ÎÊıÀàĞÍ
-	public int	dwChannel;//Í¨µÀºÅ
-	public int	dwDiskNumber;//Ó²ÅÌºÅ
-	public int	dwAlarmInPort;//±¨¾¯ÊäÈë¶Ë¿Ú
-	public int	dwAlarmOutPort;//±¨¾¯Êä³ö¶Ë¿Ú
+	public int	dwMajorType;	//ä¸»ç±»å‹ 1-æŠ¥è­¦; 2-å¼‚å¸¸; 3-æ“ä½œ; 0xff-å…¨éƒ¨
+	public int	dwMinorType;//æ¬¡ç±»å‹ 0-å…¨éƒ¨;
+	public byte[]	sPanelUser = new byte[MAX_NAMELEN]; //æ“ä½œé¢æ¿çš„ç”¨æˆ·å
+	public byte[]	sNetUser = new byte[MAX_NAMELEN];//ç½‘ç»œæ“ä½œçš„ç”¨æˆ·å
+	public NET_DVR_IPADDR	struRemoteHostAddr;//è¿œç¨‹ä¸»æœºåœ°å€
+	public int	dwParaType;//å‚æ•°ç±»å‹
+	public int	dwChannel;//é€šé“å·
+	public int	dwDiskNumber;//ç¡¬ç›˜å·
+	public int	dwAlarmInPort;//æŠ¥è­¦è¾“å…¥ç«¯å£
+	public int	dwAlarmOutPort;//æŠ¥è­¦è¾“å‡ºç«¯å£
        public  int     dwInfoLen;
        public  byte[]    sInfo = new byte[LOG_INFO_LEN];
 }
 
-//ÈÕÖ¾ĞÅÏ¢
+//æ—¥å¿—ä¿¡æ¯
 public static class NET_DVR_LOG extends Structure {
 	public NET_DVR_TIME strLogTime;
-	public int	dwMajorType;	//Ö÷ÀàĞÍ 1-±¨¾¯; 2-Òì³£; 3-²Ù×÷; 0xff-È«²¿
-	public int	dwMinorType;//´ÎÀàĞÍ 0-È«²¿;
-	public byte[]	sPanelUser = new byte[MAX_NAMELEN]; //²Ù×÷Ãæ°åµÄÓÃ»§Ãû
-	public byte[]	sNetUser = new byte[MAX_NAMELEN];//ÍøÂç²Ù×÷µÄÓÃ»§Ãû
-	public byte[]	sRemoteHostAddr = new byte[16];//Ô¶³ÌÖ÷»úµØÖ·
-	public int	dwParaType;//²ÎÊıÀàĞÍ
-	public int	dwChannel;//Í¨µÀºÅ
-	public int	dwDiskNumber;//Ó²ÅÌºÅ
-	public int	dwAlarmInPort;//±¨¾¯ÊäÈë¶Ë¿Ú
-	public int	dwAlarmOutPort;//±¨¾¯Êä³ö¶Ë¿Ú
+	public int	dwMajorType;	//ä¸»ç±»å‹ 1-æŠ¥è­¦; 2-å¼‚å¸¸; 3-æ“ä½œ; 0xff-å…¨éƒ¨
+	public int	dwMinorType;//æ¬¡ç±»å‹ 0-å…¨éƒ¨;
+	public byte[]	sPanelUser = new byte[MAX_NAMELEN]; //æ“ä½œé¢æ¿çš„ç”¨æˆ·å
+	public byte[]	sNetUser = new byte[MAX_NAMELEN];//ç½‘ç»œæ“ä½œçš„ç”¨æˆ·å
+	public byte[]	sRemoteHostAddr = new byte[16];//è¿œç¨‹ä¸»æœºåœ°å€
+	public int	dwParaType;//å‚æ•°ç±»å‹
+	public int	dwChannel;//é€šé“å·
+	public int	dwDiskNumber;//ç¡¬ç›˜å·
+	public int	dwAlarmInPort;//æŠ¥è­¦è¾“å…¥ç«¯å£
+	public int	dwAlarmOutPort;//æŠ¥è­¦è¾“å‡ºç«¯å£
 }
 
-/************************DVRÈÕÖ¾ end***************************/
-public static class NET_DVR_ALARMOUTSTATUS_V30 extends Structure {//±¨¾¯Êä³ö×´Ì¬(9000À©Õ¹)
+/************************DVRæ—¥å¿— end***************************/
+public static class NET_DVR_ALARMOUTSTATUS_V30 extends Structure {//æŠ¥è­¦è¾“å‡ºçŠ¶æ€(9000æ‰©å±•)
 	public byte[] Output = new byte[MAX_ALARMOUT_V30];
 }
 
-public static class NET_DVR_ALARMOUTSTATUS extends Structure {//±¨¾¯Êä³ö×´Ì¬
+public static class NET_DVR_ALARMOUTSTATUS extends Structure {//æŠ¥è­¦è¾“å‡ºçŠ¶æ€
 	public byte[] Output = new byte[MAX_ALARMOUT];
 }
 
-public static class NET_DVR_TRADEINFO extends Structure {//½»Ò×ĞÅÏ¢
+public static class NET_DVR_TRADEINFO extends Structure {//äº¤æ˜“ä¿¡æ¯
 	public short m_Year;
 	public short m_Month;
 	public short m_Day;
 	public short m_Hour;
 	public short m_Minute;
 	public short m_Second;
-	public byte[] DeviceName = new byte[24];	//Éè±¸Ãû³Æ
-	public int dwChannelNumer;	//Í¨µÀºÅ
-	public byte[] CardNumber = new byte[32];	//¿¨ºÅ
-	public byte[] cTradeType = new byte[12];	//½»Ò×ÀàĞÍ
-	public int dwCash;			//½»Ò×½ğ¶î
+	public byte[] DeviceName = new byte[24];	//è®¾å¤‡åç§°
+	public int dwChannelNumer;	//é€šé“å·
+	public byte[] CardNumber = new byte[32];	//å¡å·
+	public byte[] cTradeType = new byte[12];	//äº¤æ˜“ç±»å‹
+	public int dwCash;			//äº¤æ˜“é‡‘é¢
 }
 
-public static class NET_DVR_FRAMETYPECODE extends Structure {/*Ö¡¸ñÊ½*/
-	public byte[] code = new byte[12];		/* ´úÂë */
+public static class NET_DVR_FRAMETYPECODE extends Structure {/*å¸§æ ¼å¼*/
+	public byte[] code = new byte[12];		/* ä»£ç  */
 }
 
-public static class NET_DVR_FRAMEFORMAT_V30 extends Structure {//ATM²ÎÊı(9000À©Õ¹)
+public static class NET_DVR_FRAMEFORMAT_V30 extends Structure {//ATMå‚æ•°(9000æ‰©å±•)
 	public int	dwSize;
-	public NET_DVR_IPADDR	struATMIP;               	/* ATM IPµØÖ· */
-	public int	dwATMType;							/* ATMÀàĞÍ */
-	public int	dwInputMode;						/* ÊäÈë·½Ê½	0-ÍøÂçÕìÌı 1-ÍøÂç½ÓÊÕ 2-´®¿ÚÖ±½ÓÊäÈë 3-´®¿ÚATMÃüÁîÊäÈë*/
-	public int	dwFrameSignBeginPos;				/* ±¨ÎÄ±êÖ¾Î»µÄÆğÊ¼Î»ÖÃ*/
-	public int	dwFrameSignLength;					/* ±¨ÎÄ±êÖ¾Î»µÄ³¤¶È */
-	public byte[]	byFrameSignContent = new byte[12];				/* ±¨ÎÄ±êÖ¾Î»µÄÄÚÈİ */
-	public int	dwCardLengthInfoBeginPos;			/* ¿¨ºÅ³¤¶ÈĞÅÏ¢µÄÆğÊ¼Î»ÖÃ */
-	public int	dwCardLengthInfoLength;				/* ¿¨ºÅ³¤¶ÈĞÅÏ¢µÄ³¤¶È */
-	public int	dwCardNumberInfoBeginPos;			/* ¿¨ºÅĞÅÏ¢µÄÆğÊ¼Î»ÖÃ */
-	public int	dwCardNumberInfoLength;				/* ¿¨ºÅĞÅÏ¢µÄ³¤¶È */
-	public int	dwBusinessTypeBeginPos;				/* ½»Ò×ÀàĞÍµÄÆğÊ¼Î»ÖÃ */
-	public int	dwBusinessTypeLength;				/* ½»Ò×ÀàĞÍµÄ³¤¶È */
-	public NET_DVR_FRAMETYPECODE[]	frameTypeCode = new NET_DVR_FRAMETYPECODE[10];	/* ÀàĞÍ */
-	public short	wATMPort;							/* ¿¨ºÅ²¶×½¶Ë¿ÚºÅ(ÍøÂçĞ­Òé·½Ê½) (±£Áô)0xffff±íÊ¾¸ÃÖµÎŞĞ§*/
-	public short	wProtocolType;						/* ÍøÂçĞ­ÒéÀàĞÍ(±£Áô) 0xffff±íÊ¾¸ÃÖµÎŞĞ§*/
+	public NET_DVR_IPADDR	struATMIP;               	/* ATM IPåœ°å€ */
+	public int	dwATMType;							/* ATMç±»å‹ */
+	public int	dwInputMode;						/* è¾“å…¥æ–¹å¼	0-ç½‘ç»œä¾¦å¬ 1-ç½‘ç»œæ¥æ”¶ 2-ä¸²å£ç›´æ¥è¾“å…¥ 3-ä¸²å£ATMå‘½ä»¤è¾“å…¥*/
+	public int	dwFrameSignBeginPos;				/* æŠ¥æ–‡æ ‡å¿—ä½çš„èµ·å§‹ä½ç½®*/
+	public int	dwFrameSignLength;					/* æŠ¥æ–‡æ ‡å¿—ä½çš„é•¿åº¦ */
+	public byte[]	byFrameSignContent = new byte[12];				/* æŠ¥æ–‡æ ‡å¿—ä½çš„å†…å®¹ */
+	public int	dwCardLengthInfoBeginPos;			/* å¡å·é•¿åº¦ä¿¡æ¯çš„èµ·å§‹ä½ç½® */
+	public int	dwCardLengthInfoLength;				/* å¡å·é•¿åº¦ä¿¡æ¯çš„é•¿åº¦ */
+	public int	dwCardNumberInfoBeginPos;			/* å¡å·ä¿¡æ¯çš„èµ·å§‹ä½ç½® */
+	public int	dwCardNumberInfoLength;				/* å¡å·ä¿¡æ¯çš„é•¿åº¦ */
+	public int	dwBusinessTypeBeginPos;				/* äº¤æ˜“ç±»å‹çš„èµ·å§‹ä½ç½® */
+	public int	dwBusinessTypeLength;				/* äº¤æ˜“ç±»å‹çš„é•¿åº¦ */
+	public NET_DVR_FRAMETYPECODE[]	frameTypeCode = new NET_DVR_FRAMETYPECODE[10];	/* ç±»å‹ */
+	public short	wATMPort;							/* å¡å·æ•æ‰ç«¯å£å·(ç½‘ç»œåè®®æ–¹å¼) (ä¿ç•™)0xffffè¡¨ç¤ºè¯¥å€¼æ— æ•ˆ*/
+	public short	wProtocolType;						/* ç½‘ç»œåè®®ç±»å‹(ä¿ç•™) 0xffffè¡¨ç¤ºè¯¥å€¼æ— æ•ˆ*/
         public byte[]   byRes = new byte[24];
 }
 
-public static class NET_DVR_FRAMEFORMAT extends Structure {//ATM²ÎÊı
+public static class NET_DVR_FRAMEFORMAT extends Structure {//ATMå‚æ•°
 	public int dwSize;
-	public byte[] sATMIP = new byte[16];						/* ATM IPµØÖ· */
-	public int dwATMType;						/* ATMÀàĞÍ */
-	public int dwInputMode;						/* ÊäÈë·½Ê½	0-ÍøÂçÕìÌı 1-ÍøÂç½ÓÊÕ 2-´®¿ÚÖ±½ÓÊäÈë 3-´®¿ÚATMÃüÁîÊäÈë*/
-	public int dwFrameSignBeginPos;              /* ±¨ÎÄ±êÖ¾Î»µÄÆğÊ¼Î»ÖÃ*/
-	public int dwFrameSignLength;				/* ±¨ÎÄ±êÖ¾Î»µÄ³¤¶È */
-	public byte[]  byFrameSignContent = new byte[12];			/* ±¨ÎÄ±êÖ¾Î»µÄÄÚÈİ */
-	public int dwCardLengthInfoBeginPos;			/* ¿¨ºÅ³¤¶ÈĞÅÏ¢µÄÆğÊ¼Î»ÖÃ */
-	public int dwCardLengthInfoLength;			/* ¿¨ºÅ³¤¶ÈĞÅÏ¢µÄ³¤¶È */
-	public int dwCardNumberInfoBeginPos;			/* ¿¨ºÅĞÅÏ¢µÄÆğÊ¼Î»ÖÃ */
-	public int dwCardNumberInfoLength;			/* ¿¨ºÅĞÅÏ¢µÄ³¤¶È */
-	public int dwBusinessTypeBeginPos;           /* ½»Ò×ÀàĞÍµÄÆğÊ¼Î»ÖÃ */
-	public int dwBusinessTypeLength;				/* ½»Ò×ÀàĞÍµÄ³¤¶È */
-	public NET_DVR_FRAMETYPECODE[] frameTypeCode = new NET_DVR_FRAMETYPECODE[10];/* ÀàĞÍ */
+	public byte[] sATMIP = new byte[16];						/* ATM IPåœ°å€ */
+	public int dwATMType;						/* ATMç±»å‹ */
+	public int dwInputMode;						/* è¾“å…¥æ–¹å¼	0-ç½‘ç»œä¾¦å¬ 1-ç½‘ç»œæ¥æ”¶ 2-ä¸²å£ç›´æ¥è¾“å…¥ 3-ä¸²å£ATMå‘½ä»¤è¾“å…¥*/
+	public int dwFrameSignBeginPos;              /* æŠ¥æ–‡æ ‡å¿—ä½çš„èµ·å§‹ä½ç½®*/
+	public int dwFrameSignLength;				/* æŠ¥æ–‡æ ‡å¿—ä½çš„é•¿åº¦ */
+	public byte[]  byFrameSignContent = new byte[12];			/* æŠ¥æ–‡æ ‡å¿—ä½çš„å†…å®¹ */
+	public int dwCardLengthInfoBeginPos;			/* å¡å·é•¿åº¦ä¿¡æ¯çš„èµ·å§‹ä½ç½® */
+	public int dwCardLengthInfoLength;			/* å¡å·é•¿åº¦ä¿¡æ¯çš„é•¿åº¦ */
+	public int dwCardNumberInfoBeginPos;			/* å¡å·ä¿¡æ¯çš„èµ·å§‹ä½ç½® */
+	public int dwCardNumberInfoLength;			/* å¡å·ä¿¡æ¯çš„é•¿åº¦ */
+	public int dwBusinessTypeBeginPos;           /* äº¤æ˜“ç±»å‹çš„èµ·å§‹ä½ç½® */
+	public int dwBusinessTypeLength;				/* äº¤æ˜“ç±»å‹çš„é•¿åº¦ */
+	public NET_DVR_FRAMETYPECODE[] frameTypeCode = new NET_DVR_FRAMETYPECODE[10];/* ç±»å‹ */
 }
 
 public static class NET_DVR_FTPTYPECODE extends Structure {
-	public byte[] sFtpType = new byte[32];     /*¿Í»§¶¨ÒåµÄ²Ù×÷ÀàĞÍ*/
-	public byte[] sFtpCode = new byte[8];      /*¿Í»§¶¨ÒåµÄ²Ù×÷ÀàĞÍµÄ¶ÔÓ¦µÄÂë*/
+	public byte[] sFtpType = new byte[32];     /*å®¢æˆ·å®šä¹‰çš„æ“ä½œç±»å‹*/
+	public byte[] sFtpCode = new byte[8];      /*å®¢æˆ·å®šä¹‰çš„æ“ä½œç±»å‹çš„å¯¹åº”çš„ç */
 }
 
-public static class NET_DVR_FRAMEFORMAT_EX extends Structure {//ATM²ÎÊıÌí¼ÓFTPÉÏ´«²ÎÊı, ¶íÂŞË¹ÒøĞĞ¶¨ÖÆ, 2006-11-17
+public static class NET_DVR_FRAMEFORMAT_EX extends Structure {//ATMå‚æ•°æ·»åŠ FTPä¸Šä¼ å‚æ•°, ä¿„ç½—æ–¯é“¶è¡Œå®šåˆ¶, 2006-11-17
 	public int dwSize;
-	public byte[] sATMIP = new byte[16];						/* ATM IPµØÖ· */
-	public int dwATMType;						/* ATMÀàĞÍ */
-	public int dwInputMode;						/* ÊäÈë·½Ê½	0-ÍøÂçÕìÌı 1-ÍøÂç½ÓÊÕ 2-´®¿ÚÖ±½ÓÊäÈë 3-´®¿ÚATMÃüÁîÊäÈë*/
-	public int dwFrameSignBeginPos;              /* ±¨ÎÄ±êÖ¾Î»µÄÆğÊ¼Î»ÖÃ*/
-	public int dwFrameSignLength;				/* ±¨ÎÄ±êÖ¾Î»µÄ³¤¶È */
-	public byte[]  byFrameSignContent = new byte[12];			/* ±¨ÎÄ±êÖ¾Î»µÄÄÚÈİ */
-	public int dwCardLengthInfoBeginPos;			/* ¿¨ºÅ³¤¶ÈĞÅÏ¢µÄÆğÊ¼Î»ÖÃ */
-	public int dwCardLengthInfoLength;			/* ¿¨ºÅ³¤¶ÈĞÅÏ¢µÄ³¤¶È */
-	public int dwCardNumberInfoBeginPos;			/* ¿¨ºÅĞÅÏ¢µÄÆğÊ¼Î»ÖÃ */
-	public int dwCardNumberInfoLength;			/* ¿¨ºÅĞÅÏ¢µÄ³¤¶È */
-	public int dwBusinessTypeBeginPos;           /* ½»Ò×ÀàĞÍµÄÆğÊ¼Î»ÖÃ */
-	public int dwBusinessTypeLength;				/* ½»Ò×ÀàĞÍµÄ³¤¶È */
-	public NET_DVR_FRAMETYPECODE[] frameTypeCode = new NET_DVR_FRAMETYPECODE[10];/* ÀàĞÍ */
+	public byte[] sATMIP = new byte[16];						/* ATM IPåœ°å€ */
+	public int dwATMType;						/* ATMç±»å‹ */
+	public int dwInputMode;						/* è¾“å…¥æ–¹å¼	0-ç½‘ç»œä¾¦å¬ 1-ç½‘ç»œæ¥æ”¶ 2-ä¸²å£ç›´æ¥è¾“å…¥ 3-ä¸²å£ATMå‘½ä»¤è¾“å…¥*/
+	public int dwFrameSignBeginPos;              /* æŠ¥æ–‡æ ‡å¿—ä½çš„èµ·å§‹ä½ç½®*/
+	public int dwFrameSignLength;				/* æŠ¥æ–‡æ ‡å¿—ä½çš„é•¿åº¦ */
+	public byte[]  byFrameSignContent = new byte[12];			/* æŠ¥æ–‡æ ‡å¿—ä½çš„å†…å®¹ */
+	public int dwCardLengthInfoBeginPos;			/* å¡å·é•¿åº¦ä¿¡æ¯çš„èµ·å§‹ä½ç½® */
+	public int dwCardLengthInfoLength;			/* å¡å·é•¿åº¦ä¿¡æ¯çš„é•¿åº¦ */
+	public int dwCardNumberInfoBeginPos;			/* å¡å·ä¿¡æ¯çš„èµ·å§‹ä½ç½® */
+	public int dwCardNumberInfoLength;			/* å¡å·ä¿¡æ¯çš„é•¿åº¦ */
+	public int dwBusinessTypeBeginPos;           /* äº¤æ˜“ç±»å‹çš„èµ·å§‹ä½ç½® */
+	public int dwBusinessTypeLength;				/* äº¤æ˜“ç±»å‹çš„é•¿åº¦ */
+	public NET_DVR_FRAMETYPECODE[] frameTypeCode = new NET_DVR_FRAMETYPECODE[10];/* ç±»å‹ */
 	public byte[] sFTPIP = new byte[16];						/* FTP IP */
-	public byte[] byFtpUsername = new byte[NAME_LEN];			/* ÓÃ»§Ãû */
-	public byte[] byFtpPasswd = new byte[PASSWD_LEN];			/* ÃÜÂë */
-	public byte[] sDirName = new byte[NAME_LEN];				/*·şÎñÆ÷Ä¿Â¼Ãû*/
-	public int dwATMSrvType;						/*ATM·şÎñÆ÷ÀàĞÍ£¬0--wincor £¬1--diebold*/
-	public int dwTimeSpace;						/*È¡ÖµÎª1.2.3.4.5.10*/
-	public NET_DVR_FTPTYPECODE[] sFtpTypeCodeOp = new NET_DVR_FTPTYPECODE[300];    /*ĞÂ¼ÓµÄ*/
-	public int dwADPlay;    /* 1 ±íÊ¾ÔÚ²¥·Å¹ã¸æ£¬0 ±íÊ¾Ã»ÓĞ²¥·Å¹ã¸æ*/
-	public int dwNewPort;  //¶Ë¿Ú
+	public byte[] byFtpUsername = new byte[NAME_LEN];			/* ç”¨æˆ·å */
+	public byte[] byFtpPasswd = new byte[PASSWD_LEN];			/* å¯†ç  */
+	public byte[] sDirName = new byte[NAME_LEN];				/*æœåŠ¡å™¨ç›®å½•å*/
+	public int dwATMSrvType;						/*ATMæœåŠ¡å™¨ç±»å‹ï¼Œ0--wincor ï¼Œ1--diebold*/
+	public int dwTimeSpace;						/*å–å€¼ä¸º1.2.3.4.5.10*/
+	public NET_DVR_FTPTYPECODE[] sFtpTypeCodeOp = new NET_DVR_FTPTYPECODE[300];    /*æ–°åŠ çš„*/
+	public int dwADPlay;    /* 1 è¡¨ç¤ºåœ¨æ’­æ”¾å¹¿å‘Šï¼Œ0 è¡¨ç¤ºæ²¡æœ‰æ’­æ”¾å¹¿å‘Š*/
+	public int dwNewPort;  //ç«¯å£
 }
 /****************************ATM(end)***************************/
 
 /*****************************DS-6001D/F(begin)***************************/
 //DS-6001D Decoder
 public static class NET_DVR_DECODERINFO extends Structure {
-	public byte[] byEncoderIP = new byte[16];		//½âÂëÉè±¸Á¬½ÓµÄ·şÎñÆ÷IP
-	public byte[] byEncoderUser = new byte[16];		//½âÂëÉè±¸Á¬½ÓµÄ·şÎñÆ÷µÄÓÃ»§Ãû
-	public byte[] byEncoderPasswd = new byte[16];	//½âÂëÉè±¸Á¬½ÓµÄ·şÎñÆ÷µÄÃÜÂë
-	public byte bySendMode;			//½âÂëÉè±¸Á¬½Ó·şÎñÆ÷µÄÁ¬½ÓÄ£Ê½
-	public byte byEncoderChannel;		//½âÂëÉè±¸Á¬½ÓµÄ·şÎñÆ÷µÄÍ¨µÀºÅ
-	public short wEncoderPort;			//½âÂëÉè±¸Á¬½ÓµÄ·şÎñÆ÷µÄ¶Ë¿ÚºÅ
-	public byte[] reservedData = new byte[4];		//±£Áô
+	public byte[] byEncoderIP = new byte[16];		//è§£ç è®¾å¤‡è¿æ¥çš„æœåŠ¡å™¨IP
+	public byte[] byEncoderUser = new byte[16];		//è§£ç è®¾å¤‡è¿æ¥çš„æœåŠ¡å™¨çš„ç”¨æˆ·å
+	public byte[] byEncoderPasswd = new byte[16];	//è§£ç è®¾å¤‡è¿æ¥çš„æœåŠ¡å™¨çš„å¯†ç 
+	public byte bySendMode;			//è§£ç è®¾å¤‡è¿æ¥æœåŠ¡å™¨çš„è¿æ¥æ¨¡å¼
+	public byte byEncoderChannel;		//è§£ç è®¾å¤‡è¿æ¥çš„æœåŠ¡å™¨çš„é€šé“å·
+	public short wEncoderPort;			//è§£ç è®¾å¤‡è¿æ¥çš„æœåŠ¡å™¨çš„ç«¯å£å·
+	public byte[] reservedData = new byte[4];		//ä¿ç•™
 }
 
 public static class NET_DVR_DECODERSTATE extends Structure {
-	public byte[] byEncoderIP = new byte[16];		//½âÂëÉè±¸Á¬½ÓµÄ·şÎñÆ÷IP
-	public byte[] byEncoderUser = new byte[16];		//½âÂëÉè±¸Á¬½ÓµÄ·şÎñÆ÷µÄÓÃ»§Ãû
-	public byte[] byEncoderPasswd = new byte[16];	//½âÂëÉè±¸Á¬½ÓµÄ·şÎñÆ÷µÄÃÜÂë
-	public byte byEncoderChannel;		//½âÂëÉè±¸Á¬½ÓµÄ·şÎñÆ÷µÄÍ¨µÀºÅ
-	public byte bySendMode;			//½âÂëÉè±¸Á¬½ÓµÄ·şÎñÆ÷µÄÁ¬½ÓÄ£Ê½
-	public short wEncoderPort;			//½âÂëÉè±¸Á¬½ÓµÄ·şÎñÆ÷µÄ¶Ë¿ÚºÅ
-	public int dwConnectState;		//½âÂëÉè±¸Á¬½Ó·şÎñÆ÷µÄ×´Ì¬
-	public byte[] reservedData = new byte[4];		//±£Áô
+	public byte[] byEncoderIP = new byte[16];		//è§£ç è®¾å¤‡è¿æ¥çš„æœåŠ¡å™¨IP
+	public byte[] byEncoderUser = new byte[16];		//è§£ç è®¾å¤‡è¿æ¥çš„æœåŠ¡å™¨çš„ç”¨æˆ·å
+	public byte[] byEncoderPasswd = new byte[16];	//è§£ç è®¾å¤‡è¿æ¥çš„æœåŠ¡å™¨çš„å¯†ç 
+	public byte byEncoderChannel;		//è§£ç è®¾å¤‡è¿æ¥çš„æœåŠ¡å™¨çš„é€šé“å·
+	public byte bySendMode;			//è§£ç è®¾å¤‡è¿æ¥çš„æœåŠ¡å™¨çš„è¿æ¥æ¨¡å¼
+	public short wEncoderPort;			//è§£ç è®¾å¤‡è¿æ¥çš„æœåŠ¡å™¨çš„ç«¯å£å·
+	public int dwConnectState;		//è§£ç è®¾å¤‡è¿æ¥æœåŠ¡å™¨çš„çŠ¶æ€
+	public byte[] reservedData = new byte[4];		//ä¿ç•™
 }
 
 public static class NET_DVR_DECCHANINFO extends Structure {
-	public byte[] sDVRIP = new byte[16];				/* DVR IPµØÖ· */
-	public short wDVRPort;			 		/* ¶Ë¿ÚºÅ */
-	public byte[] sUserName = new byte[NAME_LEN];		/* ÓÃ»§Ãû */
-	public byte[] sPassword = new byte[PASSWD_LEN];		/* ÃÜÂë */
-	public byte byChannel;					/* Í¨µÀºÅ */
-	public byte byLinkMode;				/* Á¬½ÓÄ£Ê½ */
-	public byte byLinkType;				/* Á¬½ÓÀàĞÍ 0£­Ö÷ÂëÁ÷ 1£­×ÓÂëÁ÷ */
+	public byte[] sDVRIP = new byte[16];				/* DVR IPåœ°å€ */
+	public short wDVRPort;			 		/* ç«¯å£å· */
+	public byte[] sUserName = new byte[NAME_LEN];		/* ç”¨æˆ·å */
+	public byte[] sPassword = new byte[PASSWD_LEN];		/* å¯†ç  */
+	public byte byChannel;					/* é€šé“å· */
+	public byte byLinkMode;				/* è¿æ¥æ¨¡å¼ */
+	public byte byLinkType;				/* è¿æ¥ç±»å‹ 0ï¼ä¸»ç æµ 1ï¼å­ç æµ */
 }
 
-public static class NET_DVR_DECINFO extends Structure {/*Ã¿¸ö½âÂëÍ¨µÀµÄÅäÖÃ*/
-	public byte	byPoolChans;			/*Ã¿Â·½âÂëÍ¨µÀÉÏµÄÑ­»·Í¨µÀÊıÁ¿, ×î¶à4Í¨µÀ 0±íÊ¾Ã»ÓĞ½âÂë*/
+public static class NET_DVR_DECINFO extends Structure {/*æ¯ä¸ªè§£ç é€šé“çš„é…ç½®*/
+	public byte	byPoolChans;			/*æ¯è·¯è§£ç é€šé“ä¸Šçš„å¾ªç¯é€šé“æ•°é‡, æœ€å¤š4é€šé“ 0è¡¨ç¤ºæ²¡æœ‰è§£ç */
 	public NET_DVR_DECCHANINFO[] struchanConInfo = new NET_DVR_DECCHANINFO[MAX_DECPOOLNUM];
-	public byte	byEnablePoll;			/*ÊÇ·ñÂÖÑ² 0-·ñ 1-ÊÇ*/
-	public byte	byPoolTime;				/*ÂÖÑ²Ê±¼ä 0-±£Áô 1-10Ãë 2-15Ãë 3-20Ãë 4-30Ãë 5-45Ãë 6-1·ÖÖÓ 7-2·ÖÖÓ 8-5·ÖÖÓ */
+	public byte	byEnablePoll;			/*æ˜¯å¦è½®å·¡ 0-å¦ 1-æ˜¯*/
+	public byte	byPoolTime;				/*è½®å·¡æ—¶é—´ 0-ä¿ç•™ 1-10ç§’ 2-15ç§’ 3-20ç§’ 4-30ç§’ 5-45ç§’ 6-1åˆ†é’Ÿ 7-2åˆ†é’Ÿ 8-5åˆ†é’Ÿ */
 }
 
-public static class NET_DVR_DECCFG extends Structure {/*Õû¸öÉè±¸½âÂëÅäÖÃ*/
+public static class NET_DVR_DECCFG extends Structure {/*æ•´ä¸ªè®¾å¤‡è§£ç é…ç½®*/
 	public int	dwSize;
-	public int	dwDecChanNum; 		/*½âÂëÍ¨µÀµÄÊıÁ¿*/
+	public int	dwDecChanNum; 		/*è§£ç é€šé“çš„æ•°é‡*/
 	public NET_DVR_DECINFO[] struDecInfo = new NET_DVR_DECINFO[MAX_DECNUM];
 }
 
 //2005-08-01
-public static class NET_DVR_PORTINFO extends Structure {/* ½âÂëÉè±¸Í¸Ã÷Í¨µÀÉèÖÃ */
-	public int dwEnableTransPort;	/* ÊÇ·ñÆô¶¯Í¸Ã÷Í¨µÀ 0£­²»ÆôÓÃ 1£­ÆôÓÃ*/
-	public byte[] sDecoderIP = new byte[16];		/* DVR IPµØÖ· */
-	public short wDecoderPort;			/* ¶Ë¿ÚºÅ */
-	public short wDVRTransPort;			/* ÅäÖÃÇ°¶ËDVRÊÇ´Ó485/232Êä³ö£¬1±íÊ¾232´®¿Ú,2±íÊ¾485´®¿Ú */
+public static class NET_DVR_PORTINFO extends Structure {/* è§£ç è®¾å¤‡é€æ˜é€šé“è®¾ç½® */
+	public int dwEnableTransPort;	/* æ˜¯å¦å¯åŠ¨é€æ˜é€šé“ 0ï¼ä¸å¯ç”¨ 1ï¼å¯ç”¨*/
+	public byte[] sDecoderIP = new byte[16];		/* DVR IPåœ°å€ */
+	public short wDecoderPort;			/* ç«¯å£å· */
+	public short wDVRTransPort;			/* é…ç½®å‰ç«¯DVRæ˜¯ä»485/232è¾“å‡ºï¼Œ1è¡¨ç¤º232ä¸²å£,2è¡¨ç¤º485ä¸²å£ */
 	public byte[] cReserve = new byte[4];
 }
 
 public static class NET_DVR_PORTCFG extends Structure {
 	public int dwSize;
-	public NET_DVR_PORTINFO[] struTransPortInfo = new NET_DVR_PORTINFO[MAX_TRANSPARENTNUM]; /* Êı×é0±íÊ¾232 Êı×é1±íÊ¾485 */
+	public NET_DVR_PORTINFO[] struTransPortInfo = new NET_DVR_PORTINFO[MAX_TRANSPARENTNUM]; /* æ•°ç»„0è¡¨ç¤º232 æ•°ç»„1è¡¨ç¤º485 */
 }
 
 /*https://jna.dev.java.net/javadoc/com/sun/jna/Union.html#setType(java.lang.Class)  see how to use the JNA Union*/
-public static class NET_DVR_PLAYREMOTEFILE extends Structure {/* ¿ØÖÆÍøÂçÎÄ¼ş»Ø·Å */
+public static class NET_DVR_PLAYREMOTEFILE extends Structure {/* æ§åˆ¶ç½‘ç»œæ–‡ä»¶å›æ”¾ */
 	public int dwSize;
-	public byte[] sDecoderIP = new byte[16];		/* DVR IPµØÖ· */
-	public short wDecoderPort;			/* ¶Ë¿ÚºÅ */
-	public short wLoadMode;				/* »Ø·ÅÏÂÔØÄ£Ê½ 1£­°´Ãû×Ö 2£­°´Ê±¼ä */
+	public byte[] sDecoderIP = new byte[16];		/* DVR IPåœ°å€ */
+	public short wDecoderPort;			/* ç«¯å£å· */
+	public short wLoadMode;				/* å›æ”¾ä¸‹è½½æ¨¡å¼ 1ï¼æŒ‰åå­— 2ï¼æŒ‰æ—¶é—´ */
         public   byte[] byFile = new byte[100];
         public static class mode_size extends Union
 	{
-		public byte[] byFile = new byte[100];		// »Ø·ÅµÄÎÄ¼şÃû
+		public byte[] byFile = new byte[100];		// å›æ”¾çš„æ–‡ä»¶å
 		public static class bytime extends Structure
 		{
 			public int dwChannel;
-			public byte[] sUserName = new byte[NAME_LEN];	//ÇëÇóÊÓÆµÓÃ»§Ãû
-			public byte[] sPassword = new byte[PASSWD_LEN];	// ÃÜÂë
-			public NET_DVR_TIME struStartTime;	//°´Ê±¼ä»Ø·ÅµÄ¿ªÊ¼Ê±¼ä
-			public NET_DVR_TIME struStopTime;	// °´Ê±¼ä»Ø·ÅµÄ½áÊøÊ±¼ä
+			public byte[] sUserName = new byte[NAME_LEN];	//è¯·æ±‚è§†é¢‘ç”¨æˆ·å
+			public byte[] sPassword = new byte[PASSWD_LEN];	// å¯†ç 
+			public NET_DVR_TIME struStartTime;	//æŒ‰æ—¶é—´å›æ”¾çš„å¼€å§‹æ—¶é—´
+			public NET_DVR_TIME struStopTime;	// æŒ‰æ—¶é—´å›æ”¾çš„ç»“æŸæ—¶é—´
 		}
 	}
 }
 
-public static class NET_DVR_DECCHANSTATUS extends Structure {/*µ±Ç°Éè±¸½âÂëÁ¬½Ó×´Ì¬*/
-	public int dwWorkType;		/*¹¤×÷·½Ê½£º1£ºÂÖÑ²¡¢2£º¶¯Ì¬Á¬½Ó½âÂë¡¢3£ºÎÄ¼ş»Ø·ÅÏÂÔØ 4£º°´Ê±¼ä»Ø·ÅÏÂÔØ*/
-	public byte[] sDVRIP = new byte[16];		/*Á¬½ÓµÄÉè±¸ip*/
-	public short wDVRPort;			/*Á¬½Ó¶Ë¿ÚºÅ*/
-	public byte byChannel;			/* Í¨µÀºÅ */
-	public byte byLinkMode;		/* Á¬½ÓÄ£Ê½ */
-	public int	dwLinkType;		/*Á¬½ÓÀàĞÍ 0£­Ö÷ÂëÁ÷ 1£­×ÓÂëÁ÷*/
-	public byte[] sUserName = new byte[NAME_LEN];	/*ÇëÇóÊÓÆµÓÃ»§Ãû*/
-	public byte[] sPassword = new byte[PASSWD_LEN];	/* ÃÜÂë */
+public static class NET_DVR_DECCHANSTATUS extends Structure {/*å½“å‰è®¾å¤‡è§£ç è¿æ¥çŠ¶æ€*/
+	public int dwWorkType;		/*å·¥ä½œæ–¹å¼ï¼š1ï¼šè½®å·¡ã€2ï¼šåŠ¨æ€è¿æ¥è§£ç ã€3ï¼šæ–‡ä»¶å›æ”¾ä¸‹è½½ 4ï¼šæŒ‰æ—¶é—´å›æ”¾ä¸‹è½½*/
+	public byte[] sDVRIP = new byte[16];		/*è¿æ¥çš„è®¾å¤‡ip*/
+	public short wDVRPort;			/*è¿æ¥ç«¯å£å·*/
+	public byte byChannel;			/* é€šé“å· */
+	public byte byLinkMode;		/* è¿æ¥æ¨¡å¼ */
+	public int	dwLinkType;		/*è¿æ¥ç±»å‹ 0ï¼ä¸»ç æµ 1ï¼å­ç æµ*/
+	public byte[] sUserName = new byte[NAME_LEN];	/*è¯·æ±‚è§†é¢‘ç”¨æˆ·å*/
+	public byte[] sPassword = new byte[PASSWD_LEN];	/* å¯†ç  */
 	public byte[] cReserve = new byte[52];
         public static class objectInfo extends Union
 	{
 		public static class userInfo extends Structure
 		{
-			public byte[] sUserName = new byte[NAME_LEN];	//ÇëÇóÊÓÆµÓÃ»§Ãû
-			public byte[] sPassword = new byte[PASSWD_LEN];	// ÃÜÂë
+			public byte[] sUserName = new byte[NAME_LEN];	//è¯·æ±‚è§†é¢‘ç”¨æˆ·å
+			public byte[] sPassword = new byte[PASSWD_LEN];	// å¯†ç 
 			public byte[] cReserve = new byte[52];
 		}
 		public static class fileInfo extends Structure
@@ -1944,10 +1961,10 @@ public static class NET_DVR_DECCHANSTATUS extends Structure {/*µ±Ç°Éè±¸½âÂëÁ¬½Ó×
 		public static class timeInfo extends Structure
 		{
 			public int	dwChannel;
-			public byte[] sUserName = new byte[NAME_LEN];	//ÇëÇóÊÓÆµÓÃ»§Ãû
-			public byte[] sPassword = new byte[PASSWD_LEN];	// ÃÜÂë
-			public NET_DVR_TIME struStartTime;		// °´Ê±¼ä»Ø·ÅµÄ¿ªÊ¼Ê±¼ä
-			public NET_DVR_TIME struStopTime;		//°´Ê±¼ä»Ø·ÅµÄ½áÊøÊ±¼ä
+			public byte[] sUserName = new byte[NAME_LEN];	//è¯·æ±‚è§†é¢‘ç”¨æˆ·å
+			public byte[] sPassword = new byte[PASSWD_LEN];	// å¯†ç 
+			public NET_DVR_TIME struStartTime;		// æŒ‰æ—¶é—´å›æ”¾çš„å¼€å§‹æ—¶é—´
+			public NET_DVR_TIME struStopTime;		//æŒ‰æ—¶é—´å›æ”¾çš„ç»“æŸæ—¶é—´
 		}
 	}
 }
@@ -1958,184 +1975,184 @@ public static class NET_DVR_DECSTATUS extends Structure {
 }
 /*****************************DS-6001D/F(end)***************************/
 
-public static class NET_DVR_SHOWSTRINGINFO extends Structure {//µ¥×Ö·û²ÎÊı(×Ó½á¹¹)
-	public short wShowString;				// Ô¤ÀÀµÄÍ¼ÏóÉÏÊÇ·ñÏÔÊ¾×Ö·û,0-²»ÏÔÊ¾,1-ÏÔÊ¾ ÇøÓò´óĞ¡704*576,µ¥¸ö×Ö·ûµÄ´óĞ¡Îª32*32
-	public short wStringSize;				/* ¸ÃĞĞ×Ö·ûµÄ³¤¶È£¬²»ÄÜ´óÓÚ44¸ö×Ö·û */
-	public short wShowStringTopLeftX;		/* ×Ö·ûÏÔÊ¾Î»ÖÃµÄx×ø±ê */
-	public short wShowStringTopLeftY;		/* ×Ö·ûÃû³ÆÏÔÊ¾Î»ÖÃµÄy×ø±ê */
-	public byte[] sString = new byte[44];				/* ÒªÏÔÊ¾µÄ×Ö·ûÄÚÈİ */
+public static class NET_DVR_SHOWSTRINGINFO extends Structure {//å•å­—ç¬¦å‚æ•°(å­ç»“æ„)
+	public short wShowString;				// é¢„è§ˆçš„å›¾è±¡ä¸Šæ˜¯å¦æ˜¾ç¤ºå­—ç¬¦,0-ä¸æ˜¾ç¤º,1-æ˜¾ç¤º åŒºåŸŸå¤§å°704*576,å•ä¸ªå­—ç¬¦çš„å¤§å°ä¸º32*32
+	public short wStringSize;				/* è¯¥è¡Œå­—ç¬¦çš„é•¿åº¦ï¼Œä¸èƒ½å¤§äº44ä¸ªå­—ç¬¦ */
+	public short wShowStringTopLeftX;		/* å­—ç¬¦æ˜¾ç¤ºä½ç½®çš„xåæ ‡ */
+	public short wShowStringTopLeftY;		/* å­—ç¬¦åç§°æ˜¾ç¤ºä½ç½®çš„yåæ ‡ */
+	public byte[] sString = new byte[44];				/* è¦æ˜¾ç¤ºçš„å­—ç¬¦å†…å®¹ */
 }
 
-//µş¼Ó×Ö·û(9000À©Õ¹)
+//å åŠ å­—ç¬¦(9000æ‰©å±•)
 public static class NET_DVR_SHOWSTRING_V30 extends Structure {
 	public int dwSize;
-	public NET_DVR_SHOWSTRINGINFO[] struStringInfo = new NET_DVR_SHOWSTRINGINFO[MAX_STRINGNUM_V30];				/* ÒªÏÔÊ¾µÄ×Ö·ûÄÚÈİ */
+	public NET_DVR_SHOWSTRINGINFO[] struStringInfo = new NET_DVR_SHOWSTRINGINFO[MAX_STRINGNUM_V30];				/* è¦æ˜¾ç¤ºçš„å­—ç¬¦å†…å®¹ */
 }
 
-//µş¼Ó×Ö·ûÀ©Õ¹(8Ìõ×Ö·û)
+//å åŠ å­—ç¬¦æ‰©å±•(8æ¡å­—ç¬¦)
 public static class NET_DVR_SHOWSTRING_EX extends Structure {
 	public int dwSize;
-	public NET_DVR_SHOWSTRINGINFO[] struStringInfo = new NET_DVR_SHOWSTRINGINFO[MAX_STRINGNUM_EX];				/* ÒªÏÔÊ¾µÄ×Ö·ûÄÚÈİ */
+	public NET_DVR_SHOWSTRINGINFO[] struStringInfo = new NET_DVR_SHOWSTRINGINFO[MAX_STRINGNUM_EX];				/* è¦æ˜¾ç¤ºçš„å­—ç¬¦å†…å®¹ */
 }
 
-//µş¼Ó×Ö·û
+//å åŠ å­—ç¬¦
 public static class NET_DVR_SHOWSTRING extends Structure {
 	public int dwSize;
-	public NET_DVR_SHOWSTRINGINFO[] struStringInfo = new NET_DVR_SHOWSTRINGINFO[MAX_STRINGNUM];				/* ÒªÏÔÊ¾µÄ×Ö·ûÄÚÈİ */
+	public NET_DVR_SHOWSTRINGINFO[] struStringInfo = new NET_DVR_SHOWSTRINGINFO[MAX_STRINGNUM];				/* è¦æ˜¾ç¤ºçš„å­—ç¬¦å†…å®¹ */
 }
 
-/****************************DS9000ĞÂÔö½á¹¹(begin)******************************/
+/****************************DS9000æ–°å¢ç»“æ„(begin)******************************/
 
 /*
-EMAIL²ÎÊı½á¹¹
+EMAILå‚æ•°ç»“æ„
 */
     public static class NET_DVR_SENDER extends Structure {
-       public  byte[] sName = new byte[NAME_LEN];				/* ·¢¼şÈËĞÕÃû */
-       public   byte[] sAddress = new byte[MAX_EMAIL_ADDR_LEN];		/* ·¢¼şÈËµØÖ· */
+       public  byte[] sName = new byte[NAME_LEN];				/* å‘ä»¶äººå§“å */
+       public   byte[] sAddress = new byte[MAX_EMAIL_ADDR_LEN];		/* å‘ä»¶äººåœ°å€ */
     }
        public static class NET_DVRRECEIVER extends Structure {
-       public  byte[]	sName = new byte[NAME_LEN];				/* ÊÕ¼şÈËĞÕÃû */
-       public  byte[]	sAddress = new byte[MAX_EMAIL_ADDR_LEN];		/* ÊÕ¼şÈËµØÖ· */
+       public  byte[]	sName = new byte[NAME_LEN];				/* æ”¶ä»¶äººå§“å */
+       public  byte[]	sAddress = new byte[MAX_EMAIL_ADDR_LEN];		/* æ”¶ä»¶äººåœ°å€ */
     }
 
     public static class NET_DVR_EMAILCFG_V30 extends Structure {
 	public int		dwSize;
-	public byte[]		sAccount = new byte[NAME_LEN];				/* ÕËºÅ*/
-	public byte[]		sPassword = new byte[MAX_EMAIL_PWD_LEN];			/*ÃÜÂë */
+	public byte[]		sAccount = new byte[NAME_LEN];				/* è´¦å·*/
+	public byte[]		sPassword = new byte[MAX_EMAIL_PWD_LEN];			/*å¯†ç  */
         public   NET_DVR_SENDER struSender;
-	public byte[]		sSmtpServer  = new byte[MAX_EMAIL_ADDR_LEN];	/* smtp·şÎñÆ÷ */
-	public byte[]		sPop3Server = new byte[MAX_EMAIL_ADDR_LEN];	/* pop3·şÎñÆ÷ */
-	public NET_DVRRECEIVER[] struReceiver = new NET_DVRRECEIVER[3];							/* ×î¶à¿ÉÒÔÉèÖÃ3¸öÊÕ¼şÈË */
-	public byte		byAttachment;					/* ÊÇ·ñ´ø¸½¼ş */
-	public byte		bySmtpServerVerify;				/* ·¢ËÍ·şÎñÆ÷ÒªÇóÉí·İÑéÖ¤ */
+	public byte[]		sSmtpServer  = new byte[MAX_EMAIL_ADDR_LEN];	/* smtpæœåŠ¡å™¨ */
+	public byte[]		sPop3Server = new byte[MAX_EMAIL_ADDR_LEN];	/* pop3æœåŠ¡å™¨ */
+	public NET_DVRRECEIVER[] struReceiver = new NET_DVRRECEIVER[3];							/* æœ€å¤šå¯ä»¥è®¾ç½®3ä¸ªæ”¶ä»¶äºº */
+	public byte		byAttachment;					/* æ˜¯å¦å¸¦é™„ä»¶ */
+	public byte		bySmtpServerVerify;				/* å‘é€æœåŠ¡å™¨è¦æ±‚èº«ä»½éªŒè¯ */
         public  byte        byMailInterval;                 /* mail interval */
         public  byte[]        res = new byte[77];
 }
 
 /*
-DVRÊµÏÖÑ²º½Êı¾İ½á¹¹
+DVRå®ç°å·¡èˆªæ•°æ®ç»“æ„
 */
     public static class NET_DVR_CRUISE_PARA extends Structure {
 	public int 	dwSize;
-	public byte[]	byPresetNo = new byte[CRUISE_MAX_PRESET_NUMS];		/* Ô¤ÖÃµãºÅ */
-	public byte[] 	byCruiseSpeed = new byte[CRUISE_MAX_PRESET_NUMS];	/* Ñ²º½ËÙ¶È */
-	public short[]	wDwellTime = new short[CRUISE_MAX_PRESET_NUMS];		/* Í£ÁôÊ±¼ä */
-	public byte[]	byEnableThisCruise;						/* ÊÇ·ñÆôÓÃ */
+	public byte[]	byPresetNo = new byte[CRUISE_MAX_PRESET_NUMS];		/* é¢„ç½®ç‚¹å· */
+	public byte[] 	byCruiseSpeed = new byte[CRUISE_MAX_PRESET_NUMS];	/* å·¡èˆªé€Ÿåº¦ */
+	public short[]	wDwellTime = new short[CRUISE_MAX_PRESET_NUMS];		/* åœç•™æ—¶é—´ */
+	public byte[]	byEnableThisCruise;						/* æ˜¯å¦å¯ç”¨ */
 	public byte[]	res = new byte[15];
 }
 
-    /****************************DS9000ĞÂÔö½á¹¹(end)******************************/
+    /****************************DS9000æ–°å¢ç»“æ„(end)******************************/
 
-//Ê±¼äµã
+//æ—¶é—´ç‚¹
     public static class NET_DVR_TIMEPOINT extends Structure {
-	public int dwMonth;		//ÔÂ 0-11±íÊ¾1-12¸öÔÂ
-	public int dwWeekNo;		//µÚ¼¸ÖÜ 0£­µÚ1ÖÜ 1£­µÚ2ÖÜ 2£­µÚ3ÖÜ 3£­µÚ4ÖÜ 4£­×îºóÒ»ÖÜ
-	public int dwWeekDate;	//ĞÇÆÚ¼¸ 0£­ĞÇÆÚÈÕ 1£­ĞÇÆÚÒ» 2£­ĞÇÆÚ¶ş 3£­ĞÇÆÚÈı 4£­ĞÇÆÚËÄ 5£­ĞÇÆÚÎå 6£­ĞÇÆÚÁù
-	public int dwHour;		//Ğ¡Ê±	¿ªÊ¼Ê±¼ä0£­23 ½áÊøÊ±¼ä1£­23
-	public int dwMin;		//·Ö	0£­59
+	public int dwMonth;		//æœˆ 0-11è¡¨ç¤º1-12ä¸ªæœˆ
+	public int dwWeekNo;		//ç¬¬å‡ å‘¨ 0ï¼ç¬¬1å‘¨ 1ï¼ç¬¬2å‘¨ 2ï¼ç¬¬3å‘¨ 3ï¼ç¬¬4å‘¨ 4ï¼æœ€åä¸€å‘¨
+	public int dwWeekDate;	//æ˜ŸæœŸå‡  0ï¼æ˜ŸæœŸæ—¥ 1ï¼æ˜ŸæœŸä¸€ 2ï¼æ˜ŸæœŸäºŒ 3ï¼æ˜ŸæœŸä¸‰ 4ï¼æ˜ŸæœŸå›› 5ï¼æ˜ŸæœŸäº” 6ï¼æ˜ŸæœŸå…­
+	public int dwHour;		//å°æ—¶	å¼€å§‹æ—¶é—´0ï¼23 ç»“æŸæ—¶é—´1ï¼23
+	public int dwMin;		//åˆ†	0ï¼59
 }
 
-//ÏÄÁîÊ±²ÎÊı
+//å¤ä»¤æ—¶å‚æ•°
     public static class NET_DVR_ZONEANDDST extends Structure {
 	public int dwSize;
-	public byte[] byRes1 = new byte[16];			//±£Áô
-	public int dwEnableDST;		//ÊÇ·ñÆôÓÃÏÄÊ±ÖÆ 0£­²»ÆôÓÃ 1£­ÆôÓÃ
-	public byte byDSTBias;	//ÏÄÁîÊ±Æ«ÒÆÖµ£¬30min, 60min, 90min, 120min, ÒÔ·ÖÖÓ¼Æ£¬´«µİÔ­Ê¼ÊıÖµ
+	public byte[] byRes1 = new byte[16];			//ä¿ç•™
+	public int dwEnableDST;		//æ˜¯å¦å¯ç”¨å¤æ—¶åˆ¶ 0ï¼ä¸å¯ç”¨ 1ï¼å¯ç”¨
+	public byte byDSTBias;	//å¤ä»¤æ—¶åç§»å€¼ï¼Œ30min, 60min, 90min, 120min, ä»¥åˆ†é’Ÿè®¡ï¼Œä¼ é€’åŸå§‹æ•°å€¼
 	public byte[] byRes2 = new byte[3];
-	public NET_DVR_TIMEPOINT struBeginPoint;	//ÏÄÊ±ÖÆ¿ªÊ¼Ê±¼ä
-	public NET_DVR_TIMEPOINT struEndPoint;	//ÏÄÊ±ÖÆÍ£Ö¹Ê±¼ä
+	public NET_DVR_TIMEPOINT struBeginPoint;	//å¤æ—¶åˆ¶å¼€å§‹æ—¶é—´
+	public NET_DVR_TIMEPOINT struEndPoint;	//å¤æ—¶åˆ¶åœæ­¢æ—¶é—´
 }
 
-//Í¼Æ¬ÖÊÁ¿
+//å›¾ç‰‡è´¨é‡
     public static class NET_DVR_JPEGPARA extends Structure {
-	/*×¢Òâ£ºµ±Í¼ÏñÑ¹Ëõ·Ö±æÂÊÎªVGAÊ±£¬Ö§³Ö0=CIF, 1=QCIF, 2=D1×¥Í¼£¬
-	µ±·Ö±æÂÊÎª3=UXGA(1600x1200), 4=SVGA(800x600), 5=HD720p(1280x720),6=VGA,7=XVGA, 8=HD900p
-	½öÖ§³Öµ±Ç°·Ö±æÂÊµÄ×¥Í¼*/
+	/*æ³¨æ„ï¼šå½“å›¾åƒå‹ç¼©åˆ†è¾¨ç‡ä¸ºVGAæ—¶ï¼Œæ”¯æŒ0=CIF, 1=QCIF, 2=D1æŠ“å›¾ï¼Œ
+	å½“åˆ†è¾¨ç‡ä¸º3=UXGA(1600x1200), 4=SVGA(800x600), 5=HD720p(1280x720),6=VGA,7=XVGA, 8=HD900p
+	ä»…æ”¯æŒå½“å‰åˆ†è¾¨ç‡çš„æŠ“å›¾*/
 	public short	wPicSize;				/* 0=CIF, 1=QCIF, 2=D1 3=UXGA(1600x1200), 4=SVGA(800x600), 5=HD720p(1280x720),6=VGA*/
-	public short	wPicQuality;			/* Í¼Æ¬ÖÊÁ¿ÏµÊı 0-×îºÃ 1-½ÏºÃ 2-Ò»°ã */
+	public short	wPicQuality;			/* å›¾ç‰‡è´¨é‡ç³»æ•° 0-æœ€å¥½ 1-è¾ƒå¥½ 2-ä¸€èˆ¬ */
     }
 
 /* aux video out parameter */
-//¸¨ÖúÊä³ö²ÎÊıÅäÖÃ
+//è¾…åŠ©è¾“å‡ºå‚æ•°é…ç½®
     public static class NET_DVR_AUXOUTCFG extends Structure {
 	public int dwSize;
-	public int dwAlarmOutChan;                       /* Ñ¡Ôñ±¨¾¯µ¯³ö´ó±¨¾¯Í¨µÀÇĞ»»Ê±¼ä£º1»­ÃæµÄÊä³öÍ¨µÀ: 0:Ö÷Êä³ö/1:¸¨1/2:¸¨2/3:¸¨3/4:¸¨4 */
-	public int dwAlarmChanSwitchTime;                /* :1Ãë - 10:10Ãë */
-	public int[] dwAuxSwitchTime = new int[MAX_AUXOUT];			/* ¸¨ÖúÊä³öÇĞ»»Ê±¼ä: 0-²»ÇĞ»»,1-5s,2-10s,3-20s,4-30s,5-60s,6-120s,7-300s */
-	public byte[][]  byAuxOrder = new byte[MAX_AUXOUT][MAX_WINDOW];	/* ¸¨ÖúÊä³öÔ¤ÀÀË³Ğò, 0xff±íÊ¾ÏàÓ¦µÄ´°¿Ú²»Ô¤ÀÀ */
+	public int dwAlarmOutChan;                       /* é€‰æ‹©æŠ¥è­¦å¼¹å‡ºå¤§æŠ¥è­¦é€šé“åˆ‡æ¢æ—¶é—´ï¼š1ç”»é¢çš„è¾“å‡ºé€šé“: 0:ä¸»è¾“å‡º/1:è¾…1/2:è¾…2/3:è¾…3/4:è¾…4 */
+	public int dwAlarmChanSwitchTime;                /* :1ç§’ - 10:10ç§’ */
+	public int[] dwAuxSwitchTime = new int[MAX_AUXOUT];			/* è¾…åŠ©è¾“å‡ºåˆ‡æ¢æ—¶é—´: 0-ä¸åˆ‡æ¢,1-5s,2-10s,3-20s,4-30s,5-60s,6-120s,7-300s */
+	public byte[][]  byAuxOrder = new byte[MAX_AUXOUT][MAX_WINDOW];	/* è¾…åŠ©è¾“å‡ºé¢„è§ˆé¡ºåº, 0xffè¡¨ç¤ºç›¸åº”çš„çª—å£ä¸é¢„è§ˆ */
 }
 
 //ntp
     public static class NET_DVR_NTPPARA extends Structure {
 	public byte[] sNTPServer = new byte[64];   /* Domain Name or IP addr of NTP server */
 	public short wInterval;		 /* adjust time interval(hours) */
-	public byte byEnableNTP;    /* enable NPT client 0-no£¬1-yes*/
-        public byte cTimeDifferenceH; /* Óë¹ú¼Ê±ê×¼Ê±¼äµÄ Ğ¡Ê±Æ«ÒÆ-12 ... +13 */
-	public byte cTimeDifferenceM;/* Óë¹ú¼Ê±ê×¼Ê±¼äµÄ ·ÖÖÓÆ«ÒÆ0, 30, 45*/
+	public byte byEnableNTP;    /* enable NPT client 0-noï¼Œ1-yes*/
+        public byte cTimeDifferenceH; /* ä¸å›½é™…æ ‡å‡†æ—¶é—´çš„ å°æ—¶åç§»-12 ... +13 */
+	public byte cTimeDifferenceM;/* ä¸å›½é™…æ ‡å‡†æ—¶é—´çš„ åˆ†é’Ÿåç§»0, 30, 45*/
 	public byte res1;
-       public   short wNtpPort;         /* ntp server port 9000ĞÂÔö Éè±¸Ä¬ÈÏÎª123*/
+       public   short wNtpPort;         /* ntp server port 9000æ–°å¢ è®¾å¤‡é»˜è®¤ä¸º123*/
        public   byte[] res2 = new byte[8];
 }
 
 //ddns
     public static class NET_DVR_DDNSPARA extends Structure {
-	public byte[] sUsername = new byte[NAME_LEN];  /* DDNSÕËºÅÓÃ»§Ãû/ÃÜÂë */
+	public byte[] sUsername = new byte[NAME_LEN];  /* DDNSè´¦å·ç”¨æˆ·å/å¯†ç  */
 	public byte[] sPassword = new byte[PASSWD_LEN];
-	public byte[] sDomainName = new byte[64];       /* ÓòÃû */
-	public byte byEnableDDNS;			/*ÊÇ·ñÓ¦ÓÃ 0-·ñ£¬1-ÊÇ*/
+	public byte[] sDomainName = new byte[64];       /* åŸŸå */
+	public byte byEnableDDNS;			/*æ˜¯å¦åº”ç”¨ 0-å¦ï¼Œ1-æ˜¯*/
 	public byte[] res = new byte[15];
 }
 
    public static class NET_DVR_DDNSPARA_EX extends Structure {
-	public byte byHostIndex;					/* 0-Hikvision DNS 1£­Dyndns 2£­PeanutHull(»¨Éú¿Ç), 3-Ï£Íø3322*/
-	public byte byEnableDDNS;					/*ÊÇ·ñÓ¦ÓÃDDNS 0-·ñ£¬1-ÊÇ*/
-	public short wDDNSPort;						/* DDNS¶Ë¿ÚºÅ */
-	public byte[] sUsername = new byte[NAME_LEN];			/* DDNSÓÃ»§Ãû*/
-	public byte[] sPassword = new byte[PASSWD_LEN];			/* DDNSÃÜÂë */
-	public byte[] sDomainName = new byte[MAX_DOMAIN_NAME];	/* Éè±¸Åä±¸µÄÓòÃûµØÖ· */
-	public byte[] sServerName = new byte[MAX_DOMAIN_NAME];	/* DDNS ¶ÔÓ¦µÄ·şÎñÆ÷µØÖ·£¬¿ÉÒÔÊÇIPµØÖ·»òÓòÃû */
+	public byte byHostIndex;					/* 0-Hikvision DNS 1ï¼Dyndns 2ï¼PeanutHull(èŠ±ç”Ÿå£³), 3-å¸Œç½‘3322*/
+	public byte byEnableDDNS;					/*æ˜¯å¦åº”ç”¨DDNS 0-å¦ï¼Œ1-æ˜¯*/
+	public short wDDNSPort;						/* DDNSç«¯å£å· */
+	public byte[] sUsername = new byte[NAME_LEN];			/* DDNSç”¨æˆ·å*/
+	public byte[] sPassword = new byte[PASSWD_LEN];			/* DDNSå¯†ç  */
+	public byte[] sDomainName = new byte[MAX_DOMAIN_NAME];	/* è®¾å¤‡é…å¤‡çš„åŸŸååœ°å€ */
+	public byte[] sServerName = new byte[MAX_DOMAIN_NAME];	/* DDNS å¯¹åº”çš„æœåŠ¡å™¨åœ°å€ï¼Œå¯ä»¥æ˜¯IPåœ°å€æˆ–åŸŸå */
 	public byte[] byRes = new byte[16];
 }
 
    public static class NET_DVR_DDNS extends Structure {
-       public  byte[] sUsername = new byte[NAME_LEN];			/* DDNSÕËºÅÓÃ»§Ãû*/
-       public  byte[] sPassword = new byte[PASSWD_LEN];			/* ÃÜÂë */
-       public  byte[] sDomainName = new byte[MAX_DOMAIN_NAME];	/* Éè±¸Åä±¸µÄÓòÃûµØÖ· */
-       public  byte[] sServerName = new byte[MAX_DOMAIN_NAME];	/* DDNSĞ­Òé¶ÔÓ¦µÄ·şÎñÆ÷µØÖ·£¬¿ÉÒÔÊÇIPµØÖ·»òÓòÃû */
-       public  short wDDNSPort;						/* ¶Ë¿ÚºÅ */
+       public  byte[] sUsername = new byte[NAME_LEN];			/* DDNSè´¦å·ç”¨æˆ·å*/
+       public  byte[] sPassword = new byte[PASSWD_LEN];			/* å¯†ç  */
+       public  byte[] sDomainName = new byte[MAX_DOMAIN_NAME];	/* è®¾å¤‡é…å¤‡çš„åŸŸååœ°å€ */
+       public  byte[] sServerName = new byte[MAX_DOMAIN_NAME];	/* DDNSåè®®å¯¹åº”çš„æœåŠ¡å™¨åœ°å€ï¼Œå¯ä»¥æ˜¯IPåœ°å€æˆ–åŸŸå */
+       public  short wDDNSPort;						/* ç«¯å£å· */
        public   byte[] byRes = new byte[10];
    }
-//9000À©Õ¹
+//9000æ‰©å±•
 public static class NET_DVR_DDNSPARA_V30 extends Structure {
   public   byte byEnableDDNS;
-  public   byte byHostIndex;/* 0-Hikvision DNS(±£Áô) 1£­Dyndns 2£­PeanutHull(»¨Éú¿Ç) 3£­Ï£Íø3322 */
+  public   byte byHostIndex;/* 0-Hikvision DNS(ä¿ç•™) 1ï¼Dyndns 2ï¼PeanutHull(èŠ±ç”Ÿå£³) 3ï¼å¸Œç½‘3322 */
   public  byte[] byRes1 = new byte[2];
-  public   NET_DVR_DDNS[] struDDNS = new NET_DVR_DDNS[MAX_DDNS_NUMS];//9000Ä¿Ç°Ö»Ö§³ÖÇ°3¸öÅäÖÃ£¬ÆäËûÅäÖÃ±£Áô
+  public   NET_DVR_DDNS[] struDDNS = new NET_DVR_DDNS[MAX_DDNS_NUMS];//9000ç›®å‰åªæ”¯æŒå‰3ä¸ªé…ç½®ï¼Œå…¶ä»–é…ç½®ä¿ç•™
   public   byte[] byRes2 = new byte[16];
 }
 
 //email
 public static class NET_DVR_EMAILPARA extends Structure {
-	public byte[] sUsername = new byte[64];  /* ÓÊ¼şÕËºÅ/ÃÜÂë */
+	public byte[] sUsername = new byte[64];  /* é‚®ä»¶è´¦å·/å¯†ç  */
 	public byte[] sPassword = new byte[64];
 	public byte[] sSmtpServer = new byte[64];
 	public byte[] sPop3Server = new byte[64];
 	public byte[] sMailAddr = new byte[64];   /* email */
-	public byte[] sEventMailAddr1 = new byte[64];  /* ÉÏ´«±¨¾¯/Òì³£µÈµÄemail */
+	public byte[] sEventMailAddr1 = new byte[64];  /* ä¸Šä¼ æŠ¥è­¦/å¼‚å¸¸ç­‰çš„email */
 	public byte[] sEventMailAddr2 = new byte[64];
 	public byte[] res = new byte[16];
 }
 
-public static class NET_DVR_NETAPPCFG extends Structure {//ÍøÂç²ÎÊıÅäÖÃ
+public static class NET_DVR_NETAPPCFG extends Structure {//ç½‘ç»œå‚æ•°é…ç½®
 	public int  dwSize;
-	public byte[]  sDNSIp = new byte[16];                /* DNS·şÎñÆ÷µØÖ· */
-	public NET_DVR_NTPPARA  struNtpClientParam;      /* NTP²ÎÊı */
-	public NET_DVR_DDNSPARA struDDNSClientParam;     /* DDNS²ÎÊı */
-	//NET_DVR_EMAILPARA struEmailParam;       /* EMAIL²ÎÊı */
-	public byte[] res = new byte[464];			/* ±£Áô */
+	public byte[]  sDNSIp = new byte[16];                /* DNSæœåŠ¡å™¨åœ°å€ */
+	public NET_DVR_NTPPARA  struNtpClientParam;      /* NTPå‚æ•° */
+	public NET_DVR_DDNSPARA struDDNSClientParam;     /* DDNSå‚æ•° */
+	//NET_DVR_EMAILPARA struEmailParam;       /* EMAILå‚æ•° */
+	public byte[] res = new byte[464];			/* ä¿ç•™ */
 }
 
-public static class NET_DVR_SINGLE_NFS extends Structure {//nfs½á¹¹ÅäÖÃ
+public static class NET_DVR_SINGLE_NFS extends Structure {//nfsç»“æ„é…ç½®
     public byte[] sNfsHostIPAddr = new byte[16];
     public byte[] sNfsDirectory = new byte[PATHNAME_LEN];        // PATHNAME_LEN = 128
 }
@@ -2145,20 +2162,20 @@ public static class NET_DVR_NFSCFG extends Structure {
         public NET_DVR_SINGLE_NFS[] struNfsDiskParam = new NET_DVR_SINGLE_NFS[MAX_NFS_DISK];
 }
 
-//Ñ²º½µãÅäÖÃ(HIK IP¿ìÇò×¨ÓÃ)
+//å·¡èˆªç‚¹é…ç½®(HIK IPå¿«çƒä¸“ç”¨)
 public static class NET_DVR_CRUISE_POINT extends Structure {
-  public   byte	PresetNum;	//Ô¤ÖÃµã
-  public  byte	Dwell;		//Í£ÁôÊ±¼ä
-  public   byte	Speed;		//ËÙ¶È
-  public   byte	Reserve;	//±£Áô
+  public   byte	PresetNum;	//é¢„ç½®ç‚¹
+  public  byte	Dwell;		//åœç•™æ—¶é—´
+  public   byte	Speed;		//é€Ÿåº¦
+  public   byte	Reserve;	//ä¿ç•™
 }
 
 public static class NET_DVR_CRUISE_RET extends Structure {
-	public NET_DVR_CRUISE_POINT[] struCruisePoint = new NET_DVR_CRUISE_POINT[32];			//×î´óÖ§³Ö32¸öÑ²º½µã
+	public NET_DVR_CRUISE_POINT[] struCruisePoint = new NET_DVR_CRUISE_POINT[32];			//æœ€å¤§æ”¯æŒ32ä¸ªå·¡èˆªç‚¹
 }
 
-/************************************¶àÂ·½âÂëÆ÷(begin)***************************************/
-//¶àÂ·½âÂëÆ÷À©Õ¹ added by zxy 2007-05-23
+/************************************å¤šè·¯è§£ç å™¨(begin)***************************************/
+//å¤šè·¯è§£ç å™¨æ‰©å±• added by zxy 2007-05-23
 public static class NET_DVR_NETCFG_OTHER extends Structure {
 	public int	dwSize;
 	public byte[]	sFirstDNSIP = new byte[16];
@@ -2167,97 +2184,97 @@ public static class NET_DVR_NETCFG_OTHER extends Structure {
 }
 
 public static class NET_DVR_MATRIX_DECINFO extends Structure {
-	public byte[] 	sDVRIP = new byte[16];				/* DVR IPµØÖ· */
-	public short 	wDVRPort;			 	/* ¶Ë¿ÚºÅ */
-	public byte 	byChannel;				/* Í¨µÀºÅ */
-	public byte	byTransProtocol;			/* ´«ÊäĞ­ÒéÀàĞÍ 0-TCP 1-UDP */
-	public byte	byTransMode;				/* ´«ÊäÂëÁ÷Ä£Ê½ 0£­Ö÷ÂëÁ÷ 1£­×ÓÂëÁ÷*/
+	public byte[] 	sDVRIP = new byte[16];				/* DVR IPåœ°å€ */
+	public short 	wDVRPort;			 	/* ç«¯å£å· */
+	public byte 	byChannel;				/* é€šé“å· */
+	public byte	byTransProtocol;			/* ä¼ è¾“åè®®ç±»å‹ 0-TCP 1-UDP */
+	public byte	byTransMode;				/* ä¼ è¾“ç æµæ¨¡å¼ 0ï¼ä¸»ç æµ 1ï¼å­ç æµ*/
 	public byte[]	byRes = new byte[3];
-	public byte[]	sUserName = new byte[NAME_LEN];			/* ¼à¿ØÖ÷»úµÇÂ½ÕÊºÅ */
-	public byte[]	sPassword = new byte[PASSWD_LEN];			/* ¼à¿ØÖ÷»úÃÜÂë */
+	public byte[]	sUserName = new byte[NAME_LEN];			/* ç›‘æ§ä¸»æœºç™»é™†å¸å· */
+	public byte[]	sPassword = new byte[PASSWD_LEN];			/* ç›‘æ§ä¸»æœºå¯†ç  */
 }
 
-public static class NET_DVR_MATRIX_DYNAMIC_DEC extends Structure {//Æô¶¯/Í£Ö¹¶¯Ì¬½âÂë
+public static class NET_DVR_MATRIX_DYNAMIC_DEC extends Structure {//å¯åŠ¨/åœæ­¢åŠ¨æ€è§£ç 
 	public int	dwSize;
-	public NET_DVR_MATRIX_DECINFO struDecChanInfo;		/* ¶¯Ì¬½âÂëÍ¨µÀĞÅÏ¢ */
+	public NET_DVR_MATRIX_DECINFO struDecChanInfo;		/* åŠ¨æ€è§£ç é€šé“ä¿¡æ¯ */
 }
 
-public static class NET_DVR_MATRIX_DEC_CHAN_STATUS extends Structure {//2007-12-13 modified by zxy ĞŞ¸Ä¶àÂ·½âÂëÆ÷µÄNET_DVR_MATRIX_DEC_CHAN_STATUS½á¹¹
-   public  int   dwSize;//2008-1-16 modified by zxy dwIsLinkedµÄ×´Ì¬ÓÉÔ­À´µÄ0£­Î´Á´½Ó 1£­Á¬½ÓĞŞ¸Ä³ÉÒÔÏÂÈıÖÖ×´Ì¬¡£
-   public  int   dwIsLinked;         /* ½âÂëÍ¨µÀ×´Ì¬ 0£­ĞİÃß 1£­ÕıÔÚÁ¬½Ó 2£­ÒÑÁ¬½Ó 3-ÕıÔÚ½âÂë */
+public static class NET_DVR_MATRIX_DEC_CHAN_STATUS extends Structure {//2007-12-13 modified by zxy ä¿®æ”¹å¤šè·¯è§£ç å™¨çš„NET_DVR_MATRIX_DEC_CHAN_STATUSç»“æ„
+   public  int   dwSize;//2008-1-16 modified by zxy dwIsLinkedçš„çŠ¶æ€ç”±åŸæ¥çš„0ï¼æœªé“¾æ¥ 1ï¼è¿æ¥ä¿®æ”¹æˆä»¥ä¸‹ä¸‰ç§çŠ¶æ€ã€‚
+   public  int   dwIsLinked;         /* è§£ç é€šé“çŠ¶æ€ 0ï¼ä¼‘çœ  1ï¼æ­£åœ¨è¿æ¥ 2ï¼å·²è¿æ¥ 3-æ­£åœ¨è§£ç  */
    public  int   dwStreamCpRate;     /* Stream copy rate, X kbits/second */
-   public  byte[]    cRes = new byte[64];		/* ±£Áô */
+   public  byte[]    cRes = new byte[64];		/* ä¿ç•™ */
 }
 //end 2007-12-13 modified by zxy
 
 public static class NET_DVR_MATRIX_DEC_CHAN_INFO extends Structure {
 	public int	dwSize;
-	public NET_DVR_MATRIX_DECINFO struDecChanInfo;		/* ½âÂëÍ¨µÀĞÅÏ¢ */
-	public int	dwDecState;	/* 0-¶¯Ì¬½âÂë 1£­Ñ­»·½âÂë 2£­°´Ê±¼ä»Ø·Å 3£­°´ÎÄ¼ş»Ø·Å */
-	public NET_DVR_TIME StartTime;		/* °´Ê±¼ä»Ø·Å¿ªÊ¼Ê±¼ä */
-	public NET_DVR_TIME StopTime;		/* °´Ê±¼ä»Ø·ÅÍ£Ö¹Ê±¼ä */
-	public byte[]    sFileName = new byte[128];		/* °´ÎÄ¼ş»Ø·ÅÎÄ¼şÃû */
+	public NET_DVR_MATRIX_DECINFO struDecChanInfo;		/* è§£ç é€šé“ä¿¡æ¯ */
+	public int	dwDecState;	/* 0-åŠ¨æ€è§£ç  1ï¼å¾ªç¯è§£ç  2ï¼æŒ‰æ—¶é—´å›æ”¾ 3ï¼æŒ‰æ–‡ä»¶å›æ”¾ */
+	public NET_DVR_TIME StartTime;		/* æŒ‰æ—¶é—´å›æ”¾å¼€å§‹æ—¶é—´ */
+	public NET_DVR_TIME StopTime;		/* æŒ‰æ—¶é—´å›æ”¾åœæ­¢æ—¶é—´ */
+	public byte[]    sFileName = new byte[128];		/* æŒ‰æ–‡ä»¶å›æ”¾æ–‡ä»¶å */
 }
 
-//Á¬½ÓµÄÍ¨µÀÅäÖÃ 2007-11-05
+//è¿æ¥çš„é€šé“é…ç½® 2007-11-05
 public static class NET_DVR_MATRIX_DECCHANINFO extends Structure {
-	public int dwEnable;					/* ÊÇ·ñÆôÓÃ 0£­·ñ 1£­ÆôÓÃ*/
-	public NET_DVR_MATRIX_DECINFO struDecChanInfo;		/* ÂÖÑ­½âÂëÍ¨µÀĞÅÏ¢ */
+	public int dwEnable;					/* æ˜¯å¦å¯ç”¨ 0ï¼å¦ 1ï¼å¯ç”¨*/
+	public NET_DVR_MATRIX_DECINFO struDecChanInfo;		/* è½®å¾ªè§£ç é€šé“ä¿¡æ¯ */
 }
 
-//2007-11-05 ĞÂÔöÃ¿¸ö½âÂëÍ¨µÀµÄÅäÖÃ
+//2007-11-05 æ–°å¢æ¯ä¸ªè§£ç é€šé“çš„é…ç½®
 public static class NET_DVR_MATRIX_LOOP_DECINFO extends Structure {
 	public int	dwSize;
-	public int	dwPoolTime;			/*ÂÖÑ²Ê±¼ä */
+	public int	dwPoolTime;			/*è½®å·¡æ—¶é—´ */
 	public NET_DVR_MATRIX_DECCHANINFO[] struchanConInfo = new NET_DVR_MATRIX_DECCHANINFO[MAX_CYCLE_CHAN];
 }
 
-//2007-05-25  ¶àÂ·½âÂëÆ÷Êı×Ö¾ØÕóÅäÖÃ
-//¾ØÕóĞĞĞÅÏ¢ 2007-12-28
+//2007-05-25  å¤šè·¯è§£ç å™¨æ•°å­—çŸ©é˜µé…ç½®
+//çŸ©é˜µè¡Œä¿¡æ¯ 2007-12-28
 public static class NET_DVR_MATRIX_ROW_ELEMENT extends Structure {
-	public byte[]	sSurvChanName = new byte[128];			/* ¼à¿ØÍ¨µÀÃû³Æ£¬Ö§³ÖÖĞÎÄ */
-	public int	dwRowNum;				/* ĞĞºÅ */
-	public NET_DVR_MATRIX_DECINFO struDecChanInfo;		/* ¾ØÕóĞĞĞÅÏ¢ */
+	public byte[]	sSurvChanName = new byte[128];			/* ç›‘æ§é€šé“åç§°ï¼Œæ”¯æŒä¸­æ–‡ */
+	public int	dwRowNum;				/* è¡Œå· */
+	public NET_DVR_MATRIX_DECINFO struDecChanInfo;		/* çŸ©é˜µè¡Œä¿¡æ¯ */
 }
 
 public static class NET_DVR_MATRIX_ROW_INDEX extends Structure {
-	public byte[]	sSurvChanName = new byte[128];			/* ¼à¿ØÍ¨µÀÃû³Æ£¬Ö§³ÖÖĞÎÄ */
-	public int	dwRowNum;				/* ĞĞºÅ */
+	public byte[]	sSurvChanName = new byte[128];			/* ç›‘æ§é€šé“åç§°ï¼Œæ”¯æŒä¸­æ–‡ */
+	public int	dwRowNum;				/* è¡Œå· */
 }
 
-//¾ØÕóÁĞĞÅÏ¢ 2007-12-28
+//çŸ©é˜µåˆ—ä¿¡æ¯ 2007-12-28
 public static class NET_DVR_MATRIX_COLUMN_ELEMENT extends Structure {
-	public int  dwLocalDispChanNum;	/* ±¾µØÏÔÊ¾Í¨µÀºÅ */
-	public int  dwGlobalDispChanNum;	/* È«¾ÖÏÔÊ¾Í¨µÀºÅ */
-	public int  dwRes;			/* ±£Áô */
+	public int  dwLocalDispChanNum;	/* æœ¬åœ°æ˜¾ç¤ºé€šé“å· */
+	public int  dwGlobalDispChanNum;	/* å…¨å±€æ˜¾ç¤ºé€šé“å· */
+	public int  dwRes;			/* ä¿ç•™ */
 }
 
 public static class NET_DVR_MATRIX_GLOBAL_COLUMN_ELEMENT extends Structure {
-	public int		dwConflictTag;		/* ³åÍ»±ê¼Ç£¬0£ºÎŞ³åÍ»£¬1£º³åÍ» */
-	public int		dwConflictGloDispChan;	/* ÓëÖ®³åÍ»µÄÈ«¾ÖÍ¨µÀºÅ */
-	public NET_DVR_MATRIX_COLUMN_ELEMENT  struColumnInfo;/* ¾ØÕóÁĞÔªËØ½á¹¹Ìå */
+	public int		dwConflictTag;		/* å†²çªæ ‡è®°ï¼Œ0ï¼šæ— å†²çªï¼Œ1ï¼šå†²çª */
+	public int		dwConflictGloDispChan;	/* ä¸ä¹‹å†²çªçš„å…¨å±€é€šé“å· */
+	public NET_DVR_MATRIX_COLUMN_ELEMENT  struColumnInfo;/* çŸ©é˜µåˆ—å…ƒç´ ç»“æ„ä½“ */
 }
 
-//ÊÖ¶¯²é¿´ 2007-12-28
+//æ‰‹åŠ¨æŸ¥çœ‹ 2007-12-28
 public static class NET_DVR_MATRIX_ROW_COLUMN_LINK extends Structure {
 	public int	dwSize;
 	/*
-	*	ÒÔÏÂÈı¸ö²ÎÊıÖ»ĞèÒªÖ¸¶¨ÆäÖĞÒ»¸ö±ã¿ÉÖ¸¶¨Êı×Ö¾ØÕóÀïµÄÄ³Ò»ĞĞ
-	*	Ëù´ú±íµÄÔ¶³Ì¼à¿ØÍ¨µÀ¡£
-	*	Èç¹ûÖ¸¶¨ÁË¶à¸öÓò²¢ÓĞ³åÍ»£¬Éè±¸½«°´ÕÕÓòµÄÏÈºóË³ĞòÎª×¼È¡×îÏÈ¶¨ÒåÕß¡£
+	*	ä»¥ä¸‹ä¸‰ä¸ªå‚æ•°åªéœ€è¦æŒ‡å®šå…¶ä¸­ä¸€ä¸ªä¾¿å¯æŒ‡å®šæ•°å­—çŸ©é˜µé‡Œçš„æŸä¸€è¡Œ
+	*	æ‰€ä»£è¡¨çš„è¿œç¨‹ç›‘æ§é€šé“ã€‚
+	*	å¦‚æœæŒ‡å®šäº†å¤šä¸ªåŸŸå¹¶æœ‰å†²çªï¼Œè®¾å¤‡å°†æŒ‰ç…§åŸŸçš„å…ˆåé¡ºåºä¸ºå‡†å–æœ€å…ˆå®šä¹‰è€…ã€‚
 	*/
-	public int	dwRowNum;			/* -1´ú±íÎŞĞ§Óò,´óÓÚ0Õß·½ÎªÓĞĞ§µÄ¾ØÕóĞĞºÅ */
-	public byte[]	sSurvChanName = new byte[128];	/* ¼à¿ØÍ¨µÀÃû,ÊÇ·ñÎŞĞ§°´×Ö·û´®µÄÓĞĞ§ĞÔÅĞ¶Ï */
-	public int	dwSurvNum;			/* ¼à¿ØÍ¨µÀºÅ,°´¾ØÕóĞĞÁĞ±íµÄË³ĞòÖ¸¶¨£¬Ò»°ãÇé¿öÏÂÓëĞĞºÅÒ»ÖÂ */
+	public int	dwRowNum;			/* -1ä»£è¡¨æ— æ•ˆåŸŸ,å¤§äº0è€…æ–¹ä¸ºæœ‰æ•ˆçš„çŸ©é˜µè¡Œå· */
+	public byte[]	sSurvChanName = new byte[128];	/* ç›‘æ§é€šé“å,æ˜¯å¦æ— æ•ˆæŒ‰å­—ç¬¦ä¸²çš„æœ‰æ•ˆæ€§åˆ¤æ–­ */
+	public int	dwSurvNum;			/* ç›‘æ§é€šé“å·,æŒ‰çŸ©é˜µè¡Œåˆ—è¡¨çš„é¡ºåºæŒ‡å®šï¼Œä¸€èˆ¬æƒ…å†µä¸‹ä¸è¡Œå·ä¸€è‡´ */
 								/*
-								*	ÒÔÏÂÁ½ÏîÖ»ĞèÒªÖ¸¶¨ÆäÖĞÒ»Ïî±ã¿É£¬Èç¹ûÁ½Ïî¶¼ÓĞĞ§Ä¬ÈÏÑ¡ÔñµÚÒ»Ïî
+								*	ä»¥ä¸‹ä¸¤é¡¹åªéœ€è¦æŒ‡å®šå…¶ä¸­ä¸€é¡¹ä¾¿å¯ï¼Œå¦‚æœä¸¤é¡¹éƒ½æœ‰æ•ˆé»˜è®¤é€‰æ‹©ç¬¬ä¸€é¡¹
 	*/
-	public int	dwGlobalDispChanNum;			/* µçÊÓÇ½ÉÏµÄµçÊÓ»ú±àºÅ */
+	public int	dwGlobalDispChanNum;			/* ç”µè§†å¢™ä¸Šçš„ç”µè§†æœºç¼–å· */
 	public int	dwLocalDispChanNum;
 	/*
-	*	0´ú±í²¥·Å¼´Ê±ÂëÁ÷£¬
-	*	1±íÊ¾°´Ê±¼ä»Ø·ÃÔ¶³Ì¼à¿ØÉè±¸µÄÎÄ¼ş
-	*	2±íÊ¾°´ÎÄ¼şÃû»Ø·Ã
+	*	0ä»£è¡¨æ’­æ”¾å³æ—¶ç æµï¼Œ
+	*	1è¡¨ç¤ºæŒ‰æ—¶é—´å›è®¿è¿œç¨‹ç›‘æ§è®¾å¤‡çš„æ–‡ä»¶
+	*	2è¡¨ç¤ºæŒ‰æ–‡ä»¶åå›è®¿
 	*/
 	public int	dwTimeSel;
 	public NET_DVR_TIME StartTime;
@@ -2267,81 +2284,81 @@ public static class NET_DVR_MATRIX_ROW_COLUMN_LINK extends Structure {
 
 public static class NET_DVR_MATRIX_PREVIEW_DISP_CHAN extends Structure {
 	public int		dwSize;
-	public int		dwGlobalDispChanNum;		/* µçÊÓÇ½ÉÏµÄµçÊÓ»ú±àºÅ */
-	public int		dwLocalDispChanNum;		/* ½âÂëÍ¨µÀ */
+	public int		dwGlobalDispChanNum;		/* ç”µè§†å¢™ä¸Šçš„ç”µè§†æœºç¼–å· */
+	public int		dwLocalDispChanNum;		/* è§£ç é€šé“ */
 }
 
-public static class NET_DVR_MATRIX_LOOP_PLAY_SET extends Structure {//ÂÖÑ­¹¦ÄÜ 2007-12-28
+public static class NET_DVR_MATRIX_LOOP_PLAY_SET extends Structure {//è½®å¾ªåŠŸèƒ½ 2007-12-28
 	public int	dwSize;
-	/* ÈÎÒâÖ¸¶¨Ò»¸ö,-1ÎªÎŞĞ§,Èç¹û¶¼Ö¸¶¨ÔòÒÔLocalDispChanNumÎª×¼ */
-	public int	dwLocalDispChanNum;	/* ½âÂëÍ¨µÀ */
-	public int	dwGlobalDispChanNum;  	/* µçÊÓÇ½ÉÏµÄµçÊÓ»ú±àºÅ */
-	public int	dwCycTimeInterval;	/* ÂÖÑ­Ê±¼ä¼ä¸ô */
+	/* ä»»æ„æŒ‡å®šä¸€ä¸ª,-1ä¸ºæ— æ•ˆ,å¦‚æœéƒ½æŒ‡å®šåˆ™ä»¥LocalDispChanNumä¸ºå‡† */
+	public int	dwLocalDispChanNum;	/* è§£ç é€šé“ */
+	public int	dwGlobalDispChanNum;  	/* ç”µè§†å¢™ä¸Šçš„ç”µè§†æœºç¼–å· */
+	public int	dwCycTimeInterval;	/* è½®å¾ªæ—¶é—´é—´éš” */
 }
 
-public static class NET_DVR_MATRIX_LOCAL_HOST_INFO extends Structure {//¾ØÕóÖĞĞÄÅäÖÃ 2007-12-28
+public static class NET_DVR_MATRIX_LOCAL_HOST_INFO extends Structure {//çŸ©é˜µä¸­å¿ƒé…ç½® 2007-12-28
 	public int	dwSize;
-	public int	dwLocalHostProperty;  	/* ±¾µØÖ÷»úÀàĞÍ 0£­·şÎñÆ÷ 1£­¿Í»§¶Ë*/
-	public int	dwIsIsolated;		/* ±¾µØÖ÷»úÊÇ·ñ¶ÀÁ¢ÓÚÏµÍ³£¬0£ºÁªÍø£¬1£º¶ÀÁ¢ */
-	public int	dwLocalMatrixHostPort;	/* ±¾µØÖ÷»ú·ÃÎÊ¶Ë¿Ú */
-	public byte[]	byLocalMatrixHostUsrName = new byte[NAME_LEN];		/* ±¾µØÖ÷»úµÇÂ¼ÓÃ»§Ãû */
-	public byte[]	byLocalMatrixHostPasswd = new byte[PASSWD_LEN];		/* ±¾µØÖ÷»úµÇÂ¼ÃÜÂë */
-	public int	dwLocalMatrixCtrlMedia;				/* ¿ØÖÆ·½Ê½ 0x1´®¿Ú¼üÅÌ¿ØÖÆ 0x2ÍøÂç¼üÅÌ¿ØÖÆ 0x4¾ØÕóÖĞĞÄ¿ØÖÆ 0x8PC¿Í»§¶Ë¿ØÖÆ*/
-	public byte[]	sMatrixCenterIP = new byte[16];		/* ¾ØÕóÖĞĞÄIPµØÖ· */
-	public int	dwMatrixCenterPort;	 	/* ¾ØÕóÖĞĞÄ¶Ë¿ÚºÅ */
-	public byte[]	byMatrixCenterUsrName = new byte[NAME_LEN];	/* ¾ØÕóÖĞĞÄµÇÂ¼ÓÃ»§Ãû */
-	public byte[]	byMatrixCenterPasswd = new byte[PASSWD_LEN];	/* ¾ØÕóÖĞĞÄµÇÂ¼ÃÜÂë */
+	public int	dwLocalHostProperty;  	/* æœ¬åœ°ä¸»æœºç±»å‹ 0ï¼æœåŠ¡å™¨ 1ï¼å®¢æˆ·ç«¯*/
+	public int	dwIsIsolated;		/* æœ¬åœ°ä¸»æœºæ˜¯å¦ç‹¬ç«‹äºç³»ç»Ÿï¼Œ0ï¼šè”ç½‘ï¼Œ1ï¼šç‹¬ç«‹ */
+	public int	dwLocalMatrixHostPort;	/* æœ¬åœ°ä¸»æœºè®¿é—®ç«¯å£ */
+	public byte[]	byLocalMatrixHostUsrName = new byte[NAME_LEN];		/* æœ¬åœ°ä¸»æœºç™»å½•ç”¨æˆ·å */
+	public byte[]	byLocalMatrixHostPasswd = new byte[PASSWD_LEN];		/* æœ¬åœ°ä¸»æœºç™»å½•å¯†ç  */
+	public int	dwLocalMatrixCtrlMedia;				/* æ§åˆ¶æ–¹å¼ 0x1ä¸²å£é”®ç›˜æ§åˆ¶ 0x2ç½‘ç»œé”®ç›˜æ§åˆ¶ 0x4çŸ©é˜µä¸­å¿ƒæ§åˆ¶ 0x8PCå®¢æˆ·ç«¯æ§åˆ¶*/
+	public byte[]	sMatrixCenterIP = new byte[16];		/* çŸ©é˜µä¸­å¿ƒIPåœ°å€ */
+	public int	dwMatrixCenterPort;	 	/* çŸ©é˜µä¸­å¿ƒç«¯å£å· */
+	public byte[]	byMatrixCenterUsrName = new byte[NAME_LEN];	/* çŸ©é˜µä¸­å¿ƒç™»å½•ç”¨æˆ·å */
+	public byte[]	byMatrixCenterPasswd = new byte[PASSWD_LEN];	/* çŸ©é˜µä¸­å¿ƒç™»å½•å¯†ç  */
 }
 
 //2007-12-22
 public static class TTY_CONFIG extends Structure {
-	public byte	baudrate; 	/* ²¨ÌØÂÊ */
-	public byte	databits;		/* Êı¾İÎ» */
-	public byte	stopbits;		/* Í£Ö¹Î» */
-	public byte	parity;		/* ÆæÅ¼Ğ£ÑéÎ» */
-	public byte	flowcontrol;	/* Á÷¿Ø */
+	public byte	baudrate; 	/* æ³¢ç‰¹ç‡ */
+	public byte	databits;		/* æ•°æ®ä½ */
+	public byte	stopbits;		/* åœæ­¢ä½ */
+	public byte	parity;		/* å¥‡å¶æ ¡éªŒä½ */
+	public byte	flowcontrol;	/* æµæ§ */
 	public byte[]	res = new byte[3];
 }
 
 public static class NET_DVR_MATRIX_TRAN_CHAN_INFO extends Structure {
-	public byte byTranChanEnable;	/* µ±Ç°Í¸Ã÷Í¨µÀÊÇ·ñ´ò¿ª 0£º¹Ø±Õ 1£º´ò¿ª */
+	public byte byTranChanEnable;	/* å½“å‰é€æ˜é€šé“æ˜¯å¦æ‰“å¼€ 0ï¼šå…³é—­ 1ï¼šæ‰“å¼€ */
          /*
-	 *	¶àÂ·½âÂëÆ÷±¾µØÓĞ1¸ö485´®¿Ú£¬1¸ö232´®¿Ú¶¼¿ÉÒÔ×÷ÎªÍ¸Ã÷Í¨µÀ,Éè±¸ºÅ·ÖÅäÈçÏÂ£º
+	 *	å¤šè·¯è§£ç å™¨æœ¬åœ°æœ‰1ä¸ª485ä¸²å£ï¼Œ1ä¸ª232ä¸²å£éƒ½å¯ä»¥ä½œä¸ºé€æ˜é€šé“,è®¾å¤‡å·åˆ†é…å¦‚ä¸‹ï¼š
 	 *	0 RS485
 	 *	1 RS232 Console
 	 */
 	public byte	byLocalSerialDevice;			/* Local serial device */
          /*
-	 *	Ô¶³Ì´®¿ÚÊä³ö»¹ÊÇÁ½¸ö,Ò»¸öRS232£¬Ò»¸öRS485
-	 *	1±íÊ¾232´®¿Ú
-	 *	2±íÊ¾485´®¿Ú
+	 *	è¿œç¨‹ä¸²å£è¾“å‡ºè¿˜æ˜¯ä¸¤ä¸ª,ä¸€ä¸ªRS232ï¼Œä¸€ä¸ªRS485
+	 *	1è¡¨ç¤º232ä¸²å£
+	 *	2è¡¨ç¤º485ä¸²å£
 	 */
 	public byte	byRemoteSerialDevice;			/* Remote output serial device */
-	public byte	res1;							/* ±£Áô */
+	public byte	res1;							/* ä¿ç•™ */
 	public byte[]	sRemoteDevIP= new byte[16];				/* Remote Device IP */
 	public short	wRemoteDevPort;				/* Remote Net Communication Port */
-	public byte[]	res2= new byte[2];						/* ±£Áô */
+	public byte[]	res2= new byte[2];						/* ä¿ç•™ */
 	public TTY_CONFIG RemoteSerialDevCfg;
 }
 
 public static class NET_DVR_MATRIX_TRAN_CHAN_CONFIG extends Structure {
         public 	int dwSize;
-	public byte 	by232IsDualChan; /* ÉèÖÃÄÄÂ·232Í¸Ã÷Í¨µÀÊÇÈ«Ë«¹¤µÄ È¡Öµ1µ½MAX_SERIAL_NUM */
-	public byte	by485IsDualChan; /* ÉèÖÃÄÄÂ·485Í¸Ã÷Í¨µÀÊÇÈ«Ë«¹¤µÄ È¡Öµ1µ½MAX_SERIAL_NUM */
-	public byte[]	res = new byte[2];	/* ±£Áô */
-	public NET_DVR_MATRIX_TRAN_CHAN_INFO[] struTranInfo = new NET_DVR_MATRIX_TRAN_CHAN_INFO[MAX_SERIAL_NUM];/*Í¬Ê±Ö§³Ö½¨Á¢MAX_SERIAL_NUM¸öÍ¸Ã÷Í¨µÀ*/
+	public byte 	by232IsDualChan; /* è®¾ç½®å“ªè·¯232é€æ˜é€šé“æ˜¯å…¨åŒå·¥çš„ å–å€¼1åˆ°MAX_SERIAL_NUM */
+	public byte	by485IsDualChan; /* è®¾ç½®å“ªè·¯485é€æ˜é€šé“æ˜¯å…¨åŒå·¥çš„ å–å€¼1åˆ°MAX_SERIAL_NUM */
+	public byte[]	res = new byte[2];	/* ä¿ç•™ */
+	public NET_DVR_MATRIX_TRAN_CHAN_INFO[] struTranInfo = new NET_DVR_MATRIX_TRAN_CHAN_INFO[MAX_SERIAL_NUM];/*åŒæ—¶æ”¯æŒå»ºç«‹MAX_SERIAL_NUMä¸ªé€æ˜é€šé“*/
 }
 
 //2007-12-24 Merry Christmas Eve...
 public static class NET_DVR_MATRIX_DEC_REMOTE_PLAY extends Structure {
 	public int	dwSize;
-	public byte[]	sDVRIP = new byte[16];		/* DVR IPµØÖ· */
-	public short	wDVRPort;			/* ¶Ë¿ÚºÅ */
-	public byte	byChannel;			/* Í¨µÀºÅ */
+	public byte[]	sDVRIP = new byte[16];		/* DVR IPåœ°å€ */
+	public short	wDVRPort;			/* ç«¯å£å· */
+	public byte	byChannel;			/* é€šé“å· */
 	public byte 	byReserve;
-	public byte[]	sUserName = new byte[NAME_LEN];		/* ÓÃ»§Ãû */
-	public byte[]	sPassword = new byte[PASSWD_LEN];		/* ÃÜÂë */
-	public int	dwPlayMode;   	/* 0£­°´ÎÄ¼ş 1£­°´Ê±¼ä*/
+	public byte[]	sUserName = new byte[NAME_LEN];		/* ç”¨æˆ·å */
+	public byte[]	sPassword = new byte[PASSWD_LEN];		/* å¯†ç  */
+	public int	dwPlayMode;   	/* 0ï¼æŒ‰æ–‡ä»¶ 1ï¼æŒ‰æ—¶é—´*/
 	public NET_DVR_TIME StartTime;
 	public NET_DVR_TIME StopTime;
 	public byte[]    sFileName = new byte[128];
@@ -2350,44 +2367,44 @@ public static class NET_DVR_MATRIX_DEC_REMOTE_PLAY extends Structure {
 
 public static class NET_DVR_MATRIX_DEC_REMOTE_PLAY_CONTROL extends Structure {
 	public int	dwSize;
-	public int	dwPlayCmd;		/* ²¥·ÅÃüÁî ¼ûÎÄ¼ş²¥·ÅÃüÁî*/
-	public int	dwCmdParam;		/* ²¥·ÅÃüÁî²ÎÊı */
+	public int	dwPlayCmd;		/* æ’­æ”¾å‘½ä»¤ è§æ–‡ä»¶æ’­æ”¾å‘½ä»¤*/
+	public int	dwCmdParam;		/* æ’­æ”¾å‘½ä»¤å‚æ•° */
 }
 
 public static class NET_DVR_MATRIX_DEC_REMOTE_PLAY_STATUS extends Structure {
 	public int dwSize;
-	public int dwCurMediaFileLen; /* µ±Ç°²¥·ÅµÄÃ½ÌåÎÄ¼ş³¤¶È */
-	public int dwCurMediaFilePosition; /* µ±Ç°²¥·ÅÎÄ¼şµÄ²¥·ÅÎ»ÖÃ */
-	public int dwCurMediaFileDuration; /* µ±Ç°²¥·ÅÎÄ¼şµÄ×ÜÊ±¼ä */
-	public int dwCurPlayTime; /* µ±Ç°ÒÑ¾­²¥·ÅµÄÊ±¼ä */
-	public int dwCurMediaFIleFrames; /* µ±Ç°²¥·ÅÎÄ¼şµÄ×ÜÖ¡Êı */
-	public int dwCurDataType; /* µ±Ç°´«ÊäµÄÊı¾İÀàĞÍ£¬19-ÎÄ¼şÍ·£¬20-Á÷Êı¾İ£¬ 21-²¥·Å½áÊø±êÖ¾ */
+	public int dwCurMediaFileLen; /* å½“å‰æ’­æ”¾çš„åª’ä½“æ–‡ä»¶é•¿åº¦ */
+	public int dwCurMediaFilePosition; /* å½“å‰æ’­æ”¾æ–‡ä»¶çš„æ’­æ”¾ä½ç½® */
+	public int dwCurMediaFileDuration; /* å½“å‰æ’­æ”¾æ–‡ä»¶çš„æ€»æ—¶é—´ */
+	public int dwCurPlayTime; /* å½“å‰å·²ç»æ’­æ”¾çš„æ—¶é—´ */
+	public int dwCurMediaFIleFrames; /* å½“å‰æ’­æ”¾æ–‡ä»¶çš„æ€»å¸§æ•° */
+	public int dwCurDataType; /* å½“å‰ä¼ è¾“çš„æ•°æ®ç±»å‹ï¼Œ19-æ–‡ä»¶å¤´ï¼Œ20-æµæ•°æ®ï¼Œ 21-æ’­æ”¾ç»“æŸæ ‡å¿— */
         public  byte[] res = new byte[72];
 }
 
 public static class NET_DVR_MATRIX_PASSIVEMODE extends Structure {
-	public short	wTransProtol;		//´«ÊäĞ­Òé£¬0-TCP, 1-UDP, 2-MCAST
-	public short	wPassivePort;		//TCP,UDPÊ±ÎªTCP,UDP¶Ë¿Ú, MCASTÊ±ÎªMCAST¶Ë¿Ú
-	public byte[]	sMcastIP = new byte[16];		//TCP,UDPÊ±ÎŞĞ§, MCASTÊ±Îª¶à²¥µØÖ·
+	public short	wTransProtol;		//ä¼ è¾“åè®®ï¼Œ0-TCP, 1-UDP, 2-MCAST
+	public short	wPassivePort;		//TCP,UDPæ—¶ä¸ºTCP,UDPç«¯å£, MCASTæ—¶ä¸ºMCASTç«¯å£
+	public byte[]	sMcastIP = new byte[16];		//TCP,UDPæ—¶æ— æ•ˆ, MCASTæ—¶ä¸ºå¤šæ’­åœ°å€
 	public byte[]	res = new byte[8];
 }
-/************************************¶àÂ·½âÂëÆ÷(end)***************************************/
+/************************************å¤šè·¯è§£ç å™¨(end)***************************************/
 
-/************************************¶àÂ·½âÂëÆ÷(end)***************************************/
+/************************************å¤šè·¯è§£ç å™¨(end)***************************************/
 
 public static class NET_DVR_EMAILCFG  extends Structure
 {	/* 12 bytes */
 	public int	dwSize;
 	public byte[]	sUserName = new byte[32];
 	public byte[]	sPassWord = new byte[32];
-	public byte[] 	sFromName = new byte[32];			/* Sender *///×Ö·û´®ÖĞµÄµÚÒ»¸ö×Ö·ûºÍ×îºóÒ»¸ö×Ö·û²»ÄÜÊÇ"@",²¢ÇÒ×Ö·û´®ÖĞÒªÓĞ"@"×Ö·û
+	public byte[] 	sFromName = new byte[32];			/* Sender *///å­—ç¬¦ä¸²ä¸­çš„ç¬¬ä¸€ä¸ªå­—ç¬¦å’Œæœ€åä¸€ä¸ªå­—ç¬¦ä¸èƒ½æ˜¯"@",å¹¶ä¸”å­—ç¬¦ä¸²ä¸­è¦æœ‰"@"å­—ç¬¦
 	public byte[] 	sFromAddr = new byte[48];			/* Sender address */
 	public byte[] 	sToName1 = new byte[32];			/* Receiver1 */
 	public byte[] 	sToName2 = new byte[32];			/* Receiver2 */
 	public byte[] 	sToAddr1 = new byte[48];			/* Receiver address1 */
 	public byte[] 	sToAddr2 = new byte[48];			/* Receiver address2 */
 	public byte[]	sEmailServer = new byte[32];		/* Email server address */
-        public byte	byServerType;			/* Email server type: 0-SMTP, 1-POP, 2-IMTP¡­*/
+        public byte	byServerType;			/* Email server type: 0-SMTP, 1-POP, 2-IMTPâ€¦*/
 	public byte	byUseAuthen;			/* Email server authentication method: 1-enable, 0-disable */
 	public byte	byAttachment;			/* enable attachment */
 	public byte	byMailinterval;			/* mail interval 0-2s, 1-3s, 2-4s. 3-5s*/
@@ -2396,82 +2413,82 @@ public static class NET_DVR_EMAILCFG  extends Structure
 public static class NET_DVR_COMPRESSIONCFG_NEW extends Structure
 {
 	public int dwSize;
-	public NET_DVR_COMPRESSION_INFO_EX  struLowCompression;	//¶¨Ê±Â¼Ïñ
-	public NET_DVR_COMPRESSION_INFO_EX  struEventCompression;	//ÊÂ¼ş´¥·¢Â¼Ïñ
+	public NET_DVR_COMPRESSION_INFO_EX  struLowCompression;	//å®šæ—¶å½•åƒ
+	public NET_DVR_COMPRESSION_INFO_EX  struEventCompression;	//äº‹ä»¶è§¦å‘å½•åƒ
 }
 
-//Çò»úÎ»ÖÃĞÅÏ¢
+//çƒæœºä½ç½®ä¿¡æ¯
 public static class NET_DVR_PTZPOS extends Structure
 {
-   public   short wAction;//»ñÈ¡Ê±¸Ã×Ö¶ÎÎŞĞ§
-   public  short wPanPos;//Ë®Æ½²ÎÊı
-   public  short wTiltPos;//´¹Ö±²ÎÊı
-   public short wZoomPos;//±ä±¶²ÎÊı
+   public   short wAction;//è·å–æ—¶è¯¥å­—æ®µæ— æ•ˆ
+   public  short wPanPos;//æ°´å¹³å‚æ•°
+   public  short wTiltPos;//å‚ç›´å‚æ•°
+   public short wZoomPos;//å˜å€å‚æ•°
 }
 
-//Çò»ú·¶Î§ĞÅÏ¢
+//çƒæœºèŒƒå›´ä¿¡æ¯
 public static class NET_DVR_PTZSCOPE extends Structure
 {
-   public  short wPanPosMin;//Ë®Æ½²ÎÊımin
-   public  short wPanPosMax;//Ë®Æ½²ÎÊımax
-   public  short wTiltPosMin;//´¹Ö±²ÎÊımin
-   public  short wTiltPosMax;//´¹Ö±²ÎÊımax
-   public   short wZoomPosMin;//±ä±¶²ÎÊımin
-   public   short wZoomPosMax;//±ä±¶²ÎÊımax
+   public  short wPanPosMin;//æ°´å¹³å‚æ•°min
+   public  short wPanPosMax;//æ°´å¹³å‚æ•°max
+   public  short wTiltPosMin;//å‚ç›´å‚æ•°min
+   public  short wTiltPosMax;//å‚ç›´å‚æ•°max
+   public   short wZoomPosMin;//å˜å€å‚æ•°min
+   public   short wZoomPosMax;//å˜å€å‚æ•°max
 }
 
-//rtspÅäÖÃ ipcamera×¨ÓÃ
+//rtspé…ç½® ipcameraä¸“ç”¨
 public static class NET_DVR_RTSPCFG extends Structure
 {
- public    int dwSize;         //³¤¶È
- public    short  wPort;          //rtsp·şÎñÆ÷ÕìÌı¶Ë¿Ú
- public    byte[]  byReserve = new byte[54];  //Ô¤Áô
+ public    int dwSize;         //é•¿åº¦
+ public    short  wPort;          //rtspæœåŠ¡å™¨ä¾¦å¬ç«¯å£
+ public    byte[]  byReserve = new byte[54];  //é¢„ç•™
 }
 
-/********************************½Ó¿Ú²ÎÊı½á¹¹(begin)*********************************/
+/********************************æ¥å£å‚æ•°ç»“æ„(begin)*********************************/
 
-//NET_DVR_Login()²ÎÊı½á¹¹
+//NET_DVR_Login()å‚æ•°ç»“æ„
 public static class NET_DVR_DEVICEINFO extends Structure
 {
-	public byte[] sSerialNumber = new byte[SERIALNO_LEN];   //ĞòÁĞºÅ
-	public byte byAlarmInPortNum;		        //DVR±¨¾¯ÊäÈë¸öÊı
-	public byte byAlarmOutPortNum;		        //DVR±¨¾¯Êä³ö¸öÊı
-	public byte byDiskNum;				        //DVRÓ²ÅÌ¸öÊı
-	public byte byDVRType;				        //DVRÀàĞÍ, 1:DVR 2:ATM DVR 3:DVS ......
-	public byte byChanNum;				        //DVR Í¨µÀ¸öÊı
-	public byte byStartChan;			        //ÆğÊ¼Í¨µÀºÅ,ÀıÈçDVS-1,DVR - 1
+	public byte[] sSerialNumber = new byte[SERIALNO_LEN];   //åºåˆ—å·
+	public byte byAlarmInPortNum;		        //DVRæŠ¥è­¦è¾“å…¥ä¸ªæ•°
+	public byte byAlarmOutPortNum;		        //DVRæŠ¥è­¦è¾“å‡ºä¸ªæ•°
+	public byte byDiskNum;				        //DVRç¡¬ç›˜ä¸ªæ•°
+	public byte byDVRType;				        //DVRç±»å‹, 1:DVR 2:ATM DVR 3:DVS ......
+	public byte byChanNum;				        //DVR é€šé“ä¸ªæ•°
+	public byte byStartChan;			        //èµ·å§‹é€šé“å·,ä¾‹å¦‚DVS-1,DVR - 1
 }
 
-//NET_DVR_Login_V30()²ÎÊı½á¹¹
+//NET_DVR_Login_V30()å‚æ•°ç»“æ„
 public static class NET_DVR_DEVICEINFO_V30 extends Structure
 {
-   public  byte[] sSerialNumber = new byte[SERIALNO_LEN];  //ĞòÁĞºÅ
-   public  byte byAlarmInPortNum;		        //±¨¾¯ÊäÈë¸öÊı
-   public  byte byAlarmOutPortNum;		        //±¨¾¯Êä³ö¸öÊı
-   public  byte byDiskNum;				    //Ó²ÅÌ¸öÊı
-   public  byte byDVRType;				    //Éè±¸ÀàĞÍ, 1:DVR 2:ATM DVR 3:DVS ......
-   public  byte byChanNum;				    //Ä£ÄâÍ¨µÀ¸öÊı
-   public  byte byStartChan;			        //ÆğÊ¼Í¨µÀºÅ,ÀıÈçDVS-1,DVR - 1
-   public  byte byAudioChanNum;                //ÓïÒôÍ¨µÀÊı
-   public  byte byIPChanNum;					//×î´óÊı×ÖÍ¨µÀ¸öÊı
-   public  byte[] byRes1 = new byte[24];					//±£Áô
+   public  byte[] sSerialNumber = new byte[SERIALNO_LEN];  //åºåˆ—å·
+   public  byte byAlarmInPortNum;		        //æŠ¥è­¦è¾“å…¥ä¸ªæ•°
+   public  byte byAlarmOutPortNum;		        //æŠ¥è­¦è¾“å‡ºä¸ªæ•°
+   public  byte byDiskNum;				    //ç¡¬ç›˜ä¸ªæ•°
+   public  byte byDVRType;				    //è®¾å¤‡ç±»å‹, 1:DVR 2:ATM DVR 3:DVS ......
+   public  byte byChanNum;				    //æ¨¡æ‹Ÿé€šé“ä¸ªæ•°
+   public  byte byStartChan;			        //èµ·å§‹é€šé“å·,ä¾‹å¦‚DVS-1,DVR - 1
+   public  byte byAudioChanNum;                //è¯­éŸ³é€šé“æ•°
+   public  byte byIPChanNum;					//æœ€å¤§æ•°å­—é€šé“ä¸ªæ•°
+   public  byte[] byRes1 = new byte[24];					//ä¿ç•™
 }
 
-//sdkÍøÂç»·¾³Ã¶¾Ù±äÁ¿£¬ÓÃÓÚÔ¶³ÌÉı¼¶
+//sdkç½‘ç»œç¯å¢ƒæšä¸¾å˜é‡ï¼Œç”¨äºè¿œç¨‹å‡çº§
  enum _SDK_NET_ENV
 {
     LOCAL_AREA_NETWORK ,
     WIDE_AREA_NETWORK
 }
 
-//ÏÔÊ¾Ä£Ê½
+//æ˜¾ç¤ºæ¨¡å¼
  enum DISPLAY_MODE
 {
 	NORMALMODE ,
 	OVERLAYMODE
 }
 
-//·¢ËÍÄ£Ê½
+//å‘é€æ¨¡å¼
  enum SEND_MODE
 {
 	PTOPTCPMODE,
@@ -2481,22 +2498,22 @@ public static class NET_DVR_DEVICEINFO_V30 extends Structure
 	RESERVEDMODE
 };
 
-//×¥Í¼Ä£Ê½
+//æŠ“å›¾æ¨¡å¼
  enum CAPTURE_MODE
 {
-	BMP_MODE,		//BMPÄ£Ê½
-	JPEG_MODE		//JPEGÄ£Ê½
+	BMP_MODE,		//BMPæ¨¡å¼
+	JPEG_MODE		//JPEGæ¨¡å¼
 };
 
-//ÊµÊ±ÉùÒôÄ£Ê½
+//å®æ—¶å£°éŸ³æ¨¡å¼
  enum REALSOUND_MODE
 {
-	NONE,                   //SDKÖĞÎŞ´ËÄ£Ê½,Ö»ÊÇÎªÁËÌî²¹0Õâ¸öÎ»ÖÃ
-        MONOPOLIZE_MODE ,       //¶ÀÕ¼Ä£Ê½ 1
-	SHARE_MODE 		//¹²ÏíÄ£Ê½ 2
+	NONE,                   //SDKä¸­æ— æ­¤æ¨¡å¼,åªæ˜¯ä¸ºäº†å¡«è¡¥0è¿™ä¸ªä½ç½®
+        MONOPOLIZE_MODE ,       //ç‹¬å æ¨¡å¼ 1
+	SHARE_MODE 		//å…±äº«æ¨¡å¼ 2
 };
 
-//Èí½âÂëÔ¤ÀÀ²ÎÊı
+//è½¯è§£ç é¢„è§ˆå‚æ•°
     public static class NET_DVR_CLIENTINFO extends Structure {
         public NativeLong lChannel;
         public NativeLong lLinkMode;
@@ -2504,64 +2521,64 @@ public static class NET_DVR_DEVICEINFO_V30 extends Structure
         public String sMultiCastIP;
     }
 
-//SDK×´Ì¬ĞÅÏ¢(9000ĞÂÔö)
+//SDKçŠ¶æ€ä¿¡æ¯(9000æ–°å¢)
 public static class NET_DVR_SDKSTATE extends Structure
 {
-    public int dwTotalLoginNum;		//µ±Ç°loginÓÃ»§Êı
-    public int dwTotalRealPlayNum;	//µ±Ç°realplayÂ·Êı
-    public int dwTotalPlayBackNum;	//µ±Ç°»Ø·Å»òÏÂÔØÂ·Êı
-    public int dwTotalAlarmChanNum;	//µ±Ç°½¨Á¢±¨¾¯Í¨µÀÂ·Êı
-    public int dwTotalFormatNum;		//µ±Ç°Ó²ÅÌ¸ñÊ½»¯Â·Êı
-    public  int dwTotalFileSearchNum;	//µ±Ç°ÈÕÖ¾»òÎÄ¼şËÑË÷Â·Êı
-    public  int dwTotalLogSearchNum;	//µ±Ç°ÈÕÖ¾»òÎÄ¼şËÑË÷Â·Êı
-    public  int dwTotalSerialNum;	    //µ±Ç°Í¸Ã÷Í¨µÀÂ·Êı
-    public int dwTotalUpgradeNum;	//µ±Ç°Éı¼¶Â·Êı
-    public int dwTotalVoiceComNum;	//µ±Ç°ÓïÒô×ª·¢Â·Êı
-    public int dwTotalBroadCastNum;	//µ±Ç°ÓïÒô¹ã²¥Â·Êı
+    public int dwTotalLoginNum;		//å½“å‰loginç”¨æˆ·æ•°
+    public int dwTotalRealPlayNum;	//å½“å‰realplayè·¯æ•°
+    public int dwTotalPlayBackNum;	//å½“å‰å›æ”¾æˆ–ä¸‹è½½è·¯æ•°
+    public int dwTotalAlarmChanNum;	//å½“å‰å»ºç«‹æŠ¥è­¦é€šé“è·¯æ•°
+    public int dwTotalFormatNum;		//å½“å‰ç¡¬ç›˜æ ¼å¼åŒ–è·¯æ•°
+    public  int dwTotalFileSearchNum;	//å½“å‰æ—¥å¿—æˆ–æ–‡ä»¶æœç´¢è·¯æ•°
+    public  int dwTotalLogSearchNum;	//å½“å‰æ—¥å¿—æˆ–æ–‡ä»¶æœç´¢è·¯æ•°
+    public  int dwTotalSerialNum;	    //å½“å‰é€æ˜é€šé“è·¯æ•°
+    public int dwTotalUpgradeNum;	//å½“å‰å‡çº§è·¯æ•°
+    public int dwTotalVoiceComNum;	//å½“å‰è¯­éŸ³è½¬å‘è·¯æ•°
+    public int dwTotalBroadCastNum;	//å½“å‰è¯­éŸ³å¹¿æ’­è·¯æ•°
     public int[] dwRes = new int[10];
 }
 
-//SDK¹¦ÄÜÖ§³ÖĞÅÏ¢(9000ĞÂÔö)
+//SDKåŠŸèƒ½æ”¯æŒä¿¡æ¯(9000æ–°å¢)
 public static class NET_DVR_SDKABL extends Structure
 {
-    public int dwMaxLoginNum;		//×î´óloginÓÃ»§Êı MAX_LOGIN_USERS
-    public int dwMaxRealPlayNum;		//×î´órealplayÂ·Êı WATCH_NUM
-    public int dwMaxPlayBackNum;		//×î´ó»Ø·Å»òÏÂÔØÂ·Êı WATCH_NUM
-    public int dwMaxAlarmChanNum;	//×î´ó½¨Á¢±¨¾¯Í¨µÀÂ·Êı ALARM_NUM
-    public int dwMaxFormatNum;		//×î´óÓ²ÅÌ¸ñÊ½»¯Â·Êı SERVER_NUM
-    public int dwMaxFileSearchNum;	//×î´óÎÄ¼şËÑË÷Â·Êı SERVER_NUM
-    public int dwMaxLogSearchNum;	//×î´óÈÕÖ¾ËÑË÷Â·Êı SERVER_NUM
-    public int dwMaxSerialNum;	    //×î´óÍ¸Ã÷Í¨µÀÂ·Êı SERVER_NUM
-    public int dwMaxUpgradeNum;	    //×î´óÉı¼¶Â·Êı SERVER_NUM
-    public int dwMaxVoiceComNum;		//×î´óÓïÒô×ª·¢Â·Êı SERVER_NUM
-    public int dwMaxBroadCastNum;	//×î´óÓïÒô¹ã²¥Â·Êı MAX_CASTNUM
+    public int dwMaxLoginNum;		//æœ€å¤§loginç”¨æˆ·æ•° MAX_LOGIN_USERS
+    public int dwMaxRealPlayNum;		//æœ€å¤§realplayè·¯æ•° WATCH_NUM
+    public int dwMaxPlayBackNum;		//æœ€å¤§å›æ”¾æˆ–ä¸‹è½½è·¯æ•° WATCH_NUM
+    public int dwMaxAlarmChanNum;	//æœ€å¤§å»ºç«‹æŠ¥è­¦é€šé“è·¯æ•° ALARM_NUM
+    public int dwMaxFormatNum;		//æœ€å¤§ç¡¬ç›˜æ ¼å¼åŒ–è·¯æ•° SERVER_NUM
+    public int dwMaxFileSearchNum;	//æœ€å¤§æ–‡ä»¶æœç´¢è·¯æ•° SERVER_NUM
+    public int dwMaxLogSearchNum;	//æœ€å¤§æ—¥å¿—æœç´¢è·¯æ•° SERVER_NUM
+    public int dwMaxSerialNum;	    //æœ€å¤§é€æ˜é€šé“è·¯æ•° SERVER_NUM
+    public int dwMaxUpgradeNum;	    //æœ€å¤§å‡çº§è·¯æ•° SERVER_NUM
+    public int dwMaxVoiceComNum;		//æœ€å¤§è¯­éŸ³è½¬å‘è·¯æ•° SERVER_NUM
+    public int dwMaxBroadCastNum;	//æœ€å¤§è¯­éŸ³å¹¿æ’­è·¯æ•° MAX_CASTNUM
     public int[] dwRes = new int[10];
 }
 
-//±¨¾¯Éè±¸ĞÅÏ¢
+//æŠ¥è­¦è®¾å¤‡ä¿¡æ¯
 public static class NET_DVR_ALARMER extends Structure
 {
-   public  byte byUserIDValid;                 /* useridÊÇ·ñÓĞĞ§ 0-ÎŞĞ§£¬1-ÓĞĞ§ */
-   public  byte bySerialValid;                 /* ĞòÁĞºÅÊÇ·ñÓĞĞ§ 0-ÎŞĞ§£¬1-ÓĞĞ§ */
-   public  byte byVersionValid;                /* °æ±¾ºÅÊÇ·ñÓĞĞ§ 0-ÎŞĞ§£¬1-ÓĞĞ§ */
-   public  byte byDeviceNameValid;             /* Éè±¸Ãû×ÖÊÇ·ñÓĞĞ§ 0-ÎŞĞ§£¬1-ÓĞĞ§ */
-   public byte byMacAddrValid;                /* MACµØÖ·ÊÇ·ñÓĞĞ§ 0-ÎŞĞ§£¬1-ÓĞĞ§ */
-   public   byte byLinkPortValid;               /* login¶Ë¿ÚÊÇ·ñÓĞĞ§ 0-ÎŞĞ§£¬1-ÓĞĞ§ */
-   public    byte byDeviceIPValid;               /* Éè±¸IPÊÇ·ñÓĞĞ§ 0-ÎŞĞ§£¬1-ÓĞĞ§ */
-   public   byte bySocketIPValid;               /* socket ipÊÇ·ñÓĞĞ§ 0-ÎŞĞ§£¬1-ÓĞĞ§ */
-   public   NativeLong lUserID;                       /* NET_DVR_Login()·µ»ØÖµ, ²¼·ÀÊ±ÓĞĞ§ */
-   public   byte[] sSerialNumber = new byte[SERIALNO_LEN];	/* ĞòÁĞºÅ */
-   public  int dwDeviceVersion;			    /* °æ±¾ĞÅÏ¢ ¸ß16Î»±íÊ¾Ö÷°æ±¾£¬µÍ16Î»±íÊ¾´Î°æ±¾*/
-   public   byte[] sDeviceName = new byte[NAME_LEN];		    /* Éè±¸Ãû×Ö */
-   public    byte[] byMacAddr = new byte[MACADDR_LEN];		/* MACµØÖ· */
+   public  byte byUserIDValid;                 /* useridæ˜¯å¦æœ‰æ•ˆ 0-æ— æ•ˆï¼Œ1-æœ‰æ•ˆ */
+   public  byte bySerialValid;                 /* åºåˆ—å·æ˜¯å¦æœ‰æ•ˆ 0-æ— æ•ˆï¼Œ1-æœ‰æ•ˆ */
+   public  byte byVersionValid;                /* ç‰ˆæœ¬å·æ˜¯å¦æœ‰æ•ˆ 0-æ— æ•ˆï¼Œ1-æœ‰æ•ˆ */
+   public  byte byDeviceNameValid;             /* è®¾å¤‡åå­—æ˜¯å¦æœ‰æ•ˆ 0-æ— æ•ˆï¼Œ1-æœ‰æ•ˆ */
+   public byte byMacAddrValid;                /* MACåœ°å€æ˜¯å¦æœ‰æ•ˆ 0-æ— æ•ˆï¼Œ1-æœ‰æ•ˆ */
+   public   byte byLinkPortValid;               /* loginç«¯å£æ˜¯å¦æœ‰æ•ˆ 0-æ— æ•ˆï¼Œ1-æœ‰æ•ˆ */
+   public    byte byDeviceIPValid;               /* è®¾å¤‡IPæ˜¯å¦æœ‰æ•ˆ 0-æ— æ•ˆï¼Œ1-æœ‰æ•ˆ */
+   public   byte bySocketIPValid;               /* socket ipæ˜¯å¦æœ‰æ•ˆ 0-æ— æ•ˆï¼Œ1-æœ‰æ•ˆ */
+   public   NativeLong lUserID;                       /* NET_DVR_Login()è¿”å›å€¼, å¸ƒé˜²æ—¶æœ‰æ•ˆ */
+   public   byte[] sSerialNumber = new byte[SERIALNO_LEN];	/* åºåˆ—å· */
+   public  int dwDeviceVersion;			    /* ç‰ˆæœ¬ä¿¡æ¯ é«˜16ä½è¡¨ç¤ºä¸»ç‰ˆæœ¬ï¼Œä½16ä½è¡¨ç¤ºæ¬¡ç‰ˆæœ¬*/
+   public   byte[] sDeviceName = new byte[NAME_LEN];		    /* è®¾å¤‡åå­— */
+   public    byte[] byMacAddr = new byte[MACADDR_LEN];		/* MACåœ°å€ */
    public   short wLinkPort;                     /* link port */
-   public   byte[] sDeviceIP = new byte[128];    			/* IPµØÖ· */
-   public   byte[] sSocketIP = new byte[128];    			/* ±¨¾¯Ö÷¶¯ÉÏ´«Ê±µÄsocket IPµØÖ· */
-   public  byte byIpProtocol;                  /* IpĞ­Òé 0-IPV4, 1-IPV6 */
+   public   byte[] sDeviceIP = new byte[128];    			/* IPåœ°å€ */
+   public   byte[] sSocketIP = new byte[128];    			/* æŠ¥è­¦ä¸»åŠ¨ä¸Šä¼ æ—¶çš„socket IPåœ°å€ */
+   public  byte byIpProtocol;                  /* Ipåè®® 0-IPV4, 1-IPV6 */
    public    byte[] byRes2 = new byte[11];
 }
 
-//Ó²½âÂëÏÔÊ¾ÇøÓò²ÎÊı(×Ó½á¹¹)
+//ç¡¬è§£ç æ˜¾ç¤ºåŒºåŸŸå‚æ•°(å­ç»“æ„)
 public static class NET_DVR_DISPLAY_PARA extends Structure
 {
 	public NativeLong bToScreen;
@@ -2573,82 +2590,82 @@ public static class NET_DVR_DISPLAY_PARA extends Structure
 	public NativeLong nReserved;
 }
 
-//Ó²½âÂëÔ¤ÀÀ²ÎÊı
+//ç¡¬è§£ç é¢„è§ˆå‚æ•°
 public static class NET_DVR_CARDINFO extends Structure
 {
-	public NativeLong lChannel;//Í¨µÀºÅ
-	public NativeLong lLinkMode; //×î¸ßÎ»(31)Îª0±íÊ¾Ö÷ÂëÁ÷£¬Îª1±íÊ¾×Ó£¬0£­30Î»±íÊ¾ÂëÁ÷Á¬½Ó·½Ê½:0£ºTCP·½Ê½,1£ºUDP·½Ê½,2£º¶à²¥·½Ê½,3 - RTP·½Ê½£¬4-µç»°Ïß£¬5£­128k¿í´ø£¬6£­256k¿í´ø£¬7£­384k¿í´ø£¬8£­512k¿í´ø£»
+	public NativeLong lChannel;//é€šé“å·
+	public NativeLong lLinkMode; //æœ€é«˜ä½(31)ä¸º0è¡¨ç¤ºä¸»ç æµï¼Œä¸º1è¡¨ç¤ºå­ï¼Œ0ï¼30ä½è¡¨ç¤ºç æµè¿æ¥æ–¹å¼:0ï¼šTCPæ–¹å¼,1ï¼šUDPæ–¹å¼,2ï¼šå¤šæ’­æ–¹å¼,3 - RTPæ–¹å¼ï¼Œ4-ç”µè¯çº¿ï¼Œ5ï¼128kå®½å¸¦ï¼Œ6ï¼256kå®½å¸¦ï¼Œ7ï¼384kå®½å¸¦ï¼Œ8ï¼512kå®½å¸¦ï¼›
 	public String sMultiCastIP;
 	public NET_DVR_DISPLAY_PARA struDisplayPara;
 }
 
-//Â¼ÏóÎÄ¼ş²ÎÊı
+//å½•è±¡æ–‡ä»¶å‚æ•°
 public static class NET_DVR_FIND_DATA extends Structure
 {
-	public byte[] sFileName = new byte[100];//ÎÄ¼şÃû
-	public NET_DVR_TIME struStartTime;//ÎÄ¼şµÄ¿ªÊ¼Ê±¼ä
-	public NET_DVR_TIME struStopTime;//ÎÄ¼şµÄ½áÊøÊ±¼ä
-	public int dwFileSize;//ÎÄ¼şµÄ´óĞ¡
+	public byte[] sFileName = new byte[100];//æ–‡ä»¶å
+	public NET_DVR_TIME struStartTime;//æ–‡ä»¶çš„å¼€å§‹æ—¶é—´
+	public NET_DVR_TIME struStopTime;//æ–‡ä»¶çš„ç»“æŸæ—¶é—´
+	public int dwFileSize;//æ–‡ä»¶çš„å¤§å°
 }
 
-//Â¼ÏóÎÄ¼ş²ÎÊı(9000)
+//å½•è±¡æ–‡ä»¶å‚æ•°(9000)
   public static class NET_DVR_FINDDATA_V30 extends Structure {
-        public byte[] sFileName = new byte[100];//ÎÄ¼şÃû
-        public NET_DVR_TIME struStartTime;//ÎÄ¼şµÄ¿ªÊ¼Ê±¼ä
-        public NET_DVR_TIME struStopTime;//ÎÄ¼şµÄ½áÊøÊ±¼ä
-        public int dwFileSize;//ÎÄ¼şµÄ´óĞ¡
+        public byte[] sFileName = new byte[100];//æ–‡ä»¶å
+        public NET_DVR_TIME struStartTime;//æ–‡ä»¶çš„å¼€å§‹æ—¶é—´
+        public NET_DVR_TIME struStopTime;//æ–‡ä»¶çš„ç»“æŸæ—¶é—´
+        public int dwFileSize;//æ–‡ä»¶çš„å¤§å°
         public byte[] sCardNum = new byte[32];
-        public byte byLocked;//9000Éè±¸Ö§³Ö,1±íÊ¾´ËÎÄ¼şÒÑ¾­±»Ëø¶¨,0±íÊ¾Õı³£µÄÎÄ¼ş
+        public byte byLocked;//9000è®¾å¤‡æ”¯æŒ,1è¡¨ç¤ºæ­¤æ–‡ä»¶å·²ç»è¢«é”å®š,0è¡¨ç¤ºæ­£å¸¸çš„æ–‡ä»¶
         public byte[] byRes = new byte[3];
     }
 
-//Â¼ÏóÎÄ¼ş²ÎÊı(´ø¿¨ºÅ)
+//å½•è±¡æ–‡ä»¶å‚æ•°(å¸¦å¡å·)
 public static class NET_DVR_FINDDATA_CARD extends Structure
 {
-	public byte[] sFileName = new byte[100];//ÎÄ¼şÃû
-	public NET_DVR_TIME struStartTime;//ÎÄ¼şµÄ¿ªÊ¼Ê±¼ä
-	public NET_DVR_TIME struStopTime;//ÎÄ¼şµÄ½áÊøÊ±¼ä
-	public int dwFileSize;//ÎÄ¼şµÄ´óĞ¡
+	public byte[] sFileName = new byte[100];//æ–‡ä»¶å
+	public NET_DVR_TIME struStartTime;//æ–‡ä»¶çš„å¼€å§‹æ—¶é—´
+	public NET_DVR_TIME struStopTime;//æ–‡ä»¶çš„ç»“æŸæ—¶é—´
+	public int dwFileSize;//æ–‡ä»¶çš„å¤§å°
 	public byte[] sCardNum = new byte[32];
 }
 
 
- public static class NET_DVR_FILECOND extends Structure //Â¼ÏóÎÄ¼ş²éÕÒÌõ¼ş½á¹¹
+ public static class NET_DVR_FILECOND extends Structure //å½•è±¡æ–‡ä»¶æŸ¥æ‰¾æ¡ä»¶ç»“æ„
     {
-        public NativeLong lChannel;//Í¨µÀºÅ
-        public int dwFileType;//Â¼ÏóÎÄ¼şÀàĞÍ0xff£­È«²¿£¬0£­¶¨Ê±Â¼Ïñ,1-ÒÆ¶¯Õì²â £¬2£­±¨¾¯´¥·¢£¬3-±¨¾¯|ÒÆ¶¯Õì²â 4-±¨¾¯&ÒÆ¶¯Õì²â 5-ÃüÁî´¥·¢ 6-ÊÖ¶¯Â¼Ïñ
-        public int dwIsLocked;//ÊÇ·ñËø¶¨ 0-Õı³£ÎÄ¼ş,1-Ëø¶¨ÎÄ¼ş, 0xff±íÊ¾ËùÓĞÎÄ¼ş
-        public int dwUseCardNo;//ÊÇ·ñÊ¹ÓÃ¿¨ºÅ
-        public byte[] sCardNumber = new byte[32];//¿¨ºÅ
-        public NET_DVR_TIME struStartTime;//¿ªÊ¼Ê±¼ä
-        public NET_DVR_TIME struStopTime;//½áÊøÊ±¼ä
+        public NativeLong lChannel;//é€šé“å·
+        public int dwFileType;//å½•è±¡æ–‡ä»¶ç±»å‹0xffï¼å…¨éƒ¨ï¼Œ0ï¼å®šæ—¶å½•åƒ,1-ç§»åŠ¨ä¾¦æµ‹ ï¼Œ2ï¼æŠ¥è­¦è§¦å‘ï¼Œ3-æŠ¥è­¦|ç§»åŠ¨ä¾¦æµ‹ 4-æŠ¥è­¦&ç§»åŠ¨ä¾¦æµ‹ 5-å‘½ä»¤è§¦å‘ 6-æ‰‹åŠ¨å½•åƒ
+        public int dwIsLocked;//æ˜¯å¦é”å®š 0-æ­£å¸¸æ–‡ä»¶,1-é”å®šæ–‡ä»¶, 0xffè¡¨ç¤ºæ‰€æœ‰æ–‡ä»¶
+        public int dwUseCardNo;//æ˜¯å¦ä½¿ç”¨å¡å·
+        public byte[] sCardNumber = new byte[32];//å¡å·
+        public NET_DVR_TIME struStartTime;//å¼€å§‹æ—¶é—´
+        public NET_DVR_TIME struStopTime;//ç»“æŸæ—¶é—´
     }
 
 
-//ÔÆÌ¨ÇøÓòÑ¡Ôñ·Å´óËõĞ¡(HIK ¿ìÇò×¨ÓÃ)
+//äº‘å°åŒºåŸŸé€‰æ‹©æ”¾å¤§ç¼©å°(HIK å¿«çƒä¸“ç”¨)
 public static class NET_DVR_POINT_FRAME extends Structure
 {
-	public int xTop;     //·½¿òÆğÊ¼µãµÄx×ø±ê
-	public int yTop;     //·½¿ò½áÊøµãµÄy×ø±ê
-	public int xBottom;  //·½¿ò½áÊøµãµÄx×ø±ê
-	public int yBottom;  //·½¿ò½áÊøµãµÄy×ø±ê
-	public int bCounter; //±£Áô
+	public int xTop;     //æ–¹æ¡†èµ·å§‹ç‚¹çš„xåæ ‡
+	public int yTop;     //æ–¹æ¡†ç»“æŸç‚¹çš„yåæ ‡
+	public int xBottom;  //æ–¹æ¡†ç»“æŸç‚¹çš„xåæ ‡
+	public int yBottom;  //æ–¹æ¡†ç»“æŸç‚¹çš„yåæ ‡
+	public int bCounter; //ä¿ç•™
 }
 
-//ÓïÒô¶Ô½²²ÎÊı
+//è¯­éŸ³å¯¹è®²å‚æ•°
 public static class NET_DVR_COMPRESSION_AUDIO extends Structure
 {
-	public byte  byAudioEncType;   //ÒôÆµ±àÂëÀàĞÍ 0-G722; 1-G711
-	public byte[] byres= new byte [7];//ÕâÀï±£ÁôÒôÆµµÄÑ¹Ëõ²ÎÊı
+	public byte  byAudioEncType;   //éŸ³é¢‘ç¼–ç ç±»å‹ 0-G722; 1-G711
+	public byte[] byres= new byte [7];//è¿™é‡Œä¿ç•™éŸ³é¢‘çš„å‹ç¼©å‚æ•°
 }
 
-//ÓÃÓÚ½ÓÊÕ±¨¾¯ĞÅÏ¢µÄ»º´æÇø
+//ç”¨äºæ¥æ”¶æŠ¥è­¦ä¿¡æ¯çš„ç¼“å­˜åŒº
 public static class RECV_ALARM extends Structure{
-    public byte[] RecvBuffer = new byte[400];//´Ë´¦µÄ400Ó¦²»Ğ¡ÓÚ×î´ó±¨¾¯±¨ÎÄ³¤¶È
+    public byte[] RecvBuffer = new byte[400];//æ­¤å¤„çš„400åº”ä¸å°äºæœ€å¤§æŠ¥è­¦æŠ¥æ–‡é•¿åº¦
 }
 
 
- /***APIº¯ÊıÉùÃ÷,ÏêÏ¸ËµÃ÷¼ûAPIÊÖ²á***/
+ /***APIå‡½æ•°å£°æ˜,è¯¦ç»†è¯´æ˜è§APIæ‰‹å†Œ***/
    public static interface FRealDataCallBack_V30 extends StdCallCallback {
         public void invoke(NativeLong lRealHandle, int dwDataType,
                 ByteByReference pBuffer, int dwBufSize, Pointer pUser);
@@ -2736,7 +2753,7 @@ public static class RECV_ALARM extends Structure{
  boolean  NET_DVR_Init();
  boolean  NET_DVR_Cleanup();
  boolean  NET_DVR_SetDVRMessage(int nMessage,int hWnd);
-//NET_DVR_SetDVRMessageµÄÀ©Õ¹
+//NET_DVR_SetDVRMessageçš„æ‰©å±•
  boolean  NET_DVR_SetExceptionCallBack_V30(int nMessage, int hWnd, FExceptionCallBack fExceptionCallBack, Pointer pUser);
 
  boolean  NET_DVR_SetDVRMessCallBack(FMessCallBack fMessCallBack);
@@ -2766,7 +2783,7 @@ public static class RECV_ALARM extends Structure{
  boolean  NET_DVR_GetDVRIPByResolveSvr(String sServerIP, short wServerPort, String sDVRName,short wDVRNameLen,String sDVRSerialNumber,short wDVRSerialLen,String sGetIP);
  boolean   NET_DVR_GetDVRIPByResolveSvr_EX(String sServerIP, short wServerPort,  String sDVRName, short wDVRNameLen, String sDVRSerialNumber, short wDVRSerialLen,String sGetIP, IntByReference dwPort);
 
-//Ô¤ÀÀÏà¹Ø½Ó¿Ú
+//é¢„è§ˆç›¸å…³æ¥å£
  NativeLong  NET_DVR_RealPlay(NativeLong lUserID,NET_DVR_CLIENTINFO lpClientInfo);
  NativeLong  NET_DVR_RealPlay_V30(NativeLong lUserID, NET_DVR_CLIENTINFO lpClientInfo, FRealDataCallBack_V30 fRealDataCallBack_V30, Pointer pUser , boolean bBlocked );
  boolean  NET_DVR_StopRealPlay(NativeLong lRealHandle);
@@ -2785,11 +2802,11 @@ public static class RECV_ALARM extends Structure{
  boolean  NET_DVR_SetStandardDataCallBack(NativeLong lRealHandle,FStdDataCallBack fStdDataCallBack,int dwUser);
  boolean  NET_DVR_CapturePicture(NativeLong lRealHandle,String sPicFileName);//bmp
 
-//¶¯Ì¬Éú³ÉIÖ¡
- boolean  NET_DVR_MakeKeyFrame(NativeLong lUserID, NativeLong lChannel);//Ö÷ÂëÁ÷
- boolean  NET_DVR_MakeKeyFrameSub(NativeLong lUserID, NativeLong lChannel);//×ÓÂëÁ÷
+//åŠ¨æ€ç”ŸæˆIå¸§
+ boolean  NET_DVR_MakeKeyFrame(NativeLong lUserID, NativeLong lChannel);//ä¸»ç æµ
+ boolean  NET_DVR_MakeKeyFrameSub(NativeLong lUserID, NativeLong lChannel);//å­ç æµ
 
-//ÔÆÌ¨¿ØÖÆÏà¹Ø½Ó¿Ú
+//äº‘å°æ§åˆ¶ç›¸å…³æ¥å£
  boolean  NET_DVR_PTZControl(NativeLong lRealHandle,int dwPTZCommand,int dwStop);
  boolean  NET_DVR_PTZControl_Other(NativeLong lUserID,NativeLong lChannel,int dwPTZCommand,int dwStop);
  boolean  NET_DVR_TransPTZ(NativeLong lRealHandle,String pPTZCodeBuf,int dwBufSize);
@@ -2813,14 +2830,14 @@ public static class RECV_ALARM extends Structure{
  boolean  NET_DVR_PTZMltTrack_Other(NativeLong lUserID,NativeLong lChannel,int dwPTZTrackCmd, int dwTrackIndex);
  boolean  NET_DVR_PTZMltTrack_EX(NativeLong lRealHandle,int dwPTZTrackCmd, int dwTrackIndex);
 
-//ÎÄ¼ş²éÕÒÓë»Ø·Å
+//æ–‡ä»¶æŸ¥æ‰¾ä¸å›æ”¾
  NativeLong  NET_DVR_FindFile(NativeLong lUserID,NativeLong lChannel,int dwFileType, NET_DVR_TIME lpStartTime, NET_DVR_TIME lpStopTime);
  NativeLong  NET_DVR_FindNextFile(NativeLong lFindHandle,NET_DVR_FIND_DATA lpFindData);
  boolean  NET_DVR_FindClose(NativeLong lFindHandle);
  NativeLong  NET_DVR_FindNextFile_V30(NativeLong lFindHandle, NET_DVR_FINDDATA_V30 lpFindData);
  NativeLong  NET_DVR_FindFile_V30(NativeLong lUserID, NET_DVR_FILECOND pFindCond);
  boolean  NET_DVR_FindClose_V30(NativeLong lFindHandle);
-//2007-04-16Ôö¼Ó²éÑ¯½á¹û´ø¿¨ºÅµÄÎÄ¼ş²éÕÒ
+//2007-04-16å¢åŠ æŸ¥è¯¢ç»“æœå¸¦å¡å·çš„æ–‡ä»¶æŸ¥æ‰¾
  NativeLong  NET_DVR_FindNextFile_Card(NativeLong lFindHandle, NET_DVR_FINDDATA_CARD lpFindData);
  NativeLong  NET_DVR_FindFile_Card(NativeLong lUserID, NativeLong lChannel, int dwFileType, NET_DVR_TIME lpStartTime, NET_DVR_TIME lpStopTime);
  boolean  NET_DVR_LockFileByName(NativeLong lUserID, String sLockFileName);
@@ -2840,32 +2857,32 @@ public static class RECV_ALARM extends Structure{
  int  NET_DVR_GetDownloadPos(NativeLong lFileHandle);
  int	 NET_DVR_GetPlayBackPos(NativeLong lPlayHandle);
 
-//Éı¼¶
+//å‡çº§
  NativeLong  NET_DVR_Upgrade(NativeLong lUserID, String sFileName);
  int  NET_DVR_GetUpgradeState(NativeLong lUpgradeHandle);
  int  NET_DVR_GetUpgradeProgress(NativeLong lUpgradeHandle);
  boolean  NET_DVR_CloseUpgradeHandle(NativeLong lUpgradeHandle);
  boolean  NET_DVR_SetNetworkEnvironment(int dwEnvironmentLevel);
-//Ô¶³Ì¸ñÊ½»¯Ó²ÅÌ
+//è¿œç¨‹æ ¼å¼åŒ–ç¡¬ç›˜
  NativeLong  NET_DVR_FormatDisk(NativeLong lUserID,NativeLong lDiskNumber);
  boolean  NET_DVR_GetFormatProgress(NativeLong lFormatHandle, NativeLongByReference pCurrentFormatDisk,NativeLongByReference pCurrentDiskPos,NativeLongByReference pFormatStatic);
  boolean  NET_DVR_CloseFormatHandle(NativeLong lFormatHandle);
-//±¨¾¯
+//æŠ¥è­¦
  NativeLong  NET_DVR_SetupAlarmChan(NativeLong lUserID);
  boolean  NET_DVR_CloseAlarmChan(NativeLong lAlarmHandle);
  NativeLong  NET_DVR_SetupAlarmChan_V30(NativeLong lUserID);
  boolean  NET_DVR_CloseAlarmChan_V30(NativeLong lAlarmHandle);
-//ÓïÒô¶Ô½²
+//è¯­éŸ³å¯¹è®²
  NativeLong  NET_DVR_StartVoiceCom(NativeLong lUserID, FVoiceDataCallBack fVoiceDataCallBack, int dwUser);
  NativeLong  NET_DVR_StartVoiceCom_V30(NativeLong lUserID, int dwVoiceChan, boolean bNeedCBNoEncData, FVoiceDataCallBack_V30 fVoiceDataCallBack, Pointer pUser);
  boolean  NET_DVR_SetVoiceComClientVolume(NativeLong lVoiceComHandle, short wVolume);
  boolean  NET_DVR_StopVoiceCom(NativeLong lVoiceComHandle);
-//ÓïÒô×ª·¢
+//è¯­éŸ³è½¬å‘
  NativeLong  NET_DVR_StartVoiceCom_MR(NativeLong lUserID, FVoiceDataCallBack_MR fVoiceDataCallBack, int dwUser);
  NativeLong  NET_DVR_StartVoiceCom_MR_V30(NativeLong lUserID, int dwVoiceChan, FVoiceDataCallBack_MR_V30 fVoiceDataCallBack, Pointer pUser);
  boolean  NET_DVR_VoiceComSendData(NativeLong lVoiceComHandle, String pSendBuf, int dwBufSize);
 
-//ÓïÒô¹ã²¥
+//è¯­éŸ³å¹¿æ’­
  boolean  NET_DVR_ClientAudioStart();
  boolean  NET_DVR_ClientAudioStart_V30(FVoiceDataCallBack2 fVoiceDataCallBack2, Pointer pUser);
  boolean  NET_DVR_ClientAudioStop();
@@ -2874,29 +2891,29 @@ public static class RECV_ALARM extends Structure{
  boolean  NET_DVR_DelDVR(NativeLong lUserID);
  boolean  NET_DVR_DelDVR_V30(NativeLong lVoiceHandle);
 ////////////////////////////////////////////////////////////
-//Í¸Ã÷Í¨µÀÉèÖÃ
+//é€æ˜é€šé“è®¾ç½®
  NativeLong  NET_DVR_SerialStart(NativeLong lUserID,NativeLong lSerialPort,FSerialDataCallBack fSerialDataCallBack,int dwUser);
-//485×÷ÎªÍ¸Ã÷Í¨µÀÊ±£¬ĞèÒªÖ¸Ã÷Í¨µÀºÅ£¬ÒòÎª²»Í¬Í¨µÀºÅ485µÄÉèÖÃ¿ÉÒÔ²»Í¬(±ÈÈç²¨ÌØÂÊ)
+//485ä½œä¸ºé€æ˜é€šé“æ—¶ï¼Œéœ€è¦æŒ‡æ˜é€šé“å·ï¼Œå› ä¸ºä¸åŒé€šé“å·485çš„è®¾ç½®å¯ä»¥ä¸åŒ(æ¯”å¦‚æ³¢ç‰¹ç‡)
  boolean  NET_DVR_SerialSend(NativeLong lSerialHandle, NativeLong lChannel, String pSendBuf,int dwBufSize);
  boolean  NET_DVR_SerialStop(NativeLong lSerialHandle);
  boolean  NET_DVR_SendTo232Port(NativeLong lUserID, String pSendBuf, int dwBufSize);
  boolean  NET_DVR_SendToSerialPort(NativeLong lUserID, int dwSerialPort, int dwSerialIndex, String pSendBuf, int dwBufSize);
 
-//½âÂë nBitrate = 16000
+//è§£ç  nBitrate = 16000
  Pointer  NET_DVR_InitG722Decoder(int nBitrate);
  void  NET_DVR_ReleaseG722Decoder(Pointer pDecHandle);
  boolean  NET_DVR_DecodeG722Frame(Pointer pDecHandle, String pInBuffer, String pOutBuffer);
-//±àÂë
+//ç¼–ç 
  Pointer  NET_DVR_InitG722Encoder();
  boolean  NET_DVR_EncodeG722Frame(Pointer pEncodeHandle,String pInBuff,String pOutBuffer);
  void  NET_DVR_ReleaseG722Encoder(Pointer pEncodeHandle);
 
-//Ô¶³Ì¿ØÖÆ±¾µØÏÔÊ¾
+//è¿œç¨‹æ§åˆ¶æœ¬åœ°æ˜¾ç¤º
  boolean  NET_DVR_ClickKey(NativeLong lUserID, NativeLong lKeyIndex);
-//Ô¶³Ì¿ØÖÆÉè±¸¶ËÊÖ¶¯Â¼Ïñ
+//è¿œç¨‹æ§åˆ¶è®¾å¤‡ç«¯æ‰‹åŠ¨å½•åƒ
  boolean  NET_DVR_StartDVRRecord(NativeLong lUserID,NativeLong lChannel,NativeLong lRecordType);
  boolean  NET_DVR_StopDVRRecord(NativeLong lUserID,NativeLong lChannel);
-//½âÂë¿¨
+//è§£ç å¡
  boolean  NET_DVR_InitDevice_Card(NativeLongByReference pDeviceTotalChan);
  boolean  NET_DVR_ReleaseDevice_Card();
  boolean  NET_DVR_InitDDraw_Card(int hParent,int colorKey);
@@ -2913,23 +2930,23 @@ public static class RECV_ALARM extends Structure{
  NativeLong  NET_DVR_GetCardLastError_Card();
  Pointer  NET_DVR_GetChanHandle_Card(NativeLong lRealHandle);
  boolean  NET_DVR_CapturePicture_Card(NativeLong lRealHandle, String sPicFileName);
-//»ñÈ¡½âÂë¿¨ĞòÁĞºÅ´Ë½Ó¿ÚÎŞĞ§£¬¸ÄÓÃGetBoardDetail½Ó¿Ú»ñµÃ(2005-12-08Ö§³Ö)
+//è·å–è§£ç å¡åºåˆ—å·æ­¤æ¥å£æ— æ•ˆï¼Œæ”¹ç”¨GetBoardDetailæ¥å£è·å¾—(2005-12-08æ”¯æŒ)
  boolean  NET_DVR_GetSerialNum_Card(NativeLong lChannelNum,IntByReference pDeviceSerialNo);
-//ÈÕÖ¾
+//æ—¥å¿—
  NativeLong  NET_DVR_FindDVRLog(NativeLong lUserID, NativeLong lSelectMode, int dwMajorType,int dwMinorType, NET_DVR_TIME lpStartTime, NET_DVR_TIME lpStopTime);
  NativeLong  NET_DVR_FindNextLog(NativeLong lLogHandle, NET_DVR_LOG lpLogData);
  boolean  NET_DVR_FindLogClose(NativeLong lLogHandle);
  NativeLong  NET_DVR_FindDVRLog_V30(NativeLong lUserID, NativeLong lSelectMode, int dwMajorType,int dwMinorType, NET_DVR_TIME lpStartTime, NET_DVR_TIME lpStopTime, boolean bOnlySmart );
  NativeLong  NET_DVR_FindNextLog_V30(NativeLong lLogHandle, NET_DVR_LOG_V30 lpLogData);
  boolean  NET_DVR_FindLogClose_V30(NativeLong lLogHandle);
-//½ØÖ¹2004Äê8ÔÂ5ÈÕ,¹²113¸ö½Ó¿Ú
+//æˆªæ­¢2004å¹´8æœˆ5æ—¥,å…±113ä¸ªæ¥å£
 //ATM DVR
  NativeLong  NET_DVR_FindFileByCard(NativeLong lUserID,NativeLong lChannel,int dwFileType, int nFindType, String sCardNumber, NET_DVR_TIME lpStartTime, NET_DVR_TIME lpStopTime);
-//½ØÖ¹2004Äê10ÔÂ5ÈÕ,¹²116¸ö½Ó¿Ú
+//æˆªæ­¢2004å¹´10æœˆ5æ—¥,å…±116ä¸ªæ¥å£
 
 //2005-09-15
  boolean  NET_DVR_CaptureJPEGPicture(NativeLong lUserID, NativeLong lChannel, NET_DVR_JPEGPARA lpJpegPara, String sPicFileName);
-//JPEG×¥Í¼µ½ÄÚ´æ
+//JPEGæŠ“å›¾åˆ°å†…å­˜
  boolean  NET_DVR_CaptureJPEGPicture_NEW(NativeLong lUserID, NativeLong lChannel, NET_DVR_JPEGPARA lpJpegPara, String sJpegPicBuffer, int dwPicSize,  IntByReference lpSizeReturned);
 
 
@@ -2937,16 +2954,16 @@ public static class RECV_ALARM extends Structure{
  int  NET_DVR_GetRealPlayerIndex(NativeLong lRealHandle);
  int  NET_DVR_GetPlayBackPlayerIndex(NativeLong lPlayHandle);
 
-//2006-08-28 704-640 Ëõ·ÅÅäÖÃ
+//2006-08-28 704-640 ç¼©æ”¾é…ç½®
  boolean  NET_DVR_SetScaleCFG(NativeLong lUserID, int dwScale);
  boolean  NET_DVR_GetScaleCFG(NativeLong lUserID, IntByReference lpOutScale);
  boolean  NET_DVR_SetScaleCFG_V30(NativeLong lUserID, NET_DVR_SCALECFG pScalecfg);
  boolean  NET_DVR_GetScaleCFG_V30(NativeLong lUserID, NET_DVR_SCALECFG pScalecfg);
-//2006-08-28 ATM»ú¶Ë¿ÚÉèÖÃ
+//2006-08-28 ATMæœºç«¯å£è®¾ç½®
  boolean  NET_DVR_SetATMPortCFG(NativeLong lUserID, short wATMPort);
  boolean  NET_DVR_GetATMPortCFG(NativeLong lUserID, ShortByReference LPOutATMPort);
 
-//2006-11-10 Ö§³ÖÏÔ¿¨¸¨ÖúÊä³ö
+//2006-11-10 æ”¯æŒæ˜¾å¡è¾…åŠ©è¾“å‡º
  boolean  NET_DVR_InitDDrawDevice();
  boolean  NET_DVR_ReleaseDDrawDevice();
  NativeLong  NET_DVR_GetDDrawDeviceTotalNums();
@@ -2955,7 +2972,7 @@ public static class RECV_ALARM extends Structure{
  boolean  NET_DVR_PTZSelZoomIn(NativeLong lRealHandle, NET_DVR_POINT_FRAME pStruPointFrame);
  boolean  NET_DVR_PTZSelZoomIn_EX(NativeLong lUserID, NativeLong lChannel, NET_DVR_POINT_FRAME pStruPointFrame);
 
-//½âÂëÉè±¸DS-6001D/DS-6001F
+//è§£ç è®¾å¤‡DS-6001D/DS-6001F
  boolean  NET_DVR_StartDecode(NativeLong lUserID, NativeLong lChannel, NET_DVR_DECODERINFO lpDecoderinfo);
  boolean  NET_DVR_StopDecode(NativeLong lUserID, NativeLong lChannel);
  boolean  NET_DVR_GetDecoderState(NativeLong lUserID, NativeLong lChannel, NET_DVR_DECODERSTATE lpDecoderState);
@@ -2971,8 +2988,8 @@ public static class RECV_ALARM extends Structure{
  boolean  NET_DVR_DecCtrlScreen(NativeLong lUserID, NativeLong lChannel, int dwControl);
  boolean  NET_DVR_GetDecCurLinkStatus(NativeLong lUserID, NativeLong lChannel, NET_DVR_DECSTATUS lpDecStatus);
 
-//¶àÂ·½âÂëÆ÷
-//2007-11-30 V211Ö§³ÖÒÔÏÂ½Ó¿Ú //11
+//å¤šè·¯è§£ç å™¨
+//2007-11-30 V211æ”¯æŒä»¥ä¸‹æ¥å£ //11
  boolean  NET_DVR_MatrixStartDynamic(NativeLong lUserID, int dwDecChanNum, NET_DVR_MATRIX_DYNAMIC_DEC lpDynamicInfo);
  boolean  NET_DVR_MatrixStopDynamic(NativeLong lUserID, int dwDecChanNum);
  boolean  NET_DVR_MatrixGetDecChanInfo(NativeLong lUserID, int dwDecChanNum, NET_DVR_MATRIX_DEC_CHAN_INFO lpInter);
@@ -2984,7 +3001,7 @@ public static class RECV_ALARM extends Structure{
  boolean  NET_DVR_MatrixSetDecChanEnable(NativeLong lUserID, int dwDecChanNum, int dwEnable);
  boolean  NET_DVR_MatrixGetDecChanEnable(NativeLong lUserID, int dwDecChanNum, IntByReference lpdwEnable);
  boolean  NET_DVR_MatrixGetDecChanStatus(NativeLong lUserID, int dwDecChanNum, NET_DVR_MATRIX_DEC_CHAN_STATUS lpInter);
-//2007-12-22 Ôö¼ÓÖ§³Ö½Ó¿Ú //18
+//2007-12-22 å¢åŠ æ”¯æŒæ¥å£ //18
  boolean  NET_DVR_MatrixSetTranInfo(NativeLong lUserID, NET_DVR_MATRIX_TRAN_CHAN_CONFIG lpTranInfo);
  boolean  NET_DVR_MatrixGetTranInfo(NativeLong lUserID, NET_DVR_MATRIX_TRAN_CHAN_CONFIG lpTranInfo);
  boolean  NET_DVR_MatrixSetRemotePlay(NativeLong lUserID, int dwDecChanNum, NET_DVR_MATRIX_DEC_REMOTE_PLAY lpInter);
@@ -2992,15 +3009,15 @@ public static class RECV_ALARM extends Structure{
  boolean  NET_DVR_MatrixGetRemotePlayStatus(NativeLong lUserID, int dwDecChanNum, NET_DVR_MATRIX_DEC_REMOTE_PLAY_STATUS lpOuter);
 //end
  boolean  NET_DVR_RefreshPlay(NativeLong lPlayHandle);
-//»Ö¸´Ä¬ÈÏÖµ
+//æ¢å¤é»˜è®¤å€¼
  boolean  NET_DVR_RestoreConfig(NativeLong lUserID);
-//±£´æ²ÎÊı
+//ä¿å­˜å‚æ•°
  boolean  NET_DVR_SaveConfig(NativeLong lUserID);
-//ÖØÆô
+//é‡å¯
  boolean  NET_DVR_RebootDVR(NativeLong lUserID);
-//¹Ø±ÕDVR
+//å…³é—­DVR
  boolean  NET_DVR_ShutDownDVR(NativeLong lUserID);
-//²ÎÊıÅäÖÃ begin
+//å‚æ•°é…ç½® begin
  boolean  NET_DVR_GetDVRConfig(NativeLong lUserID, int dwCommand,NativeLong lChannel, Pointer lpOutBuffer, int dwOutBufferSize, IntByReference lpBytesReturned);
  boolean  NET_DVR_SetDVRConfig(NativeLong lUserID, int dwCommand,NativeLong lChannel, Pointer lpInBuffer, int dwInBufferSize);
  boolean  NET_DVR_GetDVRWorkState_V30(NativeLong lUserID, NET_DVR_WORKSTATE_V30 lpWorkState);
@@ -3015,11 +3032,11 @@ public static class RECV_ALARM extends Structure{
  boolean  NET_DVR_GetAlarmOut(NativeLong lUserID, NET_DVR_ALARMOUTSTATUS lpAlarmOutState);
  boolean  NET_DVR_SetAlarmOut(NativeLong lUserID, NativeLong lAlarmOutPort,NativeLong lAlarmOutStatic);
 
-//ÊÓÆµ²ÎÊıµ÷½Ú
+//è§†é¢‘å‚æ•°è°ƒèŠ‚
  boolean  NET_DVR_ClientSetVideoEffect(NativeLong lRealHandle,int dwBrightValue,int dwContrastValue, int dwSaturationValue,int dwHueValue);
  boolean  NET_DVR_ClientGetVideoEffect(NativeLong lRealHandle,IntByReference pBrightValue,IntByReference pContrastValue, IntByReference pSaturationValue,IntByReference pHueValue);
 
-//ÅäÖÃÎÄ¼ş
+//é…ç½®æ–‡ä»¶
  boolean  NET_DVR_GetConfigFile(NativeLong lUserID, String sFileName);
  boolean  NET_DVR_SetConfigFile(NativeLong lUserID, String sFileName);
  boolean  NET_DVR_GetConfigFile_V30(NativeLong lUserID, String sOutBuffer, int dwOutSize, IntByReference pReturnSize);
@@ -3027,12 +3044,12 @@ public static class RECV_ALARM extends Structure{
  boolean  NET_DVR_GetConfigFile_EX(NativeLong lUserID, String sOutBuffer, int dwOutSize);
  boolean  NET_DVR_SetConfigFile_EX(NativeLong lUserID, String sInBuffer, int dwInSize);
 
-//ÆôÓÃÈÕÖ¾ÎÄ¼şĞ´Èë½Ó¿Ú
+//å¯ç”¨æ—¥å¿—æ–‡ä»¶å†™å…¥æ¥å£
  boolean  NET_DVR_SetLogToFile(boolean bLogEnable , String  strLogDir, boolean bAutoDel );
  boolean  NET_DVR_GetSDKState( NET_DVR_SDKSTATE pSDKState);
  boolean  NET_DVR_GetSDKAbility( NET_DVR_SDKABL pSDKAbl);
  boolean  NET_DVR_GetPTZProtocol(NativeLong lUserID, NET_DVR_PTZCFG  pPtzcfg);
-//Ç°Ãæ°åËø¶¨
+//å‰é¢æ¿é”å®š
  boolean  NET_DVR_LockPanel(NativeLong lUserID);
  boolean  NET_DVR_UnLockPanel(NativeLong lUserID);
 
@@ -3041,10 +3058,10 @@ public static class RECV_ALARM extends Structure{
 }
 
 
-//²¥·Å¿âº¯ÊıÉùÃ÷,PlayCtrl.dll
+//æ’­æ”¾åº“å‡½æ•°å£°æ˜,PlayCtrl.dll
 interface PlayCtrl extends StdCallLibrary
 {
-    PlayCtrl INSTANCE = (PlayCtrl) Native.loadLibrary("testobject/PlayCtrl",
+    PlayCtrl INSTANCE = (PlayCtrl) Native.loadLibrary("../lib/PlayCtrl",
             PlayCtrl.class);
 
     public static final int STREAME_REALTIME = 0;
@@ -3060,7 +3077,7 @@ interface PlayCtrl extends StdCallLibrary
     boolean PlayM4_SetSecretKey(NativeLong nPort, NativeLong lKeyType, String pSecretKey, NativeLong lKeyLen);
 }
 
-//windows gdi½Ó¿Ú,gdi32.dll in system32 folder, ÔÚÉèÖÃÕÚµ²ÇøÓò,ÒÆ¶¯Õì²âÇøÓòµÈÇé¿öÏÂÊ¹ÓÃ
+//windows gdiæ¥å£,gdi32.dll in system32 folder, åœ¨è®¾ç½®é®æŒ¡åŒºåŸŸ,ç§»åŠ¨ä¾¦æµ‹åŒºåŸŸç­‰æƒ…å†µä¸‹ä½¿ç”¨
 interface GDI32 extends W32API
 {
     GDI32 INSTANCE = (GDI32) Native.loadLibrary("gdi32", GDI32.class, DEFAULT_OPTIONS);
@@ -3072,7 +3089,7 @@ interface GDI32 extends W32API
     HANDLE CreateSolidBrush(int icolor);
 }
 
-//windows user32½Ó¿Ú,user32.dll in system32 folder, ÔÚÉèÖÃÕÚµ²ÇøÓò,ÒÆ¶¯Õì²âÇøÓòµÈÇé¿öÏÂÊ¹ÓÃ
+//windows user32æ¥å£,user32.dll in system32 folder, åœ¨è®¾ç½®é®æŒ¡åŒºåŸŸ,ç§»åŠ¨ä¾¦æµ‹åŒºåŸŸç­‰æƒ…å†µä¸‹ä½¿ç”¨
 interface USER32 extends W32API
 {
 
