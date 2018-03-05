@@ -48,9 +48,9 @@ import jxl.write.WritableWorkbook;
 import jxl.write.WriteException;
 import jxl.write.biff.RowsExceededException;
 import net.miginfocom.swing.MigLayout;
-import team.sdk.sdkauto.UI.StartUI;
 import team.sdk.sdkauto.bean.Device;
 import team.sdk.sdkauto.dao.DeviceDao;
+import team.sdk.sdkauto.main.Start;
 import team.sdk.sdkauto.util.JdbcUtil;
 
 /**
@@ -467,10 +467,10 @@ public class DeviceList {
 			// TODO Auto-generated method stub
 			if (value.toString().equals("#ONLINE#")) {
 				jl = new JLabel(new ImageIcon(Toolkit.getDefaultToolkit()
-						.getImage(StartUI.class.getResource("/resources/online.jpg"))));
+						.getImage(Start.class.getResource("/resources/online.jpg"))));
 			} else {
 				jl = new JLabel(new ImageIcon(Toolkit.getDefaultToolkit()
-						.getImage(StartUI.class.getResource("/resources/offline.jpg"))));
+						.getImage(Start.class.getResource("/resources/offline.jpg"))));
 			}
 			return jl;
 		}

@@ -1,4 +1,4 @@
-package team.sdk.sdkauto.UI;
+package team.sdk.sdkauto.main;
 
 import java.awt.EventQueue;
 import java.awt.Color;
@@ -30,7 +30,7 @@ import javax.swing.ImageIcon;
  * @author quzhe
  *
  */
-public class StartUI {
+public class Start {
 
 	private JFrame frmDevicemanager;
 	
@@ -43,7 +43,7 @@ public class StartUI {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					StartUI window = new StartUI();
+					Start window = new Start();
 					window.frmDevicemanager.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -57,7 +57,7 @@ public class StartUI {
 	 * 
 	 * @throws Exception
 	 */
-	public StartUI() throws Exception {
+	public Start() throws Exception {
 		initialize();
 	}
 
@@ -70,12 +70,12 @@ public class StartUI {
 		frmDevicemanager.getContentPane().setForeground(Color.WHITE);
 		frmDevicemanager.setResizable(false);
 		frmDevicemanager
-				.setIconImage(Toolkit.getDefaultToolkit().getImage(StartUI.class.getResource("/resources/device_icon.png")));
+				.setIconImage(Toolkit.getDefaultToolkit().getImage(Start.class.getResource("/resources/device_icon.png")));
 		frmDevicemanager.setTitle("SDKAuto");
 		frmDevicemanager.setBounds(100, 100, 916, 328);
 		frmDevicemanager.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frmDevicemanager.getContentPane().setLayout(null);
-		//SDK�汾��Ϣ
+		//SDK版本号
 		JLabel label_SdkVersion = new JLabel("");
 		label_SdkVersion.setForeground(Color.WHITE);
 		label_SdkVersion.setBounds(779, 279, 121, 15);
@@ -93,9 +93,10 @@ public class StartUI {
 		String text_version = "HCNetSDK  V" + v1 + "." + v2 + "." + v3 + "." + v4;
 		label_SdkVersion.setText(text_version);
 		
-		//����豸
+		//添加设备
 		JButton button_insert = new JButton("");
-		button_insert.setIcon(new ImageIcon(StartUI.class.getResource("/resources/btn_insert.png")));
+		button_insert.setIcon(new ImageIcon(Start.class.getResource("/resources/btn_insert.png")));
+//		button_insert.setText("添加设备");
 		button_insert.setBounds(10, 21, 120, 30);
 		frmDevicemanager.getContentPane().add(button_insert);
 		button_insert.addMouseListener(new MouseAdapter() {
@@ -110,9 +111,10 @@ public class StartUI {
 			}
 		});
 		
-		//�����豸
+		//查找设备
 		JButton button_select = new JButton("");
-		button_select.setIcon(new ImageIcon(StartUI.class.getResource("/resources/btn_select.png")));
+		button_select.setIcon(new ImageIcon(Start.class.getResource("/resources/btn_select.png")));
+//		button_select.setText("查找设备");
 		button_select.setBounds(10, 61, 120, 30);
 		frmDevicemanager.getContentPane().add(button_select);
 		button_select.addMouseListener(new MouseAdapter() {
@@ -122,9 +124,10 @@ public class StartUI {
 			}
 		});
 		
-		//��ʾȫ���豸
+		//显示所有设备
 		JButton btn_showAll = new JButton("");
-		btn_showAll.setIcon(new ImageIcon(StartUI.class.getResource("/resources/btn_all.png")));
+		btn_showAll.setIcon(new ImageIcon(Start.class.getResource("/resources/btn_all.png")));
+//		btn_showAll.setText("全部设备");
 		btn_showAll.setBounds(10, 141, 120, 30);
 		frmDevicemanager.getContentPane().add(btn_showAll);
 		btn_showAll.addMouseListener(new MouseAdapter() {
@@ -137,7 +140,6 @@ public class StartUI {
 				for (int i = 0; i < dl.mapList.size(); i++) {
 					Map<String, Object> map = dl.mapList.get(i);
 					try {
-						// �豸����
 						boolean status = false;
 						String deviceId = (String) map.get("deviceid");
 						String type = (String) map.get("type");
@@ -158,7 +160,7 @@ public class StartUI {
 					} catch (Exception exception) {
 					}
 				}
-				// ȷ���������ݶ���ȡ���ٻص����߳�
+				//
 				for (Thread thread : DeviceSelect.vectors) {
 					try {
 						thread.join();
@@ -171,9 +173,10 @@ public class StartUI {
 			}
 		});
 		
-		//�����ȶ���XML
+		//生成稳定性XML
 		JButton btn_xml = new JButton("");
-		btn_xml.setIcon(new ImageIcon(StartUI.class.getResource("/resources/btn_stress.png")));
+		btn_xml.setIcon(new ImageIcon(Start.class.getResource("/resources/btn_stress.png")));
+//		btn_xml.setText("稳定性");
 		btn_xml.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
@@ -189,7 +192,7 @@ public class StartUI {
 		
 		//HIK logo
 		JLabel label_pic = new JLabel(new ImageIcon(
-				Toolkit.getDefaultToolkit().getImage(StartUI.class.getResource("/resources/HIKlogo.jpg"))));
+				Toolkit.getDefaultToolkit().getImage(Start.class.getResource("/resources/HIKlogo.jpg"))));
 		label_pic.setForeground(Color.WHITE);
 		label_pic.setBounds(0, 0, 912, 300);
 		frmDevicemanager.getContentPane().add(label_pic);
